@@ -380,7 +380,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ../data:/opt/mysql/data
+      - ../data/zipkin:/opt/mysql/data
     restart: unless-stopped
   zipkin:
     image: openzipkin/zipkin:2
