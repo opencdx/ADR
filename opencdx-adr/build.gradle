@@ -17,11 +17,14 @@ dependencies {
     implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
     implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
     runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
     testRuntimeOnly 'com.h2database:h2:2.2.224'
 
 
 
+    implementation "org.springframework:spring-context:${springContextVersion}"
+    implementation "org.springframework:spring-context-support:${springContextVersion}"
     implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
 
