@@ -7,5 +7,5 @@ curl
 
 RUN apt-get clean
 
-COPY build/libs/opencdx-helloworld-*.jar app.jar
+COPY build/libs/opencdx-adr-*.jar app.jar
 ENTRYPOINT ["sh", "-c", "java -jar /app.jar "]

@@ -69,5 +69,5 @@ bootJar {
 
 application {
     // Define the main class for the application.
-    mainClass = "cdx.opencdx.helloworld.Application"
+    mainClass = "cdx.opencdx.adr.Application"
 }

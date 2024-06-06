@@ -16,6 +16,6 @@ spring:
   application:
     name: helloworld
   profiles:
-    active: managed,mongo,nats,helloworld
+    active: managed,mongo,nats,adr
 
 

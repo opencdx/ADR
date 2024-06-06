@@ -488,7 +488,7 @@ build_docker() {
   local auto_select_all=$1
   local auto_confirm_all=$2
 
-  components=("opencdx/helloworld")
+  components=("opencdx/adr")
 
   selected_components=()
 

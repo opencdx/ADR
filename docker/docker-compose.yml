@@ -1,5 +1,31 @@
 version: '3'
 services:
+  adr:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/adr:${version}
+    healthcheck:
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
+      iam:
+        condition: service_healthy
+    volumes:
+      - ../certs:/certs
   gateway:
     deploy:
       restart_policy:
@@ -7,7 +33,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/gateway:${version}
+    image: opencdx/gateway:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -35,7 +61,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/questionnaire:${version}
+    image: opencdx/questionnaire:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -62,7 +88,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/classification:${version}
+    image: opencdx/classification:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -86,7 +112,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/graphql:${version}
+    image: opencdx/graphql:latest
     depends_on:
       database:
         condition: service_healthy
@@ -101,7 +127,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/iam:${version}
+    image: opencdx/iam:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -126,7 +152,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/media:${version}
+    image: opencdx/media:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -153,7 +179,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/health:${version}
+    image: opencdx/health:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -180,7 +206,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/communications:${version}
+    image: opencdx/communications:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -206,7 +232,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/logistics:${version}
+    image: opencdx/logistics:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -232,7 +258,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/audit:${version}
+    image: opencdx/audit:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -259,7 +285,7 @@ services:
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/tinkar:${version}
+    image: opencdx/tinkar:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -281,7 +307,7 @@ services:
       - ../data:/data
 
   admin:
-    image: opencdx/admin:${version}
+    image: opencdx/admin:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8861/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -296,7 +322,7 @@ services:
       - ../certs:/certs
 
   discovery:
-    image: opencdx/discovery:${version}
+    image: opencdx/discovery:latest
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8761/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -308,7 +334,7 @@ services:
       - ../certs:/certs
 
   config:
-    image: opencdx/config:${version}
+    image: opencdx/config:latest
     volumes:
       - ../certs:/certs
     ports:
@@ -323,12 +349,12 @@ services:
       retries: 5
 
   database:
-    image: opencdx/mongodb:${version}
+    image: opencdx/mongodb:latest
     volumes:
       - ../certs:/certs
       - ../data/mongodb:/data/db
     ports:
-        - "27017:27017"
+      - "27017:27017"
     healthcheck:
       test: "echo 'db.runCommand({serverStatus:1}).ok' | mongosh localhost:27017/test --quiet"
       interval: 5s
@@ -336,11 +362,10 @@ services:
       retries: 5
 
   nats:
-    image: nats:alpine3.18
+    image: opencdx/nats:latest
     volumes:
       - ../certs:/certs
       - ../data/nats:/opt/nats/data
-      - ../opencdx-nats/nats-server.conf:/nats-server.conf
     ports:
       - "4222:4222"
       - "6222:6222"
