@@ -75,7 +75,6 @@ required_software() {
   java_installed=false
   docker_installed=false
   open_installed=false
-  tinkar_installed=false
   openssl_installed=false
   keytool_installed=false
   node_installed=false
@@ -100,12 +99,6 @@ required_software() {
   # Check for 'open' command (for macOS)
   if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "linux-gnu" ]] && command -v open &> /dev/null; then
       open_installed=true
-  fi
-
-  # Check tinkar directory
-  dir="./data/solor-us-tinkar.sa"
-  if [[ -d "$dir" ]]; then
-    tinkar_installed=true
   fi
 
   if command -v curl &> /dev/null; then
@@ -155,14 +148,13 @@ fi
   handle_info "  Keytool\t$keytool_installed\t\t\t\t\t$keytool_version"
   handle_info "  Node.js\t$node_installed\t\t\t\t\t$node_version"
   handle_info "  Docker\t$docker_installed"
-  handle_info "  Tinkar\t$tinkar_installed"
   handle_info "  Curl\t\t$curl_installed"
   if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "linux-gnu" ]]; then
     handle_info "  open\t\t$open_installed"
   fi
   handle_info "  yq\t\t$yq_installed"
 
-  if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $tinkar_installed  || ! $node_installed || ! $curl_installed);
+  if( ! $java_installed || ! $openssl_installed || ! $keytool_installed || ! $yq_installed || ! $docker_installed || ! $open_installed || ! $node_installed || ! $curl_installed);
   then
     handle_error "Required software is not installed. Please install missing required software."
   else
@@ -437,13 +429,6 @@ open_reports() {
         mv build/reports/jmeter ./opencdx-admin/src/main/resources/public
 
         download_file "https://localhost:8080/audit/api-docs" "./postman/Audit.json"
-        download_file "https://localhost:8080/classification/api-docs" "./postman/Classification.json"
-        download_file "https://localhost:8080/health/api-docs" "./postman/Health.json"
-        download_file "https://localhost:8080/iam/api-docs" "./postman/IAM.json"
-        download_file "https://localhost:8080/logistics/api-docs" "./postman/Logistics.json"
-        download_file "https://localhost:8080/media/api-docs" "./postman/Media.json"
-        download_file "https://localhost:8080/questionnaire/api-docs" "./postman/Questionnaire.json"
-        download_file "https://localhost:8080/tinkar/api-docs" "./postman/TINKAR.json"
 
         ;;
     proto)
@@ -885,7 +870,6 @@ if [ "$skip" = false ]; then
 fi
 if [ "$wipe" = true ]; then
     handle_info "Wiping Data"
-    delete_except ./data solor-us-tinkar.sa
 fi
 if [ "$cert" = true ]; then
     handle_info "Wiping Certificates"
