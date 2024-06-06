@@ -14,7 +14,7 @@ spring:
   config:
     import: configserver:https://Config:8888
   application:
-    name: helloworld
+    name: adr
   profiles:
     active: managed,mongo,nats,adr
 

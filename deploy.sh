@@ -870,6 +870,8 @@ if [ "$skip" = false ]; then
 fi
 if [ "$wipe" = true ]; then
     handle_info "Wiping Data"
+    delete_except ./data solor-us-tinkar.sa
+
 fi
 if [ "$cert" = true ]; then
     handle_info "Wiping Certificates"
