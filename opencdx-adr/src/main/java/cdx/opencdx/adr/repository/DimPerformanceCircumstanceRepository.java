@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.adr.repository;
 
-import cdx.opencdx.adr.model.DimAssociatedStatement;
+import cdx.opencdx.adr.model.DimPerformanceCircumstance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DimAssociatedStatementRepository extends JpaRepository<DimAssociatedStatement, Integer> {}
+public interface DimPerformanceCircumstanceRepository extends JpaRepository<DimPerformanceCircumstance, Integer> {}
