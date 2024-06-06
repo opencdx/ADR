@@ -14,6 +14,8 @@ services:
       timeout: 5s
       retries: 5
     depends_on:
+      postgres:
+        condition: service_healthy
       config:
         condition: service_healthy
       discovery:
@@ -480,3 +482,8 @@ services:
       - POSTGRES_PASSWORD=S3cret
       - POSTGRES_USER=adr_user
       - POSTGRES_DB=adr
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

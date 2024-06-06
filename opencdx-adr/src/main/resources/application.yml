@@ -16,6 +16,6 @@ spring:
   application:
     name: adr
   profiles:
-    active: managed,mongo,nats,adr
+    active: managed,nats,adr
 
 

@@ -15,45 +15,25 @@
  */
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.model.Person;
-import cdx.opencdx.adr.repository.PersonRepository;
 import cdx.opencdx.adr.service.OpenCDXHelloWorldService;
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.data.AuditEntity;
 import cdx.opencdx.grpc.service.helloworld.HelloRequest;
-import cdx.opencdx.grpc.types.SensitivityLevel;
 import io.micrometer.observation.annotation.Observed;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
  * Service for processing HelloWorld Requests
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXHelloWorldServiceImpl implements OpenCDXHelloWorldService {
 
-    private final PersonRepository personRepository;
-    private final OpenCDXAuditService openCDXAuditService;
-    private final OpenCDXCurrentUser openCDXCurrentUser;
-
     /**
      * Constructor taking the a PersonRepository
-     *
-     * @param personRepository    repository for interacting with the database.
-     * @param openCDXAuditService Audit service for tracking FDA requirements
-     * @param openCDXCurrentUser Current User Service.
      */
-    @Autowired
-    public OpenCDXHelloWorldServiceImpl(
-            PersonRepository personRepository,
-            OpenCDXAuditService openCDXAuditService,
-            OpenCDXCurrentUser openCDXCurrentUser) {
-        this.personRepository = personRepository;
-        this.openCDXAuditService = openCDXAuditService;
-        this.openCDXCurrentUser = openCDXCurrentUser;
+    public OpenCDXHelloWorldServiceImpl() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
     /**
@@ -63,19 +43,7 @@ public class OpenCDXHelloWorldServiceImpl implements OpenCDXHelloWorldService {
      */
     @Override
     public String sayHello(HelloRequest request) {
-        Person person = Person.builder().name(request.getName()).build();
-        person = this.personRepository.save(person);
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "purpose",
-                SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                AuditEntity.newBuilder()
-                        .setUserId(currentUser.getId().toHexString())
-                        .build(),
-                "Persons:" + person.getId().toHexString(),
-                "{\"name\":\"John\", \"age\":30, \"car\":null}");
+        log.info(String.format("Hello %s!", request.getName().trim()));
         return String.format("Hello %s!", request.getName().trim());
     }
 }

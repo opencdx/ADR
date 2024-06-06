@@ -23,9 +23,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ActiveProfiles({"test", "managed"})
+@ActiveProfiles({"test"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false"})
 class AppConfigTest {
 
     @Autowired
