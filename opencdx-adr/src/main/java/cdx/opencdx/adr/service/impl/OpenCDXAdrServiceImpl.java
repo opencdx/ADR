@@ -15,10 +15,8 @@
  */
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.repository.FactANFStatementRepository;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.grpc.data.ANFStatement;
-import cdx.opencdx.grpc.service.helloworld.HelloRequest;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
