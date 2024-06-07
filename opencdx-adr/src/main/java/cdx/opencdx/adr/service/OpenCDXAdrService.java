@@ -15,16 +15,16 @@
  */
 package cdx.opencdx.adr.service;
 
-import cdx.opencdx.grpc.service.helloworld.HelloRequest;
+import cdx.opencdx.grpc.data.ANFStatement;
 
 /**
- * Interface for the HelloWorldService
+ * Interface for the OpenCDXAdrService
  */
-public interface OpenCDXHelloWorldService {
+public interface OpenCDXAdrService {
+
     /**
-     * Process the HelloRequest
-     * @param request request the process
-     * @return Message generated for this request.
+     * Store the ANF Statement
+     * @param anfStatement
      */
-    String sayHello(HelloRequest request);
+    void storeAnfStatement(ANFStatement anfStatement);
 }

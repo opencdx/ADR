@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.adr.controller;
 
-import cdx.opencdx.adr.service.OpenCDXHelloWorldService;
+import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.grpc.service.helloworld.HelloRequest;
 import cdx.opencdx.grpc.service.helloworld.HelloResponse;
 import io.micrometer.observation.annotation.Observed;
@@ -38,14 +38,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Observed(name = "opencdx")
 public class OpenCDXRestHelloWorldController {
 
-    private final OpenCDXHelloWorldService openCDXHelloWorldService;
+    private final OpenCDXAdrService openCDXHelloWorldService;
 
     /**
      * Constructor that takes a HelloWorldService
      * @param openCDXHelloWorldService service for processing requests.
      */
     @Autowired
-    public OpenCDXRestHelloWorldController(OpenCDXHelloWorldService openCDXHelloWorldService) {
+    public OpenCDXRestHelloWorldController(OpenCDXAdrService openCDXHelloWorldService) {
         this.openCDXHelloWorldService = openCDXHelloWorldService;
     }
 

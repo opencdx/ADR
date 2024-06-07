@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.adr.controller;
 
-import cdx.opencdx.adr.service.OpenCDXHelloWorldService;
+import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.grpc.service.helloworld.GreeterGrpc;
 import cdx.opencdx.grpc.service.helloworld.HelloRequest;
 import cdx.opencdx.grpc.service.helloworld.HelloResponse;
@@ -34,14 +34,14 @@ import org.springframework.security.access.annotation.Secured;
 @Observed(name = "opencdx")
 public class OpenCDXGrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
 
-    private final OpenCDXHelloWorldService openCDXHelloWorldService;
+    private final OpenCDXAdrService openCDXHelloWorldService;
 
     /**
      * Constructor using the HelloworldService
      * @param openCDXHelloWorldService service to use for processing
      */
     @Autowired
-    public OpenCDXGrpcHelloWorldController(OpenCDXHelloWorldService openCDXHelloWorldService) {
+    public OpenCDXGrpcHelloWorldController(OpenCDXAdrService openCDXHelloWorldService) {
         this.openCDXHelloWorldService = openCDXHelloWorldService;
     }
 

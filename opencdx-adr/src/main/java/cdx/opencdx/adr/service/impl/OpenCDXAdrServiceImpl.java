@@ -15,7 +15,9 @@
  */
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.service.OpenCDXHelloWorldService;
+import cdx.opencdx.adr.repository.FactANFStatementRepository;
+import cdx.opencdx.adr.service.OpenCDXAdrService;
+import cdx.opencdx.grpc.data.ANFStatement;
 import cdx.opencdx.grpc.service.helloworld.HelloRequest;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -27,23 +29,25 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-public class OpenCDXHelloWorldServiceImpl implements OpenCDXHelloWorldService {
+public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
+
+    private final FactANFStatementRepository factANFStatementRepository;
 
     /**
      * Constructor taking the a PersonRepository
      */
-    public OpenCDXHelloWorldServiceImpl() {
+    public OpenCDXAdrServiceImpl(FactANFStatementRepository factANFStatementRepository) {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+        this.factANFStatementRepository = factANFStatementRepository;
     }
 
     /**
-     * Process the HelloRequest
-     * @param request request the process
-     * @return Message generated for this request.
+     * Store the ANF Statement
+     *
+     * @param anfStatement
      */
     @Override
-    public String sayHello(HelloRequest request) {
-        log.info(String.format("Hello %s!", request.getName().trim()));
-        return String.format("Hello %s!", request.getName().trim());
+    public void storeAnfStatement(ANFStatement anfStatement) {
+
     }
 }
