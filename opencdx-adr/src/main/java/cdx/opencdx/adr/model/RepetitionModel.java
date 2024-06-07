@@ -3,9 +3,11 @@ package cdx.opencdx.adr.model;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
+@Table(name = "repetition")
 @Entity
-public class Repetition {
+public class RepetitionModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,6 +25,22 @@ public class Repetition {
     private Integer eventDuration;
     @Enumerated(EnumType.STRING)
     private DurationType eventDurationType;
+
+    public RepetitionModel() {
+    }
+
+    public RepetitionModel(cdx.opencdx.grpc.data.Repetition repetition) {
+        this.periodStart = new Timestamp(Instant.ofEpochSecond(
+                repetition.getPeriodStart().getSeconds(), repetition.getPeriodStart().getNanos()).getEpochSecond());
+        this.periodDuration = repetition.getPeriodDuration();
+        this.periodDurationType = DurationType.valueOf(repetition.getPeriodDurationType().name());
+        this.eventFrequency = repetition.getEventFrequency();
+        this.eventFrequencyType = DurationType.valueOf(repetition.getEventFrequencyType().name());
+        this.eventSeparation = repetition.getEventSeparation();
+        this.eventSeparationType = DurationType.valueOf(repetition.getEventSeparationType().name());
+        this.eventDuration = repetition.getEventDuration();
+        this.eventDurationType = DurationType.valueOf(repetition.getEventDurationType().name());
+    }
 
     // Getters and Setters
 

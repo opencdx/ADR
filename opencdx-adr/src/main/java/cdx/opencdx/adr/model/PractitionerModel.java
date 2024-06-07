@@ -1,21 +1,31 @@
 package cdx.opencdx.adr.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Table(name = "practitioner")
 @Entity
-public class Practitioner {
+public class PractitionerModel {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String practitionerValue;
     private String code;
 
-    public String getId() {
+    public PractitionerModel() {
+    }
+
+    public PractitionerModel(cdx.opencdx.grpc.data.Practitioner practitioner) {
+        this.practitionerValue = practitioner.getPractitionerValue();
+        this.code = practitioner.getCode();
+    }
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

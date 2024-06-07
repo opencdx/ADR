@@ -4,20 +4,32 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+@Table(name = "narrativecircumstance")
 @Entity
-public class NarrativeCircumstance {
+public class NarrativeCircumstanceModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "timing_id")
-    private Measure timing;
+    private MeasureModel timing;
 
     @ElementCollection
     private List<String> purpose;
 
     private String text;
+
+    public NarrativeCircumstanceModel() {
+    }
+
+    public NarrativeCircumstanceModel(cdx.opencdx.grpc.data.NarrativeCircumstance narrativeCircumstance) {
+        if(narrativeCircumstance.hasTiming()) {
+            this.timing = new MeasureModel(narrativeCircumstance.getTiming());
+        }
+        this.purpose = narrativeCircumstance.getPurposeList();
+        this.text = narrativeCircumstance.getText();
+    }
 
     // Getters and Setters
 
@@ -29,11 +41,11 @@ public class NarrativeCircumstance {
         this.id = id;
     }
 
-    public Measure getTiming() {
+    public MeasureModel getTiming() {
         return timing;
     }
 
-    public void setTiming(Measure timing) {
+    public void setTiming(MeasureModel timing) {
         this.timing = timing;
     }
 

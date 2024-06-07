@@ -1,22 +1,24 @@
 package cdx.opencdx.adr.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Table(name = "reference")
 @Entity
-public class Reference {
+public class ReferenceModel {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String type;
 
     // Getters and Setters
 
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

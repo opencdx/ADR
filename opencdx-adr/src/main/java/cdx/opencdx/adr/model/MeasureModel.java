@@ -1,13 +1,11 @@
 package cdx.opencdx.adr.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 
+@Table(name = "measure")
 @Entity
-public class Measure {
+public class MeasureModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,6 +16,18 @@ public class Measure {
     private Boolean includeLowerBound;
     private String semantic;
     private String resolution;
+
+    public MeasureModel() {
+    }
+
+    public MeasureModel(cdx.opencdx.grpc.data.Measure measure) {
+        this.upperBound = measure.getUpperBound();
+        this.lowerBound = measure.getLowerBound();
+        this.includeUpperBound = measure.getIncludeUpperBound();
+        this.includeLowerBound = measure.getIncludeLowerBound();
+        this.semantic = measure.getSemantic();
+        this.resolution = measure.getResolution();
+    }
 
     // Getters and Setters
 

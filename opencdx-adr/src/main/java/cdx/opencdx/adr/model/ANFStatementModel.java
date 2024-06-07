@@ -5,18 +5,20 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
+@Table(name = "anfstatement")
 @Entity
-public class ANFStatement {
+public class ANFStatementModel {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "time_id")
-    private Measure time;
+    private MeasureModel time;
 
     @ManyToOne
     @JoinColumn(name = "subject_of_record_id")
-    private Participant subjectOfRecord;
+    private ParticipantModel subjectOfRecord;
 
     private String subjectOfInformation;
 
@@ -41,7 +43,7 @@ public class ANFStatement {
             joinColumns = @JoinColumn(name = "anfstatement_id"),
             inverseJoinColumns = @JoinColumn(name = "practitioner_id")
     )
-    private List<Practitioner> authors;
+    private List<PractitionerModel> authors;
 
     @ManyToMany
     @JoinTable(
@@ -49,43 +51,74 @@ public class ANFStatement {
             joinColumns = @JoinColumn(name = "anfstatement_id"),
             inverseJoinColumns = @JoinColumn(name = "associated_statement_id")
     )
-    private List<AssociatedStatement> associatedStatements;
+    private List<AssociatedStatementModel> associatedStatements;
 
     @OneToOne
     @JoinColumn(name = "performance_circumstance_id")
-    private PerformanceCircumstance performanceCircumstance;
+    private PerformanceCircumstanceModel performanceCircumstance;
 
     @OneToOne
     @JoinColumn(name = "request_circumstance_id")
-    private RequestCircumstance requestCircumstance;
+    private RequestCircumstanceModel requestCircumstance;
 
     @OneToOne
     @JoinColumn(name = "narrative_circumstance_id")
-    private NarrativeCircumstance narrativeCircumstance;
+    private NarrativeCircumstanceModel narrativeCircumstance;
+
+    public ANFStatementModel() {
+    }
+
+    public ANFStatementModel(cdx.opencdx.grpc.data.ANFStatement anfStatement) {
+
+        if(anfStatement.hasTime()) {
+            this.time = new MeasureModel(anfStatement.getTime());
+        }
+        if(anfStatement.hasSubjectOfRecord()) {
+            this.subjectOfRecord = new ParticipantModel(anfStatement.getSubjectOfRecord());
+        }
+
+        this.subjectOfInformation = anfStatement.getSubjectOfInformation();
+        this.topic = anfStatement.getTopic();
+        this.type = anfStatement.getType();
+        this.status = Status.valueOf(anfStatement.getStatus().name());
+        this.authors = anfStatement.getAuthorsList().stream().map(PractitionerModel::new).toList();
+        this.associatedStatements = anfStatement.getAssociatedStatementList().stream().map(AssociatedStatementModel::new).toList();
+        if(anfStatement.hasPerformanceCircumstance()) {
+            this.performanceCircumstance = new PerformanceCircumstanceModel(anfStatement.getPerformanceCircumstance());
+        }
+        if(anfStatement.hasRequestCircumstance()) {
+            this.requestCircumstance = new RequestCircumstanceModel(anfStatement.getRequestCircumstance());
+        }
+        if(anfStatement.hasNarrativeCircumstance()) {
+            this.narrativeCircumstance = new NarrativeCircumstanceModel(anfStatement.getNarrativeCircumstance());
+        }
+    }
+
 
     // Getters and Setters
 
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Measure getTime() {
+    public MeasureModel getTime() {
         return time;
     }
 
-    public void setTime(Measure time) {
+    public void setTime(MeasureModel time) {
         this.time = time;
     }
 
-    public Participant getSubjectOfRecord() {
+    public ParticipantModel getSubjectOfRecord() {
         return subjectOfRecord;
     }
 
-    public void setSubjectOfRecord(Participant subjectOfRecord) {
+    public void setSubjectOfRecord(ParticipantModel subjectOfRecord) {
         this.subjectOfRecord = subjectOfRecord;
     }
 
@@ -153,43 +186,43 @@ public class ANFStatement {
         this.status = status;
     }
 
-    public List<Practitioner> getAuthors() {
+    public List<PractitionerModel> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Practitioner> authors) {
+    public void setAuthors(List<PractitionerModel> authors) {
         this.authors = authors;
     }
 
-    public List<AssociatedStatement> getAssociatedStatements() {
+    public List<AssociatedStatementModel> getAssociatedStatements() {
         return associatedStatements;
     }
 
-    public void setAssociatedStatements(List<AssociatedStatement> associatedStatements) {
+    public void setAssociatedStatements(List<AssociatedStatementModel> associatedStatements) {
         this.associatedStatements = associatedStatements;
     }
 
-    public PerformanceCircumstance getPerformanceCircumstance() {
+    public PerformanceCircumstanceModel getPerformanceCircumstance() {
         return performanceCircumstance;
     }
 
-    public void setPerformanceCircumstance(PerformanceCircumstance performanceCircumstance) {
+    public void setPerformanceCircumstance(PerformanceCircumstanceModel performanceCircumstance) {
         this.performanceCircumstance = performanceCircumstance;
     }
 
-    public RequestCircumstance getRequestCircumstance() {
+    public RequestCircumstanceModel getRequestCircumstance() {
         return requestCircumstance;
     }
 
-    public void setRequestCircumstance(RequestCircumstance requestCircumstance) {
+    public void setRequestCircumstance(RequestCircumstanceModel requestCircumstance) {
         this.requestCircumstance = requestCircumstance;
     }
 
-    public NarrativeCircumstance getNarrativeCircumstance() {
+    public NarrativeCircumstanceModel getNarrativeCircumstance() {
         return narrativeCircumstance;
     }
 
-    public void setNarrativeCircumstance(NarrativeCircumstance narrativeCircumstance) {
+    public void setNarrativeCircumstance(NarrativeCircumstanceModel narrativeCircumstance) {
         this.narrativeCircumstance = narrativeCircumstance;
     }
 }

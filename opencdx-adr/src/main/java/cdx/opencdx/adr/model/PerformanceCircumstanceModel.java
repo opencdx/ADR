@@ -3,16 +3,18 @@ package cdx.opencdx.adr.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Table(name = "performancecircumstance")
 @Entity
-public class PerformanceCircumstance {
+public class PerformanceCircumstanceModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "timing_id")
-    private Measure timing;
+    private MeasureModel timing;
 
     @ElementCollection
     private List<String> purpose;
@@ -21,13 +23,13 @@ public class PerformanceCircumstance {
 
     @ManyToOne
     @JoinColumn(name = "result_id")
-    private Measure result;
+    private MeasureModel result;
 
     private String healthRisk;
 
     @ManyToOne
     @JoinColumn(name = "normal_range_id")
-    private Measure normalRange;
+    private MeasureModel normalRange;
 
     @ManyToMany
     @JoinTable(
@@ -35,7 +37,28 @@ public class PerformanceCircumstance {
             joinColumns = @JoinColumn(name = "performance_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )
-    private List<Participant> participants;
+    private List<ParticipantModel> participants;
+
+    public PerformanceCircumstanceModel() {
+    }
+
+    public PerformanceCircumstanceModel(cdx.opencdx.grpc.data.PerformanceCircumstance performanceCircumstance) {
+        if(performanceCircumstance.hasTiming()) {
+            this.timing = new MeasureModel(performanceCircumstance.getTiming());
+        }
+
+        this.purpose = performanceCircumstance.getPurposeList();
+        this.status = performanceCircumstance.getStatus();
+        if(performanceCircumstance.hasResult()) {
+            this.result = new MeasureModel(performanceCircumstance.getResult());
+        }
+        this.healthRisk = performanceCircumstance.getHealthRisk();
+
+        if(performanceCircumstance.hasNormalRange()) {
+            this.normalRange = new MeasureModel(performanceCircumstance.getNormalRange());
+        }
+        this.participants = performanceCircumstance.getParticipantList().stream().map(ParticipantModel::new).collect(Collectors.toList());
+    }
 
     // Getters and Setters
 
@@ -47,11 +70,11 @@ public class PerformanceCircumstance {
         this.id = id;
     }
 
-    public Measure getTiming() {
+    public MeasureModel getTiming() {
         return timing;
     }
 
-    public void setTiming(Measure timing) {
+    public void setTiming(MeasureModel timing) {
         this.timing = timing;
     }
 
@@ -71,11 +94,11 @@ public class PerformanceCircumstance {
         this.status = status;
     }
 
-    public Measure getResult() {
+    public MeasureModel getResult() {
         return result;
     }
 
-    public void setResult(Measure result) {
+    public void setResult(MeasureModel result) {
         this.result = result;
     }
 
@@ -87,19 +110,19 @@ public class PerformanceCircumstance {
         this.healthRisk = healthRisk;
     }
 
-    public Measure getNormalRange() {
+    public MeasureModel getNormalRange() {
         return normalRange;
     }
 
-    public void setNormalRange(Measure normalRange) {
+    public void setNormalRange(MeasureModel normalRange) {
         this.normalRange = normalRange;
     }
 
-    public List<Participant> getParticipants() {
+    public List<ParticipantModel> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<Participant> participants) {
+    public void setParticipants(List<ParticipantModel> participants) {
         this.participants = participants;
     }
 }

@@ -11,27 +11,27 @@ CREATE TABLE Measure (
 
 -- Table for Participant
 CREATE TABLE Participant (
-                             id VARCHAR PRIMARY KEY,
+                             id SERIAL PRIMARY KEY,
                              practitioner_value VARCHAR,
                              code VARCHAR
 );
 
 -- Table for Practitioner
 CREATE TABLE Practitioner (
-                              id VARCHAR PRIMARY KEY,
+                              id SERIAL PRIMARY KEY,
                               practitioner_value VARCHAR,
                               code VARCHAR
 );
 
 -- Table for AssociatedStatement
 CREATE TABLE AssociatedStatement (
-                                     id VARCHAR PRIMARY KEY,
+                                     id SERIAL PRIMARY KEY,
                                      semantic VARCHAR
 );
 
 -- Table for Reference
 CREATE TABLE Reference (
-                           id VARCHAR PRIMARY KEY,
+                           id SERIAL PRIMARY KEY,
                            type VARCHAR
 );
 
@@ -82,7 +82,7 @@ CREATE TABLE PerformanceCircumstance (
 -- Junction table for PerformanceCircumstance Participants
 CREATE TABLE PerformanceCircumstance_Participant (
                                                      performance_circumstance_id INTEGER REFERENCES PerformanceCircumstance(id),
-                                                     participant_id VARCHAR REFERENCES Participant(id),
+                                                     participant_id INTEGER REFERENCES Participant(id),
                                                      PRIMARY KEY (performance_circumstance_id, participant_id)
 );
 
@@ -99,14 +99,14 @@ CREATE TABLE RequestCircumstance (
 -- Junction table for RequestCircumstance Conditional Triggers
 CREATE TABLE RequestCircumstance_ConditionalTrigger (
                                                         request_circumstance_id INTEGER REFERENCES RequestCircumstance(id),
-                                                        associated_statement_id VARCHAR REFERENCES AssociatedStatement(id),
+                                                        associated_statement_id INTEGER REFERENCES AssociatedStatement(id),
                                                         PRIMARY KEY (request_circumstance_id, associated_statement_id)
 );
 
 -- Junction table for RequestCircumstance Participants
 CREATE TABLE RequestCircumstance_Participant (
                                                  request_circumstance_id INTEGER REFERENCES RequestCircumstance(id),
-                                                 participant_id VARCHAR REFERENCES Participant(id),
+                                                 participant_id INTEGER REFERENCES Participant(id),
                                                  PRIMARY KEY (request_circumstance_id, participant_id)
 );
 
@@ -120,9 +120,9 @@ CREATE TABLE NarrativeCircumstance (
 
 -- Table for ANFStatement
 CREATE TABLE ANFStatement (
-                              id VARCHAR PRIMARY KEY,
+                              id SERIAL PRIMARY KEY,
                               time INTEGER REFERENCES Measure(id),
-                              subject_of_record VARCHAR REFERENCES Participant(id),
+                              subject_of_record INTEGER REFERENCES Participant(id),
                               subject_of_information VARCHAR,
                               topic VARCHAR,
                               type VARCHAR,
@@ -135,21 +135,21 @@ CREATE TABLE ANFStatement (
 
 -- Junction table for ANFStatement Authors
 CREATE TABLE ANFStatement_Authors (
-                                      anfstatement_id VARCHAR REFERENCES ANFStatement(id),
-                                      practitioner_id VARCHAR REFERENCES Practitioner(id),
+                                      anfstatement_id INTEGER REFERENCES ANFStatement(id),
+                                      practitioner_id INTEGER REFERENCES Practitioner(id),
                                       PRIMARY KEY (anfstatement_id, practitioner_id)
 );
 
 -- Junction table for ANFStatement Associated Statements
 CREATE TABLE ANFStatement_AssociatedStatement (
-                                                  anfstatement_id VARCHAR REFERENCES ANFStatement(id),
-                                                  associated_statement_id VARCHAR REFERENCES AssociatedStatement(id),
+                                                  anfstatement_id INTEGER REFERENCES ANFStatement(id),
+                                                  associated_statement_id INTEGER REFERENCES AssociatedStatement(id),
                                                   PRIMARY KEY (anfstatement_id, associated_statement_id)
 );
 
 -- Oneof Circumstance Choice (Performance, Request, Narrative)
 CREATE TABLE ANFStatement_CircumstanceChoice (
-                                                 anfstatement_id VARCHAR REFERENCES ANFStatement(id),
+                                                 anfstatement_id INTEGER REFERENCES ANFStatement(id),
                                                  performance_circumstance_id INTEGER REFERENCES PerformanceCircumstance(id),
                                                  request_circumstance_id INTEGER REFERENCES RequestCircumstance(id),
                                                  narrative_circumstance_id INTEGER REFERENCES NarrativeCircumstance(id),

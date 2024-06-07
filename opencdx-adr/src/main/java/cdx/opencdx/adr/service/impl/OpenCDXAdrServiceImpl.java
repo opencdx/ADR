@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.model.ANFStatementModel;
+import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.grpc.data.ANFStatement;
 import io.micrometer.observation.annotation.Observed;
@@ -29,12 +31,14 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
+    private final ANFStatementRepository anfStatementRepository;
 
     /**
      * Constructor taking the a PersonRepository
      */
-    public OpenCDXAdrServiceImpl() {
+    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository) {
 
+        this.anfStatementRepository = anfStatementRepository;
     }
 
     /**
@@ -44,6 +48,6 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      */
     @Override
     public void storeAnfStatement(ANFStatement anfStatement) {
-
+        this.anfStatementRepository.save(new ANFStatementModel(anfStatement) );
     }
 }
