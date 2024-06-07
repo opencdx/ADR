@@ -478,6 +478,7 @@ services:
       - 5432:5432
     volumes:
       - ../data/postgress:/var/lib/postgresql/data
+      - ../database/adr.sql:/docker-entrypoint-initdb.d/adr.sql
     environment:
       - POSTGRES_PASSWORD=S3cret
       - POSTGRES_USER=adr_user
