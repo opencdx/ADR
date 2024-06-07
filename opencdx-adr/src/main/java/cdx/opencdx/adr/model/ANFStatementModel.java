@@ -39,7 +39,7 @@ public class ANFStatementModel {
 
     @ManyToMany
     @JoinTable(
-            name = "ANFStatement_Authors",
+            name = "anfstatement_authors",
             joinColumns = @JoinColumn(name = "anfstatement_id"),
             inverseJoinColumns = @JoinColumn(name = "practitioner_id")
     )
@@ -47,7 +47,7 @@ public class ANFStatementModel {
 
     @ManyToMany
     @JoinTable(
-            name = "ANFStatement_AssociatedStatement",
+            name = "anfstatement_associatedstatement",
             joinColumns = @JoinColumn(name = "anfstatement_id"),
             inverseJoinColumns = @JoinColumn(name = "associated_statement_id")
     )

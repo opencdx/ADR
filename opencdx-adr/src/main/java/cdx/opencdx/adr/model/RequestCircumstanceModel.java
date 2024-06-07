@@ -32,7 +32,7 @@ public class RequestCircumstanceModel {
 
     @ManyToMany
     @JoinTable(
-            name = "RequestCircumstance_ConditionalTrigger",
+            name = "requestCircumstance_conditionaltrigger",
             joinColumns = @JoinColumn(name = "request_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "associated_statement_id")
     )
@@ -40,7 +40,7 @@ public class RequestCircumstanceModel {
 
     @ManyToMany
     @JoinTable(
-            name = "RequestCircumstance_Participant",
+            name = "requestCircumstance_participant",
             joinColumns = @JoinColumn(name = "request_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )

@@ -33,7 +33,7 @@ public class PerformanceCircumstanceModel {
 
     @ManyToMany
     @JoinTable(
-            name = "PerformanceCircumstance_Participant",
+            name = "performanceCircumstance_participant",
             joinColumns = @JoinColumn(name = "performance_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )

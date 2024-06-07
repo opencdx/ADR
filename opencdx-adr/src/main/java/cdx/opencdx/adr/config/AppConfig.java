@@ -20,6 +20,8 @@ import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.adr.service.OpenCDXMessageService;
 import cdx.opencdx.adr.service.impl.NatsOpenCDXMessageServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import io.micrometer.tracing.Tracer;
 import io.nats.client.Connection;
 import io.nats.client.ConnectionListener;
@@ -30,6 +32,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.context.annotation.Primary;
 
 /**
  * Applicaiton Configuration
@@ -43,6 +46,21 @@ public class AppConfig {
      */
     public AppConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+    /**
+     * Generates the Jackson Objectmapper with the JSON-to/from-Protobuf Message support.
+     * @return ObjectMapper bean for use.
+     */
+    @Bean
+    @Primary
+    @Description("Jackson ObjectMapper with all required registered modules.")
+    public ObjectMapper objectMapper() {
+        log.trace("Creating ObjectMapper for use by system");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new ProtobufModule());
+        mapper.registerModule(new ProtobufClassAttributesModule());
+        mapper.registerModule(new JavaTimeModule());
+        return mapper;
     }
 
     @Bean
