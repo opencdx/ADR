@@ -29,9 +29,9 @@ import io.nats.client.api.StreamInfo;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;

@@ -20,7 +20,7 @@ import cdx.opencdx.grpc.data.ANFStatement;
 /**
  * Interface for the OpenCDXAdrService
  */
-public interface OpenCDXAdrService {
+    public interface OpenCDXAdrService {
 
     /**
      * Store the ANF Statement

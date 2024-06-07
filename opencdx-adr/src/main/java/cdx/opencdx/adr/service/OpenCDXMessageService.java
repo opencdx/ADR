@@ -61,6 +61,10 @@ public interface OpenCDXMessageService {
     String CONNECTED_LAB_FINDINGS = "opencdx.connected.lab.findings";
 
     /**
+     * OpenCDXMessage Subject for ADR messages
+     */
+    String ADR_MESSAGE_SUBJECT = "opencdx.adr.message";
+    /**
      * List of all the subjects.
      */
     List<String> SUBJECTS = List.of(
@@ -70,7 +74,8 @@ public interface OpenCDXMessageService {
             CDC_MESSAGE_SUBJECT,
             ORDER_MESSAGE_SUBJECT,
             DELIVERY_TRACKING_MESSAGE_SUBJECT,
-            CONNECTED_LAB_FINDINGS);
+            CONNECTED_LAB_FINDINGS,
+            ADR_MESSAGE_SUBJECT);
 
     /**
      * Subscribe to a message subject and the handlers for received those messages

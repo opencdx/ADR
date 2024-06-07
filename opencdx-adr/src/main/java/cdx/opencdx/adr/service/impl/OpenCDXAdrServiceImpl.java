@@ -29,14 +29,12 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
-    private final FactANFStatementRepository factANFStatementRepository;
 
     /**
      * Constructor taking the a PersonRepository
      */
-    public OpenCDXAdrServiceImpl(FactANFStatementRepository factANFStatementRepository) {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-        this.factANFStatementRepository = factANFStatementRepository;
+    public OpenCDXAdrServiceImpl() {
+
     }
 
     /**

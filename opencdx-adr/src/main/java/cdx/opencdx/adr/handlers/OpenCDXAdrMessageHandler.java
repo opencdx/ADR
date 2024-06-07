@@ -30,7 +30,7 @@ public class OpenCDXAdrMessageHandler implements OpenCDXMessageHandler {
         this.objectMapper = objectMapper;
         this.openCDXAdrService = openCDXAdrService;
 
-        openCDXMessageService.subscribe(OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT, this);
+        openCDXMessageService.subscribe(OpenCDXMessageService.ADR_MESSAGE_SUBJECT, this);
     }
 
     /**
