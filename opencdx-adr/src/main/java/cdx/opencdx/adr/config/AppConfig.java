@@ -15,14 +15,28 @@
  */
 package cdx.opencdx.adr.config;
 
+import cdx.opencdx.adr.service.OpenCDXMessageService;
+import cdx.opencdx.adr.service.impl.NatsOpenCDXMessageServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.tracing.Tracer;
+import io.nats.client.Connection;
+import io.nats.client.ConnectionListener;
+import lombok.Generated;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.context.annotation.Primary;
 
 /**
  * Applicaiton Configuration
  */
+@Slf4j
+@AutoConfiguration
 @Configuration
 @EnableConfigurationProperties(AppProperties.class)
 public class AppConfig {
@@ -31,6 +45,26 @@ public class AppConfig {
      */
     public AppConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    
+    @Bean
+    @Generated
+    public ConnectionListener createConnectionListener() {
+        return (conn, type) -> log.error(
+                "Connection Event: {}  Connection: {}", type, conn.getStatus().name());
+    }
+
+    @Bean
+    @Description("NATS implementation of the OpenCDXMessageService.")
+    public OpenCDXMessageService natsOpenCDXMessageService(
+            Connection natsConnection,
+            ObjectMapper objectMapper,
+            @Value("${spring.application.name}") String applicationName,
+            Tracer tracer) {
+        log.trace("Using NATS based Messaging Service");
+        return new NatsOpenCDXMessageServiceImpl(
+                natsConnection, objectMapper, applicationName, tracer);
     }
 
     /**
