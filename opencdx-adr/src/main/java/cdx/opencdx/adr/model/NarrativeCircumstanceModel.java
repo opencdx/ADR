@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.model;
 
+import cdx.opencdx.adr.repository.ANFRepo;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -23,9 +24,9 @@ public class NarrativeCircumstanceModel {
     public NarrativeCircumstanceModel() {
     }
 
-    public NarrativeCircumstanceModel(cdx.opencdx.grpc.data.NarrativeCircumstance narrativeCircumstance) {
+    public NarrativeCircumstanceModel(cdx.opencdx.grpc.data.NarrativeCircumstance narrativeCircumstance, ANFRepo anfRepo) {
         if(narrativeCircumstance.hasTiming()) {
-            this.timing = new MeasureModel(narrativeCircumstance.getTiming());
+            this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(narrativeCircumstance.getTiming()));
         }
         this.purpose = narrativeCircumstance.getPurposeList();
         this.text = narrativeCircumstance.getText();

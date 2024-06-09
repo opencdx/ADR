@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.model;
 
+import cdx.opencdx.adr.repository.ANFRepo;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -77,29 +78,29 @@ public class ANFStatementModel {
     public ANFStatementModel() {
     }
 
-    public ANFStatementModel(cdx.opencdx.grpc.data.ANFStatement anfStatement) {
+    public ANFStatementModel(cdx.opencdx.grpc.data.ANFStatement anfStatement, ANFRepo anfRepo) {
 
         if(anfStatement.hasTime()) {
-            this.time = new MeasureModel(anfStatement.getTime());
+            this.time = anfRepo.getMeasureRepository().save(new MeasureModel(anfStatement.getTime()));
         }
         if(anfStatement.hasSubjectOfRecord()) {
-            this.subjectOfRecord = new ParticipantModel(anfStatement.getSubjectOfRecord());
+            this.subjectOfRecord = anfRepo.getParticipantRepository().save(new ParticipantModel(anfStatement.getSubjectOfRecord()));
         }
 
         this.subjectOfInformation = anfStatement.getSubjectOfInformation();
         this.topic = anfStatement.getTopic();
         this.type = anfStatement.getType();
         this.status = Status.valueOf(anfStatement.getStatus().name());
-        this.authors = anfStatement.getAuthorsList().stream().map(PractitionerModel::new).toList();
+        this.authors = anfStatement.getAuthorsList().stream().map(PractitionerModel::new).map(practitioner -> anfRepo.getPractitionerRepository().save(practitioner)).toList();
         this.associatedStatements = anfStatement.getAssociatedStatementList().stream().map(AssociatedStatementModel::new).toList();
         if(anfStatement.hasPerformanceCircumstance()) {
-            this.performanceCircumstance = new PerformanceCircumstanceModel(anfStatement.getPerformanceCircumstance());
+            this.performanceCircumstance = anfRepo.getPerformanceCircumstanceRepository().save(new PerformanceCircumstanceModel(anfStatement.getPerformanceCircumstance(),anfRepo));
         }
         if(anfStatement.hasRequestCircumstance()) {
-            this.requestCircumstance = new RequestCircumstanceModel(anfStatement.getRequestCircumstance());
+            this.requestCircumstance = anfRepo.getRequestCircumstanceRepository().save(new RequestCircumstanceModel(anfStatement.getRequestCircumstance(),anfRepo));
         }
         if(anfStatement.hasNarrativeCircumstance()) {
-            this.narrativeCircumstance = new NarrativeCircumstanceModel(anfStatement.getNarrativeCircumstance());
+            this.narrativeCircumstance = anfRepo.getNarrativeCircumstanceRepository().save(new NarrativeCircumstanceModel(anfStatement.getNarrativeCircumstance(),anfRepo));
         }
     }
 

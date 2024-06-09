@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.model;
 
+import cdx.opencdx.adr.repository.ANFRepo;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -49,20 +50,20 @@ public class RequestCircumstanceModel {
     public RequestCircumstanceModel() {
     }
 
-    public RequestCircumstanceModel(cdx.opencdx.grpc.data.RequestCircumstance requestCircumstance) {
+    public RequestCircumstanceModel(cdx.opencdx.grpc.data.RequestCircumstance requestCircumstance, ANFRepo anfRepo) {
         if(requestCircumstance.hasTiming()) {
         this.timing = new MeasureModel(requestCircumstance.getTiming());
         }
         this.purpose = requestCircumstance.getPurposeList();
         this.priority = CircumstancePriority.valueOf(requestCircumstance.getPriority().name());
         if(requestCircumstance.hasRequestedResult()) {
-            this.requestedResult = new MeasureModel(requestCircumstance.getRequestedResult());
+            this.requestedResult = anfRepo.getMeasureRepository().save(new MeasureModel(requestCircumstance.getRequestedResult()));
         }
         if(requestCircumstance.hasRepetition()) {
-            this.repetition = new RepetitionModel(requestCircumstance.getRepetition());
+            this.repetition = anfRepo.getRepetitionRepository().save(new RepetitionModel(requestCircumstance.getRepetition()));
         }
         this.conditionalTriggers = requestCircumstance.getConditionalTriggerList().stream().map(AssociatedStatementModel::new).collect(Collectors.toList());
-        this.requestedParticipants = requestCircumstance.getRequestedParticipantList().stream().map(ParticipantModel::new).collect(Collectors.toList());
+        this.requestedParticipants = requestCircumstance.getRequestedParticipantList().stream().map(ParticipantModel::new).map(participant -> anfRepo.getParticipantRepository().save(participant)).toList();
     }
 
     // Getters and Setters

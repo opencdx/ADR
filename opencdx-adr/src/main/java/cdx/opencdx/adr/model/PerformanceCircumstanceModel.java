@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.model;
 
+import cdx.opencdx.adr.repository.ANFRepo;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class PerformanceCircumstanceModel {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "timing_id")
+    @JoinColumn(name = "timing")
     private MeasureModel timing;
 
     @ElementCollection
@@ -22,18 +23,18 @@ public class PerformanceCircumstanceModel {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "result_id")
+    @JoinColumn(name = "result")
     private MeasureModel result;
 
     private String healthRisk;
 
     @ManyToOne
-    @JoinColumn(name = "normal_range_id")
+    @JoinColumn(name = "normal_range")
     private MeasureModel normalRange;
 
     @ManyToMany
     @JoinTable(
-            name = "performanceCircumstance_participant",
+            name = "performancecircumstance_participant",
             joinColumns = @JoinColumn(name = "performance_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )
@@ -42,22 +43,22 @@ public class PerformanceCircumstanceModel {
     public PerformanceCircumstanceModel() {
     }
 
-    public PerformanceCircumstanceModel(cdx.opencdx.grpc.data.PerformanceCircumstance performanceCircumstance) {
+    public PerformanceCircumstanceModel(cdx.opencdx.grpc.data.PerformanceCircumstance performanceCircumstance, ANFRepo anfRepo) {
         if(performanceCircumstance.hasTiming()) {
-            this.timing = new MeasureModel(performanceCircumstance.getTiming());
+            this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(performanceCircumstance.getTiming()));
         }
 
         this.purpose = performanceCircumstance.getPurposeList();
         this.status = performanceCircumstance.getStatus();
         if(performanceCircumstance.hasResult()) {
-            this.result = new MeasureModel(performanceCircumstance.getResult());
+            this.result = anfRepo.getMeasureRepository().save(new MeasureModel(performanceCircumstance.getResult()));
         }
         this.healthRisk = performanceCircumstance.getHealthRisk();
 
         if(performanceCircumstance.hasNormalRange()) {
-            this.normalRange = new MeasureModel(performanceCircumstance.getNormalRange());
+            this.normalRange = anfRepo.getMeasureRepository().save(new MeasureModel(performanceCircumstance.getNormalRange()));
         }
-        this.participants = performanceCircumstance.getParticipantList().stream().map(ParticipantModel::new).collect(Collectors.toList());
+        this.participants = performanceCircumstance.getParticipantList().stream().map(ParticipantModel::new).map(participant -> anfRepo.getParticipantRepository().save(participant)).toList();
     }
 
     // Getters and Setters
