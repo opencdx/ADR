@@ -130,7 +130,7 @@ CREATE TABLE ANFStatement (
                               modified TIMESTAMP,
                               creator VARCHAR,
                               modifier VARCHAR,
-                              status Status
+                              status VARCHAR
 );
 
 -- Junction table for ANFStatement Authors
@@ -148,10 +148,18 @@ CREATE TABLE ANFStatement_AssociatedStatement (
 );
 
 -- Oneof Circumstance Choice (Performance, Request, Narrative)
-CREATE TABLE ANFStatement_CircumstanceChoice (
+CREATE TABLE ANFStatement_PerformanceCircumstance (
                                                  anfstatement_id INTEGER REFERENCES ANFStatement(id),
                                                  performance_circumstance_id INTEGER REFERENCES PerformanceCircumstance(id),
+                                                 PRIMARY KEY (anfstatement_id)
+);
+CREATE TABLE ANFStatement_RequestCircumstance (
+                                                 anfstatement_id INTEGER REFERENCES ANFStatement(id),
                                                  request_circumstance_id INTEGER REFERENCES RequestCircumstance(id),
+                                                 PRIMARY KEY (anfstatement_id)
+);
+CREATE TABLE ANFStatement_NarrativeCircumstance (
+                                                 anfstatement_id INTEGER REFERENCES ANFStatement(id),
                                                  narrative_circumstance_id INTEGER REFERENCES NarrativeCircumstance(id),
                                                  PRIMARY KEY (anfstatement_id)
 );

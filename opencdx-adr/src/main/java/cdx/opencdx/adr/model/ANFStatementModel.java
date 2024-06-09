@@ -13,11 +13,11 @@ public class ANFStatementModel {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "time_id")
+    @JoinColumn(name = "time")
     private MeasureModel time;
 
     @ManyToOne
-    @JoinColumn(name = "subject_of_record_id")
+    @JoinColumn(name = "subject_of_record")
     private ParticipantModel subjectOfRecord;
 
     private String subjectOfInformation;
@@ -54,15 +54,24 @@ public class ANFStatementModel {
     private List<AssociatedStatementModel> associatedStatements;
 
     @OneToOne
-    @JoinColumn(name = "performance_circumstance_id")
+    @JoinTable(name = "anfstatement_performancecircumstance",
+            joinColumns = @JoinColumn(name = "anfstatement_id"),
+            inverseJoinColumns = @JoinColumn(name = "performance_circumstance_id")
+    )
     private PerformanceCircumstanceModel performanceCircumstance;
 
     @OneToOne
-    @JoinColumn(name = "request_circumstance_id")
+    @JoinTable(name = "anfstatement_requestcircumstance",
+            joinColumns = @JoinColumn(name = "anfstatement_id"),
+            inverseJoinColumns = @JoinColumn(name = "request_circumstance_id")
+    )
     private RequestCircumstanceModel requestCircumstance;
 
     @OneToOne
-    @JoinColumn(name = "narrative_circumstance_id")
+    @JoinTable(name = "anfstatement_narrativecircumstance",
+            joinColumns = @JoinColumn(name = "anfstatement_id"),
+            inverseJoinColumns = @JoinColumn(name = "narrative_circumstance_id")
+    )
     private NarrativeCircumstanceModel narrativeCircumstance;
 
     public ANFStatementModel() {
