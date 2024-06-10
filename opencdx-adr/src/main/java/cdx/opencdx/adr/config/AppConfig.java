@@ -63,14 +63,6 @@ public class AppConfig {
         return mapper;
     }
 
-    @Bean
-    OpenCDXAdrMessageHandler openCDXAdrMessageHandler(
-            ObjectMapper objectMapper,
-            OpenCDXMessageService openCDXMessageService,
-            OpenCDXAdrService openCDXAdrService) {
-        log.trace("Instantiating OpenCDXAdrMessageHandler.");
-        return new OpenCDXAdrMessageHandler(objectMapper, openCDXMessageService,openCDXAdrService);
-    }
 
     @Bean
     @Generated
@@ -89,5 +81,14 @@ public class AppConfig {
         log.trace("Using NATS based Messaging Service");
         return new NatsOpenCDXMessageServiceImpl(
                 natsConnection, objectMapper, applicationName, tracer);
+    }
+
+    @Bean
+    OpenCDXAdrMessageHandler openCDXAdrMessageHandler(
+            ObjectMapper objectMapper,
+            OpenCDXMessageService openCDXMessageService,
+            OpenCDXAdrService openCDXAdrService) {
+        log.trace("Instantiating OpenCDXAdrMessageHandler.");
+        return new OpenCDXAdrMessageHandler(objectMapper, openCDXMessageService,openCDXAdrService);
     }
 }

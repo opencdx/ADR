@@ -59,6 +59,10 @@ public interface OpenCDXMessageService {
      * OpenCDXMessage Subject for Connected Lab Findings messages
      */
     String CONNECTED_LAB_FINDINGS = "opencdx.connected.lab.findings";
+    /**
+     * OpenCDXMessage Subject for Medical Record messages
+     */
+    String MEDICAL_RECORD_MESSAGE = "opencdx.medical.record.message";
 
     /**
      * OpenCDXMessage Subject for ADR messages
@@ -75,7 +79,8 @@ public interface OpenCDXMessageService {
             ORDER_MESSAGE_SUBJECT,
             DELIVERY_TRACKING_MESSAGE_SUBJECT,
             CONNECTED_LAB_FINDINGS,
-            ADR_MESSAGE_SUBJECT);
+            ADR_MESSAGE_SUBJECT,
+            MEDICAL_RECORD_MESSAGE);
 
     /**
      * Subscribe to a message subject and the handlers for received those messages
