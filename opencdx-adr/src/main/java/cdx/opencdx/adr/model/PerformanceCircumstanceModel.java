@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Table(name = "performancecircumstance")
+@Table(name = "factperformancecircumstance")
 @Entity
 public class PerformanceCircumstanceModel {
     @Id
@@ -34,7 +34,7 @@ public class PerformanceCircumstanceModel {
 
     @ManyToMany
     @JoinTable(
-            name = "performancecircumstance_participant",
+            name = "unionperformancecircumstanceparticipant",
             joinColumns = @JoinColumn(name = "performance_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )

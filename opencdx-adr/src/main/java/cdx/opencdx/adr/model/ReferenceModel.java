@@ -2,7 +2,7 @@ package cdx.opencdx.adr.model;
 
 import jakarta.persistence.*;
 
-@Table(name = "reference")
+@Table(name = "dimreference")
 @Entity
 public class ReferenceModel {
     @Id

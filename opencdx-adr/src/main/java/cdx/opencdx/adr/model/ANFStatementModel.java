@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Table(name = "anfstatement")
+@Table(name = "dimanfstatement")
 @Entity
 public class ANFStatementModel {
     @Id
@@ -40,7 +40,7 @@ public class ANFStatementModel {
 
     @ManyToMany
     @JoinTable(
-            name = "anfstatement_authors",
+            name = "unionanfstatementauthors",
             joinColumns = @JoinColumn(name = "anfstatement_id"),
             inverseJoinColumns = @JoinColumn(name = "practitioner_id")
     )
@@ -48,28 +48,28 @@ public class ANFStatementModel {
 
     @ManyToMany
     @JoinTable(
-            name = "anfstatement_associatedstatement",
+            name = "unionanfstatementassociatedstatement",
             joinColumns = @JoinColumn(name = "anfstatement_id"),
             inverseJoinColumns = @JoinColumn(name = "associated_statement_id")
     )
     private List<AssociatedStatementModel> associatedStatements;
 
     @OneToOne
-    @JoinTable(name = "anfstatement_performancecircumstance",
+    @JoinTable(name = "unionanfstatementperformancecircumstance",
             joinColumns = @JoinColumn(name = "anfstatement_id"),
             inverseJoinColumns = @JoinColumn(name = "performance_circumstance_id")
     )
     private PerformanceCircumstanceModel performanceCircumstance;
 
     @OneToOne
-    @JoinTable(name = "anfstatement_requestcircumstance",
+    @JoinTable(name = "unionanfstatementrequestcircumstance",
             joinColumns = @JoinColumn(name = "anfstatement_id"),
             inverseJoinColumns = @JoinColumn(name = "request_circumstance_id")
     )
     private RequestCircumstanceModel requestCircumstance;
 
     @OneToOne
-    @JoinTable(name = "anfstatement_narrativecircumstance",
+    @JoinTable(name = "unionanfstatementnarrativecircumstance",
             joinColumns = @JoinColumn(name = "anfstatement_id"),
             inverseJoinColumns = @JoinColumn(name = "narrative_circumstance_id")
     )

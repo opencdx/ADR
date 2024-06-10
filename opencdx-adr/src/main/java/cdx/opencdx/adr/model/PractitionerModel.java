@@ -2,7 +2,7 @@ package cdx.opencdx.adr.model;
 
 import jakarta.persistence.*;
 
-@Table(name = "practitioner")
+@Table(name = "dimpractitioner")
 @Entity
 public class PractitionerModel {
     @Id

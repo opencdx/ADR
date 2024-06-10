@@ -1,5 +1,5 @@
 -- Table for Measure
-CREATE TABLE Measure (
+CREATE TABLE DimMeasure (
                          id SERIAL PRIMARY KEY,
                          upper_bound VARCHAR,
                          lower_bound VARCHAR,
@@ -10,27 +10,27 @@ CREATE TABLE Measure (
 );
 
 -- Table for Participant
-CREATE TABLE Participant (
+CREATE TABLE DimParticipant (
                              id SERIAL PRIMARY KEY,
                              practitioner_value VARCHAR,
                              code VARCHAR
 );
 
 -- Table for Practitioner
-CREATE TABLE Practitioner (
+CREATE TABLE DimPractitioner (
                               id SERIAL PRIMARY KEY,
                               practitioner_value VARCHAR,
                               code VARCHAR
 );
 
 -- Table for AssociatedStatement
-CREATE TABLE AssociatedStatement (
+CREATE TABLE DimAssociatedStatement (
                                      id SERIAL PRIMARY KEY,
                                      semantic VARCHAR
 );
 
 -- Table for Reference
-CREATE TABLE Reference (
+CREATE TABLE DimReference (
                            id SERIAL PRIMARY KEY,
                            type VARCHAR
 );
@@ -55,7 +55,7 @@ CREATE TYPE DurationType AS ENUM (
 CREATE TYPE Status AS ENUM ('STATUS_UNSPECIFIED', 'STATUS_ACTIVE', 'STATUS_DELETED');
 
 -- Table for Repetition
-CREATE TABLE Repetition (
+CREATE TABLE DimRepetition (
                             id SERIAL PRIMARY KEY,
                             period_start TIMESTAMP,
                             period_duration INTEGER,
@@ -69,60 +69,60 @@ CREATE TABLE Repetition (
 );
 
 -- Table for PerformanceCircumstance
-CREATE TABLE PerformanceCircumstance (
+CREATE TABLE FactPerformanceCircumstance (
                                          id SERIAL PRIMARY KEY,
-                                         timing INTEGER REFERENCES Measure(id),
+                                         timing INTEGER REFERENCES DimMeasure(id),
                                          purpose TEXT[],
                                          status VARCHAR,
-                                         result INTEGER REFERENCES Measure(id),
+                                         result INTEGER REFERENCES DimMeasure(id),
                                          health_risk VARCHAR,
-                                         normal_range INTEGER REFERENCES Measure(id)
+                                         normal_range INTEGER REFERENCES DimMeasure(id)
 );
 
 -- Junction table for PerformanceCircumstance Participants
-CREATE TABLE PerformanceCircumstance_Participant (
-                                                     performance_circumstance_id INTEGER REFERENCES PerformanceCircumstance(id),
-                                                     participant_id INTEGER REFERENCES Participant(id),
+CREATE TABLE UnionPerformanceCircumstanceParticipant (
+                                                     performance_circumstance_id INTEGER REFERENCES FactPerformanceCircumstance(id),
+                                                     participant_id INTEGER REFERENCES DimParticipant(id),
                                                      PRIMARY KEY (performance_circumstance_id, participant_id)
 );
 
 -- Table for RequestCircumstance
-CREATE TABLE RequestCircumstance (
+CREATE TABLE FactRequestCircumstance (
                                      id SERIAL PRIMARY KEY,
-                                     timing INTEGER REFERENCES Measure(id),
+                                     timing INTEGER REFERENCES DimMeasure(id),
                                      purpose TEXT[],
                                      priority CircumstancePriority,
-                                     requested_result INTEGER REFERENCES Measure(id),
-                                     repetition INTEGER REFERENCES Repetition(id)
+                                     requested_result INTEGER REFERENCES DimMeasure(id),
+                                     repetition INTEGER REFERENCES DimRepetition(id)
 );
 
 -- Junction table for RequestCircumstance Conditional Triggers
-CREATE TABLE RequestCircumstance_ConditionalTrigger (
-                                                        request_circumstance_id INTEGER REFERENCES RequestCircumstance(id),
-                                                        associated_statement_id INTEGER REFERENCES AssociatedStatement(id),
+CREATE TABLE UnionRequestCircumstanceConditionalTrigger (
+                                                        request_circumstance_id INTEGER REFERENCES FactRequestCircumstance(id),
+                                                        associated_statement_id INTEGER REFERENCES DimAssociatedStatement(id),
                                                         PRIMARY KEY (request_circumstance_id, associated_statement_id)
 );
 
 -- Junction table for RequestCircumstance Participants
-CREATE TABLE RequestCircumstance_Participant (
-                                                 request_circumstance_id INTEGER REFERENCES RequestCircumstance(id),
-                                                 participant_id INTEGER REFERENCES Participant(id),
+CREATE TABLE UnionRequestCircumstanceParticipant (
+                                                 request_circumstance_id INTEGER REFERENCES FactRequestCircumstance(id),
+                                                 participant_id INTEGER REFERENCES DimParticipant(id),
                                                  PRIMARY KEY (request_circumstance_id, participant_id)
 );
 
 -- Table for NarrativeCircumstance
-CREATE TABLE NarrativeCircumstance (
+CREATE TABLE FactNarrativeCircumstance (
                                        id SERIAL PRIMARY KEY,
-                                       timing INTEGER REFERENCES Measure(id),
+                                       timing INTEGER REFERENCES DimMeasure(id),
                                        purpose TEXT[],
                                        text VARCHAR
 );
 
 -- Table for ANFStatement
-CREATE TABLE ANFStatement (
+CREATE TABLE DimANFStatement (
                               id SERIAL PRIMARY KEY,
-                              time INTEGER REFERENCES Measure(id),
-                              subject_of_record INTEGER REFERENCES Participant(id),
+                              time INTEGER REFERENCES DimMeasure(id),
+                              subject_of_record INTEGER REFERENCES DimParticipant(id),
                               subject_of_information VARCHAR,
                               topic VARCHAR,
                               type VARCHAR,
@@ -134,32 +134,32 @@ CREATE TABLE ANFStatement (
 );
 
 -- Junction table for ANFStatement Authors
-CREATE TABLE ANFStatement_Authors (
-                                      anfstatement_id INTEGER REFERENCES ANFStatement(id),
-                                      practitioner_id INTEGER REFERENCES Practitioner(id),
+CREATE TABLE UnionANFStatementAuthors (
+                                      anfstatement_id INTEGER REFERENCES DimANFStatement(id),
+                                      practitioner_id INTEGER REFERENCES DimPractitioner(id),
                                       PRIMARY KEY (anfstatement_id, practitioner_id)
 );
 
 -- Junction table for ANFStatement Associated Statements
-CREATE TABLE ANFStatement_AssociatedStatement (
-                                                  anfstatement_id INTEGER REFERENCES ANFStatement(id),
-                                                  associated_statement_id INTEGER REFERENCES AssociatedStatement(id),
+CREATE TABLE UnionANFStatementAssociatedStatement (
+                                                  anfstatement_id INTEGER REFERENCES DimANFStatement(id),
+                                                  associated_statement_id INTEGER REFERENCES DimAssociatedStatement(id),
                                                   PRIMARY KEY (anfstatement_id, associated_statement_id)
 );
 
 -- Oneof Circumstance Choice (Performance, Request, Narrative)
-CREATE TABLE ANFStatement_PerformanceCircumstance (
-                                                 anfstatement_id INTEGER REFERENCES ANFStatement(id),
-                                                 performance_circumstance_id INTEGER REFERENCES PerformanceCircumstance(id),
+CREATE TABLE UnionANFStatementPerformanceCircumstance (
+                                                 anfstatement_id INTEGER REFERENCES DimANFStatement(id),
+                                                 performance_circumstance_id INTEGER REFERENCES FactPerformanceCircumstance(id),
                                                  PRIMARY KEY (anfstatement_id)
 );
-CREATE TABLE ANFStatement_RequestCircumstance (
-                                                 anfstatement_id INTEGER REFERENCES ANFStatement(id),
-                                                 request_circumstance_id INTEGER REFERENCES RequestCircumstance(id),
+CREATE TABLE UnionANFStatementRequestCircumstance (
+                                                 anfstatement_id INTEGER REFERENCES DimANFStatement(id),
+                                                 request_circumstance_id INTEGER REFERENCES FactRequestCircumstance(id),
                                                  PRIMARY KEY (anfstatement_id)
 );
-CREATE TABLE ANFStatement_NarrativeCircumstance (
-                                                 anfstatement_id INTEGER REFERENCES ANFStatement(id),
-                                                 narrative_circumstance_id INTEGER REFERENCES NarrativeCircumstance(id),
+CREATE TABLE UnionANFStatementNarrativeCircumstance (
+                                                 anfstatement_id INTEGER REFERENCES DimANFStatement(id),
+                                                 narrative_circumstance_id INTEGER REFERENCES FactNarrativeCircumstance(id),
                                                  PRIMARY KEY (anfstatement_id)
 );

@@ -3,7 +3,7 @@ package cdx.opencdx.adr.model;
 import jakarta.persistence.*;
 
 
-@Table(name = "measure")
+@Table(name = "dimmeasure")
 @Entity
 public class MeasureModel {
     @Id

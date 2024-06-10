@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-@Table(name = "narrativecircumstance")
+@Table(name = "factnarrativecircumstance")
 @Entity
 public class NarrativeCircumstanceModel {
     @Id

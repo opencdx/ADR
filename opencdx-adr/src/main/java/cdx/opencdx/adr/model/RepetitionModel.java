@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.Instant;
 
-@Table(name = "repetition")
+@Table(name = "dimrepetition")
 @Entity
 public class RepetitionModel {
     @Id

@@ -2,7 +2,7 @@ package cdx.opencdx.adr.model;
 
 import jakarta.persistence.*;
 
-@Table(name = "associatedstatement")
+@Table(name = "dimassociatedstatement")
 @Entity
 public class AssociatedStatementModel {
     @Id

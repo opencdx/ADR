@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Table(name = "requestcircumstance")
+@Table(name = "factrequestcircumstance")
 @Entity
 public class RequestCircumstanceModel {
     @Id
@@ -33,7 +33,7 @@ public class RequestCircumstanceModel {
 
     @ManyToMany
     @JoinTable(
-            name = "requestCircumstance_conditionaltrigger",
+            name = "unionrequestCircumstanceconditionaltrigger",
             joinColumns = @JoinColumn(name = "request_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "associated_statement_id")
     )
@@ -41,7 +41,7 @@ public class RequestCircumstanceModel {
 
     @ManyToMany
     @JoinTable(
-            name = "requestCircumstance_participant",
+            name = "unionrequestCircumstanceparticipant",
             joinColumns = @JoinColumn(name = "request_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )
