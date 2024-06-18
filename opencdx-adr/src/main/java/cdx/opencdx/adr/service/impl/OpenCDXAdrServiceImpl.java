@@ -51,6 +51,6 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      */
     @Override
     public void storeAnfStatement(ANFStatement anfStatement) {
-        this.anfStatementRepository.save(new ANFStatementModel(anfStatement,anfRepo) );
+        this.anfStatementRepository.save(new ANFStatementModel(anfStatement, anfRepo));
     }
 }

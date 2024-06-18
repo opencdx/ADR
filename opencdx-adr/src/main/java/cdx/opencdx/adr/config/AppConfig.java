@@ -63,7 +63,6 @@ public class AppConfig {
         return mapper;
     }
 
-
     @Bean
     @Generated
     public ConnectionListener createConnectionListener() {
@@ -79,8 +78,7 @@ public class AppConfig {
             @Value("${spring.application.name}") String applicationName,
             Tracer tracer) {
         log.trace("Using NATS based Messaging Service");
-        return new NatsOpenCDXMessageServiceImpl(
-                natsConnection, objectMapper, applicationName, tracer);
+        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName, tracer);
     }
 
     @Bean
@@ -89,6 +87,6 @@ public class AppConfig {
             OpenCDXMessageService openCDXMessageService,
             OpenCDXAdrService openCDXAdrService) {
         log.trace("Instantiating OpenCDXAdrMessageHandler.");
-        return new OpenCDXAdrMessageHandler(objectMapper, openCDXMessageService,openCDXAdrService);
+        return new OpenCDXAdrMessageHandler(objectMapper, openCDXMessageService, openCDXAdrService);
     }
 }

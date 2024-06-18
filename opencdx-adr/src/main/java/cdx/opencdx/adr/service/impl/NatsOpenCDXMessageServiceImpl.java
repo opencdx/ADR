@@ -27,15 +27,13 @@ import io.nats.client.api.StorageType;
 import io.nats.client.api.StreamConfiguration;
 import io.nats.client.api.StreamInfo;
 import jakarta.ws.rs.NotFoundException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * NATS based implementation of OpenCDXMessageService
@@ -120,7 +118,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
             this.subscriptionMap.put(subject, dispatcher);
         } catch (IOException | JetStreamApiException e) {
-            throw new NotFoundException( "Failed JetStream Subscribe", e);
+            throw new NotFoundException("Failed JetStream Subscribe", e);
         }
     }
 
@@ -190,10 +188,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
          * @param objectMapper      Jackson Object Mapper
          * @param tracer             Micrometer Tracer
          */
-        protected NatsMessageHandler(
-                OpenCDXMessageHandler handler,
-                ObjectMapper objectMapper,
-                Tracer tracer) {
+        protected NatsMessageHandler(OpenCDXMessageHandler handler, ObjectMapper objectMapper, Tracer tracer) {
             log.info("Creating NATS Message Handler");
             this.handler = handler;
             this.objectMapper = objectMapper;

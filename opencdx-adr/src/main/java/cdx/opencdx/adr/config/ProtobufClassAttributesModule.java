@@ -20,20 +20,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.util.VersionUtil;
-import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.introspect.*;
 import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.google.protobuf.Message;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Class used to register for Jackson ObjectMapper for reading protobuf generated java classes
@@ -137,9 +136,7 @@ public class ProtobufClassAttributesModule extends Module {
                 if (types.containsKey(name)) {
                     if (property.hasField()
                             && property.getField().getType().isJavaLangObject()
-                            && types.get(name)
-                                    .getType()
-                                    .equals(FieldDescriptor.Type.STRING)) {
+                            && types.get(name).getType().equals(FieldDescriptor.Type.STRING)) {
                         addStringFormatAnnotation(property);
                     }
                     props.add(property.withSimpleName(name));

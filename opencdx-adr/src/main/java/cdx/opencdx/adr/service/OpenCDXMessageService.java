@@ -15,9 +15,7 @@
  */
 package cdx.opencdx.adr.service;
 
-
 import cdx.opencdx.adr.handlers.OpenCDXMessageHandler;
-
 import java.util.List;
 
 /**
