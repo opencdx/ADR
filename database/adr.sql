@@ -163,3 +163,46 @@ CREATE TABLE UnionANFStatementNarrativeCircumstance (
                                                  narrative_circumstance_id INTEGER REFERENCES FactNarrativeCircumstance(id),
                                                  PRIMARY KEY (anfstatement_id)
 );
+
+
+-- DimMeasure
+CREATE INDEX idx_dimmeasure_semantic ON DimMeasure (semantic);
+
+-- DimParticipant
+CREATE INDEX idx_dimparticipant_practitioner_value ON DimParticipant (practitioner_value);
+CREATE INDEX idx_dimparticipant_code ON DimParticipant (code);
+
+-- DimPractitioner
+CREATE INDEX idx_dimpractitioner_practitioner_value ON DimPractitioner (practitioner_value);
+CREATE INDEX idx_dimpractitioner_code ON DimPractitioner (code);
+
+-- DimAssociatedStatement
+CREATE INDEX idx_dimassociatedstatement_semantic ON DimAssociatedStatement (semantic);
+
+-- DimReference
+CREATE INDEX idx_dimreference_type ON DimReference (type);
+
+-- DimRepetition
+CREATE INDEX idx_dimrepetition_period_start ON DimRepetition (period_start);
+
+-- FactPerformanceCircumstance
+CREATE INDEX idx_factperformancecircumstance_timing ON FactPerformanceCircumstance (timing);
+CREATE INDEX idx_factperformancecircumstance_status ON FactPerformanceCircumstance (status);
+CREATE INDEX idx_factperformancecircumstance_result ON FactPerformanceCircumstance (result);
+
+-- FactRequestCircumstance
+CREATE INDEX idx_factrequestcircumstance_timing ON FactRequestCircumstance (timing);
+CREATE INDEX idx_factrequestcircumstance_priority ON FactRequestCircumstance (priority);
+
+-- FactNarrativeCircumstance
+CREATE INDEX idx_factnarrativecircumstance_timing ON FactNarrativeCircumstance (timing);
+
+-- DimANFStatement
+CREATE INDEX idx_dimanfstatement_time ON DimANFStatement (time);
+CREATE INDEX idx_dimanfstatement_subject_of_record ON DimANFStatement (subject_of_record);
+CREATE INDEX idx_dimanfstatement_created ON DimANFStatement (created);
+CREATE INDEX idx_dimanfstatement_modified ON DimANFStatement (modified);
+CREATE INDEX idx_dimanfstatement_status ON DimANFStatement (status);
+
+-- Create a GIN index on the topic field
+CREATE INDEX idx_dimanfstatement_topic_fts ON DimANFStatement USING GIN (to_tsvector('english', topic));
