@@ -16,14 +16,18 @@
 package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.model.ANFStatementModel;
+import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
+import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.adr.service.OpenCDXTinkarService;
 import cdx.opencdx.grpc.data.ANFStatement;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Service for processing HelloWorld Requests
@@ -36,15 +40,17 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     private final ANFStatementRepository anfStatementRepository;
     private final OpenCDXTinkarService openCDXTinkarService;
     private final ANFRepo anfRepo;
+    private final TinkarConceptRepository tinkarConceptRepository;
 
     /**
      * Constructor taking the a PersonRepository
      */
-    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, OpenCDXTinkarService openCDXTinkarService, ANFRepo anfRepo) {
+    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, OpenCDXTinkarService openCDXTinkarService, ANFRepo anfRepo, TinkarConceptRepository tinkarConceptRepository) {
 
         this.anfStatementRepository = anfStatementRepository;
         this.openCDXTinkarService = openCDXTinkarService;
         this.anfRepo = anfRepo;
+        this.tinkarConceptRepository = tinkarConceptRepository;
     }
 
     /**
@@ -56,5 +62,23 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     public void storeAnfStatement(ANFStatement anfStatement) {
         this.openCDXTinkarService.processAnfStatement(anfStatement);
         this.anfStatementRepository.save(new ANFStatementModel(anfStatement, anfRepo));
+    }
+
+    public List<TinkarConceptModel> getQueryableData() {
+        return this.getChildrenInList(this.tinkarConceptRepository.findAllByParentConceptIdIsNull());
+
+    }
+
+    private List<TinkarConceptModel> getChildrenInList(List<TinkarConceptModel> parents) {
+        for (TinkarConceptModel parent : parents) {
+            parent.setChildren(this.getChildren(parent));
+            this.getChildrenInList(parent.getChildren());
+        }
+        return parents;
+
+    }
+
+    private List<TinkarConceptModel> getChildren(TinkarConceptModel parent) {
+        return this.tinkarConceptRepository.finalAllByParentConceptId(parent.getConceptId());
     }
 }

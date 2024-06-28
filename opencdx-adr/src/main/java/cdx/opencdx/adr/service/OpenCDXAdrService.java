@@ -15,7 +15,10 @@
  */
 package cdx.opencdx.adr.service;
 
+import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.grpc.data.ANFStatement;
+
+import java.util.List;
 
 /**
  * Interface for the OpenCDXAdrService
@@ -27,4 +30,6 @@ public interface OpenCDXAdrService {
      * @param anfStatement
      */
     void storeAnfStatement(ANFStatement anfStatement);
+
+    List<TinkarConceptModel> getQueryableData();
 }
