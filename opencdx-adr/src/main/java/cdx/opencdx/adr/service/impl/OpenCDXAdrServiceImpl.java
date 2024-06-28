@@ -19,6 +19,7 @@ import cdx.opencdx.adr.model.ANFStatementModel;
 import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
+import cdx.opencdx.adr.service.OpenCDXTinkarService;
 import cdx.opencdx.grpc.data.ANFStatement;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -33,14 +34,16 @@ import org.springframework.stereotype.Service;
 public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
     private final ANFStatementRepository anfStatementRepository;
+    private final OpenCDXTinkarService openCDXTinkarService;
     private final ANFRepo anfRepo;
 
     /**
      * Constructor taking the a PersonRepository
      */
-    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, ANFRepo anfRepo) {
+    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, OpenCDXTinkarService openCDXTinkarService, ANFRepo anfRepo) {
 
         this.anfStatementRepository = anfStatementRepository;
+        this.openCDXTinkarService = openCDXTinkarService;
         this.anfRepo = anfRepo;
     }
 
@@ -51,6 +54,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      */
     @Override
     public void storeAnfStatement(ANFStatement anfStatement) {
+        this.openCDXTinkarService.processAnfStatement(anfStatement);
         this.anfStatementRepository.save(new ANFStatementModel(anfStatement, anfRepo));
     }
 }

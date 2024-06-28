@@ -168,6 +168,15 @@ CREATE TABLE UnionANFStatementNarrativeCircumstance (
 -- DimMeasure
 CREATE INDEX idx_dimmeasure_semantic ON DimMeasure (semantic);
 
+-- dimtinkarconcept
+CREATE TABLE dimtinkarconcept (
+                                  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+                                  concept_id UUID NOT NULL,
+                                  parent_concept_id UUID,
+                                  description TEXT,
+                                  "count" BIGINT NOT NULL
+);
+
 -- DimParticipant
 CREATE INDEX idx_dimparticipant_practitioner_value ON DimParticipant (practitioner_value);
 CREATE INDEX idx_dimparticipant_code ON DimParticipant (code);
