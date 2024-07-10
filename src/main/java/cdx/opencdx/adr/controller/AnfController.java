@@ -1,6 +1,5 @@
 package cdx.opencdx.adr.controller;
 
-import cdx.opencdx.adr.dto.Test;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.core.JsonProcessingException;

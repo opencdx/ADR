@@ -43,7 +43,7 @@ public class OpenCDXIkmServiceImpl implements OpenCDXIkmService {
         snowmedMap = new HashMap<>();
         snowmedMap.put("60621009", UUID.fromString("ffc2d03c-e34b-4d98-a9e4-f152e2b7d4b2"));
         snowmedMap.put("50373000", UUID.fromString("4d21f10c-2e13-4493-86e8-d1f20a282b1c"));
-        snowmedMap.put("60621009", UUID.fromString("1a7dba9e-2076-42e9-874e-a03d0f1d022f"));
+        snowmedMap.put("27113001", UUID.fromString("1a7dba9e-2076-42e9-874e-a03d0f1d022f"));
     }
 
 

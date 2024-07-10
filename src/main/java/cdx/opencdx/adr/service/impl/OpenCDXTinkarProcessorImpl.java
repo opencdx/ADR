@@ -1,6 +1,5 @@
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.OpenCDXIkmService;
