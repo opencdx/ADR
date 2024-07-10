@@ -1,31 +1,21 @@
 package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.model.TinkarConceptModel;
-import cdx.opencdx.adr.repository.TinkarConceptRepository;
-import cdx.opencdx.adr.service.OpenCDXTinkarService;
-import cdx.opencdx.grpc.data.ANFStatement;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cdx.opencdx.adr.service.OpenCDXIkmService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 @Slf4j
-public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
-
-    private final TinkarConceptRepository tinkarConceptRepository;
-    private final ObjectMapper objectMapper;
-
+public class OpenCDXIkmServiceImpl implements OpenCDXIkmService {
     private final Map<UUID,TinkarConceptModel> conceptMap;
+    private final Map<String,UUID> snowmedMap;
 
-    @SuppressWarnings("java:S1192")
-    public OpenCDXTinkarServiceImpl(TinkarConceptRepository tinkarConceptRepository, ObjectMapper objectMapper) {
-        this.tinkarConceptRepository = tinkarConceptRepository;
-        this.objectMapper = objectMapper;
+    public OpenCDXIkmServiceImpl() {
         conceptMap = new HashMap<>();
 
         conceptMap.put(UUID.fromString("b987a1f2-d10f-4b0e-9e9c-e27f22e2d8b3"), new TinkarConceptModel( UUID.fromString("b987a1f2-d10f-4b0e-9e9c-e27f22e2d8b3"),null, "Vitals"));
@@ -49,75 +39,21 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         conceptMap.put(UUID.fromString("8924d32c-a31e-4942-a24e-1b780871278c"), new TinkarConceptModel( UUID.fromString("8924d32c-a31e-4942-a24e-1b780871278c"), null, "Root"));
         conceptMap.put(UUID.fromString("24e7a0f7-c128-440c-9812-c0b13284b092"), new TinkarConceptModel( UUID.fromString("24e7a0f7-c128-440c-9812-c0b13284b092"), null, "Root"));
         conceptMap.put(UUID.fromString("60b0c12a-190f-4f3b-b342-873a2c38b4e7"), new TinkarConceptModel( UUID.fromString("60b0c12a-190f-4f3b-b342-873a2c38b4e7"), null, "Root"));
+
+        snowmedMap = new HashMap<>();
+        snowmedMap.put("60621009", UUID.fromString("ffc2d03c-e34b-4d98-a9e4-f152e2b7d4b2"));
+        snowmedMap.put("50373000", UUID.fromString("4d21f10c-2e13-4493-86e8-d1f20a282b1c"));
+        snowmedMap.put("60621009", UUID.fromString("1a7dba9e-2076-42e9-874e-a03d0f1d022f"));
+    }
+
+
+    @Override
+    public TinkarConceptModel getTinkarConcept(UUID conceptId) {
+        return this.conceptMap.get(conceptId);
     }
 
     @Override
-    public void processAnfStatement(ANFStatement anfStatement) {
-        try {
-            String json = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(anfStatement);
-
-            List<UUID> uuids = this.findUuids(json);
-
-            for (UUID uuid : uuids) {
-                log.info("Processing UUID: {}", uuid);
-
-                this.loadConceptTree(uuid);
-                this.updateConceptTree(uuid);
-            }
-
-
-        } catch (JsonProcessingException e) {
-            log.error("Error processing ANF statement: {}", e.getMessage(),e);
-        }
-    }
-
-    private void loadConceptTree(UUID conceptId) {
-        UUID uuid = conceptId;
-        while(uuid != null && !this.tinkarConceptRepository.existsByConceptId(uuid)) {
-            log.info("UUID does not exist in database: {}", uuid);
-            TinkarConceptModel conceptModel = this.getTinkarConcept(uuid);
-            if(conceptModel != null) {
-                this.tinkarConceptRepository.save(conceptModel);
-                uuid = conceptModel.getParentConceptId();
-            } else {
-                uuid = null;
-            }
-        }
-    }
-
-    private void updateConceptTree(UUID conceptId) {
-        UUID uuid = conceptId;
-
-        while(uuid != null && this.tinkarConceptRepository.existsByConceptId(uuid)) {
-            log.info("UUID exists in database: {}", uuid);
-            TinkarConceptModel conceptModel = this.tinkarConceptRepository.findByConceptId(uuid);
-            if(conceptModel != null) {
-                conceptModel.setCount(conceptModel.getCount() + 1);
-                conceptModel = this.tinkarConceptRepository.save(conceptModel);
-                uuid = conceptModel.getParentConceptId();
-            } else {
-                uuid = null;
-            }
-        }
-    }
-
-    private static List<UUID> findUuids(String text) {
-        List<UUID> uuids = new ArrayList<>();
-        // Regular expression pattern for UUIDs (version 1, 4, 5)
-        Pattern uuidPattern = Pattern.compile("[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}");
-        Matcher matcher = uuidPattern.matcher(text);
-
-        // Find all matches of the pattern in the text
-        while (matcher.find()) {
-            String uuidStr = matcher.group();
-            UUID uuid = UUID.fromString(uuidStr);
-            uuids.add(uuid);
-        }
-
-        return uuids;
-    }
-
-    private TinkarConceptModel getTinkarConcept(UUID conceptId) {
-        return this.conceptMap.get(conceptId);
+    public UUID getTinkarConceptForSnowmed(String number) {
+        return this.snowmedMap.get(number);
     }
 }

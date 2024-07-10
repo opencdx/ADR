@@ -1,5 +1,8 @@
 package cdx.opencdx.adr.config;
 
+import cdx.opencdx.adr.service.OpenCDXANFProcessor;
+import cdx.opencdx.adr.service.impl.OpenCDXSnowmedProcessorImpl;
+import cdx.opencdx.adr.service.impl.OpenCDXTinkarProcessorImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
@@ -9,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.Primary;
+
+import java.util.List;
 
 @Slf4j
 @Configuration
@@ -26,4 +31,8 @@ public class AppConfig {
         return mapper;
     }
 
+    @Bean
+    public List<OpenCDXANFProcessor> openCDXANFProcessors(OpenCDXSnowmedProcessorImpl openCDXSnowmedProcessor, OpenCDXTinkarProcessorImpl openCDXTinkarProcessor) {
+        return List.of(openCDXSnowmedProcessor, openCDXTinkarProcessor);
+    }
 }

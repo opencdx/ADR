@@ -21,15 +21,20 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
-import cdx.opencdx.adr.service.OpenCDXTinkarService;
+import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Service for processing HelloWorld Requests
@@ -40,7 +45,7 @@ import java.util.List;
 public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
     private final ANFStatementRepository anfStatementRepository;
-    private final OpenCDXTinkarService openCDXTinkarService;
+    private final List<OpenCDXANFProcessor> openCDXANFProcessors;
     private final ANFRepo anfRepo;
     private final TinkarConceptRepository tinkarConceptRepository;
     private final ObjectMapper mapper;
@@ -48,13 +53,15 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     /**
      * Constructor taking the a PersonRepository
      */
-    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, OpenCDXTinkarService openCDXTinkarService, ANFRepo anfRepo, TinkarConceptRepository tinkarConceptRepository, ObjectMapper mapper) {
+    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFRepo anfRepo, TinkarConceptRepository tinkarConceptRepository, ObjectMapper mapper) {
 
         this.anfStatementRepository = anfStatementRepository;
-        this.openCDXTinkarService = openCDXTinkarService;
+        this.openCDXANFProcessors = openCDXANFProcessors;
         this.anfRepo = anfRepo;
         this.tinkarConceptRepository = tinkarConceptRepository;
         this.mapper = mapper;
+
+        this.openCDXANFProcessors.stream().forEach(processor -> log.info("Processor: {}", processor.getClass().getName()));
     }
 
     /**
@@ -64,14 +71,11 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      */
     @Override
     public Long storeAnfStatement(ANFStatement anfStatement) {
-        this.openCDXTinkarService.processAnfStatement(anfStatement);
+        this.openCDXANFProcessors.forEach(processor -> {
+            log.info("Processing ANF Statement with processor: {}", processor.getClass().getName());
+            processor.processAnfStatement(anfStatement);
+        });
         ANFStatementModel model = new ANFStatementModel(anfStatement, anfRepo);
-        try {
-            log.info("Received ANF Statement: {}", this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(anfStatement));
-            log.info("Storing ANF Statement: {}", this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model));
-        } catch (JsonProcessingException e) {
-            log.error("Error processing ANF Statement: {}", model, e);
-        }
         return this.anfStatementRepository.save(model).getId();
     }
 
@@ -92,4 +96,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     private List<TinkarConceptModel> getChildren(TinkarConceptModel parent) {
         return this.tinkarConceptRepository.findAllByParentConceptId(parent.getConceptId());
     }
+
+
+
 }

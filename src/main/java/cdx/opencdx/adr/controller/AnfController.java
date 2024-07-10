@@ -37,7 +37,6 @@ public class AnfController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> postANFStatement(@RequestBody String data ) throws JsonProcessingException {
         ANFStatement anfStatement = objectMapper.readValue(data, ANFStatement.class);
-        log.info("Received ANF statement: \n {}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(anfStatement));
         this.openCDXAdrService.storeAnfStatement(anfStatement);
         return ResponseEntity.ok(0L);
     }
