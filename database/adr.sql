@@ -1,6 +1,6 @@
 -- Table for Measure
 CREATE TABLE DimMeasure (
-                         id SERIAL PRIMARY KEY,
+                         id BIGSERIAL PRIMARY KEY,
                          upper_bound VARCHAR,
                          lower_bound VARCHAR,
                          include_upper_bound BOOLEAN,
@@ -11,27 +11,27 @@ CREATE TABLE DimMeasure (
 
 -- Table for Participant
 CREATE TABLE DimParticipant (
-                             id SERIAL PRIMARY KEY,
+                             id BIGSERIAL PRIMARY KEY,
                              practitioner_value VARCHAR,
                              code VARCHAR
 );
 
 -- Table for Practitioner
 CREATE TABLE DimPractitioner (
-                              id SERIAL PRIMARY KEY,
+                              id BIGSERIAL PRIMARY KEY,
                               practitioner_value VARCHAR,
                               code VARCHAR
 );
 
 -- Table for AssociatedStatement
 CREATE TABLE DimAssociatedStatement (
-                                     id SERIAL PRIMARY KEY,
+                                     id BIGSERIAL PRIMARY KEY,
                                      semantic VARCHAR
 );
 
 -- Table for Reference
 CREATE TABLE DimReference (
-                           id SERIAL PRIMARY KEY,
+                           id BIGSERIAL PRIMARY KEY,
                            type VARCHAR
 );
 
@@ -56,7 +56,7 @@ CREATE TYPE Status AS ENUM ('STATUS_UNSPECIFIED', 'STATUS_ACTIVE', 'STATUS_DELET
 
 -- Table for Repetition
 CREATE TABLE DimRepetition (
-                            id SERIAL PRIMARY KEY,
+                            id BIGSERIAL PRIMARY KEY,
                             period_start TIMESTAMP,
                             period_duration INTEGER,
                             period_duration_type DurationType,
@@ -70,7 +70,7 @@ CREATE TABLE DimRepetition (
 
 -- Table for PerformanceCircumstance
 CREATE TABLE FactPerformanceCircumstance (
-                                         id SERIAL PRIMARY KEY,
+                                         id BIGSERIAL PRIMARY KEY,
                                          timing INTEGER REFERENCES DimMeasure(id),
                                          purpose TEXT[],
                                          status VARCHAR,
@@ -88,7 +88,7 @@ CREATE TABLE UnionPerformanceCircumstanceParticipant (
 
 -- Table for RequestCircumstance
 CREATE TABLE FactRequestCircumstance (
-                                     id SERIAL PRIMARY KEY,
+                                     id BIGSERIAL PRIMARY KEY,
                                      timing INTEGER REFERENCES DimMeasure(id),
                                      purpose TEXT[],
                                      priority CircumstancePriority,
@@ -112,7 +112,7 @@ CREATE TABLE UnionRequestCircumstanceParticipant (
 
 -- Table for NarrativeCircumstance
 CREATE TABLE FactNarrativeCircumstance (
-                                       id SERIAL PRIMARY KEY,
+                                       id BIGSERIAL PRIMARY KEY,
                                        timing INTEGER REFERENCES DimMeasure(id),
                                        purpose TEXT[],
                                        text VARCHAR
@@ -120,7 +120,7 @@ CREATE TABLE FactNarrativeCircumstance (
 
 -- Table for ANFStatement
 CREATE TABLE DimANFStatement (
-                              id SERIAL PRIMARY KEY,
+                              id BIGSERIAL PRIMARY KEY,
                               time INTEGER REFERENCES DimMeasure(id),
                               subject_of_record INTEGER REFERENCES DimParticipant(id),
                               subject_of_information VARCHAR,
