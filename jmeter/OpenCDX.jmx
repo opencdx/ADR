@@ -95,7 +95,7 @@ vars.put(&quot;postal_g&quot;,&quot;${__RandomString(5,1234567890,)}&quot;);</st
     &quot;resolution&quot; : &quot;1.0&quot;&#xd;
   },&#xd;
   &quot;subjectOfRecord&quot; : {&#xd;
-    &quot;id&quot; : &quot;${nationalHealthID_r}&quot;,&#xd;
+    &quot;id&quot; : &quot;0df076fd-ed02-44bd-a311-b5764c53258c&quot;,&#xd;
     &quot;practitionerValue&quot; : &quot;&quot;,&#xd;
     &quot;code&quot; : &quot;&quot;&#xd;
   },&#xd;
@@ -109,8 +109,8 @@ vars.put(&quot;postal_g&quot;,&quot;${__RandomString(5,1234567890,)}&quot;);</st
     &quot;id&quot; : &quot;&quot;,&#xd;
     &quot;semantic&quot; : &quot;Associated description&quot;&#xd;
   } ],&#xd;
-  &quot;topic&quot; : &quot;Topic&quot;,&#xd;
-  &quot;type&quot; : &quot;Type&quot;,&#xd;
+  &quot;topic&quot; : &quot;ffc2d03c-e34b-4d98-a9e4-f152e2b7d4b2&quot;,&#xd;
+  &quot;type&quot; : &quot;50373000&quot;,&#xd;
   &quot;performanceCircumstance&quot; : {&#xd;
     &quot;timing&quot; : {&#xd;
       &quot;upperBound&quot; : &quot;&quot;,&#xd;
