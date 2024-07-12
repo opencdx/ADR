@@ -35,8 +35,7 @@ public class RequestCircumstanceModel {
     @ElementCollection
     private List<String> purpose;
 
-    @Enumerated(EnumType.STRING)
-    private CircumstancePriority priority;
+    private String priority;
 
     @ManyToOne
     @JoinColumn(name = "requested_result_id")
@@ -67,15 +66,14 @@ public class RequestCircumstanceModel {
             this.timing = new MeasureModel(requestCircumstance.getTiming());
         }
         this.purpose = requestCircumstance.getPurposeList();
-        this.priority =
-                CircumstancePriority.valueOf(requestCircumstance.getPriority().name());
+        this.priority = requestCircumstance.getPriority();
         if (requestCircumstance.hasRequestedResult()) {
             this.requestedResult =
                     anfRepo.getMeasureRepository().save(new MeasureModel(requestCircumstance.getRequestedResult()));
         }
         if (requestCircumstance.hasRepetition()) {
             this.repetition =
-                    anfRepo.getRepetitionRepository().save(new RepetitionModel(requestCircumstance.getRepetition()));
+                    anfRepo.getRepetitionRepository().save(new RepetitionModel(requestCircumstance.getRepetition(),anfRepo));
         }
         this.conditionalTriggers = requestCircumstance.getConditionalTriggerList().stream()
                 .map(AssociatedStatementModel::new)
@@ -112,11 +110,11 @@ public class RequestCircumstanceModel {
         this.purpose = purpose;
     }
 
-    public CircumstancePriority getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(CircumstancePriority priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 

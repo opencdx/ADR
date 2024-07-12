@@ -29,43 +29,17 @@ CREATE TABLE DimAssociatedStatement (
                                      semantic VARCHAR
 );
 
--- Table for Reference
-CREATE TABLE DimReference (
-                           id BIGSERIAL PRIMARY KEY,
-                           type VARCHAR
-);
-
--- Table for CircumstancePriority Enum
-CREATE TYPE CircumstancePriority AS ENUM ('ROUTINE', 'STAT');
-
--- Table for DurationType Enum
-CREATE TYPE DurationType AS ENUM (
-    'DURATION_TYPE_NOT_SPECIFIED',
-    'DURATION_TYPE_MILLISECONDS',
-    'DURATION_TYPE_SECONDS',
-    'DURATION_TYPE_MINUTES',
-    'DURATION_TYPE_HOURS',
-    'DURATION_TYPE_DAYS',
-    'DURATION_TYPE_WEEKS',
-    'DURATION_TYPE_MONTHS',
-    'DURATION_TYPE_YEARS'
-);
-
 -- Table for Status Enum
 CREATE TYPE Status AS ENUM ('STATUS_UNSPECIFIED', 'STATUS_ACTIVE', 'STATUS_DELETED');
 
 -- Table for Repetition
 CREATE TABLE DimRepetition (
                             id BIGSERIAL PRIMARY KEY,
-                            period_start TIMESTAMP,
-                            period_duration INTEGER,
-                            period_duration_type DurationType,
-                            event_frequency INTEGER,
-                            event_frequency_type DurationType,
-                            event_separation INTEGER,
-                            event_separation_type DurationType,
-                            event_duration INTEGER,
-                            event_duration_type DurationType
+                            period_start INTEGER REFERENCES DimMeasure(id),
+                            period_duration INTEGER REFERENCES DimMeasure(id),
+                            event_frequency INTEGER REFERENCES DimMeasure(id),
+                            event_separation INTEGER REFERENCES DimMeasure(id),
+                            event_duration INTEGER REFERENCES DimMeasure(id)
 );
 
 -- Table for PerformanceCircumstance
@@ -91,7 +65,7 @@ CREATE TABLE FactRequestCircumstance (
                                      id BIGSERIAL PRIMARY KEY,
                                      timing INTEGER REFERENCES DimMeasure(id),
                                      purpose TEXT[],
-                                     priority CircumstancePriority,
+                                     priority TEXT[],
                                      requested_result INTEGER REFERENCES DimMeasure(id),
                                      repetition INTEGER REFERENCES DimRepetition(id)
 );
@@ -187,9 +161,6 @@ CREATE INDEX idx_dimpractitioner_code ON DimPractitioner (code);
 
 -- DimAssociatedStatement
 CREATE INDEX idx_dimassociatedstatement_semantic ON DimAssociatedStatement (semantic);
-
--- DimReference
-CREATE INDEX idx_dimreference_type ON DimReference (type);
 
 -- DimRepetition
 CREATE INDEX idx_dimrepetition_period_start ON DimRepetition (period_start);
