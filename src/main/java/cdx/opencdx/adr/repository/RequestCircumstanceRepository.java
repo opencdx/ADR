@@ -18,4 +18,7 @@ package cdx.opencdx.adr.repository;
 import cdx.opencdx.adr.model.RequestCircumstanceModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * This class is a repository for the request circumstance.
+ */
 public interface RequestCircumstanceRepository extends JpaRepository<RequestCircumstanceModel, Long> {}

@@ -16,7 +16,14 @@
 package cdx.opencdx.adr.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+/**
+ * This class is a model for the reference.
+ */
+@Getter
+@Setter
 @Table(name = "dimreference")
 @Entity
 public class ReferenceModel {
@@ -26,21 +33,4 @@ public class ReferenceModel {
 
     private String type;
 
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller for handling queries.
+ */
 @Slf4j
 @RestController
 @RequestMapping(value = "/query", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -18,10 +21,18 @@ public class QueryController {
 
     private final OpenCDXAdrService adrService;
 
+    /**
+     * Constructor for the controller.
+     * @param adrService ADR Service to process
+     */
     public QueryController(OpenCDXAdrService adrService) {
         this.adrService = adrService;
     }
 
+    /**
+     * Get queryable data.
+     * @return ResponseEntity<List<TinkarConceptModel>> with the response
+     */
     @GetMapping
     public ResponseEntity<List<TinkarConceptModel>> getQueryableData() {
         log.trace("Received queryable data request");

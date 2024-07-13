@@ -17,10 +17,17 @@ package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class is a model for the request circumstance.
+ */
+@Getter
+@Setter
 @Table(name = "factrequestcircumstance")
 @Entity
 public class RequestCircumstanceModel {
@@ -59,8 +66,15 @@ public class RequestCircumstanceModel {
             inverseJoinColumns = @JoinColumn(name = "participant_id"))
     private List<ParticipantModel> requestedParticipants;
 
+    /**
+     * Default constructor.
+     */
     public RequestCircumstanceModel() {}
 
+    /** Constructor for the request circumstance model.
+     * @param requestCircumstance The request circumstance.
+     * @param anfRepo The ANF repository.
+     */
     public RequestCircumstanceModel(cdx.opencdx.grpc.data.RequestCircumstance requestCircumstance, ANFRepo anfRepo) {
         if (requestCircumstance.hasTiming()) {
             this.timing = new MeasureModel(requestCircumstance.getTiming());
@@ -82,71 +96,5 @@ public class RequestCircumstanceModel {
                 .map(ParticipantModel::new)
                 .map(participant -> anfRepo.getParticipantRepository().save(participant))
                 .toList();
-    }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public MeasureModel getTiming() {
-        return timing;
-    }
-
-    public void setTiming(MeasureModel timing) {
-        this.timing = timing;
-    }
-
-    public List<String> getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(List<String> purpose) {
-        this.purpose = purpose;
-    }
-
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
-
-    public MeasureModel getRequestedResult() {
-        return requestedResult;
-    }
-
-    public void setRequestedResult(MeasureModel requestedResult) {
-        this.requestedResult = requestedResult;
-    }
-
-    public RepetitionModel getRepetition() {
-        return repetition;
-    }
-
-    public void setRepetition(RepetitionModel repetition) {
-        this.repetition = repetition;
-    }
-
-    public List<AssociatedStatementModel> getConditionalTriggers() {
-        return conditionalTriggers;
-    }
-
-    public void setConditionalTriggers(List<AssociatedStatementModel> conditionalTriggers) {
-        this.conditionalTriggers = conditionalTriggers;
-    }
-
-    public List<ParticipantModel> getRequestedParticipants() {
-        return requestedParticipants;
-    }
-
-    public void setRequestedParticipants(List<ParticipantModel> requestedParticipants) {
-        this.requestedParticipants = requestedParticipants;
     }
 }

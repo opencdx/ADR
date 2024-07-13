@@ -18,4 +18,7 @@ package cdx.opencdx.adr.repository;
 import cdx.opencdx.adr.model.PractitionerModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * This class is a repository for the practitioner.
+ */
 public interface PractitionerRepository extends JpaRepository<PractitionerModel, Long> {}

@@ -16,7 +16,14 @@
 package cdx.opencdx.adr.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+/**
+ * This class is a model for the associated statement.
+ */
+@Getter
+@Setter
 @Table(name = "dimassociatedstatement")
 @Entity
 public class AssociatedStatementModel {
@@ -26,27 +33,16 @@ public class AssociatedStatementModel {
 
     private String semantic;
 
+    /**
+     * Default constructor.
+     */
     public AssociatedStatementModel() {}
 
+    /**
+     * Constructor for the associated statement model.
+     * @param associatedStatement The associated statement.
+     */
     public AssociatedStatementModel(cdx.opencdx.grpc.data.AssociatedStatement associatedStatement) {
         this.semantic = associatedStatement.getSemantic();
-    }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getSemantic() {
-        return semantic;
-    }
-
-    public void setSemantic(String semantic) {
-        this.semantic = semantic;
     }
 }

@@ -18,4 +18,7 @@ package cdx.opencdx.adr.repository;
 import cdx.opencdx.adr.model.ReferenceModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * This class is a repository for the reference.
+ */
 public interface ReferenceRepository extends JpaRepository<ReferenceModel, Long> {}

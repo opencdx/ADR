@@ -16,7 +16,14 @@
 package cdx.opencdx.adr.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+/**
+ * This class is a model for the measure.
+ */
+@Getter
+@Setter
 @Table(name = "dimmeasure")
 @Entity
 public class MeasureModel {
@@ -31,8 +38,15 @@ public class MeasureModel {
     private String semantic;
     private String resolution;
 
+    /**
+     * Default constructor.
+     */
     public MeasureModel() {}
 
+    /**
+     * Constructor for the measure model.
+     * @param measure The measure.
+     */
     public MeasureModel(cdx.opencdx.grpc.data.Measure measure) {
         this.upperBound = measure.getUpperBound();
         this.lowerBound = measure.getLowerBound();
@@ -40,63 +54,5 @@ public class MeasureModel {
         this.includeLowerBound = measure.getIncludeLowerBound();
         this.semantic = measure.getSemantic();
         this.resolution = measure.getResolution();
-    }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUpperBound() {
-        return upperBound;
-    }
-
-    public void setUpperBound(String upperBound) {
-        this.upperBound = upperBound;
-    }
-
-    public String getLowerBound() {
-        return lowerBound;
-    }
-
-    public void setLowerBound(String lowerBound) {
-        this.lowerBound = lowerBound;
-    }
-
-    public Boolean getIncludeUpperBound() {
-        return includeUpperBound;
-    }
-
-    public void setIncludeUpperBound(Boolean includeUpperBound) {
-        this.includeUpperBound = includeUpperBound;
-    }
-
-    public Boolean getIncludeLowerBound() {
-        return includeLowerBound;
-    }
-
-    public void setIncludeLowerBound(Boolean includeLowerBound) {
-        this.includeLowerBound = includeLowerBound;
-    }
-
-    public String getSemantic() {
-        return semantic;
-    }
-
-    public void setSemantic(String semantic) {
-        this.semantic = semantic;
-    }
-
-    public String getResolution() {
-        return resolution;
-    }
-
-    public void setResolution(String resolution) {
-        this.resolution = resolution;
     }
 }

@@ -13,6 +13,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Implementation of the OpenCDX Tinkar Processor
+ */
 @Service
 @Slf4j
 public class OpenCDXTinkarProcessorImpl extends BaseAnfProcessor implements OpenCDXANFProcessor {
@@ -20,12 +23,19 @@ public class OpenCDXTinkarProcessorImpl extends BaseAnfProcessor implements Open
     private final ObjectMapper objectMapper;
 
 
+    /**
+     * Constructor taking the a PersonRepository
+     */
     @SuppressWarnings("java:S1192")
     public OpenCDXTinkarProcessorImpl(TinkarConceptRepository tinkarConceptRepository, ObjectMapper objectMapper, OpenCDXIkmService openCDXTinkarLookupService) {
         super(tinkarConceptRepository, openCDXTinkarLookupService);
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * Process the ANF Statement
+     * @param anfStatement  ANF Statement to process
+     */
     @Override
     public void processAnfStatement(ANFStatement anfStatement) {
         try {

@@ -17,9 +17,16 @@ package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
+/**
+ * This class is a model for the performance circumstance.
+ */
 
+@Getter
+@Setter
 @Table(name = "factperformancecircumstance")
 @Entity
 public class PerformanceCircumstanceModel {
@@ -53,8 +60,15 @@ public class PerformanceCircumstanceModel {
             inverseJoinColumns = @JoinColumn(name = "participant_id"))
     private List<ParticipantModel> participants;
 
+    /**
+     * Default constructor.
+     */
     public PerformanceCircumstanceModel() {}
 
+    /** Constructor for the performance circumstance model.
+     * @param performanceCircumstance The performance circumstance.
+     * @param anfRepo The ANF repository.
+     */
     public PerformanceCircumstanceModel(
             cdx.opencdx.grpc.data.PerformanceCircumstance performanceCircumstance, ANFRepo anfRepo) {
         if (performanceCircumstance.hasTiming()) {
@@ -76,71 +90,5 @@ public class PerformanceCircumstanceModel {
                 .map(ParticipantModel::new)
                 .map(participant -> anfRepo.getParticipantRepository().save(participant))
                 .toList();
-    }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public MeasureModel getTiming() {
-        return timing;
-    }
-
-    public void setTiming(MeasureModel timing) {
-        this.timing = timing;
-    }
-
-    public List<String> getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(List<String> purpose) {
-        this.purpose = purpose;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public MeasureModel getResult() {
-        return result;
-    }
-
-    public void setResult(MeasureModel result) {
-        this.result = result;
-    }
-
-    public String getHealthRisk() {
-        return healthRisk;
-    }
-
-    public void setHealthRisk(String healthRisk) {
-        this.healthRisk = healthRisk;
-    }
-
-    public MeasureModel getNormalRange() {
-        return normalRange;
-    }
-
-    public void setNormalRange(MeasureModel normalRange) {
-        this.normalRange = normalRange;
-    }
-
-    public List<ParticipantModel> getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(List<ParticipantModel> participants) {
-        this.participants = participants;
     }
 }

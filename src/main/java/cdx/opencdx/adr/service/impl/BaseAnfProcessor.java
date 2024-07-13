@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
+/**
+ * Base ANF Processor
+ */
 @Slf4j
 public class BaseAnfProcessor {
 
@@ -18,6 +21,9 @@ public class BaseAnfProcessor {
         this.openCDXTinkarLookupService = openCDXTinkarLookupService;
     }
 
+    /** Load the concept tree
+     * @param conceptId
+     */
     protected void loadConceptTree(UUID conceptId) {
         UUID uuid = conceptId;
         while(uuid != null && !this.tinkarConceptRepository.existsByConceptId(uuid)) {
@@ -32,6 +38,9 @@ public class BaseAnfProcessor {
         }
     }
 
+    /** Update the concept tree
+     * @param conceptId
+     */
     protected void updateConceptTree(UUID conceptId) {
         UUID uuid = conceptId;
 

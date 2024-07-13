@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Service for processing HelloWorld Requests
+ */
 @Service
 @Slf4j
 public class OpenCDXIkmServiceImpl implements OpenCDXIkmService {
@@ -46,12 +49,20 @@ public class OpenCDXIkmServiceImpl implements OpenCDXIkmService {
         snowmedMap.put("27113001", UUID.fromString("1a7dba9e-2076-42e9-874e-a03d0f1d022f"));
     }
 
-
+    /**
+     * Get the Tinkar Concept by ID
+     * @param conceptId
+     * @return Tinkar Concept
+     */
     @Override
     public TinkarConceptModel getTinkarConcept(UUID conceptId) {
         return this.conceptMap.get(conceptId);
     }
 
+    /**
+     * Get the Tinkar Concept by SNOMED number
+     * @return Tinkar Concept
+     */
     @Override
     public UUID getTinkarConceptForSnowmed(String number) {
         return this.snowmedMap.get(number);

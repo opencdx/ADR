@@ -18,4 +18,7 @@ package cdx.opencdx.adr.repository;
 import cdx.opencdx.adr.model.RepetitionModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * This class is a repository for the repetition.
+ */
 public interface RepetitionRepository extends JpaRepository<RepetitionModel, Long> {}

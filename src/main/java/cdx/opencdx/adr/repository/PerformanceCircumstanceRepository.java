@@ -18,4 +18,7 @@ package cdx.opencdx.adr.repository;
 import cdx.opencdx.adr.model.PerformanceCircumstanceModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * This class is a repository for the performance circumstance.
+ */
 public interface PerformanceCircumstanceRepository extends JpaRepository<PerformanceCircumstanceModel, Long> {}

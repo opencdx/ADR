@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * This class is a repository for the Tinkar concept.
+ */
 @Repository
 public interface TinkarConceptRepository extends JpaRepository<TinkarConceptModel, Long>{
     TinkarConceptModel findByConceptId(UUID conceptId);

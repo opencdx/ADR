@@ -74,6 +74,9 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
         return this.anfStatementRepository.save(model).getId();
     }
 
+    /** Get the ANF Statement by ID
+     * @return List of Tinkar concepts in tree form
+     */
     public List<TinkarConceptModel> getQueryableData() {
         return this.getChildrenInList(this.tinkarConceptRepository.findAllByParentConceptIdIsNull());
 

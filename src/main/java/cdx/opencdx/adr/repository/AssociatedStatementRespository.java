@@ -18,4 +18,7 @@ package cdx.opencdx.adr.repository;
 import cdx.opencdx.adr.model.AssociatedStatementModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * This class is a repository for the associated statement.
+ */
 public interface AssociatedStatementRespository extends JpaRepository<AssociatedStatementModel, Long> {}

@@ -17,10 +17,17 @@ package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 
+/**
+ * This class is a model for the repetition.
+ */
+@Getter
+@Setter
 @Table(name = "dimrepetition")
 @Entity
 public class RepetitionModel {
@@ -48,67 +55,21 @@ public class RepetitionModel {
     @JoinColumn(name = "event_duration")
     private MeasureModel eventDuration;
 
-
+    /**
+     * Default constructor.
+     */
     public RepetitionModel() {}
 
+    /**
+     * Constructor for the repetition model.
+     * @param repetition The repetition.
+     * @param anfRepo The ANF repository.
+     */
     public RepetitionModel(cdx.opencdx.grpc.data.Repetition repetition, ANFRepo anfRepo) {
         this.periodStart = anfRepo.getMeasureRepository().save(new MeasureModel(repetition.getPeriodStart()));
         this.periodDuration = anfRepo.getMeasureRepository().save(new MeasureModel(repetition.getPeriodDuration()));
         this.eventFrequency = anfRepo.getMeasureRepository().save(new MeasureModel(repetition.getEventFrequency()));
         this.eventSeparation = anfRepo.getMeasureRepository().save(new MeasureModel(repetition.getEventSeparation()));
         this.eventDuration = anfRepo.getMeasureRepository().save(new MeasureModel(repetition.getEventDuration()));
-    }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public MeasureModel getPeriodStart() {
-        return periodStart;
-    }
-
-    public void setPeriodStart(MeasureModel periodStart) {
-        this.periodStart = periodStart;
-    }
-
-    public MeasureModel getPeriodDuration() {
-        return periodDuration;
-    }
-
-    public void setPeriodDuration(MeasureModel periodDuration) {
-        this.periodDuration = periodDuration;
-    }
-
-
-    public MeasureModel getEventFrequency() {
-        return eventFrequency;
-    }
-
-    public void setEventFrequency(MeasureModel eventFrequency) {
-        this.eventFrequency = eventFrequency;
-    }
-
-
-    public MeasureModel getEventSeparation() {
-        return eventSeparation;
-    }
-
-    public void setEventSeparation(MeasureModel eventSeparation) {
-        this.eventSeparation = eventSeparation;
-    }
-
-
-    public MeasureModel getEventDuration() {
-        return eventDuration;
-    }
-
-    public void setEventDuration(MeasureModel eventDuration) {
-        this.eventDuration = eventDuration;
     }
 }

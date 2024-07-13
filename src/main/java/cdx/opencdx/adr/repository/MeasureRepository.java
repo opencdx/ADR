@@ -18,4 +18,7 @@ package cdx.opencdx.adr.repository;
 import cdx.opencdx.adr.model.MeasureModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * This class is a repository for the measure.
+ */
 public interface MeasureRepository extends JpaRepository<MeasureModel, Long> {}

@@ -16,7 +16,14 @@
 package cdx.opencdx.adr.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+/**
+ * This class is a model for the practitioner.
+ */
+@Getter
+@Setter
 @Table(name = "dimpractitioner")
 @Entity
 public class PractitionerModel {
@@ -27,36 +34,18 @@ public class PractitionerModel {
     private String practitionerValue;
     private String code;
 
+    /**
+     * Default constructor.
+     */
     public PractitionerModel() {}
 
+    /**
+     * Constructor for the practitioner model.
+     * @param practitioner The practitioner.
+     */
     public PractitionerModel(cdx.opencdx.grpc.data.Practitioner practitioner) {
         this.practitionerValue = practitioner.getPractitionerValue();
         this.code = practitioner.getCode();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPractitionerValue() {
-        return practitionerValue;
-    }
-
-    public void setPractitionerValue(String practitionerValue) {
-        this.practitionerValue = practitionerValue;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    // Getters and Setters
 }

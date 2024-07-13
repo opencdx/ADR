@@ -15,8 +15,14 @@
  */
 package cdx.opencdx.adr.model;
 
+/**
+ * This class is a model for the status.
+ */
 public enum Status {
+    /** The status is unspecified. */
     STATUS_UNSPECIFIED,
+    /** The status is active. */
     STATUS_ACTIVE,
+    /** The status is deleted. */
     STATUS_DELETED
 }

@@ -14,10 +14,18 @@ import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 
+/**
+ * Application configuration.
+
+ */
 @Slf4j
 @Configuration
 public class AppConfig {
 
+    /**
+     * Create an ObjectMapper for use by the system.
+     * @return ObjectMapper
+     */
     @Bean
     @Primary
     @Description("Jackson ObjectMapper with all required registered modules.")
@@ -29,7 +37,12 @@ public class AppConfig {
         mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
-
+    /**
+     * Create a list of OpenCDXANFProcessors for use by the system.
+     * @param openCDXSnowmedProcessor
+     * @param openCDXTinkarProcessor
+     * @return List<OpenCDXANFProcessor>
+     */
     @Bean
     public List<OpenCDXANFProcessor> openCDXANFProcessors(OpenCDXSnowmedProcessorImpl openCDXSnowmedProcessor, OpenCDXTinkarProcessorImpl openCDXTinkarProcessor) {
         return List.of(openCDXSnowmedProcessor, openCDXTinkarProcessor);

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+/**
+ * Controller for handling ANF statements.
+ */
 @Slf4j
 @RestController
 @RequestMapping(value = "/anf", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -22,6 +25,12 @@ public class AnfController {
     private final ObjectMapper objectMapper;
     private final OpenCDXAdrService openCDXAdrService;
 
+    /**
+     * Constructor for the controller.
+     * @param objectMapper Object Mapper for conversion
+     * @param openCDXAdrService ADR Service to process
+     * @throws JsonProcessingException Exception if Object Mapper fails.
+     */
     public AnfController(ObjectMapper objectMapper, OpenCDXAdrService openCDXAdrService) throws JsonProcessingException {
         this.objectMapper = objectMapper;
         this.openCDXAdrService = openCDXAdrService;
@@ -33,6 +42,12 @@ public class AnfController {
         log.info("Sample ANF statement: \n{}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(anfStatement));
     }
 
+    /**
+     * Post an ANF statement.
+     * @param data String data to post
+     * @return ResponseEntity<Long> with the response
+     * @throws JsonProcessingException Exception if Object Mapper fails.
+     */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> postANFStatement(@RequestBody String data ) throws JsonProcessingException {
         ANFStatement anfStatement = objectMapper.readValue(data, ANFStatement.class);

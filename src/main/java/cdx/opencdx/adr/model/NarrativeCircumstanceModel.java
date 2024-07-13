@@ -17,9 +17,16 @@ package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * This class is a model for the narrative circumstance.
+ */
+@Getter
+@Setter
 @Table(name = "factnarrativecircumstance")
 @Entity
 public class NarrativeCircumstanceModel {
@@ -36,8 +43,16 @@ public class NarrativeCircumstanceModel {
 
     private String text;
 
+    /**
+     * Default constructor
+     */
     public NarrativeCircumstanceModel() {}
 
+    /**
+     * Constructor
+     * @param narrativeCircumstance
+     * @param anfRepo
+     */
     public NarrativeCircumstanceModel(
             cdx.opencdx.grpc.data.NarrativeCircumstance narrativeCircumstance, ANFRepo anfRepo) {
         if (narrativeCircumstance.hasTiming()) {
@@ -47,37 +62,4 @@ public class NarrativeCircumstanceModel {
         this.text = narrativeCircumstance.getText();
     }
 
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public MeasureModel getTiming() {
-        return timing;
-    }
-
-    public void setTiming(MeasureModel timing) {
-        this.timing = timing;
-    }
-
-    public List<String> getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(List<String> purpose) {
-        this.purpose = purpose;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }

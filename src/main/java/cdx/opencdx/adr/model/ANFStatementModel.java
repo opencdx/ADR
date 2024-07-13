@@ -17,10 +17,18 @@ package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * ANFStatementModel class.
+ */
+@Getter
+@Setter
 @Table(name = "dimanfstatement")
 @Entity
 public class ANFStatementModel {
@@ -88,8 +96,15 @@ public class ANFStatementModel {
             inverseJoinColumns = @JoinColumn(name = "narrative_circumstance_id"))
     private NarrativeCircumstanceModel narrativeCircumstance;
 
+    /**
+     * Default constructor.
+     */
     public ANFStatementModel() {}
 
+    /** Constructor for ANFStatementModel.
+     * @param anfStatement ANFStatement
+     * @param anfRepo ANFRepo
+     */
     public ANFStatementModel(cdx.opencdx.grpc.data.ANFStatement anfStatement, ANFRepo anfRepo) {
 
         if (anfStatement.hasTime()) {
@@ -124,135 +139,5 @@ public class ANFStatementModel {
             this.narrativeCircumstance = anfRepo.getNarrativeCircumstanceRepository()
                     .save(new NarrativeCircumstanceModel(anfStatement.getNarrativeCircumstance(), anfRepo));
         }
-    }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public MeasureModel getTime() {
-        return time;
-    }
-
-    public void setTime(MeasureModel time) {
-        this.time = time;
-    }
-
-    public ParticipantModel getSubjectOfRecord() {
-        return subjectOfRecord;
-    }
-
-    public void setSubjectOfRecord(ParticipantModel subjectOfRecord) {
-        this.subjectOfRecord = subjectOfRecord;
-    }
-
-    public String getSubjectOfInformation() {
-        return subjectOfInformation;
-    }
-
-    public void setSubjectOfInformation(String subjectOfInformation) {
-        this.subjectOfInformation = subjectOfInformation;
-    }
-
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Timestamp getCreated() {
-        return created;
-    }
-
-    public void setCreated(Timestamp created) {
-        this.created = created;
-    }
-
-    public Timestamp getModified() {
-        return modified;
-    }
-
-    public void setModified(Timestamp modified) {
-        this.modified = modified;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public String getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public List<PractitionerModel> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<PractitionerModel> authors) {
-        this.authors = authors;
-    }
-
-    public List<AssociatedStatementModel> getAssociatedStatements() {
-        return associatedStatements;
-    }
-
-    public void setAssociatedStatements(List<AssociatedStatementModel> associatedStatements) {
-        this.associatedStatements = associatedStatements;
-    }
-
-    public PerformanceCircumstanceModel getPerformanceCircumstance() {
-        return performanceCircumstance;
-    }
-
-    public void setPerformanceCircumstance(PerformanceCircumstanceModel performanceCircumstance) {
-        this.performanceCircumstance = performanceCircumstance;
-    }
-
-    public RequestCircumstanceModel getRequestCircumstance() {
-        return requestCircumstance;
-    }
-
-    public void setRequestCircumstance(RequestCircumstanceModel requestCircumstance) {
-        this.requestCircumstance = requestCircumstance;
-    }
-
-    public NarrativeCircumstanceModel getNarrativeCircumstance() {
-        return narrativeCircumstance;
-    }
-
-    public void setNarrativeCircumstance(NarrativeCircumstanceModel narrativeCircumstance) {
-        this.narrativeCircumstance = narrativeCircumstance;
     }
 }

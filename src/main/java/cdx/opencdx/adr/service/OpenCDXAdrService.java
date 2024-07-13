@@ -32,5 +32,8 @@ public interface OpenCDXAdrService {
      */
     Long storeAnfStatement(ANFStatement anfStatement);
 
+    /** Get the ANF Statement by ID
+     * @return List of Tinkar concepts in tree form
+     */
     List<TinkarConceptModel> getQueryableData();
 }

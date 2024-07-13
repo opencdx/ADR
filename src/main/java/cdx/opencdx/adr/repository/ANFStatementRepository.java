@@ -19,5 +19,8 @@ import cdx.opencdx.adr.model.ANFStatementModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * This class is a repository for the ANF statement.
+ */
 @Repository
 public interface ANFStatementRepository extends JpaRepository<ANFStatementModel, Long> {}

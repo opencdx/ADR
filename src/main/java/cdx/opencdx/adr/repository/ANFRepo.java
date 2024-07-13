@@ -18,6 +18,9 @@ package cdx.opencdx.adr.repository;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class is a repository for the ANF.
+ */
 @Getter
 @Component
 public class ANFRepo {
@@ -33,6 +36,19 @@ public class ANFRepo {
     private final RepetitionRepository repetitionRepository;
     private final RequestCircumstanceRepository requestCircumstanceRepository;
 
+    /**
+     * Constructor for the ANF repository.
+     * @param anfStatementRepository The ANF statement repository.
+     * @param associatedStatementRespository The associated statement repository.
+     * @param measureRepository The measure repository.
+     * @param narrativeCircumstanceRepository The narrative circumstance repository.
+     * @param participantRepository     The participant repository.
+     * @param performanceCircumstanceRepository     The performance circumstance repository.
+     * @param practitionerRepository    The practitioner repository.
+     * @param referenceRepository  The reference repository.
+     * @param repetitionRepository The repetition repository.
+     * @param requestCircumstanceRepository     The request circumstance repository.
+     */
     public ANFRepo(
             ANFStatementRepository anfStatementRepository,
             AssociatedStatementRespository associatedStatementRespository,

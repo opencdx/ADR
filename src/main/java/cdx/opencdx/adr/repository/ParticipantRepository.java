@@ -18,4 +18,7 @@ package cdx.opencdx.adr.repository;
 import cdx.opencdx.adr.model.ParticipantModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * This class is a repository for the participant.
+ */
 public interface ParticipantRepository extends JpaRepository<ParticipantModel, Long> {}

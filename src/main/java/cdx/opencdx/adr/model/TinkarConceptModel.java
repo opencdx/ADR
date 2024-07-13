@@ -9,6 +9,9 @@ import lombok.ToString;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * This class is a model for the Tinkar concept.
+ */
 @Table(name = "dimtinkarconcept")
 @Entity
 @Getter
@@ -30,7 +33,12 @@ public class TinkarConceptModel {
     @Transient
     private List<TinkarConceptModel> children;
 
-
+    /**
+     * Constructor
+     * @param conceptId The concept ID.
+     * @param parentConceptId The parent concept ID.
+     * @param description The description.
+     */
     public TinkarConceptModel(UUID conceptId, UUID parentConceptId, String description) {
         this.id = null;
         this.conceptId = conceptId;
@@ -39,6 +47,9 @@ public class TinkarConceptModel {
         this.count = 0;
     }
 
+    /**
+     * Default constructor
+     */
     public TinkarConceptModel() {
 
     }

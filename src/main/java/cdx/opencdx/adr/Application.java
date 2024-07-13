@@ -10,10 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @ComponentScan(basePackages = {"cdx.opencdx"})
 @SpringBootApplication
-public class AdrApplication implements WebMvcConfigurer {
+public class Application implements WebMvcConfigurer {
 
     public static void main(String[] args) {
-        SpringApplication.run(AdrApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @Override

@@ -15,6 +15,9 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Implementation of the OpenCDX Snowmed Processor
+ */
 @Slf4j
 @Service
 public class OpenCDXSnowmedProcessorImpl extends BaseAnfProcessor implements OpenCDXANFProcessor {
@@ -22,6 +25,9 @@ public class OpenCDXSnowmedProcessorImpl extends BaseAnfProcessor implements Ope
      private final ObjectMapper objectMapper;
     private final OpenCDXIkmService openCDXIkmService;
 
+    /**
+     * Constructor taking the a PersonRepository
+     */
     public OpenCDXSnowmedProcessorImpl(TinkarConceptRepository tinkarConceptRepository, ObjectMapper objectMapper, OpenCDXIkmService openCDXIkmService) {
         super(tinkarConceptRepository, openCDXIkmService);
         this.objectMapper = objectMapper;
@@ -29,6 +35,10 @@ public class OpenCDXSnowmedProcessorImpl extends BaseAnfProcessor implements Ope
     }
 
 
+    /**
+     * Process the ANF Statement
+     * @param anfStatement  ANF Statement to process
+     */
     @Override
     public void processAnfStatement(ANFStatement anfStatement) {
         try {
