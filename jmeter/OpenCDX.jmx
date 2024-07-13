@@ -64,7 +64,7 @@ vars.put(&quot;postal_g&quot;,&quot;${__RandomString(5,1234567890,)}&quot;);</st
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${__P(serverName,localhost)}</stringProp>
-          <stringProp name="HTTPSampler.port">${__P(serverPort,8080)}</stringProp>
+          <stringProp name="HTTPSampler.port">${__P(serverPort,8085)}</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.connect_timeout">2000</stringProp>
           <stringProp name="HTTPSampler.response_timeout">2000</stringProp>

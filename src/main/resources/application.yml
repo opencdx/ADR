@@ -1,8 +1,9 @@
+
 spring:
   application:
     name: adr
   datasource:
-    url: jdbc:postgresql://localhost:5432/adr
+    url: jdbc:postgresql://postgres:5432/adr
     driverClassName: org.postgresql.Driver
     username: adr_user
     password: S3cret
@@ -18,3 +19,5 @@ spring:
   output:
     ansi:
       enabled: always
+server:
+  port: 8085

@@ -1,4 +1,7 @@
 version: '3'
+networks:
+  opencdx-network:
+    external: true
 services:
   postgres:
     image: postgres:14-alpine
@@ -16,3 +19,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  adr:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: adr:latest
+    ports:
+      - 8085:8085
+    healthcheck:
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 10
