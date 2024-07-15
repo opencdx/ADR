@@ -58,8 +58,6 @@ public class ANFStatementModel {
 
     private String modifier;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
     @ManyToMany
     @JoinTable(
@@ -118,7 +116,6 @@ public class ANFStatementModel {
         this.subjectOfInformation = anfStatement.getSubjectOfInformation();
         this.topic = anfStatement.getTopic();
         this.type = anfStatement.getType();
-        this.status = Status.valueOf(anfStatement.getStatus().name());
         this.authors = anfStatement.getAuthorsList().stream()
                 .map(PractitionerModel::new)
                 .map(practitioner -> anfRepo.getPractitionerRepository().save(practitioner))
