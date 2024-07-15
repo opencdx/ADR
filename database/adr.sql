@@ -29,9 +29,6 @@ CREATE TABLE DimAssociatedStatement (
                                      semantic VARCHAR
 );
 
--- Table for Status Enum
-CREATE TYPE Status AS ENUM ('STATUS_UNSPECIFIED', 'STATUS_ACTIVE', 'STATUS_DELETED');
-
 -- Table for Repetition
 CREATE TABLE DimRepetition (
                             id BIGSERIAL PRIMARY KEY,
@@ -99,12 +96,7 @@ CREATE TABLE DimANFStatement (
                               subject_of_record INTEGER REFERENCES DimParticipant(id),
                               subject_of_information VARCHAR,
                               topic VARCHAR,
-                              type VARCHAR,
-                              created TIMESTAMP,
-                              modified TIMESTAMP,
-                              creator VARCHAR,
-                              modifier VARCHAR,
-                              status VARCHAR
+                              type VARCHAR
 );
 
 -- Junction table for ANFStatement Authors
@@ -180,9 +172,7 @@ CREATE INDEX idx_factnarrativecircumstance_timing ON FactNarrativeCircumstance (
 -- DimANFStatement
 CREATE INDEX idx_dimanfstatement_time ON DimANFStatement (time);
 CREATE INDEX idx_dimanfstatement_subject_of_record ON DimANFStatement (subject_of_record);
-CREATE INDEX idx_dimanfstatement_created ON DimANFStatement (created);
-CREATE INDEX idx_dimanfstatement_modified ON DimANFStatement (modified);
-CREATE INDEX idx_dimanfstatement_status ON DimANFStatement (status);
+
 
 -- Create a GIN index on the topic field
 CREATE INDEX idx_dimanfstatement_topic_fts ON DimANFStatement USING GIN (to_tsvector('english', topic));
