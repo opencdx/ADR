@@ -52,7 +52,7 @@ public class MeasureModel {
         this.lowerBound = measure.getLowerBound();
         this.includeUpperBound = measure.getIncludeUpperBound();
         this.includeLowerBound = measure.getIncludeLowerBound();
-        this.semantic = measure.getSemantic();
+        this.semantic = measure.getSemantic().getExpression();
         this.resolution = measure.getResolution();
     }
 }

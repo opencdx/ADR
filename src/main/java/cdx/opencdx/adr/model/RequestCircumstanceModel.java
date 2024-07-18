@@ -16,6 +16,7 @@
 package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.grpc.data.LogicalExpression;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -79,8 +80,8 @@ public class RequestCircumstanceModel {
         if (requestCircumstance.hasTiming()) {
             this.timing = new MeasureModel(requestCircumstance.getTiming());
         }
-        this.purpose = requestCircumstance.getPurposeList();
-        this.priority = requestCircumstance.getPriority();
+        this.purpose = requestCircumstance.getPurposeList().stream().map(LogicalExpression::getExpression).toList();
+        this.priority = requestCircumstance.getPriority().getExpression();
         if (requestCircumstance.hasRequestedResult()) {
             this.requestedResult =
                     anfRepo.getMeasureRepository().save(new MeasureModel(requestCircumstance.getRequestedResult()));
@@ -91,7 +92,7 @@ public class RequestCircumstanceModel {
         }
         this.conditionalTriggers = requestCircumstance.getConditionalTriggerList().stream()
                 .map(AssociatedStatementModel::new)
-                .collect(Collectors.toList());
+                .toList();
         this.requestedParticipants = requestCircumstance.getRequestedParticipantList().stream()
                 .map(ParticipantModel::new)
                 .map(participant -> anfRepo.getParticipantRepository().save(participant))

@@ -16,6 +16,7 @@
 package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.grpc.data.LogicalExpression;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,7 +59,7 @@ public class NarrativeCircumstanceModel {
         if (narrativeCircumstance.hasTiming()) {
             this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(narrativeCircumstance.getTiming()));
         }
-        this.purpose = narrativeCircumstance.getPurposeList();
+        this.purpose = narrativeCircumstance.getPurposeList().stream().map(LogicalExpression::getExpression).toList();
         this.text = narrativeCircumstance.getText();
     }
 

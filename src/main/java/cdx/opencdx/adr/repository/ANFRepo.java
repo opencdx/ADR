@@ -32,7 +32,6 @@ public class ANFRepo {
     private final ParticipantRepository participantRepository;
     private final PerformanceCircumstanceRepository performanceCircumstanceRepository;
     private final PractitionerRepository practitionerRepository;
-    private final ReferenceRepository referenceRepository;
     private final RepetitionRepository repetitionRepository;
     private final RequestCircumstanceRepository requestCircumstanceRepository;
 
@@ -45,7 +44,6 @@ public class ANFRepo {
      * @param participantRepository     The participant repository.
      * @param performanceCircumstanceRepository     The performance circumstance repository.
      * @param practitionerRepository    The practitioner repository.
-     * @param referenceRepository  The reference repository.
      * @param repetitionRepository The repetition repository.
      * @param requestCircumstanceRepository     The request circumstance repository.
      */
@@ -57,7 +55,6 @@ public class ANFRepo {
             ParticipantRepository participantRepository,
             PerformanceCircumstanceRepository performanceCircumstanceRepository,
             PractitionerRepository practitionerRepository,
-            ReferenceRepository referenceRepository,
             RepetitionRepository repetitionRepository,
             RequestCircumstanceRepository requestCircumstanceRepository) {
         this.anfStatementRepository = anfStatementRepository;
@@ -67,7 +64,6 @@ public class ANFRepo {
         this.participantRepository = participantRepository;
         this.performanceCircumstanceRepository = performanceCircumstanceRepository;
         this.practitionerRepository = practitionerRepository;
-        this.referenceRepository = referenceRepository;
         this.repetitionRepository = repetitionRepository;
         this.requestCircumstanceRepository = requestCircumstanceRepository;
     }

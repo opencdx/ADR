@@ -43,6 +43,6 @@ public class AssociatedStatementModel {
      * @param associatedStatement The associated statement.
      */
     public AssociatedStatementModel(cdx.opencdx.grpc.data.AssociatedStatement associatedStatement) {
-        this.semantic = associatedStatement.getSemantic();
+        this.semantic = associatedStatement.getSemantic().getExpression();
     }
 }

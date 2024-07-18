@@ -16,6 +16,7 @@
 package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.grpc.data.LogicalExpression;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -75,12 +76,12 @@ public class PerformanceCircumstanceModel {
             this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(performanceCircumstance.getTiming()));
         }
 
-        this.purpose = performanceCircumstance.getPurposeList();
-        this.status = performanceCircumstance.getStatus();
+        this.purpose = performanceCircumstance.getPurposeList().stream().map(LogicalExpression::getExpression).toList();
+        this.status = performanceCircumstance.getStatus().getExpression();
         if (performanceCircumstance.hasResult()) {
             this.result = anfRepo.getMeasureRepository().save(new MeasureModel(performanceCircumstance.getResult()));
         }
-        this.healthRisk = performanceCircumstance.getHealthRisk();
+        this.healthRisk = performanceCircumstance.getHealthRisk().getExpression();
 
         if (performanceCircumstance.hasNormalRange()) {
             this.normalRange =

@@ -45,7 +45,7 @@ public class PractitionerModel {
      */
     public PractitionerModel(cdx.opencdx.grpc.data.Practitioner practitioner) {
         this.practitionerValue = practitioner.getPractitionerValue();
-        this.code = practitioner.getCode();
+        this.code = practitioner.getCode().getExpression();
     }
 
 }

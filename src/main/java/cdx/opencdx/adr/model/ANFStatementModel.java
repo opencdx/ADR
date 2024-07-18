@@ -113,9 +113,9 @@ public class ANFStatementModel {
                     anfRepo.getParticipantRepository().save(new ParticipantModel(anfStatement.getSubjectOfRecord()));
         }
 
-        this.subjectOfInformation = anfStatement.getSubjectOfInformation();
-        this.topic = anfStatement.getTopic();
-        this.type = anfStatement.getType();
+        this.subjectOfInformation = anfStatement.getSubjectOfInformation().getExpression();
+        this.topic = anfStatement.getTopic().getExpression();
+        this.type = anfStatement.getType().getExpression();
         this.authors = anfStatement.getAuthorsList().stream()
                 .map(PractitionerModel::new)
                 .map(practitioner -> anfRepo.getPractitionerRepository().save(practitioner))

@@ -45,6 +45,6 @@ public class ParticipantModel {
      */
     public ParticipantModel(cdx.opencdx.grpc.data.Participant participant) {
         this.practitionerValue = participant.getPractitionerValue();
-        this.code = participant.getCode();
+        this.code = participant.getCode().getExpression();
     }
 }
