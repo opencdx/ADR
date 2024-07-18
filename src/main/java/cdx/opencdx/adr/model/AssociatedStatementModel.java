@@ -1,48 +1,36 @@
-/*
- * Copyright 2024 Safe Health Systems, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package cdx.opencdx.adr.model;
 
+import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.grpc.data.AssociatedStatement;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * This class is a model for the associated statement.
- */
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Getter
 @Setter
-@Table(name = "dimassociatedstatement")
 @Entity
+@Table(name = "dimassociatedstatement")
 public class AssociatedStatementModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimassociatedstatement_id_gen")
+    @SequenceGenerator(name = "dimassociatedstatement_id_gen", sequenceName = "dimassociatedstatement_id_seq", allocationSize = 1)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    private String semantic;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "state_id")
+    private ReferenceModel stateId;
 
-    /**
-     * Default constructor.
-     */
-    public AssociatedStatementModel() {}
 
-    /**
-     * Constructor for the associated statement model.
-     * @param associatedStatement The associated statement.
-     */
-    public AssociatedStatementModel(cdx.opencdx.grpc.data.AssociatedStatement associatedStatement) {
-        this.semantic = associatedStatement.getSemantic().getExpression();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "semantic_id")
+    private LogicalExpressionModel semantic;
+
+    public AssociatedStatementModel(AssociatedStatement associatedStatement, ANFRepo anfRepo) {
+        this.stateId = anfRepo.getReferenceRepository().save(new ReferenceModel(associatedStatement.getId(),anfRepo));
+        this.semantic = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(associatedStatement.getSemantic(),anfRepo));
     }
 }

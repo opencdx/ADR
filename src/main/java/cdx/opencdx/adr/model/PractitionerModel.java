@@ -1,51 +1,41 @@
-/*
- * Copyright 2024 Safe Health Systems, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package cdx.opencdx.adr.model;
 
+import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.grpc.data.Participant;
+import cdx.opencdx.grpc.data.Practitioner;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * This class is a model for the practitioner.
- */
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.UUID;
+
 @Getter
 @Setter
-@Table(name = "dimpractitioner")
 @Entity
+@Table(name = "dimpractitioner")
 public class PractitionerModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimpractitioner_id_gen")
+    @SequenceGenerator(name = "dimpractitioner_id_gen", sequenceName = "dimpractitioner_id_seq", allocationSize = 1)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    private String practitionerValue;
-    private String code;
+    @Column(name = "pract_id", nullable = false)
+    private UUID practId;
 
-    /**
-     * Default constructor.
-     */
-    public PractitionerModel() {}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "practitioner_value_id")
+    private ReferenceModel practitioner;
 
-    /**
-     * Constructor for the practitioner model.
-     * @param practitioner The practitioner.
-     */
-    public PractitionerModel(cdx.opencdx.grpc.data.Practitioner practitioner) {
-        this.practitionerValue = practitioner.getPractitionerValue();
-        this.code = practitioner.getCode().getExpression();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "code_id")
+    private LogicalExpressionModel code;
+
+    public PractitionerModel(Practitioner practitioner, ANFRepo anfRepo) {
+        this.practId = UUID.fromString(practitioner.getId());
+        this.practitioner = anfRepo.getReferenceRepository().save(new ReferenceModel(practitioner.getPractitionerValue(),anfRepo));
+        this.code = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(practitioner.getCode(),anfRepo));
     }
-
 }

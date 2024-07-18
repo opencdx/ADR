@@ -34,6 +34,8 @@ public class ANFRepo {
     private final PractitionerRepository practitionerRepository;
     private final RepetitionRepository repetitionRepository;
     private final RequestCircumstanceRepository requestCircumstanceRepository;
+    private final LogicalExpressionRepository logicalExpressionRepository;
+    private final ReferenceRepository referenceRepository;
 
     /**
      * Constructor for the ANF repository.
@@ -56,7 +58,7 @@ public class ANFRepo {
             PerformanceCircumstanceRepository performanceCircumstanceRepository,
             PractitionerRepository practitionerRepository,
             RepetitionRepository repetitionRepository,
-            RequestCircumstanceRepository requestCircumstanceRepository) {
+            RequestCircumstanceRepository requestCircumstanceRepository, LogicalExpressionRepository logicalExpressionRepository, ReferenceRepository referenceRepository) {
         this.anfStatementRepository = anfStatementRepository;
         this.associatedStatementRespository = associatedStatementRespository;
         this.measureRepository = measureRepository;
@@ -66,5 +68,7 @@ public class ANFRepo {
         this.practitionerRepository = practitionerRepository;
         this.repetitionRepository = repetitionRepository;
         this.requestCircumstanceRepository = requestCircumstanceRepository;
+        this.logicalExpressionRepository = logicalExpressionRepository;
+        this.referenceRepository = referenceRepository;
     }
 }

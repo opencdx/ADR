@@ -15,11 +15,9 @@
  */
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.model.ANFStatementModel;
-import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
-import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.grpc.data.ANFStatement;
@@ -42,18 +40,16 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     private final ANFStatementRepository anfStatementRepository;
     private final List<OpenCDXANFProcessor> openCDXANFProcessors;
     private final ANFRepo anfRepo;
-    private final TinkarConceptRepository tinkarConceptRepository;
     private final ObjectMapper mapper;
 
     /**
      * Constructor taking the a PersonRepository
      */
-    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFRepo anfRepo, TinkarConceptRepository tinkarConceptRepository, ObjectMapper mapper) {
+    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFRepo anfRepo, ObjectMapper mapper) {
 
         this.anfStatementRepository = anfStatementRepository;
         this.openCDXANFProcessors = openCDXANFProcessors;
         this.anfRepo = anfRepo;
-        this.tinkarConceptRepository = tinkarConceptRepository;
         this.mapper = mapper;
 
         this.openCDXANFProcessors.stream().forEach(processor -> log.info("Processor: {}", processor.getClass().getName()));
@@ -66,35 +62,8 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      */
     @Override
     public Long storeAnfStatement(ANFStatement anfStatement) {
-        this.openCDXANFProcessors.forEach(processor -> {
-            log.info("Processing ANF Statement with processor: {}", processor.getClass().getName());
-            processor.processAnfStatement(anfStatement);
-        });
-        ANFStatementModel model = new ANFStatementModel(anfStatement, anfRepo);
+        AnfStatementModel model = new AnfStatementModel(anfStatement, anfRepo);
         return this.anfStatementRepository.save(model).getId();
     }
-
-    /** Get the ANF Statement by ID
-     * @return List of Tinkar concepts in tree form
-     */
-    public List<TinkarConceptModel> getQueryableData() {
-        return this.getChildrenInList(this.tinkarConceptRepository.findAllByParentConceptIdIsNull());
-
-    }
-
-    private List<TinkarConceptModel> getChildrenInList(List<TinkarConceptModel> parents) {
-        for (TinkarConceptModel parent : parents) {
-            parent.setChildren(this.getChildren(parent));
-            this.getChildrenInList(parent.getChildren());
-        }
-        return parents;
-
-    }
-
-    private List<TinkarConceptModel> getChildren(TinkarConceptModel parent) {
-        return this.tinkarConceptRepository.findAllByParentConceptId(parent.getConceptId());
-    }
-
-
 
 }

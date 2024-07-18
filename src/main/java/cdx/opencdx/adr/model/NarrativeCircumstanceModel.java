@@ -1,66 +1,45 @@
-/*
- * Copyright 2024 Safe Health Systems, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
-import cdx.opencdx.grpc.data.LogicalExpression;
+import cdx.opencdx.grpc.data.NarrativeCircumstance;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
-/**
- * This class is a model for the narrative circumstance.
- */
 @Getter
 @Setter
-@Table(name = "factnarrativecircumstance")
 @Entity
+@Table(name = "factnarrativecircumstance")
 public class NarrativeCircumstanceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "factnarrativecircumstance_id_gen")
+    @SequenceGenerator(name = "factnarrativecircumstance_id_gen", sequenceName = "factnarrativecircumstance_id_seq", allocationSize = 1)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "timing_id")
     private MeasureModel timing;
 
-    @ElementCollection
-    private List<String> purpose;
-
+    @Column(name = "text", length = Integer.MAX_VALUE)
     private String text;
 
-    /**
-     * Default constructor
-     */
-    public NarrativeCircumstanceModel() {}
+    @ManyToMany
+    @JoinTable(
+            name = "unionnarrativecircumstance_purpose",
+            joinColumns = @JoinColumn(name = "narrative_circumstance_id"),
+            inverseJoinColumns = @JoinColumn(name = "purpose_id"))
+    private List<LogicalExpressionModel> purposes = new LinkedList<>();
 
-    /**
-     * Constructor
-     * @param narrativeCircumstance
-     * @param anfRepo
-     */
-    public NarrativeCircumstanceModel(
-            cdx.opencdx.grpc.data.NarrativeCircumstance narrativeCircumstance, ANFRepo anfRepo) {
-        if (narrativeCircumstance.hasTiming()) {
-            this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(narrativeCircumstance.getTiming()));
-        }
-        this.purpose = narrativeCircumstance.getPurposeList().stream().map(LogicalExpression::getExpression).toList();
-        this.text = narrativeCircumstance.getText();
+    public NarrativeCircumstanceModel(NarrativeCircumstance circumstance, ANFRepo anfRepo) {
+        this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getTiming(),anfRepo));
+        this.text = circumstance.getText();
+        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(purpose,anfRepo))).toList();
     }
 
 }

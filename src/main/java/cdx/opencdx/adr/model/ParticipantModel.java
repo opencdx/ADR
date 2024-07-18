@@ -1,50 +1,40 @@
-/*
- * Copyright 2024 Safe Health Systems, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package cdx.opencdx.adr.model;
 
+import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.grpc.data.Participant;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * This class is a model for the participant.
- */
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.UUID;
+
 @Getter
 @Setter
-@Table(name = "dimparticipant")
 @Entity
+@Table(name = "dimparticipant")
 public class ParticipantModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimparticipant_id_gen")
+    @SequenceGenerator(name = "dimparticipant_id_gen", sequenceName = "dimparticipant_id_seq", allocationSize = 1)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    private String practitionerValue;
-    private String code;
+    @Column(name = "part_id", nullable = false)
+    private UUID partId;
 
-    /**
-     * Default constructor.
-     */
-    public ParticipantModel() {}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "practitioner_value_id")
+    private ReferenceModel practitioner;
 
-    /**
-     * Constructor for the participant model.
-     * @param participant The participant.
-     */
-    public ParticipantModel(cdx.opencdx.grpc.data.Participant participant) {
-        this.practitionerValue = participant.getPractitionerValue();
-        this.code = participant.getCode().getExpression();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "code_id")
+    private LogicalExpressionModel code;
+
+    public ParticipantModel(Participant participant, ANFRepo anfRepo) {
+        this.partId = UUID.fromString(participant.getId());
+        this.practitioner = anfRepo.getReferenceRepository().save(new ReferenceModel(participant.getPractitionerValue(),anfRepo));
+        this.code = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(participant.getCode(),anfRepo));
     }
 }
