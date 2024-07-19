@@ -46,13 +46,12 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      * Constructor taking the a PersonRepository
      */
     public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFRepo anfRepo, ObjectMapper mapper) {
-
         this.anfStatementRepository = anfStatementRepository;
         this.openCDXANFProcessors = openCDXANFProcessors;
         this.anfRepo = anfRepo;
         this.mapper = mapper;
 
-        this.openCDXANFProcessors.stream().forEach(processor -> log.info("Processor: {}", processor.getClass().getName()));
+        this.openCDXANFProcessors.forEach(processor -> log.info("Processor: {}", processor.getClass().getName()));
     }
 
     /**
@@ -62,6 +61,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      */
     @Override
     public Long storeAnfStatement(ANFStatement anfStatement) {
+        this.openCDXANFProcessors.forEach(processor -> processor.processAnfStatement(anfStatement));
         AnfStatementModel model = new AnfStatementModel(anfStatement, anfRepo);
         return this.anfStatementRepository.save(model).getId();
     }

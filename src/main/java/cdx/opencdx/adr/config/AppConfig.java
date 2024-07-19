@@ -1,6 +1,8 @@
 package cdx.opencdx.adr.config;
 
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
+import cdx.opencdx.adr.service.impl.ANFLogProcessor;
+import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
@@ -34,5 +36,11 @@ public class AppConfig {
         mapper.registerModule(new ProtobufClassAttributesModule());
         mapper.registerModule(new JavaTimeModule());
         return mapper;
+    }
+
+    @Bean
+    @Description("OpenCDXANFProcessors")
+    public List<OpenCDXANFProcessor> openCDXANFProcessors(ANFLogProcessor anfLogProcessor) {
+        return List.of(anfLogProcessor);
     }
 }
