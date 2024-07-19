@@ -44,23 +44,17 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
         list.addAll(anfStatement.getAuthors().stream().map(PractitionerModel::getCode).filter(Objects::nonNull).toList());
         if(anfStatement.getPerformanceCircumstance() != null) {
             list.add(anfStatement.getPerformanceCircumstance().getStatus());
-            list.add(anfStatement.getPerformanceCircumstance().getResult().getSemantic());
             list.add(anfStatement.getPerformanceCircumstance().getHealthRisk());
-            list.add(anfStatement.getPerformanceCircumstance().getNormalRange().getSemantic());
-            list.add(anfStatement.getPerformanceCircumstance().getTiming().getSemantic());
             list.addAll(anfStatement.getPerformanceCircumstance().getPurposes());
         } else if (anfStatement.getRequestCircumstance() != null) {
             list.addAll(anfStatement.getRequestCircumstance().getConditionalTrigger().stream().map(AssociatedStatementModel::getSemantic).filter(Objects::nonNull).toList());
-            list.add(anfStatement.getRequestCircumstance().getTiming().getSemantic());
             list.add(anfStatement.getRequestCircumstance().getPriority());
-            list.add(anfStatement.getRequestCircumstance().getRequestedResult().getSemantic());
             list.addAll(anfStatement.getRequestCircumstance().getPurposes());
         } else if(anfStatement.getNarrativeCircumstance() != null) {
             list.addAll(anfStatement.getNarrativeCircumstance().getPurposes());
-            list.add(anfStatement.getNarrativeCircumstance().getTiming().getSemantic());
         }
 
-        list.stream().distinct().map(expression -> this.ikmService.getInkarConceptModel(expression)).filter(Objects::nonNull).forEach(tinkar -> {
+        list.stream().distinct().map(this.ikmService::getInkarConceptModel).filter(Objects::nonNull).forEach(tinkar -> {
             if(!this.tinkarConceptRepository.existsByConceptId(tinkar.getConceptId())) {
                 this.tinkarConceptRepository.save(tinkar);
             }

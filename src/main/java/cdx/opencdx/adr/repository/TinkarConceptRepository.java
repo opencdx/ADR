@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface TinkarConceptRepository extends JpaRepository<TinkarConceptModel,Long> {
 
     boolean existsByConceptId(UUID conceptId);
+
+    TinkarConceptModel findByConceptId(UUID conceptId);
 }

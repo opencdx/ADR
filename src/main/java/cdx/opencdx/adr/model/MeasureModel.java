@@ -30,6 +30,10 @@ public class MeasureModel {
     private Boolean includeLowerBound;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unit_id")
+    private TinkarConceptModel unit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semantic_id")
     private LogicalExpressionModel semantic;
 

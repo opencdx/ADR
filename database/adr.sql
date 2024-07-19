@@ -21,6 +21,7 @@ CREATE TABLE DimMeasure (
                             include_upper_bound BOOLEAN,
                             include_lower_bound BOOLEAN,
                             semantic_id BIGINT REFERENCES DimLogicalExpression(id),
+                            unit_id BIGINT REFERENCES DimTinkarConcept(id),
                             resolution DOUBLE PRECISION
 );
 
