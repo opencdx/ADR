@@ -97,6 +97,21 @@ CREATE TABLE DimANFStatement (
                               narrative_circumstance_id BIGINT REFERENCES FactNarrativeCircumstance(id)
 );
 
+-- Tinkar Concept Table
+CREATE TABLE DimTinkarConcept (
+                              id BIGSERIAL PRIMARY KEY,
+                              concept_id UUID,
+                              concept_name TEXT,
+                              concept_description TEXT
+);
+
+-- Union Table (One-to-Many Relationships)
+CREATE TABLE UnionANFStatement_TinkarConcept (
+                                            anf_statement_id BIGINT REFERENCES DimANFStatement(id),
+                                            concept_id BIGINT REFERENCES DimTinkarConcept(id),
+                                            PRIMARY KEY (anf_statement_id, concept_id)
+);
+
 -- Union Tables (Many-to-Many Relationships)
 CREATE TABLE UnionPerformanceCircumstance_Purpose (
                                                  performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),

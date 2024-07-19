@@ -2,6 +2,7 @@ package cdx.opencdx.adr.config;
 
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.impl.ANFLogProcessor;
+import cdx.opencdx.adr.service.impl.LogicalExpressionProcessor;
 import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -40,7 +41,10 @@ public class AppConfig {
 
     @Bean
     @Description("OpenCDXANFProcessors")
-    public List<OpenCDXANFProcessor> openCDXANFProcessors(ANFLogProcessor anfLogProcessor) {
-        return List.of(anfLogProcessor);
+    public List<OpenCDXANFProcessor> openCDXANFProcessors(
+            ANFLogProcessor anfLogProcessor,
+            LogicalExpressionProcessor  logicalExpressionProcessor
+    ) {
+        return List.of(anfLogProcessor,logicalExpressionProcessor);
     }
 }
