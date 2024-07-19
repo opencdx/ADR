@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.adr.service;
 
-import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.grpc.data.ANFStatement;
 
 import java.util.List;
@@ -31,9 +30,4 @@ public interface OpenCDXAdrService {
      * @return ID of the saved statement
      */
     Long storeAnfStatement(ANFStatement anfStatement);
-
-    /** Get the ANF Statement by ID
-     * @return List of Tinkar concepts in tree form
-     */
-    List<TinkarConceptModel> getQueryableData();
 }

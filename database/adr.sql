@@ -1,178 +1,143 @@
--- Table for Measure
-CREATE TABLE DimMeasure (
-                         id BIGSERIAL PRIMARY KEY,
-                         upper_bound VARCHAR,
-                         lower_bound VARCHAR,
-                         include_upper_bound BOOLEAN,
-                         include_lower_bound BOOLEAN,
-                         semantic VARCHAR,
-                         resolution VARCHAR
+-- Participant Table
+CREATE TABLE DimReference (
+                              id BIGSERIAL PRIMARY KEY,
+                              identifier TEXT,
+                              display TEXT,
+                              reference TEXT,
+                              uri TEXT
 );
 
--- Table for Participant
+-- Practitioner Table
+CREATE TABLE DimLogicalExpression (
+                                      id BIGSERIAL PRIMARY KEY,
+                                      expression TEXT
+);
+
+-- AssociatedStatement Table
+CREATE TABLE DimMeasure (
+                            id BIGSERIAL PRIMARY KEY,
+                            upper_bound DOUBLE PRECISION,
+                            lower_bound DOUBLE PRECISION,
+                            include_upper_bound BOOLEAN,
+                            include_lower_bound BOOLEAN,
+                            semantic_id BIGINT REFERENCES DimLogicalExpression(id),
+                            resolution DOUBLE PRECISION
+);
+
+-- Reference Table
 CREATE TABLE DimParticipant (
                              id BIGSERIAL PRIMARY KEY,
-                             practitioner_value VARCHAR,
-                             code VARCHAR
+                             part_id UUID,
+                             practitioner_value_id BIGINT REFERENCES DimReference(id),
+                             code_id BIGINT REFERENCES DimLogicalExpression(id)
 );
 
--- Table for Practitioner
+-- Measure Table
 CREATE TABLE DimPractitioner (
                               id BIGSERIAL PRIMARY KEY,
-                              practitioner_value VARCHAR,
-                              code VARCHAR
+                              pract_id UUID,
+                              practitioner_value_id BIGINT REFERENCES DimReference(id),
+                              code_id BIGINT REFERENCES DimLogicalExpression(id)
 );
 
--- Table for AssociatedStatement
+-- Repetition Table
 CREATE TABLE DimAssociatedStatement (
                                      id BIGSERIAL PRIMARY KEY,
-                                     semantic VARCHAR
+                                     state_id BIGINT REFERENCES DimReference(id),
+                                     semantic_id BIGINT REFERENCES DimLogicalExpression(id)
 );
 
--- Table for Repetition
+-- LogicalExpression Table (for all logical expressions)
 CREATE TABLE DimRepetition (
                             id BIGSERIAL PRIMARY KEY,
-                            period_start INTEGER REFERENCES DimMeasure(id),
-                            period_duration INTEGER REFERENCES DimMeasure(id),
-                            event_frequency INTEGER REFERENCES DimMeasure(id),
-                            event_separation INTEGER REFERENCES DimMeasure(id),
-                            event_duration INTEGER REFERENCES DimMeasure(id)
+                            period_start_id BIGINT REFERENCES DimMeasure(id),
+                            period_duration_id BIGINT REFERENCES DimMeasure(id),
+                            event_frequency_id BIGINT REFERENCES DimMeasure(id),
+                            event_separation_id BIGINT REFERENCES DimMeasure(id),
+                            event_duration_id BIGINT REFERENCES DimMeasure(id)
 );
 
--- Table for PerformanceCircumstance
+-- PerformanceCircumstance Table
 CREATE TABLE FactPerformanceCircumstance (
                                          id BIGSERIAL PRIMARY KEY,
-                                         timing INTEGER REFERENCES DimMeasure(id),
-                                         purpose TEXT[],
-                                         status VARCHAR,
-                                         result INTEGER REFERENCES DimMeasure(id),
-                                         health_risk VARCHAR,
-                                         normal_range INTEGER REFERENCES DimMeasure(id)
+                                         timing_id BIGINT REFERENCES DimMeasure(id),
+                                         status_id BIGINT REFERENCES DimLogicalExpression(id),
+                                         result_id BIGINT REFERENCES DimMeasure(id),
+                                         health_risk_id BIGINT REFERENCES DimLogicalExpression(id),
+                                         normal_range_id BIGINT REFERENCES DimMeasure(id)
 );
 
--- Junction table for PerformanceCircumstance Participants
-CREATE TABLE UnionPerformanceCircumstanceParticipant (
-                                                     performance_circumstance_id INTEGER REFERENCES FactPerformanceCircumstance(id),
-                                                     participant_id INTEGER REFERENCES DimParticipant(id),
-                                                     PRIMARY KEY (performance_circumstance_id, participant_id)
-);
-
--- Table for RequestCircumstance
+-- RequestCircumstance Table
 CREATE TABLE FactRequestCircumstance (
                                      id BIGSERIAL PRIMARY KEY,
-                                     timing INTEGER REFERENCES DimMeasure(id),
-                                     purpose TEXT[],
-                                     priority TEXT[],
-                                     requested_result INTEGER REFERENCES DimMeasure(id),
-                                     repetition INTEGER REFERENCES DimRepetition(id)
+                                     timing_id BIGINT REFERENCES DimMeasure(id),
+                                     priority_id BIGINT REFERENCES DimLogicalExpression(id),
+                                     requested_result_id BIGINT REFERENCES DimMeasure(id),
+                                     repetition_id BIGINT REFERENCES DimRepetition(id)
 );
 
--- Junction table for RequestCircumstance Conditional Triggers
-CREATE TABLE UnionRequestCircumstanceConditionalTrigger (
-                                                        request_circumstance_id INTEGER REFERENCES FactRequestCircumstance(id),
-                                                        associated_statement_id INTEGER REFERENCES DimAssociatedStatement(id),
-                                                        PRIMARY KEY (request_circumstance_id, associated_statement_id)
-);
-
--- Junction table for RequestCircumstance Participants
-CREATE TABLE UnionRequestCircumstanceParticipant (
-                                                 request_circumstance_id INTEGER REFERENCES FactRequestCircumstance(id),
-                                                 participant_id INTEGER REFERENCES DimParticipant(id),
-                                                 PRIMARY KEY (request_circumstance_id, participant_id)
-);
-
--- Table for NarrativeCircumstance
+-- NarrativeCircumstance Table
 CREATE TABLE FactNarrativeCircumstance (
                                        id BIGSERIAL PRIMARY KEY,
-                                       timing INTEGER REFERENCES DimMeasure(id),
-                                       purpose TEXT[],
-                                       text VARCHAR
+                                       timing_id BIGINT REFERENCES DimMeasure(id),
+                                       text TEXT
 );
 
--- Table for ANFStatement
+-- ANFStatement Table (Main Table)
 CREATE TABLE DimANFStatement (
                               id BIGSERIAL PRIMARY KEY,
-                              time INTEGER REFERENCES DimMeasure(id),
-                              subject_of_record INTEGER REFERENCES DimParticipant(id),
-                              subject_of_information VARCHAR,
-                              topic VARCHAR,
-                              type VARCHAR
+                              anfId UUID NOT NULL,
+                              time_id BIGINT REFERENCES DimMeasure(id),
+                              subject_of_record_id BIGINT REFERENCES DimParticipant(id),
+                              subject_of_information_id BIGINT REFERENCES DimLogicalExpression(id),
+                              topic_id BIGINT REFERENCES DimLogicalExpression(id),
+                              type_id BIGINT REFERENCES DimLogicalExpression(id),
+                              performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),
+                              request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),
+                              narrative_circumstance_id BIGINT REFERENCES FactNarrativeCircumstance(id)
 );
 
--- Junction table for ANFStatement Authors
-CREATE TABLE UnionANFStatementAuthors (
-                                      anfstatement_id INTEGER REFERENCES DimANFStatement(id),
-                                      practitioner_id INTEGER REFERENCES DimPractitioner(id),
-                                      PRIMARY KEY (anfstatement_id, practitioner_id)
+-- Union Tables (Many-to-Many Relationships)
+CREATE TABLE UnionPerformanceCircumstance_Purpose (
+                                                 performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),
+                                                 purpose_id BIGINT REFERENCES DimLogicalExpression(id),
+                                                 PRIMARY KEY (performance_circumstance_id, purpose_id)
+);
+CREATE TABLE UnionPerformanceCircumstance_Participant (
+                                                     performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),
+                                                     participant_id BIGINT REFERENCES DimParticipant(id),
+                                                     PRIMARY KEY (performance_circumstance_id, participant_id)
+);
+CREATE TABLE UnionRequestCircumstance_Purpose (
+                                             request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),
+                                             purpose_id BIGINT REFERENCES DimLogicalExpression(id),
+                                             PRIMARY KEY (request_circumstance_id, purpose_id)
+);
+CREATE TABLE UnionRequestCircumstance_ConditionalTrigger (
+                                                        request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),
+                                                        conditional_trigger_id BIGINT REFERENCES DimAssociatedStatement(id),
+                                                        PRIMARY KEY (request_circumstance_id, conditional_trigger_id)
+);
+CREATE TABLE UnionRequestCircumstance_RequestedParticipant (
+                                                          request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),
+                                                          requested_participant_id BIGINT REFERENCES DimReference(id),
+                                                          PRIMARY KEY (request_circumstance_id, requested_participant_id)
+);
+CREATE TABLE UnionNarrativeCircumstance_Purpose (
+                                               narrative_circumstance_id BIGINT REFERENCES FactNarrativeCircumstance(id),
+                                               purpose_id BIGINT REFERENCES DimLogicalExpression(id),
+                                               PRIMARY KEY (narrative_circumstance_id, purpose_id)
 );
 
--- Junction table for ANFStatement Associated Statements
-CREATE TABLE UnionANFStatementAssociatedStatement (
-                                                  anfstatement_id INTEGER REFERENCES DimANFStatement(id),
-                                                  associated_statement_id INTEGER REFERENCES DimAssociatedStatement(id),
-                                                  PRIMARY KEY (anfstatement_id, associated_statement_id)
+CREATE TABLE UnionANFStatement_Authors (
+                                      anf_statement_id BIGINT REFERENCES DimANFStatement(id),
+                                      author_id BIGINT REFERENCES DimPractitioner(id),
+                                      PRIMARY KEY (anf_statement_id, author_id)
 );
 
--- Oneof Circumstance Choice (Performance, Request, Narrative)
-CREATE TABLE UnionANFStatementPerformanceCircumstance (
-                                                 anfstatement_id INTEGER REFERENCES DimANFStatement(id),
-                                                 performance_circumstance_id INTEGER REFERENCES FactPerformanceCircumstance(id),
-                                                 PRIMARY KEY (anfstatement_id)
-);
-CREATE TABLE UnionANFStatementRequestCircumstance (
-                                                 anfstatement_id INTEGER REFERENCES DimANFStatement(id),
-                                                 request_circumstance_id INTEGER REFERENCES FactRequestCircumstance(id),
-                                                 PRIMARY KEY (anfstatement_id)
-);
-CREATE TABLE UnionANFStatementNarrativeCircumstance (
-                                                 anfstatement_id INTEGER REFERENCES DimANFStatement(id),
-                                                 narrative_circumstance_id INTEGER REFERENCES FactNarrativeCircumstance(id),
-                                                 PRIMARY KEY (anfstatement_id)
+CREATE TABLE UnionANFStatement_AssociatedStatement (
+                                                  anf_statement_id BIGINT REFERENCES DimANFStatement(id),
+                                                  associated_statement_id BIGINT REFERENCES DimAssociatedStatement(id),
+                                                  PRIMARY KEY (anf_statement_id, associated_statement_id)
 );
 
-
--- DimMeasure
-CREATE INDEX idx_dimmeasure_semantic ON DimMeasure (semantic);
-
--- dimtinkarconcept
-CREATE TABLE dimtinkarconcept (
-                                  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-                                  concept_id UUID NOT NULL,
-                                  parent_concept_id UUID,
-                                  description TEXT,
-                                  "count" BIGINT NOT NULL
-);
-
--- DimParticipant
-CREATE INDEX idx_dimparticipant_practitioner_value ON DimParticipant (practitioner_value);
-CREATE INDEX idx_dimparticipant_code ON DimParticipant (code);
-
--- DimPractitioner
-CREATE INDEX idx_dimpractitioner_practitioner_value ON DimPractitioner (practitioner_value);
-CREATE INDEX idx_dimpractitioner_code ON DimPractitioner (code);
-
--- DimAssociatedStatement
-CREATE INDEX idx_dimassociatedstatement_semantic ON DimAssociatedStatement (semantic);
-
--- DimRepetition
-CREATE INDEX idx_dimrepetition_period_start ON DimRepetition (period_start);
-
--- FactPerformanceCircumstance
-CREATE INDEX idx_factperformancecircumstance_timing ON FactPerformanceCircumstance (timing);
-CREATE INDEX idx_factperformancecircumstance_status ON FactPerformanceCircumstance (status);
-CREATE INDEX idx_factperformancecircumstance_result ON FactPerformanceCircumstance (result);
-
--- FactRequestCircumstance
-CREATE INDEX idx_factrequestcircumstance_timing ON FactRequestCircumstance (timing);
-CREATE INDEX idx_factrequestcircumstance_priority ON FactRequestCircumstance (priority);
-
--- FactNarrativeCircumstance
-CREATE INDEX idx_factnarrativecircumstance_timing ON FactNarrativeCircumstance (timing);
-
--- DimANFStatement
-CREATE INDEX idx_dimanfstatement_time ON DimANFStatement (time);
-CREATE INDEX idx_dimanfstatement_subject_of_record ON DimANFStatement (subject_of_record);
-
-
--- Create a GIN index on the topic field
-CREATE INDEX idx_dimanfstatement_topic_fts ON DimANFStatement USING GIN (to_tsvector('english', topic));

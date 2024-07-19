@@ -51,66 +51,87 @@ class AnfControllerTest {
                         .content(
                                 """
                                     {
-                                       "time" : {
-                                         "upperBound" : "100",
-                                         "lowerBound" : "0.0",
-                                         "includeUpperBound" : true,
-                                         "includeLowerBound" : true,
-                                         "semantic" : "expression",
-                                         "resolution" : "1.0"
-                                       },
-                                       "subjectOfRecord" : {
-                                         "id" : "0df076fd-ed02-44bd-a311-b5764c53258c",
-                                         "practitionerValue" : "",
-                                         "code" : ""
-                                       },
-                                       "authors" : [ {
-                                         "id" : "668c57a6e78f91431a4e2d88",
-                                         "practitionerValue" : "practitioner",
-                                         "code" : "expression"
-                                       } ],
-                                       "subjectOfInformation" : "b8fe0c7e-e22f-478b-a88b-de1deab2c123",
-                                       "associatedStatement" : [ {
-                                         "id" : "",
-                                         "semantic" : "Associated description"
-                                       } ],
-                                       "topic" : "ffc2d03c-e34b-4d98-a9e4-f152e2b7d4b2",
-                                       "type" : "50373000",
-                                       "performanceCircumstance" : {
-                                         "timing" : {
-                                           "upperBound" : "",
-                                           "lowerBound" : "",
-                                           "includeUpperBound" : false,
-                                           "includeLowerBound" : false,
-                                           "semantic" : "",
-                                           "resolution" : ""
-                                         },
-                                         "purpose" : [ ],
-                                         "status" : "{\\"expressionType\\":\\"simple\\",\\"expressionLanguage\\":\\"local\\",\\"expressionValue\\":\\"performed\\",\\"expressionDescription\\":\\"Measurement action has been performed.\\"}",
-                                         "result" : {
-                                           "upperBound" : "120",
-                                           "lowerBound" : "90",
-                                           "includeUpperBound" : false,
-                                           "includeLowerBound" : false,
-                                           "semantic" : "",
-                                           "resolution" : "{{REPLACE_3079919224534}}"
-                                         },
-                                         "healthRisk" : "${{rules.engine.calculated[circumstanceChoice.result]}}",
-                                         "normalRange" : {
-                                           "upperBound" : "",
-                                           "lowerBound" : "",
-                                           "includeUpperBound" : false,
-                                           "includeLowerBound" : false,
-                                           "semantic" : "",
-                                           "resolution" : ""
-                                         },
-                                         "participant" : [ {
-                                           "id" : "",
-                                           "practitionerValue" : "",
-                                           "code" : ""
-                                         } ]
-                                       }
-                                     }
+                                                "id" : "UUID",
+                                                "time" : {
+                                                  "upperBound" : "1562631151",
+                                                  "lowerBound" : "1562631151",
+                                                  "includeUpperBound" : true,
+                                                  "includeLowerBound" : true,
+                                                  "semantic" : {
+                                                    "expression" : "Seconds | 1562631151"
+                                                  },
+                                                  "resolution" : "seconds"
+                                                },
+                                                "subjectOfRecord" : {
+                                                  "id" : "UUID (PatientId)",
+                                                  "practitionerValue" : "",
+                                                  "code" : {
+                                                    "expression" : "UUID (EncounterID)"
+                                                  }
+                                                },
+                                                "authors" : [ {
+                                                  "id" : "6696dcc976cf022c404529a3",
+                                                  "practitionerValue" : "practitioner",
+                                                  "code" : {
+                                                    "expression" : "expression"
+                                                  }
+                                                } ],
+                                                "subjectOfInformation" : {
+                                                  "expression" : "UUID  (PatientId)"
+                                                },
+                                                "associatedStatement" : [ {
+                                                  "id" : "",
+                                                  "semantic" : {
+                                                    "expression" : "Associated description"
+                                                  }
+                                                } ],
+                                                "topic" : {
+                                                  "expression" : "255585003 |Malignant neoplasm of liver |finding site|624008003 |Bone structure| "
+                                                },
+                                                "type" : {
+                                                  "expression" : "PERFORMANCE"
+                                                },
+                                                "performanceCircumstance" : {
+                                                  "timing" : {
+                                                    "upperBound" : "",
+                                                    "lowerBound" : "",
+                                                    "includeUpperBound" : false,
+                                                    "includeLowerBound" : false,
+                                                    "resolution" : ""
+                                                  },
+                                                  "purpose" : [ {
+                                                    "expression" : "purpose"
+                                                  } ],
+                                                  "status" : {
+                                                    "expression" : "{\\"expressionType\\":\\"simple\\",\\"expressionLanguage\\":\\"local\\",\\"expressionValue\\":\\"performed\\",\\"expressionDescription\\":\\"Measurement action has been performed.\\"}"
+                                                  },
+                                                  "result" : {
+                                                    "upperBound" : "120",
+                                                    "lowerBound" : "90",
+                                                    "includeUpperBound" : false,
+                                                    "includeLowerBound" : false,
+                                                    "semantic" : {
+                                                      "expression" : ""
+                                                    },
+                                                    "resolution" : "mmHg / cm / in / kg / m / s / L / % / etc."
+                                                  },
+                                                  "healthRisk" : {
+                                                    "expression" : "${{rules.engine.calculated[circumstanceChoice.result]}}"
+                                                  },
+                                                  "normalRange" : {
+                                                    "upperBound" : "",
+                                                    "lowerBound" : "",
+                                                    "includeUpperBound" : false,
+                                                    "includeLowerBound" : false,
+                                                    "resolution" : ""
+                                                  },
+                                                  "participant" : [ {
+                                                    "id" : "",
+                                                    "practitionerValue" : ""
+                                                  } ]
+                                                },
+                                                "status" : "STATUS_UNSPECIFIED"
+                                              }
                                 """)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

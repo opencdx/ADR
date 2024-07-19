@@ -1,100 +1,72 @@
-/*
- * Copyright 2024 Safe Health Systems, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.grpc.data.RequestCircumstance;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
-/**
- * This class is a model for the request circumstance.
- */
 @Getter
 @Setter
-@Table(name = "factrequestcircumstance")
 @Entity
+@Table(name = "factrequestcircumstance")
 public class RequestCircumstanceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "factrequestcircumstance_id_gen")
+    @SequenceGenerator(name = "factrequestcircumstance_id_gen", sequenceName = "factrequestcircumstance_id_seq", allocationSize = 1)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "timing_id")
     private MeasureModel timing;
 
-    @ElementCollection
-    private List<String> purpose;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "priority_id")
+    private LogicalExpressionModel priority;
 
-    private String priority;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "requested_result_id")
     private MeasureModel requestedResult;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "repetition_id")
     private RepetitionModel repetition;
 
     @ManyToMany
     @JoinTable(
-            name = "unionrequestCircumstanceconditionaltrigger",
+            name = "unionrequestcircumstance_conditionaltrigger",
             joinColumns = @JoinColumn(name = "request_circumstance_id"),
-            inverseJoinColumns = @JoinColumn(name = "associated_statement_id"))
-    private List<AssociatedStatementModel> conditionalTriggers;
+            inverseJoinColumns = @JoinColumn(name = "conditional_trigger_id"))
+    private List<AssociatedStatementModel> conditionalTrigger = new LinkedList<>();
 
     @ManyToMany
     @JoinTable(
-            name = "unionrequestCircumstanceparticipant",
+            name = "unionrequestcircumstance_purpose",
             joinColumns = @JoinColumn(name = "request_circumstance_id"),
-            inverseJoinColumns = @JoinColumn(name = "participant_id"))
-    private List<ParticipantModel> requestedParticipants;
+            inverseJoinColumns = @JoinColumn(name = "purpose_id"))
+    private List<LogicalExpressionModel> purposes = new LinkedList<>();
 
-    /**
-     * Default constructor.
-     */
-    public RequestCircumstanceModel() {}
 
-    /** Constructor for the request circumstance model.
-     * @param requestCircumstance The request circumstance.
-     * @param anfRepo The ANF repository.
-     */
-    public RequestCircumstanceModel(cdx.opencdx.grpc.data.RequestCircumstance requestCircumstance, ANFRepo anfRepo) {
-        if (requestCircumstance.hasTiming()) {
-            this.timing = new MeasureModel(requestCircumstance.getTiming());
-        }
-        this.purpose = requestCircumstance.getPurposeList();
-        this.priority = requestCircumstance.getPriority();
-        if (requestCircumstance.hasRequestedResult()) {
-            this.requestedResult =
-                    anfRepo.getMeasureRepository().save(new MeasureModel(requestCircumstance.getRequestedResult()));
-        }
-        if (requestCircumstance.hasRepetition()) {
-            this.repetition =
-                    anfRepo.getRepetitionRepository().save(new RepetitionModel(requestCircumstance.getRepetition(),anfRepo));
-        }
-        this.conditionalTriggers = requestCircumstance.getConditionalTriggerList().stream()
-                .map(AssociatedStatementModel::new)
-                .collect(Collectors.toList());
-        this.requestedParticipants = requestCircumstance.getRequestedParticipantList().stream()
-                .map(ParticipantModel::new)
-                .map(participant -> anfRepo.getParticipantRepository().save(participant))
-                .toList();
+    @ManyToMany
+    @JoinTable(
+            name = "unionrequestcircumstance_requestedparticipant",
+            joinColumns = @JoinColumn(name = "request_circumstance_id"),
+            inverseJoinColumns = @JoinColumn(name = "requested_participant_id"))
+    private List<ReferenceModel> requestedParticipant = new LinkedList<>();
+
+    public RequestCircumstanceModel(RequestCircumstance request, ANFRepo anfRepo) {
+        this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(request.getTiming(),anfRepo));
+        this.priority = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(request.getPriority(),anfRepo));
+        this.requestedResult = anfRepo.getMeasureRepository().save(new MeasureModel(request.getRequestedResult(),anfRepo));
+        this.repetition = anfRepo.getRepetitionRepository().save(new RepetitionModel(request.getRepetition(),anfRepo));
+        this.conditionalTrigger = request.getConditionalTriggerList().stream().map(trigger -> anfRepo.getAssociatedStatementRespository().save(new AssociatedStatementModel(trigger,anfRepo))).toList();
+        this.purposes = request.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(purpose,anfRepo))).toList();
+        this.requestedParticipant = request.getRequestedParticipantList().stream().map(participant -> anfRepo.getReferenceRepository().save(new ReferenceModel(participant,anfRepo))).toList();
     }
 }

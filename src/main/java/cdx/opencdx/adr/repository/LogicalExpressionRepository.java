@@ -1,11 +1,10 @@
 package cdx.opencdx.adr.repository;
 
-import cdx.opencdx.adr.model.ReferenceModel;
+import cdx.opencdx.adr.model.LogicalExpressionModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.*;
-
 @Repository
-public interface ReferenceRepository extends JpaRepository<ReferenceModel, Long> {
+public interface LogicalExpressionRepository extends JpaRepository<LogicalExpressionModel, Long> {
+
 }

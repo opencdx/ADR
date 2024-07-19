@@ -1,8 +1,6 @@
 package cdx.opencdx.adr.config;
 
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
-import cdx.opencdx.adr.service.impl.OpenCDXSnowmedProcessorImpl;
-import cdx.opencdx.adr.service.impl.OpenCDXTinkarProcessorImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
@@ -36,15 +34,5 @@ public class AppConfig {
         mapper.registerModule(new ProtobufClassAttributesModule());
         mapper.registerModule(new JavaTimeModule());
         return mapper;
-    }
-    /**
-     * Create a list of OpenCDXANFProcessors for use by the system.
-     * @param openCDXSnowmedProcessor
-     * @param openCDXTinkarProcessor
-     * @return List<OpenCDXANFProcessor>
-     */
-    @Bean
-    public List<OpenCDXANFProcessor> openCDXANFProcessors(OpenCDXSnowmedProcessorImpl openCDXSnowmedProcessor, OpenCDXTinkarProcessorImpl openCDXTinkarProcessor) {
-        return List.of(openCDXSnowmedProcessor, openCDXTinkarProcessor);
     }
 }

@@ -1,36 +1,41 @@
-/*
- * Copyright 2024 Safe Health Systems, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package cdx.opencdx.adr.model;
 
+import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.grpc.data.Reference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * This class is a model for the reference.
- */
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Getter
 @Setter
-@Table(name = "dimreference")
 @Entity
+@Table(name = "dimreference")
 public class ReferenceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimreference_id_gen")
+    @SequenceGenerator(name = "dimreference_id_gen", sequenceName = "dimreference_id_seq", allocationSize = 1)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    private String type;
+    @Column(name = "identifier", length = Integer.MAX_VALUE)
+    private String identifier;
 
+    @Column(name = "display", length = Integer.MAX_VALUE)
+    private String display;
+
+    @Column(name = "reference", length = Integer.MAX_VALUE)
+    private String reference;
+
+    @Column(name = "uri", length = Integer.MAX_VALUE)
+    private String uri;
+
+    public ReferenceModel(Reference reference, ANFRepo anfRepo) {
+        this.identifier = reference.getIdentifier();
+        this.display = reference.getDisplay();
+        this.reference = reference.getReference();
+        this.uri = reference.getUri();
+    }
 }
