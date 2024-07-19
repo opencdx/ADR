@@ -39,7 +39,10 @@ public class LogicalExpressionUnitProcessor implements OpenCDXANFProcessor {
         list.add(anfStatement.getTime());
         if(anfStatement.getPerformanceCircumstance() != null) {
             list.add(anfStatement.getPerformanceCircumstance().getResult());
-            list.add(anfStatement.getPerformanceCircumstance().getNormalRange());
+            if(anfStatement.getPerformanceCircumstance().getNormalRange() != null) {
+                list.add(anfStatement.getPerformanceCircumstance().getNormalRange());
+            }
+
             list.add(anfStatement.getPerformanceCircumstance().getTiming());
         } else if (anfStatement.getRequestCircumstance() != null) {
             list.add(anfStatement.getRequestCircumstance().getTiming());

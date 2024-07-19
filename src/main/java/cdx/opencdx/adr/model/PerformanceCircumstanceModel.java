@@ -60,10 +60,13 @@ public class PerformanceCircumstanceModel {
     public PerformanceCircumstanceModel(PerformanceCircumstance circumstance, ANFRepo anfRepo) {
         this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getTiming(),anfRepo));
         this.result = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getResult(),anfRepo));
-        this.normalRange = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getNormalRange(),anfRepo));
+        if(circumstance.hasNormalRange()) {
+            this.normalRange = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getNormalRange(), anfRepo));
+        }
         this.status = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(circumstance.getStatus(),anfRepo));
-        this.healthRisk = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(circumstance.getHealthRisk(),anfRepo));
-        this.healthRisk = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(circumstance.getHealthRisk(),anfRepo));
+        if(circumstance.hasHealthRisk()) {
+            this.healthRisk = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(circumstance.getHealthRisk(), anfRepo));
+        }
         this.participants = circumstance.getParticipantList().stream().map(participant -> anfRepo.getParticipantRepository().save(new ParticipantModel(participant,anfRepo))).toList();
         this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(purpose,anfRepo))).toList();
     }

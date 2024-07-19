@@ -44,7 +44,9 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
         list.addAll(anfStatement.getAuthors().stream().map(PractitionerModel::getCode).filter(Objects::nonNull).toList());
         if(anfStatement.getPerformanceCircumstance() != null) {
             list.add(anfStatement.getPerformanceCircumstance().getStatus());
-            list.add(anfStatement.getPerformanceCircumstance().getHealthRisk());
+            if(anfStatement.getPerformanceCircumstance().getHealthRisk() !=  null) {
+                list.add(anfStatement.getPerformanceCircumstance().getHealthRisk());
+            }
             list.addAll(anfStatement.getPerformanceCircumstance().getPurposes());
         } else if (anfStatement.getRequestCircumstance() != null) {
             list.addAll(anfStatement.getRequestCircumstance().getConditionalTrigger().stream().map(AssociatedStatementModel::getSemantic).filter(Objects::nonNull).toList());
