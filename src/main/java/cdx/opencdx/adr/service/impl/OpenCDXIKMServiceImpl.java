@@ -49,6 +49,11 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         this.conceptModelMap.put("258693003 | pounds (qualifier value)", new TinkarConceptModel(UUID.fromString("98999a1c-11b1-4777-a9b6-3b25482676c4"), "pounds (qualifier value)", "pounds (qualifier value)"));
         this.conceptModelMap.put("258707000 | year (qualifier value)", new TinkarConceptModel(UUID.fromString("d9036e1e-3397-4f00-a40a-021626644970"), "year (qualifier value)", "year (qualifier value)"));
         this.conceptModelMap.put("35425004 | Normal body mass index (finding)", new TinkarConceptModel(UUID.fromString("99782a3a-2e09-4482-9c4c-2213f69792e5"), "Normal body mass index (finding)", "Normal body mass index (finding)"));
+        this.conceptModelMap.put("257997001 | Seconds (qualifier value)", new TinkarConceptModel(UUID.fromString("c4e07b26-88f9-4250-803c-86463391c001"), "Seconds (qualifier value)", "Seconds (qualifier value)"));
+        this.conceptModelMap.put("116154003 | Patient (person)", new TinkarConceptModel(UUID.fromString("9f19e2d2-3992-4474-b717-e1050e3a5341"), "Patient (person)", "Patient (person)"));
+        this.conceptModelMap.put("62247001 | Family medicine specialist (occupation)", new TinkarConceptModel(UUID.fromString("4c3137e7-9215-415e-b840-5a580c275080"), "Family medicine specialist (occupation)", "Family medicine specialist (occupation)"));
+        this.conceptModelMap.put("386053000 | Evaluation procedure (procedure)", new TinkarConceptModel(UUID.fromString("12e11755-845a-4e0c-9f39-24f7386a11ae"), "Evaluation procedure (procedure)", "Evaluation procedure (procedure)"));
+        this.conceptModelMap.put("441742003 | Evaluation finding (finding)", new TinkarConceptModel(UUID.fromString("9d11d012-7e48-4738-960f-420d78262a58"), "Evaluation finding (finding)", "Evaluation finding (finding)"));
 
 
     }

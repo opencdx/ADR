@@ -56,6 +56,7 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
 
         list.stream().distinct().map(this.ikmService::getInkarConceptModel).filter(Objects::nonNull).forEach(tinkar -> {
             if(!this.tinkarConceptRepository.existsByConceptId(tinkar.getConceptId())) {
+                log.info("Saving Tinkar Concept: {}", tinkar);
                 this.tinkarConceptRepository.save(tinkar);
             }
         });

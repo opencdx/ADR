@@ -1,3 +1,11 @@
+-- Tinkar Concept Table
+CREATE TABLE DimTinkarConcept (
+                                  id BIGSERIAL PRIMARY KEY,
+                                  concept_id UUID,
+                                  concept_name TEXT,
+                                  concept_description TEXT
+);
+
 -- Participant Table
 CREATE TABLE DimReference (
                               id BIGSERIAL PRIMARY KEY,
@@ -96,14 +104,6 @@ CREATE TABLE DimANFStatement (
                               performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),
                               request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),
                               narrative_circumstance_id BIGINT REFERENCES FactNarrativeCircumstance(id)
-);
-
--- Tinkar Concept Table
-CREATE TABLE DimTinkarConcept (
-                              id BIGSERIAL PRIMARY KEY,
-                              concept_id UUID,
-                              concept_name TEXT,
-                              concept_description TEXT
 );
 
 -- Union Table (One-to-Many Relationships)
