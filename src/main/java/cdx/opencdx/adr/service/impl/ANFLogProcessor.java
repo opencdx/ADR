@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,7 +24,7 @@ public class ANFLogProcessor implements OpenCDXANFProcessor {
      * @param anfStatement
      */
     @Override
-    public void processAnfStatement(ANFStatement anfStatement) {
+    public void processAnfStatement(AnfStatementModel anfStatement) {
         try {
             log.info("Processing ANF Statement: \n{}", this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(anfStatement));
         } catch (JsonProcessingException e) {

@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service;
 
+import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.grpc.data.ANFStatement;
 
 /**
@@ -10,5 +11,5 @@ public interface OpenCDXANFProcessor {
      * Process the ANF Statement
      * @param anfStatement
      */
-    void processAnfStatement(ANFStatement anfStatement);
+    void processAnfStatement(AnfStatementModel anfStatement);
 }
