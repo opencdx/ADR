@@ -48,7 +48,33 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
       </ThreadGroup>
       <hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Thread Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">
+          <stringProp name="BeanShellSampler.query">import java.util.Date;
+import java.util.Random;
+import java.text.SimpleDateFormat;
+
+// Set the start date (January 1, 2019)
+SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
+
+// Get the current date
+Date currentDate = new Date();
+
+// Calculate the difference in milliseconds between the current date and the start date
+long diffInMillies = currentDate.getTime() - startDate.getTime();
+
+// Generate a random number of milliseconds within this range
+Random random = new Random();
+long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
+
+// Create a Date object with the random milliseconds
+Date randomDate = new Date(randomMillisSinceEpoch);
+
+// Get the epoch seconds for the random date as a double
+double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+
+// Store the random epoch seconds in a JMeter variable
+vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
+
 String jMUUID = &quot;${__UUID}&quot;;
 String anfId = &quot;${__UUID}&quot;;
 int ageT = ${__Random(1,100)};
@@ -94,8 +120,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
                 <stringProp name="Argument.value">{&#xd;
    &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
    &quot;time&quot; : {&#xd;
-     &quot;upperBound&quot; : 1.721343492E9,&#xd;
-     &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
@@ -194,8 +220,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
                 <stringProp name="Argument.value">{&#xd;
    &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
    &quot;time&quot; : {&#xd;
-     &quot;upperBound&quot; : 1.721343492E9,&#xd;
-     &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
@@ -294,8 +320,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
                 <stringProp name="Argument.value">{&#xd;
    &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
    &quot;time&quot; : {&#xd;
-     &quot;upperBound&quot; : 1.721343492E9,&#xd;
-     &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
@@ -394,8 +420,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
                 <stringProp name="Argument.value">{&#xd;
    &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
    &quot;time&quot; : {&#xd;
-     &quot;upperBound&quot; : 1.721343492E9,&#xd;
-     &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
