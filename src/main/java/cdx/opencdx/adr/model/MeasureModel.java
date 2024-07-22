@@ -4,16 +4,17 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.Measure;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "dimmeasure")
 public class MeasureModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimmeasure_id_gen")
-    @SequenceGenerator(name = "dimmeasure_id_gen", sequenceName = "dimmeasure_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -28,6 +29,10 @@ public class MeasureModel {
 
     @Column(name = "include_lower_bound")
     private Boolean includeLowerBound;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unit_id")
+    private TinkarConceptModel unit;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semantic_id")

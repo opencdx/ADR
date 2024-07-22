@@ -4,6 +4,7 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.Reference;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
@@ -12,11 +13,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "dimreference")
 public class ReferenceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimreference_id_gen")
-    @SequenceGenerator(name = "dimreference_id_gen", sequenceName = "dimreference_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

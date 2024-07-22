@@ -4,6 +4,7 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.NarrativeCircumstance;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
@@ -14,11 +15,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "factnarrativecircumstance")
 public class NarrativeCircumstanceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "factnarrativecircumstance_id_gen")
-    @SequenceGenerator(name = "factnarrativecircumstance_id_gen", sequenceName = "factnarrativecircumstance_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

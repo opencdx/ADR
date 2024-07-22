@@ -4,16 +4,17 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.Repetition;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "dimrepetition")
 public class RepetitionModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimrepetition_id_gen")
-    @SequenceGenerator(name = "dimrepetition_id_gen", sequenceName = "dimrepetition_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

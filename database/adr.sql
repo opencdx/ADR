@@ -1,3 +1,11 @@
+-- Tinkar Concept Table
+CREATE TABLE DimTinkarConcept (
+                                  id BIGSERIAL PRIMARY KEY,
+                                  concept_id UUID,
+                                  concept_name TEXT,
+                                  concept_description TEXT
+);
+
 -- Participant Table
 CREATE TABLE DimReference (
                               id BIGSERIAL PRIMARY KEY,
@@ -21,6 +29,7 @@ CREATE TABLE DimMeasure (
                             include_upper_bound BOOLEAN,
                             include_lower_bound BOOLEAN,
                             semantic_id BIGINT REFERENCES DimLogicalExpression(id),
+                            unit_id BIGINT REFERENCES DimTinkarConcept(id),
                             resolution DOUBLE PRECISION
 );
 
@@ -95,6 +104,13 @@ CREATE TABLE DimANFStatement (
                               performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),
                               request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),
                               narrative_circumstance_id BIGINT REFERENCES FactNarrativeCircumstance(id)
+);
+
+-- Union Table (One-to-Many Relationships)
+CREATE TABLE UnionANFStatement_TinkarConcept (
+                                            anf_statement_id BIGINT REFERENCES DimANFStatement(id),
+                                            concept_id BIGINT REFERENCES DimTinkarConcept(id),
+                                            PRIMARY KEY (anf_statement_id, concept_id)
 );
 
 -- Union Tables (Many-to-Many Relationships)

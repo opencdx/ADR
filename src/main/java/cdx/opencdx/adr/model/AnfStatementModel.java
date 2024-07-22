@@ -4,6 +4,7 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.ANFStatement;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.*;
@@ -11,11 +12,11 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "dimanfstatement")
 public class AnfStatementModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimanfstatement_id_gen")
-    @SequenceGenerator(name = "dimanfstatement_id_gen", sequenceName = "dimanfstatement_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

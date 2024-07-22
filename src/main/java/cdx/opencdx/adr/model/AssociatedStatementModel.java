@@ -4,6 +4,7 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.AssociatedStatement;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
@@ -12,11 +13,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "dimassociatedstatement")
 public class AssociatedStatementModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimassociatedstatement_id_gen")
-    @SequenceGenerator(name = "dimassociatedstatement_id_gen", sequenceName = "dimassociatedstatement_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

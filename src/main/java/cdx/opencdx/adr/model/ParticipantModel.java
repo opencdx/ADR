@@ -4,6 +4,7 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.Participant;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
@@ -13,11 +14,11 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "dimparticipant")
 public class ParticipantModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimparticipant_id_gen")
-    @SequenceGenerator(name = "dimparticipant_id_gen", sequenceName = "dimparticipant_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

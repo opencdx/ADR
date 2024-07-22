@@ -38,7 +38,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">stoptestnow</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -92,14 +92,14 @@ vars.put(&quot;anf_id&quot;,anfId)
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;81170007 | Second (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
    &quot;subjectOfRecord&quot; : {&#xd;
      &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
      &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : &quot;363698007 |National identifier|&quot;&#xd;
+       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
      }&#xd;
    },&#xd;
    &quot;authors&quot; : [ {&#xd;
@@ -111,11 +111,11 @@ vars.put(&quot;anf_id&quot;,anfId)
        &quot;uri&quot; : &quot;http://example.com&quot;&#xd;
      },&#xd;
      &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : &quot;311287001 | General practitioner (role)&quot;&#xd;
+       &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
      }&#xd;
    } ],&#xd;
    &quot;subjectOfInformation&quot; : {&#xd;
-     &quot;expression&quot; : &quot;${nationalHealthID} |Identifier| : 363704007 |Associated with| = 363698007 |National identifier|&quot;&#xd;
+     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
@@ -131,15 +131,15 @@ vars.put(&quot;anf_id&quot;,anfId)
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;81170007 | Second (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 |Evaluation procedure (procedure)|&quot;&#xd;
+       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;260271001 | Completed (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : 22.0,&#xd;
@@ -147,14 +147,14 @@ vars.put(&quot;anf_id&quot;,anfId)
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;258707000 | Year (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;258707000 | year (qualifier value)&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;participant&quot; : [ {&#xd;
        &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
        &quot;code&quot; : {&#xd;
-         &quot;expression&quot; : &quot;311287001 | General practitioner (role)&quot;&#xd;
+         &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
        }&#xd;
      } ]&#xd;
    },&#xd;

@@ -4,6 +4,7 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.RequestCircumstance;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
@@ -14,11 +15,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "factrequestcircumstance")
 public class RequestCircumstanceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "factrequestcircumstance_id_gen")
-    @SequenceGenerator(name = "factrequestcircumstance_id_gen", sequenceName = "factrequestcircumstance_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
