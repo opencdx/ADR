@@ -5,6 +5,7 @@ import cdx.opencdx.grpc.data.Participant;
 import cdx.opencdx.grpc.data.Practitioner;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "dimpractitioner")
 public class PractitionerModel {
     @Id

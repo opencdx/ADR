@@ -62,6 +62,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     @Override
     public Long storeAnfStatement(ANFStatement anfStatement) {
         AnfStatementModel model =  this.anfStatementRepository.save(new AnfStatementModel(anfStatement, anfRepo));
+        this.anfStatementRepository.flush();
         this.openCDXANFProcessors.forEach(processor -> processor.processAnfStatement(model));
         return model.getId();
     }

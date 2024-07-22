@@ -1,9 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.model.AnfStatementModel;
-import cdx.opencdx.adr.model.AssociatedStatementModel;
-import cdx.opencdx.adr.model.LogicalExpressionModel;
-import cdx.opencdx.adr.model.PractitionerModel;
+import cdx.opencdx.adr.model.*;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.OpenCDXIKMService;
@@ -59,7 +56,19 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
         list.stream().distinct().map(this.ikmService::getInkarConceptModel).filter(Objects::nonNull).forEach(tinkar -> {
             if(!this.tinkarConceptRepository.existsByConceptId(tinkar.getConceptId())) {
                 log.info("Saving Tinkar Concept: {}", tinkar);
+                tinkar.getAnfStatements().add(anfStatement);
                 this.tinkarConceptRepository.save(tinkar);
+            } else {
+                TinkarConceptModel existingTinkar = this.tinkarConceptRepository.findByConceptId(tinkar.getConceptId());
+
+                existingTinkar.getAnfStatements().stream().filter(anf -> anf.getId().equals(anfStatement.getId())).findFirst().ifPresentOrElse(anf -> {
+                    log.info("ANF Statement already exists in Tinkar Concept: {}", anfStatement.getId());
+                }, () -> {
+                    log.info("Adding ANF Statement to existing Tinkar Concept: {}  Anf:  {}", existingTinkar.getId(), anfStatement.getId());
+                    existingTinkar.getAnfStatements().add(anfStatement);
+                    this.tinkarConceptRepository.save(existingTinkar);
+                });
+
             }
         });
     }

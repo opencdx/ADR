@@ -4,6 +4,7 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.ANFStatement;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "dimanfstatement")
 public class AnfStatementModel {
     @Id
