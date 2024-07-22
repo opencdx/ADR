@@ -19,8 +19,7 @@ import java.util.Set;
 @Table(name = "factnarrativecircumstance")
 public class NarrativeCircumstanceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "factnarrativecircumstance_id_gen")
-    @SequenceGenerator(name = "factnarrativecircumstance_id_gen", sequenceName = "factnarrativecircumstance_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

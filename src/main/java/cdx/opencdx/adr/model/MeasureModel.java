@@ -14,8 +14,7 @@ import lombok.Setter;
 @Table(name = "dimmeasure")
 public class MeasureModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimmeasure_id_gen")
-    @SequenceGenerator(name = "dimmeasure_id_gen", sequenceName = "dimmeasure_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

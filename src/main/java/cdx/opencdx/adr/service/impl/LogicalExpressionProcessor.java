@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -30,7 +31,7 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
      * @param anfStatement
      */
     @Override
-    public void processAnfStatement(AnfStatementModel anfStatement) {
+    public synchronized void processAnfStatement(AnfStatementModel anfStatement) {
         List<LogicalExpressionModel> list = new ArrayList<>();
 
         list.addAll(anfStatement.getAssociatedStatements().stream().map(AssociatedStatementModel::getSemantic).filter(Objects::nonNull).toList());
@@ -54,22 +55,21 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
         }
 
         list.stream().distinct().map(this.ikmService::getInkarConceptModel).filter(Objects::nonNull).forEach(tinkar -> {
-            if(!this.tinkarConceptRepository.existsByConceptId(tinkar.getConceptId())) {
-                log.info("Saving Tinkar Concept: {}", tinkar);
-                tinkar.getAnfStatements().add(anfStatement);
-                this.tinkarConceptRepository.save(tinkar);
+            TinkarConceptModel work;
+            if(this.tinkarConceptRepository.existsByConceptId(tinkar.getConceptId())) {
+                work = this.tinkarConceptRepository.findByConceptId(tinkar.getConceptId());
             } else {
-                TinkarConceptModel existingTinkar = this.tinkarConceptRepository.findByConceptId(tinkar.getConceptId());
-
-                existingTinkar.getAnfStatements().stream().filter(anf -> anf.getId().equals(anfStatement.getId())).findFirst().ifPresentOrElse(anf -> {
-                    log.info("ANF Statement already exists in Tinkar Concept: {}", anfStatement.getId());
-                }, () -> {
-                    log.info("Adding ANF Statement to existing Tinkar Concept: {}  Anf:  {}", existingTinkar.getId(), anfStatement.getId());
-                    existingTinkar.getAnfStatements().add(anfStatement);
-                    this.tinkarConceptRepository.save(existingTinkar);
-                });
-
+                work = this.tinkarConceptRepository.save(tinkar);
             }
+
+            log.info("Tinkar Concept: {}", work);
+
+            Optional<AnfStatementModel> first = tinkar.getAnfStatements().stream().filter(Objects::nonNull).filter(anf -> anf.getId().equals(anfStatement.getId())).findFirst();
+            if(first.isEmpty()) {
+                tinkar.getAnfStatements().add(anfStatement);
+                this.tinkarConceptRepository.save(work);
+            }
+
         });
     }
 }

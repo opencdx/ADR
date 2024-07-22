@@ -17,8 +17,7 @@ import java.util.Set;
 @Table(name = "dimreference")
 public class ReferenceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimreference_id_gen")
-    @SequenceGenerator(name = "dimreference_id_gen", sequenceName = "dimreference_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

@@ -19,8 +19,7 @@ import java.util.UUID;
 @Table(name = "dimpractitioner")
 public class PractitionerModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimpractitioner_id_gen")
-    @SequenceGenerator(name = "dimpractitioner_id_gen", sequenceName = "dimpractitioner_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

@@ -16,8 +16,7 @@ import java.util.*;
 @Table(name = "dimanfstatement")
 public class AnfStatementModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimanfstatement_id_gen")
-    @SequenceGenerator(name = "dimanfstatement_id_gen", sequenceName = "dimanfstatement_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

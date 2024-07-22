@@ -17,8 +17,7 @@ import java.util.Set;
 @Table(name = "dimassociatedstatement")
 public class AssociatedStatementModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dimassociatedstatement_id_gen")
-    @SequenceGenerator(name = "dimassociatedstatement_id_gen", sequenceName = "dimassociatedstatement_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

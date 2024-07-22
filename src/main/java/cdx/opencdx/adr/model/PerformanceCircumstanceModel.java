@@ -19,8 +19,7 @@ import java.util.Set;
 @Table(name = "factperformancecircumstance")
 public class PerformanceCircumstanceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "factperformancecircumstance_id_gen")
-    @SequenceGenerator(name = "factperformancecircumstance_id_gen", sequenceName = "factperformancecircumstance_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
