@@ -1,2 +1,2 @@
 #!/bin/bash
-jmeter -t ./jmeter/OpenCDX.jmx
+jmeter -p "./jmeter/smoke.properties" -t ./jmeter/OpenCDX.jmx
