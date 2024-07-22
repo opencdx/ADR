@@ -31,7 +31,7 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
      * @param anfStatement
      */
     @Override
-    public synchronized void processAnfStatement(AnfStatementModel anfStatement) {
+    public void processAnfStatement(AnfStatementModel anfStatement) {
         List<LogicalExpressionModel> list = new ArrayList<>();
 
         list.addAll(anfStatement.getAssociatedStatements().stream().map(AssociatedStatementModel::getSemantic).filter(Objects::nonNull).toList());

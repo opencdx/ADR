@@ -37,6 +37,6 @@ public class PractitionerModel {
     public PractitionerModel(Practitioner practitioner, ANFRepo anfRepo) {
         this.practId = UUID.fromString(practitioner.getId());
         this.practitioner = anfRepo.getReferenceRepository().save(new ReferenceModel(practitioner.getPractitionerValue(),anfRepo));
-        this.code = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(practitioner.getCode(),anfRepo));
+        this.code = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(practitioner.getCode(),anfRepo));
     }
 }

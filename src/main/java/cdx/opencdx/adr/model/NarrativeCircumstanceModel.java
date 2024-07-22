@@ -40,7 +40,7 @@ public class NarrativeCircumstanceModel {
     public NarrativeCircumstanceModel(NarrativeCircumstance circumstance, ANFRepo anfRepo) {
         this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getTiming(),anfRepo));
         this.text = circumstance.getText();
-        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(purpose,anfRepo))).toList();
+        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(purpose,anfRepo))).toList();
     }
 
 }

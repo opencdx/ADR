@@ -63,11 +63,11 @@ public class RequestCircumstanceModel {
 
     public RequestCircumstanceModel(RequestCircumstance request, ANFRepo anfRepo) {
         this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(request.getTiming(),anfRepo));
-        this.priority = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(request.getPriority(),anfRepo));
+        this.priority = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(request.getPriority(),anfRepo));
         this.requestedResult = anfRepo.getMeasureRepository().save(new MeasureModel(request.getRequestedResult(),anfRepo));
         this.repetition = anfRepo.getRepetitionRepository().save(new RepetitionModel(request.getRepetition(),anfRepo));
         this.conditionalTrigger = request.getConditionalTriggerList().stream().map(trigger -> anfRepo.getAssociatedStatementRespository().save(new AssociatedStatementModel(trigger,anfRepo))).toList();
-        this.purposes = request.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(purpose,anfRepo))).toList();
+        this.purposes = request.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(purpose,anfRepo))).toList();
         this.requestedParticipant = request.getRequestedParticipantList().stream().map(participant -> anfRepo.getReferenceRepository().save(new ReferenceModel(participant,anfRepo))).toList();
     }
 }

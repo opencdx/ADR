@@ -32,6 +32,6 @@ public class AssociatedStatementModel {
 
     public AssociatedStatementModel(AssociatedStatement associatedStatement, ANFRepo anfRepo) {
         this.stateId = anfRepo.getReferenceRepository().save(new ReferenceModel(associatedStatement.getId(),anfRepo));
-        this.semantic = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(associatedStatement.getSemantic(),anfRepo));
+        this.semantic = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(associatedStatement.getSemantic(),anfRepo));
     }
 }

@@ -64,11 +64,11 @@ public class PerformanceCircumstanceModel {
         if(circumstance.hasNormalRange()) {
             this.normalRange = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getNormalRange(), anfRepo));
         }
-        this.status = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(circumstance.getStatus(),anfRepo));
+        this.status = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(circumstance.getStatus(),anfRepo));
         if(circumstance.hasHealthRisk()) {
-            this.healthRisk = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(circumstance.getHealthRisk(), anfRepo));
+            this.healthRisk = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(circumstance.getHealthRisk(), anfRepo));
         }
         this.participants = circumstance.getParticipantList().stream().map(participant -> anfRepo.getParticipantRepository().save(new ParticipantModel(participant,anfRepo))).toList();
-        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(purpose,anfRepo))).toList();
+        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(purpose,anfRepo))).toList();
     }
 }
