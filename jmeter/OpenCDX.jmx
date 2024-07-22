@@ -38,7 +38,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -48,13 +48,20 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
       </ThreadGroup>
       <hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Thread Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">String jMUUID = &quot;${__UUID}&quot;;
+          <stringProp name="BeanShellSampler.query">
+String jMUUID = &quot;${__UUID}&quot;;
 String anfId = &quot;${__UUID}&quot;;
+int ageT = ${__Random(1,100)};
+float heightT = ${__Random(54,84)};
+float weightT = ${__Random(100,350)};
+float bmiT = (weightT / (heightT * heightT)) * 703;
 
 vars.put(&quot;nationalHealthID&quot;,jMUUID);
-vars.put(&quot;anf_id&quot;,anfId)
-
-</stringProp>
+vars.put(&quot;anf_id&quot;,anfId);
+vars.put(&quot;age&quot;,Integer.toString(ageT));
+vars.put(&quot;height&quot;,Float.toString(heightT));
+vars.put(&quot;weight&quot;,Float.toString(weightT));
+vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
         <hashTree/>
@@ -78,7 +85,7 @@ vars.put(&quot;anf_id&quot;,anfId)
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/anf  [POST]" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="423493009 | Age at diagnosis (observable entity)" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -142,12 +149,312 @@ vars.put(&quot;anf_id&quot;,anfId)
        &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
-       &quot;upperBound&quot; : 22.0,&#xd;
-       &quot;lowerBound&quot; : 22.0,&#xd;
+       &quot;upperBound&quot; : ${age},&#xd;
+       &quot;lowerBound&quot; : ${age},&#xd;
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
          &quot;expression&quot; : &quot;258707000 | year (qualifier value)&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;participant&quot; : [ {&#xd;
+       &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+       &quot;code&quot; : {&#xd;
+         &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+       }&#xd;
+     } ]&#xd;
+   },&#xd;
+   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+ }</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/anf</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="60621009 | Body mass index (observable entity)" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+   &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
+   &quot;time&quot; : {&#xd;
+     &quot;upperBound&quot; : 1.721343492E9,&#xd;
+     &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+     &quot;includeUpperBound&quot; : true,&#xd;
+     &quot;includeLowerBound&quot; : true,&#xd;
+     &quot;semantic&quot; : {&#xd;
+       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+     },&#xd;
+     &quot;resolution&quot; : 1.0&#xd;
+   },&#xd;
+   &quot;subjectOfRecord&quot; : {&#xd;
+     &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+     }&#xd;
+   },&#xd;
+   &quot;authors&quot; : [ {&#xd;
+     &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+     &quot;practitionerValue&quot; : {&#xd;
+       &quot;identifier&quot; : &quot;123456&quot;,&#xd;
+       &quot;display&quot; : &quot;Dr. John Doe&quot;,&#xd;
+       &quot;reference&quot; : &quot;http://example.com&quot;,&#xd;
+       &quot;uri&quot; : &quot;http://example.com&quot;&#xd;
+     },&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+     }&#xd;
+   } ],&#xd;
+   &quot;subjectOfInformation&quot; : {&#xd;
+     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+   },&#xd;
+   &quot;associatedStatement&quot; : [ ],&#xd;
+   &quot;topic&quot; : {&#xd;
+     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+   },&#xd;
+   &quot;type&quot; : {&#xd;
+     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+   },&#xd;
+   &quot;performanceCircumstance&quot; : {&#xd;
+     &quot;timing&quot; : {&#xd;
+       &quot;upperBound&quot; : 1.721343492E9,&#xd;
+       &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;purpose&quot; : [ {&#xd;
+       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+     } ],&#xd;
+     &quot;status&quot; : {&#xd;
+       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+     },&#xd;
+     &quot;result&quot; : {&#xd;
+       &quot;upperBound&quot; : ${bmi},&#xd;
+       &quot;lowerBound&quot; : ${bmi},&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;participant&quot; : [ {&#xd;
+       &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+       &quot;code&quot; : {&#xd;
+         &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+       }&#xd;
+     } ]&#xd;
+   },&#xd;
+   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+ }</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/anf</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="27113001 | Body weight (observable entity)" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+   &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
+   &quot;time&quot; : {&#xd;
+     &quot;upperBound&quot; : 1.721343492E9,&#xd;
+     &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+     &quot;includeUpperBound&quot; : true,&#xd;
+     &quot;includeLowerBound&quot; : true,&#xd;
+     &quot;semantic&quot; : {&#xd;
+       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+     },&#xd;
+     &quot;resolution&quot; : 1.0&#xd;
+   },&#xd;
+   &quot;subjectOfRecord&quot; : {&#xd;
+     &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+     }&#xd;
+   },&#xd;
+   &quot;authors&quot; : [ {&#xd;
+     &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+     &quot;practitionerValue&quot; : {&#xd;
+       &quot;identifier&quot; : &quot;123456&quot;,&#xd;
+       &quot;display&quot; : &quot;Dr. John Doe&quot;,&#xd;
+       &quot;reference&quot; : &quot;http://example.com&quot;,&#xd;
+       &quot;uri&quot; : &quot;http://example.com&quot;&#xd;
+     },&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+     }&#xd;
+   } ],&#xd;
+   &quot;subjectOfInformation&quot; : {&#xd;
+     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+   },&#xd;
+   &quot;associatedStatement&quot; : [ ],&#xd;
+   &quot;topic&quot; : {&#xd;
+     &quot;expression&quot; : &quot;27113001 | Body weight (observable entity)&quot;&#xd;
+   },&#xd;
+   &quot;type&quot; : {&#xd;
+     &quot;expression&quot; : &quot;27113001 | Body weight (observable entity)&quot;&#xd;
+   },&#xd;
+   &quot;performanceCircumstance&quot; : {&#xd;
+     &quot;timing&quot; : {&#xd;
+       &quot;upperBound&quot; : 1.721343492E9,&#xd;
+       &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;purpose&quot; : [ {&#xd;
+       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+     } ],&#xd;
+     &quot;status&quot; : {&#xd;
+       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+     },&#xd;
+     &quot;result&quot; : {&#xd;
+       &quot;upperBound&quot; : ${weight},&#xd;
+       &quot;lowerBound&quot; : ${weight},&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;258693003 | pounds (qualifier value)&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;participant&quot; : [ {&#xd;
+       &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+       &quot;code&quot; : {&#xd;
+         &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+       }&#xd;
+     } ]&#xd;
+   },&#xd;
+   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+ }</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/anf</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1153637007 | Body height (observable entity))" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+   &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
+   &quot;time&quot; : {&#xd;
+     &quot;upperBound&quot; : 1.721343492E9,&#xd;
+     &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+     &quot;includeUpperBound&quot; : true,&#xd;
+     &quot;includeLowerBound&quot; : true,&#xd;
+     &quot;semantic&quot; : {&#xd;
+       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+     },&#xd;
+     &quot;resolution&quot; : 1.0&#xd;
+   },&#xd;
+   &quot;subjectOfRecord&quot; : {&#xd;
+     &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+     }&#xd;
+   },&#xd;
+   &quot;authors&quot; : [ {&#xd;
+     &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+     &quot;practitionerValue&quot; : {&#xd;
+       &quot;identifier&quot; : &quot;123456&quot;,&#xd;
+       &quot;display&quot; : &quot;Dr. John Doe&quot;,&#xd;
+       &quot;reference&quot; : &quot;http://example.com&quot;,&#xd;
+       &quot;uri&quot; : &quot;http://example.com&quot;&#xd;
+     },&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+     }&#xd;
+   } ],&#xd;
+   &quot;subjectOfInformation&quot; : {&#xd;
+     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+   },&#xd;
+   &quot;associatedStatement&quot; : [ ],&#xd;
+   &quot;topic&quot; : {&#xd;
+     &quot;expression&quot; : &quot;1153637007 | Body height (observable entity)&quot;&#xd;
+   },&#xd;
+   &quot;type&quot; : {&#xd;
+     &quot;expression&quot; : &quot;1153637007 | Body height (observable entity)&quot;&#xd;
+   },&#xd;
+   &quot;performanceCircumstance&quot; : {&#xd;
+     &quot;timing&quot; : {&#xd;
+       &quot;upperBound&quot; : 1.721343492E9,&#xd;
+       &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;purpose&quot; : [ {&#xd;
+       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+     } ],&#xd;
+     &quot;status&quot; : {&#xd;
+       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+     },&#xd;
+     &quot;result&quot; : {&#xd;
+       &quot;upperBound&quot; : ${height},&#xd;
+       &quot;lowerBound&quot; : ${height},&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;258677007 | inch (qualifier value)&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
