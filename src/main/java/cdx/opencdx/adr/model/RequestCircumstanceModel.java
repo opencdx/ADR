@@ -61,6 +61,14 @@ public class RequestCircumstanceModel {
             inverseJoinColumns = @JoinColumn(name = "requested_participant_id"))
     private List<ReferenceModel> requestedParticipant = new LinkedList<>();
 
+    @ElementCollection  // For the list of deviceIds
+    @CollectionTable(
+            name = "requestCircumstance_DeviceId",
+            joinColumns = @JoinColumn(name = "performance_circumstance_id")
+    )
+    @Column(name = "deviceId")
+    private List<String> deviceIds;
+
     public RequestCircumstanceModel(RequestCircumstance request, ANFRepo anfRepo) {
         this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(request.getTiming(),anfRepo));
         this.priority = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(request.getPriority(),anfRepo));
@@ -69,5 +77,6 @@ public class RequestCircumstanceModel {
         this.conditionalTrigger = request.getConditionalTriggerList().stream().map(trigger -> anfRepo.getAssociatedStatementRespository().save(new AssociatedStatementModel(trigger,anfRepo))).toList();
         this.purposes = request.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(purpose,anfRepo))).toList();
         this.requestedParticipant = request.getRequestedParticipantList().stream().map(participant -> anfRepo.getReferenceRepository().save(new ReferenceModel(participant,anfRepo))).toList();
+        this.deviceIds = request.getDeviceIdList();
     }
 }

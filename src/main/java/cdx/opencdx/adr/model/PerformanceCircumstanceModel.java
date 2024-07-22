@@ -7,10 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -43,6 +40,14 @@ public class PerformanceCircumstanceModel {
     @JoinColumn(name = "normal_range_id")
     private MeasureModel normalRange;
 
+    @ElementCollection  // For the list of deviceIds
+    @CollectionTable(
+            name = "performanceCircumstance_DeviceId",
+            joinColumns = @JoinColumn(name = "performance_circumstance_id")
+    )
+    @Column(name = "deviceId")
+    private List<String> deviceIds;
+
     @ManyToMany
     @JoinTable(
             name = "unionperformancecircumstance_participant",
@@ -70,5 +75,7 @@ public class PerformanceCircumstanceModel {
         }
         this.participants = circumstance.getParticipantList().stream().map(participant -> anfRepo.getParticipantRepository().save(new ParticipantModel(participant,anfRepo))).toList();
         this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(purpose,anfRepo))).toList();
+
+        this.deviceIds = circumstance.getDeviceIdList();
     }
 }

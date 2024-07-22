@@ -157,3 +157,14 @@ CREATE TABLE UnionANFStatement_AssociatedStatement (
                                                   PRIMARY KEY (anf_statement_id, associated_statement_id)
 );
 
+CREATE TABLE PerformanceCircumstance_DeviceId (
+                                                  performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),
+                                                  deviceId TEXT,
+                                                  PRIMARY KEY (performance_circumstance_id, deviceId)
+);
+
+CREATE TABLE RequestCircumstance_DeviceId (
+                                              request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),
+                                              deviceId TEXT,
+                                              PRIMARY KEY (request_circumstance_id, deviceId)
+);

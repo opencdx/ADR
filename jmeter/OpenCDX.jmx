@@ -189,7 +189,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
        &quot;code&quot; : {&#xd;
          &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
        }&#xd;
-     } ]&#xd;
+     } ],&#xd;
+     &quot;deviceid&quot; : [ ]&#xd;
    },&#xd;
    &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
  }</stringProp>
@@ -289,7 +290,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
        &quot;code&quot; : {&#xd;
          &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
        }&#xd;
-     } ]&#xd;
+     } ],&#xd;
+     &quot;deviceid&quot; : [ ]&#xd;
    },&#xd;
    &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
  }</stringProp>
@@ -389,7 +391,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
        &quot;code&quot; : {&#xd;
          &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
        }&#xd;
-     } ]&#xd;
+     } ],&#xd;
+     &quot;deviceid&quot; : [ ]&#xd;
    },&#xd;
    &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
  }</stringProp>
@@ -489,7 +492,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
        &quot;code&quot; : {&#xd;
          &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
        }&#xd;
-     } ]&#xd;
+     } ],&#xd;
+     &quot;deviceid&quot; : [ ]&#xd;
    },&#xd;
    &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
  }</stringProp>
