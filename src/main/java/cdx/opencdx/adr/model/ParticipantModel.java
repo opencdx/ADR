@@ -36,6 +36,6 @@ public class ParticipantModel {
     public ParticipantModel(Participant participant, ANFRepo anfRepo) {
         this.partId = UUID.fromString(participant.getId());
         this.practitioner = anfRepo.getReferenceRepository().save(new ReferenceModel(participant.getPractitionerValue(),anfRepo));
-        this.code = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(participant.getCode(),anfRepo));
+        this.code = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(participant.getCode(),anfRepo));
     }
 }

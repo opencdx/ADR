@@ -46,7 +46,7 @@ public class MeasureModel {
         this.lowerBound = measure.getLowerBound();
         this.includeLowerBound = measure.getIncludeLowerBound();
         this.includeUpperBound = measure.getIncludeUpperBound();
-        this.semantic = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(measure.getSemantic(),anfRepo));
+        this.semantic = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(measure.getSemantic(),anfRepo));
         this.resolution = measure.getResolution();
     }
 }

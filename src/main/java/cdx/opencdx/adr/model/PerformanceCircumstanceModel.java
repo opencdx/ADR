@@ -7,10 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -43,6 +40,14 @@ public class PerformanceCircumstanceModel {
     @JoinColumn(name = "normal_range_id")
     private MeasureModel normalRange;
 
+    @ElementCollection  // For the list of deviceIds
+    @CollectionTable(
+            name = "performanceCircumstance_DeviceId",
+            joinColumns = @JoinColumn(name = "performance_circumstance_id")
+    )
+    @Column(name = "deviceId")
+    private List<String> deviceIds;
+
     @ManyToMany
     @JoinTable(
             name = "unionperformancecircumstance_participant",
@@ -64,11 +69,13 @@ public class PerformanceCircumstanceModel {
         if(circumstance.hasNormalRange()) {
             this.normalRange = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getNormalRange(), anfRepo));
         }
-        this.status = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(circumstance.getStatus(),anfRepo));
+        this.status = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(circumstance.getStatus(),anfRepo));
         if(circumstance.hasHealthRisk()) {
-            this.healthRisk = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(circumstance.getHealthRisk(), anfRepo));
+            this.healthRisk = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(circumstance.getHealthRisk(), anfRepo));
         }
         this.participants = circumstance.getParticipantList().stream().map(participant -> anfRepo.getParticipantRepository().save(new ParticipantModel(participant,anfRepo))).toList();
-        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(purpose,anfRepo))).toList();
+        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(purpose,anfRepo))).toList();
+
+        this.deviceIds = circumstance.getDeviceIdList();
     }
 }

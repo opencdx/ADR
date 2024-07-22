@@ -6,5 +6,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LogicalExpressionRepository extends JpaRepository<LogicalExpressionModel, Long> {
+    Boolean existsByExpression(String expression);
+    LogicalExpressionModel findByExpression(String expression);
 
+    default LogicalExpressionModel saveOrFind(LogicalExpressionModel logicalExpressionModel) {
+        if(existsByExpression(logicalExpressionModel.getExpression())) {
+            return findByExpression(logicalExpressionModel.getExpression());
+        }
+
+        return save(logicalExpressionModel);
+    }
 }

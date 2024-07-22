@@ -72,9 +72,9 @@ public class AnfStatementModel {
         this.anfid = UUID.fromString(anfStatement.getId());
         this.time = anfRepo.getMeasureRepository().save(new MeasureModel(anfStatement.getTime(), anfRepo));
         this.subjectOfRecord = anfRepo.getParticipantRepository().save(new ParticipantModel(anfStatement.getSubjectOfRecord(), anfRepo));
-        this.subjectOfInformation = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(anfStatement.getSubjectOfInformation(), anfRepo));
-        this.topic = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(anfStatement.getTopic(), anfRepo));
-        this.type = anfRepo.getLogicalExpressionRepository().save(new LogicalExpressionModel(anfStatement.getType(), anfRepo));
+        this.subjectOfInformation = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(anfStatement.getSubjectOfInformation(), anfRepo));
+        this.topic = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(anfStatement.getTopic(), anfRepo));
+        this.type = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(anfStatement.getType(), anfRepo));
 
         if(anfStatement.hasPerformanceCircumstance()) {
             this.performanceCircumstance = anfRepo.getPerformanceCircumstanceRepository().save(new PerformanceCircumstanceModel(anfStatement.getPerformanceCircumstance(), anfRepo));
