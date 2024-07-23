@@ -4,7 +4,9 @@ package cdx.opencdx.adr.service;
 import cdx.opencdx.adr.dto.Query;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 public interface QueryService {
-    void processQuery(Query query, PrintWriter writer);
+
+    void processQuery(List<Query> queryDto, PrintWriter writer);
 }

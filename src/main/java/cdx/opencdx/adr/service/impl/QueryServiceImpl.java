@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.dto.JoinOperation;
 import cdx.opencdx.adr.dto.Query;
 import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.model.MeasureModel;
@@ -35,7 +36,7 @@ public class QueryServiceImpl implements QueryService {
     }
 
     @Override
-    public void processQuery(Query queryDto, PrintWriter writer) {
+    public void processQuery(List<Query> queryDto, PrintWriter writer) {
         log.info("Processing query: {}", queryDto);
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -62,13 +63,27 @@ public class QueryServiceImpl implements QueryService {
         }
     }
 
-    private static Predicate buildQuery(Query query, CriteriaBuilder cb, Root<TinkarConceptModel> root) {
-        if(query.getAnd() != null) {
-            return cb.and(cb.equal(root.get("conceptId"), query.getConceptId()), buildQuery(query.getAnd(), cb, root));
-        } else if(query.getOr() != null) {
-            return cb.or(cb.equal(root.get("conceptId"), query.getConceptId()), buildQuery(query.getOr(), cb, root));
+    private Predicate buildQuery(List<Query> query, CriteriaBuilder cb, Root<TinkarConceptModel> root) {
+        query.forEach(item -> {
+            if(item.getConceptId() != null) {
+                log.info("Adding query for conceptId: {}", item.getConceptId());
+                item.setPredicate(cb.equal(root.get("conceptId"), item.getConceptId()));
+            }
+        });
+
+        if(query.size() == 1) {
+            log.info("Returning single query: {}", query.get(0).getPredicate());
+            return query.get(0).getPredicate();
         }
-        return cb.equal(root.get("conceptId"), query.getConceptId());
+
+
+        if(query.get(1).getJoinOperation() != null && query.get(1).getJoinOperation().equals(JoinOperation.AND)) {
+            log.info("Returning AND query: {}, {}", query.get(0).getConceptId(), query.get(2).getConceptId());
+            return cb.and(query.get(0).getPredicate(), query.get(2).getPredicate());
+        } else {
+            log.info("Returning OR query: {}, {}", query.get(0).getConceptId(), query.get(2).getConceptId());
+            return cb.or(query.get(0).getPredicate(), query.get(2).getPredicate());
+        }
     }
 
     private CsvBuilder buildCsvDto(List<UUID> list, List<AnfStatementModel> results) {

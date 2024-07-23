@@ -28,7 +28,6 @@ import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -98,7 +97,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     }
 
     @Override
-    public void streamQuery(Query query, PrintWriter writer) {
+    public void streamQuery(List<Query> query, PrintWriter writer) {
         this.queryService.processQuery(query,writer);
     }
 

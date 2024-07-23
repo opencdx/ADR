@@ -36,5 +36,5 @@ public interface OpenCDXAdrService {
 
     List<TinkarConceptModel> getQueryableData();
 
-    void streamQuery(Query query, PrintWriter writer);
+    void streamQuery(List<Query> query, PrintWriter writer);
 }
