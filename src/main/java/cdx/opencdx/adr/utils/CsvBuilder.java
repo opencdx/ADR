@@ -1,7 +1,5 @@
 package cdx.opencdx.adr.utils;
 
-import cdx.opencdx.adr.dto.FieldDto;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
