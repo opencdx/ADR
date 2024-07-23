@@ -2,6 +2,7 @@ package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.LogicalExpression;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class LogicalExpressionModel {
     @Column(name = "expression", length = Integer.MAX_VALUE)
     private String expression;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tinkar_concept_id")
     private TinkarConceptModel tinkarConcept;

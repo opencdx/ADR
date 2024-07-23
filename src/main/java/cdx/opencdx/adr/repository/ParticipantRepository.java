@@ -18,7 +18,12 @@ package cdx.opencdx.adr.repository;
 import cdx.opencdx.adr.model.ParticipantModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+import java.util.UUID;
+
 /**
  * This class is a repository for the participant.
  */
-public interface ParticipantRepository extends JpaRepository<ParticipantModel, Long> {}
+public interface ParticipantRepository extends JpaRepository<ParticipantModel, Long> {
+    List<ParticipantModel> findAllByPartId(UUID uuid);
+}

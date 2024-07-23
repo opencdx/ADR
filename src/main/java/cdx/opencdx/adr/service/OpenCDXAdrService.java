@@ -15,8 +15,11 @@
  */
 package cdx.opencdx.adr.service;
 
+import cdx.opencdx.adr.dto.Query;
+import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.grpc.data.ANFStatement;
 
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -30,4 +33,8 @@ public interface OpenCDXAdrService {
      * @return ID of the saved statement
      */
     Long storeAnfStatement(ANFStatement anfStatement);
+
+    List<TinkarConceptModel> getQueryableData();
+
+    void streamQuery(Query query, PrintWriter writer);
 }
