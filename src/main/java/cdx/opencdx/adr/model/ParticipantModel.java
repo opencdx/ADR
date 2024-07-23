@@ -2,6 +2,7 @@ package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.grpc.data.Participant;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,11 @@ public class ParticipantModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "code_id")
     private LogicalExpressionModel code;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "subjectOfRecord")
+    private Set<AnfStatementModel> dimanfstatements = new LinkedHashSet<>();
+
 
     public ParticipantModel(Participant participant, ANFRepo anfRepo) {
         this.partId = UUID.fromString(participant.getId());

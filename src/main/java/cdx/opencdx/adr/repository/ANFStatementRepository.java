@@ -20,6 +20,8 @@ import cdx.opencdx.grpc.data.ANFStatement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * This class is a repository for the ANF statement.
  */

@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class TinkarConceptModel {
     @Column(name = "concept_description", length = Integer.MAX_VALUE)
     private String conceptDescription;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "unionanfstatement_tinkarconcept",
             joinColumns = @JoinColumn(name = "concept_id"),
