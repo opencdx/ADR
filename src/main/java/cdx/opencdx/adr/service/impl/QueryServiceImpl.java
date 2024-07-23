@@ -18,9 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
@@ -56,7 +54,7 @@ public class QueryServiceImpl implements QueryService {
 
         List<UUID> list = results.stream().map(anf -> anf.getSubjectOfRecord().getPartId()).distinct().toList();
 
-        CsvBuilder csvDto = buildCsvDto(list);
+        CsvBuilder csvDto = buildCsvDto(list,results);
 
         writer.println(csvDto.getHeaders());
         for(int i =0 ; i < csvDto.getRowCount(); i++) {
@@ -73,21 +71,36 @@ public class QueryServiceImpl implements QueryService {
         return cb.equal(root.get("conceptId"), query.getConceptId());
     }
 
-    private CsvBuilder buildCsvDto(List<UUID> list) {
+    private CsvBuilder buildCsvDto(List<UUID> list, List<AnfStatementModel> results) {
         CsvBuilder csvDto = new CsvBuilder();
         AtomicInteger row = new AtomicInteger();
         list.stream().forEach(uuid -> {
             csvDto.setCell( row.get(), "Participant ID", uuid.toString());
+
+            Optional<AnfStatementModel> recent = results.stream().filter(item -> item.getSubjectOfRecord().getPartId().equals(uuid)).sorted(Comparator.comparing(item -> item.getTime().getLowerBound())).findFirst();
+
+            if(recent.isPresent()) {
+                csvDto.setCell(row.get(), "Reported", new Date(recent.get().getTime().getLowerBound().longValue()).toString());
+            }
 
             ArrayList<AnfStatementModel> anfs = this.anfRepo.getParticipantRepository().findAllByPartId(uuid).stream().map(ParticipantModel::getDimanfstatements).collect(ArrayList::new, List::addAll, List::addAll);
 
             anfs.forEach(anf -> {
                 if(anf.getTopic() != null) {
                     if(anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
+                        if(anf.getPerformanceCircumstance().getTiming() != null) {
+                            csvDto.setCell(row.get(), anf.getTopic().getTinkarConcept().getConceptName() + " Reported", new Date(anf.getPerformanceCircumstance().getTiming().getLowerBound().longValue()).toString());
+                        }
                         csvDto.setCell(row.get(), anf.getTopic().getTinkarConcept().getConceptName(),  this.buildValue(anf.getPerformanceCircumstance().getResult()) );
                     } else if(anf.getRequestCircumstance() != null) {
+                        if(anf.getRequestCircumstance().getTiming() != null) {
+                            csvDto.setCell(row.get(), anf.getTopic().getTinkarConcept().getConceptName() + " Reported", new Date(anf.getRequestCircumstance().getTiming().getLowerBound().longValue()).toString());
+                        }
                         csvDto.setCell(row.get(), anf.getTopic().getTinkarConcept().getConceptName(),  this.buildValue(anf.getRequestCircumstance().getRequestedResult()));
                     } else if(anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
+                        if(anf.getNarrativeCircumstance().getTiming() != null) {
+                            csvDto.setCell(row.get(), anf.getTopic().getTinkarConcept().getConceptName() + " Reported", new Date(anf.getNarrativeCircumstance().getTiming().getLowerBound().longValue()).toString());
+                        }
                         csvDto.setCell(row.get(),anf.getTopic().getTinkarConcept().getConceptName(), anf.getNarrativeCircumstance().getText());
                     }
                 }
