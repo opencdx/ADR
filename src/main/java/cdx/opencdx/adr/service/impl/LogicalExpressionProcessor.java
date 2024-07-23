@@ -1,6 +1,7 @@
 package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.model.*;
+import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.OpenCDXIKMService;
@@ -15,14 +16,14 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
-    private final TinkarConceptRepository tinkarConceptRepository;
+    private final ANFRepo anfRepo;
 
     private final OpenCDXIKMService ikmService;
 
     public LogicalExpressionProcessor(OpenCDXIKMService ikmService,
-                                      TinkarConceptRepository tinkarConceptRepository) {
+                                      ANFRepo anfRepo) {
         this.ikmService = ikmService;
-        this.tinkarConceptRepository = tinkarConceptRepository;
+        this.anfRepo = anfRepo;
     }
 
     /**
@@ -67,18 +68,19 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
         
         TinkarConceptModel work = this.ikmService.getInkarConceptModel(model);
         
-        if(this.tinkarConceptRepository.existsByConceptId(work.getConceptId())) {
-            work = this.tinkarConceptRepository.findByConceptId(work.getConceptId());
+        if(this.anfRepo.getTinkarConceptRepository().existsByConceptId(work.getConceptId())) {
+            work = this.anfRepo.getTinkarConceptRepository().findByConceptId(work.getConceptId());
         } else {
-            work = this.tinkarConceptRepository.save(work);
+            work = this.anfRepo.getTinkarConceptRepository().save(work);
         }
-
-        log.info("Tinkar Concept: {}", work);
 
         Optional<AnfStatementModel> first = work.getAnfStatements().stream().filter(Objects::nonNull).filter(anf -> anf.getId().equals(anfStatement.getId())).findFirst();
         if(first.isEmpty()) {
             work.getAnfStatements().add(anfStatement);
-            this.tinkarConceptRepository.save(work);
+            this.anfRepo.getTinkarConceptRepository().save(work);
         }
+
+        model.setTinkarConcept(work);
+        this.anfRepo.getLogicalExpressionRepository().save(model);
     }
 }

@@ -21,6 +21,10 @@ public class LogicalExpressionModel {
     @Column(name = "expression", length = Integer.MAX_VALUE)
     private String expression;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tinkar_concept_id")
+    private TinkarConceptModel tinkarConcept;
+
     public LogicalExpressionModel(LogicalExpression logicalExpression, ANFRepo anfRepo) {
         this.expression = logicalExpression.getExpression();
     }

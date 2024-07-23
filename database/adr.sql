@@ -18,7 +18,8 @@ CREATE TABLE DimReference (
 -- Practitioner Table
 CREATE TABLE DimLogicalExpression (
                                       id BIGSERIAL PRIMARY KEY,
-                                      expression TEXT
+                                      expression TEXT,
+                                      tinkar_concept_id BIGINT REFERENCES DimTinkarConcept(id)
 );
 
 -- AssociatedStatement Table
