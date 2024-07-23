@@ -1,8 +1,10 @@
 package cdx.opencdx.adr.dto;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 public class CsvDto {
 
     List<String> headers;
@@ -20,10 +22,16 @@ public class CsvDto {
 
         int column = this.getColumn(header);
 
+        if(this.data.size() <= row ) {
+            log.info("Adding new row: {}", row);
+            log.info("Current data size: {}", this.data.size());
+            this.data.add(row, new ArrayList<>());
+            log.info("New data size: {}", this.data.size());
+        }
+
         ArrayList<FieldDto> fieldDtos = this.data.get(row);
-        if(fieldDtos == null) {
-            fieldDtos = new ArrayList<>();
-            this.data.add(row, fieldDtos);
+        if(fieldDtos.size() <= column + 2) {
+         fieldDtos.ensureCapacity(column +2);
         }
         fieldDtos.set(column, new FieldDto(value));
 

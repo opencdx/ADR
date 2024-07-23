@@ -8,6 +8,7 @@ import cdx.opencdx.adr.model.ParticipantModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.service.QueryService;
+import cdx.opencdx.adr.utils.CsvBuilder;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -55,25 +56,30 @@ public class QueryServiceImpl implements QueryService {
 
         List<UUID> list = results.stream().map(anf -> anf.getSubjectOfRecord().getPartId()).distinct().toList();
 
-        CsvDto csvDto = buildCsvDto(list);
+        CsvBuilder csvDto = buildCsvDto(list);
+
+        writer.println(csvDto.getHeaders());
+        for(int i =0 ; i < csvDto.getRowCount(); i++) {
+            writer.println(csvDto.getRow(i));
+        }
     }
 
-    private CsvDto buildCsvDto(List<UUID> list) {
-        CsvDto csvDto = new CsvDto();
+    private CsvBuilder buildCsvDto(List<UUID> list) {
+        CsvBuilder csvDto = new CsvBuilder();
         AtomicInteger row = new AtomicInteger();
         list.stream().forEach(uuid -> {
-            csvDto.writeField("Participant ID", row.get(), uuid.toString());
+            csvDto.setCell( row.get(), "Participant ID", uuid.toString());
 
             ArrayList<AnfStatementModel> anfs = this.anfRepo.getParticipantRepository().findAllByPartId(uuid).stream().map(ParticipantModel::getDimanfstatements).collect(ArrayList::new, List::addAll, List::addAll);
 
             anfs.forEach(anf -> {
                 if(anf.getTopic() != null) {
                     if(anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
-                        csvDto.writeField(anf.getTopic().getTinkarConcept().getConceptName(), row.get(), this.buildValue(anf.getPerformanceCircumstance().getResult()) );
+                        csvDto.setCell(row.get(), anf.getTopic().getTinkarConcept().getConceptName(),  this.buildValue(anf.getPerformanceCircumstance().getResult()) );
                     } else if(anf.getRequestCircumstance() != null) {
-                        csvDto.writeField(anf.getTopic().getTinkarConcept().getConceptName(), row.get(), this.buildValue(anf.getRequestCircumstance().getRequestedResult()));
+                        csvDto.setCell(row.get(), anf.getTopic().getTinkarConcept().getConceptName(),  this.buildValue(anf.getRequestCircumstance().getRequestedResult()));
                     } else if(anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
-                        csvDto.writeField(anf.getTopic().getTinkarConcept().getConceptName(), row.get(), anf.getNarrativeCircumstance().getText());
+                        csvDto.setCell(row.get(),anf.getTopic().getTinkarConcept().getConceptName(), anf.getNarrativeCircumstance().getText());
                     }
                 }
             });
@@ -88,26 +94,36 @@ public class QueryServiceImpl implements QueryService {
             return "\"\"";
         }
         StringBuilder sb = new StringBuilder();
-        if(Boolean.TRUE.equals(measure.getIncludeLowerBound())) {
-            if(measure.getLowerBound() == Double.NEGATIVE_INFINITY){
-                sb.append("INF");
-            } else {
-                sb.append(measure.getLowerBound());
-            }
-        }
-        if(measure.getIncludeLowerBound() && measure.getIncludeUpperBound()) {
-            sb.append(" - ");
-        }
-        if(Boolean.TRUE.equals(measure.getIncludeUpperBound())) {
-            if(measure.getUpperBound() == Double.POSITIVE_INFINITY){
-                sb.append("INF");
-            } else {
-                sb.append(measure.getUpperBound());
-            }
-        }
 
-        if(measure.getUnit() != null) {
-            sb.append(" ").append(measure.getUnit().getConceptName());
+        if(Boolean.TRUE.equals(measure.getIncludeLowerBound()) && Boolean.TRUE.equals(measure.getIncludeUpperBound())
+        && measure.getLowerBound() != null && measure.getUpperBound() != null && measure.getUpperBound().equals(measure.getLowerBound())) {
+            sb.append(measure.getLowerBound());
+
+            if (measure.getUnit() != null) {
+                sb.append(" ").append(measure.getUnit().getConceptName());
+            }
+        } else {
+            if (Boolean.TRUE.equals(measure.getIncludeLowerBound())) {
+                if (measure.getLowerBound() == Double.NEGATIVE_INFINITY) {
+                    sb.append("INF");
+                } else {
+                    sb.append(measure.getLowerBound());
+                }
+            }
+            if (measure.getIncludeLowerBound() && measure.getIncludeUpperBound()) {
+                sb.append(" - ");
+            }
+            if (Boolean.TRUE.equals(measure.getIncludeUpperBound())) {
+                if (measure.getUpperBound() == Double.POSITIVE_INFINITY) {
+                    sb.append("INF");
+                } else {
+                    sb.append(measure.getUpperBound());
+                }
+            }
+
+            if (measure.getUnit() != null) {
+                sb.append(" ").append(measure.getUnit().getConceptName());
+            }
         }
 
         return sb.toString();

@@ -43,7 +43,7 @@ public class QueryController {
 
     @PostMapping
     public void postQuery(@RequestBody Query query, HttpServletResponse response) throws IOException {
-        log.trace("Received query request");
+        log.info("Received query request");
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=\"generated_data.csv\"");
 
