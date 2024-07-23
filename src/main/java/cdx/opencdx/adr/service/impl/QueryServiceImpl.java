@@ -12,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class QueryServiceImpl implements QueryService {
         CriteriaQuery<TinkarConceptModel> query = cb.createQuery(TinkarConceptModel.class);
         Root<TinkarConceptModel> root = query.from(TinkarConceptModel.class);
 
-        query.where(cb.equal(root.get("conceptId"), queryDto.getConceptId()));
+        query.where(buildQuery(queryDto, cb, root));
 
         log.info("Executing query: {}", query);
 
@@ -61,6 +62,15 @@ public class QueryServiceImpl implements QueryService {
         for(int i =0 ; i < csvDto.getRowCount(); i++) {
             writer.println(csvDto.getRow(i));
         }
+    }
+
+    private static Predicate buildQuery(Query query, CriteriaBuilder cb, Root<TinkarConceptModel> root) {
+        if(query.getAnd() != null) {
+            return cb.and(cb.equal(root.get("conceptId"), query.getConceptId()), buildQuery(query.getAnd(), cb, root));
+        } else if(query.getOr() != null) {
+            return cb.or(cb.equal(root.get("conceptId"), query.getConceptId()), buildQuery(query.getOr(), cb, root));
+        }
+        return cb.equal(root.get("conceptId"), query.getConceptId());
     }
 
     private CsvBuilder buildCsvDto(List<UUID> list) {
