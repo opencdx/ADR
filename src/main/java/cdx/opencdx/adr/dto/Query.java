@@ -38,6 +38,104 @@ public class Query {
      * for a concept in your system.
      */
     private UUID conceptId;
+
+    /**
+     * The Operation class represents the comparison operators used in a query.
+     * It is an enumeration that provides constants for various comparison operations,
+     * such as greater than, less than, equal, etc.
+     *
+     * <p>
+     * This class is defined in the {@link Operation} enum and can be used in conjunction
+     * with other values defined in the enum to perform comparison operations.
+     * </p>
+     *
+     * <p>
+     * The allowed comparison operations are:
+     * <ul>
+     * <li>{@code GREATER_THAN} - Represents the greater than operator</li>
+     * <li>{@code LESS_THAN} - Represents the less than operator</li>
+     * <li>{@code GREATER_THAN_OR_EQUAL} - Represents the greater than or equal to operator</li>
+     * <li>{@code LESS_THAN_OR_EQUAL} - Represents the less than or equal to operator</li>
+     * <li>{@code EQUAL} - Represents the equal operator</li>
+     * <li>{@code NOT_EQUAL} - Represents the not equal operator</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * Usage example:
+     * <pre>
+     * {@code
+     * Operation operation = Operation.LESS_THAN;
+     * if (operation == Operation.LESS_THAN) {
+     *     // Perform some action
+     * }
+     * }
+     * </pre>
+     * </p>
+     */
+    private Operation operation;
+
+    /**
+     * The operationDouble variable represents a double value used in querying operations.
+     * It is a private field of the Query class.
+     *
+     * <p>
+     * This variable can be used in conjunction with the operation field to specify comparison operations
+     * on the conceptId field when querying.
+     * </p>
+     *
+     * Example usage:
+     *
+     * Query query = new Query();
+     * query.setOperationDouble(10.5);
+     * query.setOperation(Operation.GREATER_THAN);
+     * // This will perform a query to find conceptIds greater than 10.5
+     *
+     * query.setOperationDouble(20.0);
+     * query.setOperation(Operation.LESS_THAN_OR_EQUAL);
+     * // This will perform a query to find conceptIds less than or equal to 20.0
+     *
+     * <p>
+     * The operationDouble field should be used in conjunction with the operation field to specify
+     * the desired comparison operation.
+     * </p>
+     *
+     * <p>
+     * The possible operations for querying include greater than, less than, greater than or equal to,
+     * less than or equal to, equal to, and not equal to.
+     * </p>
+     *
+     * <p>
+     * The possible values for the operation field are defined in the Operation enum.
+     * </p>
+     *
+     * @see Query
+     * @see Operation
+     */
+    private Double operationDouble;
+
+    /**
+     * The operationText variable stores a String value representing the operation for querying.
+     * It is used in the Query class to specify the operation to be performed in the query.
+     *
+     * <p>
+     * The value of operationText should match one of the enum constants defined in the Operation enum.
+     * The Operation enum provides constants for various comparison operations such as greater than, less than, equal to, etc.
+     * </p>
+     *
+     * <p>
+     * Example usage:
+     *
+     * Query query = new Query();
+     * query.setOperationText(Operation.GREATER_THAN.toString());
+     *
+     * </p>
+     *
+     * @see Operation
+     * @see Query
+     */
+    private String operationText;
+
     /**
      * The JoinOperation represents the type of join operation to be used in a query.
      * It can have two possible values: OR and AND.
