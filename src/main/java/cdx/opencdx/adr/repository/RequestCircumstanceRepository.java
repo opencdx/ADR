@@ -19,6 +19,12 @@ import cdx.opencdx.adr.model.RequestCircumstanceModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * This class is a repository for the request circumstance.
+ * This interface represents a repository for managing instances of the {@link RequestCircumstanceModel} class.
+ * It extends the {@link JpaRepository} interface, providing basic CRUD operations.
+ * The {@code RequestCircumstanceModel} class represents a request circumstance that includes various attributes such as timing, priority, requested result, repetition, conditional
+ * trigger, and purposes.
+ *
+ * @param <T> The type of the entity (RequestCircumstanceModel) managed by this repository.
  */
-public interface RequestCircumstanceRepository extends JpaRepository<RequestCircumstanceModel, Long> {}
+public interface RequestCircumstanceRepository extends JpaRepository<RequestCircumstanceModel, Long> {
+}

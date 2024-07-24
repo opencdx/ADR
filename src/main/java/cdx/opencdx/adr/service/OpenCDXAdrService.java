@@ -23,18 +23,29 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Interface for the OpenCDXAdrService
+ * The OpenCDXAdrService interface provides methods for managing ANF statements and executing queries.
  */
 public interface OpenCDXAdrService {
-
     /**
-     * Store the ANF Statement
-     * @param anfStatement
-     * @return ID of the saved statement
+     * Stores an ANF statement in the system.
+     *
+     * @param anfStatement The ANF statement to store.
+     * @return The ID of the stored ANF statement as a {@code Long}.
      */
     Long storeAnfStatement(ANFStatement anfStatement);
 
+    /**
+     * Retrieves the queryable data.
+     *
+     * @return a list of TinkarConceptModel objects.
+     */
     List<TinkarConceptModel> getQueryableData();
 
+    /**
+     * Executes a stream query on a list of {@link Query} objects and writes the results to a {@link PrintWriter}.
+     *
+     * @param query  The list of {@link Query} objects representing the queries to be executed.
+     * @param writer The {@link PrintWriter} to which the query results will be written.
+     */
     void streamQuery(List<Query> query, PrintWriter writer);
 }

@@ -16,21 +16,46 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Controller for handling ANF statements.
+ * The AnfController class is a REST controller that handles operations related to ANF statements.
  */
 @Slf4j
 @RestController
 @RequestMapping(value = "/anf", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AnfController {
 
+    /**
+     * The variable objectMapper is used to map JSON strings to Java objects and vice versa.
+     * It is an instance of the ObjectMapper class, which is provided by the Jackson library.
+     * This variable is marked as private and final, indicating that it cannot be accessed or modified
+     * outside of the class and its value cannot be changed once assigned.
+     */
     private final ObjectMapper objectMapper;
+    /**
+     * This variable represents an instance of the OpenCDXAdrService class.
+     * <p>
+     * The OpenCDXAdrService class is responsible for providing functionality related to the OpenCDX Address Service.
+     * <p>
+     * This variable is marked as private and final to ensure that it can only be accessed and modified within the class
+     * where it is declared, and that its value cannot be changed once it is assigned.
+     * <p>
+     * Example usage:
+     * <p>
+     * OpenCDXAdrService openCDXAdrService = new OpenCDXAdrService();
+     * <p>
+     * openCDXAdrService.someMethod();
+     *
+     * @see OpenCDXAdrService
+     */
     private final OpenCDXAdrService openCDXAdrService;
 
     /**
-     * Constructor for the controller.
-     * @param objectMapper Object Mapper for conversion
-     * @param openCDXAdrService ADR Service to process
-     * @throws JsonProcessingException Exception if Object Mapper fails.
+     * This constructor initializes an instance of AnfController with the provided ObjectMapper
+     * and OpenCDXAdrService. It generates a sample ANFStatement and logs it using the provided
+     * ObjectMapper.
+     *
+     * @param objectMapper      The ObjectMapper instance used for logging the sample ANFStatement.
+     * @param openCDXAdrService The OpenCDXAdrService instance to be used.
+     * @throws JsonProcessingException If there is an error processing the ANFStatement as JSON.
      */
     public AnfController(ObjectMapper objectMapper, OpenCDXAdrService openCDXAdrService) throws JsonProcessingException {
         this.objectMapper = objectMapper;
@@ -54,7 +79,7 @@ public class AnfController {
                                 .setUri("http://example.com"))
                         .setCode(LogicalExpression.newBuilder().setExpression("311287001 | General practitioner (role)")))
                 .setSubjectOfInformation(LogicalExpression.newBuilder()
-                        .setExpression(nhId +  " |Identifier| : 363704007 |Associated with| = 363698007 |National identifier|")
+                        .setExpression(nhId + " |Identifier| : 363704007 |Associated with| = 363698007 |National identifier|")
                         .build())
                 .setTime(Measure.newBuilder()
                         .setResolution(1.0)
@@ -91,13 +116,14 @@ public class AnfController {
     }
 
     /**
-     * Post an ANF statement.
-     * @param data String data to post
-     * @return ResponseEntity<Long> with the response
-     * @throws JsonProcessingException Exception if Object Mapper fails.
+     * Posts ANF statement and stores it using OpenCDXAdrService.
+     *
+     * @param data The ANF statement data in JSON format as a string.
+     * @return A ResponseEntity object with a Long value of 0 indicating success.
+     * @throws JsonProcessingException If JSON processing fails.
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long> postANFStatement(@RequestBody String data ) throws JsonProcessingException {
+    public ResponseEntity<Long> postANFStatement(@RequestBody String data) throws JsonProcessingException {
         ANFStatement anfStatement = objectMapper.readValue(data, ANFStatement.class);
         this.openCDXAdrService.storeAnfStatement(anfStatement);
         return ResponseEntity.ok(0L);
