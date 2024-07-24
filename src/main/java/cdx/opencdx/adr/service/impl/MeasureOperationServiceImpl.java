@@ -23,21 +23,14 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      */
     @Override
     public boolean measureOperation(Operation operation, Double operationValue, MeasureModel measure) {
-        switch (operation) {
-            case GREATER_THAN:
-                return greatherThan(operationValue, getMeasureValue(measure));
-            case LESS_THAN:
-                return lessThan(operationValue, getMeasureValue(measure));
-            case GREATER_THAN_OR_EQUAL:
-                return greatherThanOrEqual(operationValue, getMeasureValue(measure));
-            case LESS_THAN_OR_EQUAL:
-                return lessThanOrEqual(operationValue, getMeasureValue(measure));
-            case EQUAL:
-                return equalValue(operationValue, getMeasureValue(measure));
-            case NOT_EQUAL:
-                return notEqualValue(operationValue, getMeasureValue(measure));
-        }
-        return false;
+        return switch (operation) {
+            case GREATER_THAN -> greatherThan(operationValue, getMeasureValue(measure));
+            case LESS_THAN -> lessThan(operationValue, getMeasureValue(measure));
+            case GREATER_THAN_OR_EQUAL -> greatherThanOrEqual(operationValue, getMeasureValue(measure));
+            case LESS_THAN_OR_EQUAL -> lessThanOrEqual(operationValue, getMeasureValue(measure));
+            case EQUAL -> equalValue(operationValue, getMeasureValue(measure));
+            case NOT_EQUAL -> notEqualValue(operationValue, getMeasureValue(measure));
+        };
     }
 
     /**
@@ -48,7 +41,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return True if the operation value is less than or equal to the upper value, otherwise false.
      */
     boolean lessThanOrEqual(Double operationValue, MeasureValue measureValue) {
-        return operationValue <= measureValue.upper;
+        return  measureValue.upper <= operationValue;
     }
 
     /**
@@ -59,7 +52,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return true if the operation value is greater than or equal to the upper bound, false otherwise.
      */
     boolean greatherThanOrEqual(Double operationValue, MeasureValue measureValue) {
-        return operationValue >= measureValue.upper;
+        return measureValue.upper >= operationValue;
     }
 
     /**
@@ -70,7 +63,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return true if the operation value is within the range, false otherwise.
      */
     boolean equalValue(Double operationValue, MeasureValue measureValue) {
-        return operationValue >= measureValue.lower && operationValue <= measureValue.upper;
+        return  measureValue.lower >= operationValue &&  measureValue.upper <= operationValue;
     }
 
     /**
@@ -81,7 +74,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return True if the operation value is not equal to the lower or upper bound and is outside the range, false otherwise.
      */
     boolean notEqualValue(Double operationValue, MeasureValue measureValue) {
-        return operationValue != measureValue.lower && operationValue != measureValue.upper
+        return !operationValue.equals(measureValue.lower) && !operationValue.equals(measureValue.upper)
                 && (operationValue < measureValue.lower || operationValue > measureValue.upper);
     }
 
@@ -93,7 +86,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return True if the operation value is greater than the upper limit, false otherwise.
      */
     boolean greatherThan(Double operationValue, MeasureValue measureValue) {
-        return operationValue > measureValue.upper;
+        return measureValue.upper > operationValue;
     }
 
     /**
@@ -104,7 +97,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return true if the operation value is less than the lower limit, false otherwise.
      */
     boolean lessThan(Double operationValue, MeasureValue measureValue) {
-        return operationValue < measureValue.lower;
+        return measureValue.lower < operationValue;
     }
 
     /**
