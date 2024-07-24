@@ -8,6 +8,7 @@ import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.service.CsvService;
 import cdx.opencdx.adr.service.QueryService;
 import cdx.opencdx.adr.utils.CsvBuilder;
+import cdx.opencdx.adr.utils.ListUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -18,9 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -31,6 +30,10 @@ public class QueryServiceImpl implements QueryService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public record ProcessingResults(List<UUID> conceptIds, List<AnfStatementModel> anfStatements) {
+    }
+
+
     public QueryServiceImpl(ANFRepo anfRepo, CsvService csvService) {
         this.anfRepo = anfRepo;
         this.csvService = csvService;
@@ -39,15 +42,13 @@ public class QueryServiceImpl implements QueryService {
     @Override
     public void processQuery(List<Query> queries, PrintWriter writer) {
         log.info("Processing query: {}", queries);
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<TinkarConceptModel> query = cb.createQuery(TinkarConceptModel.class);
-        Root<TinkarConceptModel> root = query.from(TinkarConceptModel.class);
 
+        ProcessingResults processingResults = processQuery(queries);
 
-        List<AnfStatementModel> results = getAnfStatementModels(buildQuery(queries, cb, root), query);
+        List<AnfStatementModel> results = processingResults.anfStatements;
         log.info("Found {} anf statements", results.size());
 
-        List<UUID> list = getAnfStatementUuids(results);
+        List<UUID> list = processingResults.conceptIds;
         List<String> csvContent = prepareCsvContent(list, results);
         csvContent.forEach(writer::println);
     }
@@ -79,29 +80,76 @@ public class QueryServiceImpl implements QueryService {
                 .collect(ArrayList::new, List::addAll, List::addAll);
     }
 
-    private Predicate buildQuery(List<Query> query, CriteriaBuilder cb, Root<TinkarConceptModel> root) {
-        query.forEach(item -> {
-            if (item.getConceptId() != null) {
-                log.info("Adding query for conceptId: {}", item.getConceptId());
-                item.setPredicate(cb.equal(root.get("conceptId"), item.getConceptId()));
+    private ProcessingResults processQuery(List<Query> queries) {
+
+        if (queries.size() % 2 == 0) {
+            throw new IllegalArgumentException("Malformed Query syntax");
+        }
+
+        queries.forEach(query -> {
+            if(query.getConceptId() != null) {
+                query.setAnfStatements(this.runQuery(query));
+                query.setConceptIds(this.getAnfStatementUuids(query.getAnfStatements()));
             }
         });
 
-        if (query.size() == 1) {
-            log.info("Returning single query: {}", query.get(0).getPredicate());
-            return query.get(0).getPredicate();
+        if(queries.size() == 1) {
+            return new ProcessingResults(queries.get(0).getConceptIds(), queries.get(0).getAnfStatements());
         }
+        boolean keepProcessing = true;
+        int index = 1;
 
-        if (query.get(1).getJoinOperation() != null && query.get(1).getJoinOperation().equals(JoinOperation.AND)) {
-            log.info("Returning AND query: {}, {}", query.get(0).getConceptId(), query.get(2).getConceptId());
+        do {
+            if(queries.get(index).getJoinOperation().equals(JoinOperation.AND)) {
+                ProcessingResults results = processAndResults(queries.get(index - 1), queries.get(index + 1));
+                queries.get(index+1).setConceptIds(results.conceptIds);
+                queries.get(index+1).setAnfStatements(results.anfStatements);
+            } else if(queries.get(index).getJoinOperation().equals(JoinOperation.OR)){
+                ProcessingResults results = processOrResults(queries.get(index - 1), queries.get(index + 1));
+                queries.get(index+1).setConceptIds(results.conceptIds);
+                queries.get(index+1).setAnfStatements(results.anfStatements);
+            } else {
+                throw new IllegalArgumentException("Malformed Query syntax");
+            }
 
+            if(index + 2 >= queries.size()) {
+                keepProcessing = false;
+            } else {
+                index += 2;
+            }
 
-            return cb.and(query.get(0).getPredicate(), query.get(2).getPredicate());
-        } else {
-            log.info("Returning OR query: {}, {}", query.get(0).getConceptId(), query.get(2).getConceptId());
-            return cb.or(query.get(0).getPredicate(), query.get(2).getPredicate());
-        }
+        } while(keepProcessing);
+
+        return new ProcessingResults(queries.get(queries.size() - 1).getConceptIds(), queries.get(queries.size() - 1).getAnfStatements());
     }
 
+    private ProcessingResults processOrResults(Query query1, Query query2) {
+        List<UUID> uuids = new ArrayList<>(query1.getConceptIds());
+        uuids.addAll(query2.getConceptIds());
+        List<AnfStatementModel> anfStatements = new ArrayList<>(query1.getAnfStatements());
+        anfStatements.addAll(query2.getAnfStatements());
+
+        return new ProcessingResults(uuids, anfStatements);
+    }
+
+    private ProcessingResults processAndResults(Query query1, Query query2) {
+        List<UUID> uuids = ListUtils.union(query1.getConceptIds(), query2.getConceptIds());
+        List<AnfStatementModel> anfStatements = new ArrayList<>(query1.getAnfStatements());
+        anfStatements.addAll(query2.getAnfStatements());
+
+        return new ProcessingResults(uuids, anfStatements);
+    }
+
+    private List<AnfStatementModel>  runQuery(Query query) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<TinkarConceptModel> criteriaQuery = cb.createQuery(TinkarConceptModel.class);
+        Root<TinkarConceptModel> root = criteriaQuery.from(TinkarConceptModel.class);
+
+        criteriaQuery.where(cb.equal(root.get("conceptId"), query.getConceptId()));
+
+        return entityManager.createQuery(criteriaQuery).getResultList().stream()
+                .map(TinkarConceptModel::getAnfStatements)
+                .collect(ArrayList::new, List::addAll, List::addAll);
+    }
 
 }
