@@ -42,8 +42,11 @@ public class QueryServiceImpl implements QueryService {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<TinkarConceptModel> query = cb.createQuery(TinkarConceptModel.class);
         Root<TinkarConceptModel> root = query.from(TinkarConceptModel.class);
+
+
         List<AnfStatementModel> results = getAnfStatementModels(buildQuery(queries, cb, root), query);
         log.info("Found {} anf statements", results.size());
+
         List<UUID> list = getAnfStatementUuids(results);
         List<String> csvContent = prepareCsvContent(list, results);
         csvContent.forEach(writer::println);
