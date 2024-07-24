@@ -2,6 +2,7 @@ package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.model.LogicalExpressionModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXIKMService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,15 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
      */
     private final Map<String, TinkarConceptModel> conceptModelMap;
 
+    private final TinkarConceptRepository conceptRepository;
+
     /**
      * OpenCDXIKMServiceImpl is a service class that initializes and populates a concept model map.
      * The concept model map is a mapping of concept codes to concept models.
      * Concept models contain the UUID, description, and display labels of concepts.
      */
-    public OpenCDXIKMServiceImpl() {
+    public OpenCDXIKMServiceImpl(TinkarConceptRepository conceptRepository) {
+        this.conceptRepository = conceptRepository;
         this.conceptModelMap = new HashMap<>();
 
         this.conceptModelMap.put("723010005 | Acute eruption of skin (disorder)", new TinkarConceptModel(UUID.fromString("dc12873c-8989-42f8-ac29-c2eecc3e3b69"), "Acute eruption of skin (disorder)", "Acute eruption of skin (disorder)"));
@@ -73,6 +77,22 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         this.conceptModelMap.put("441742003 | Evaluation finding (finding)", new TinkarConceptModel(UUID.fromString("9d11d012-7e48-4738-960f-420d78262a58"), "Evaluation finding (finding)", "Evaluation finding (finding)"));
 
 
+        // Inserting Conversion Topics
+        if(!this.conceptRepository.existsByConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_METER))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString(UNIT_METER), "meter (qualifier value)", "meter (qualifier value)"));
+        }
+
+        if(!this.conceptRepository.existsByConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_INCH))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString(UNIT_INCH), "inch (qualifier value)", "inch (qualifier value)"));
+        }
+
+        if(!this.conceptRepository.existsByConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_POUNDS))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString(UNIT_POUNDS), "pounds (qualifier value)", "pounds (qualifier value)"));
+        }
+
+        if(!this.conceptRepository.existsByConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_KILOGRAMS))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString(UNIT_KILOGRAMS), "kilogram (qualifier value)", "kilogram (qualifier value)"));
+        }
     }
 
     /**

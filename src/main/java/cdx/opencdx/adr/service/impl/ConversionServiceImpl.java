@@ -1,6 +1,9 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.dto.UnitOutput;
 import cdx.opencdx.adr.model.MeasureModel;
+import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.ConversionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,25 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class ConversionServiceImpl implements ConversionService {
+
+    /**
+     * Represents a Tinkar concept repository.
+     *
+     * The concept repository holds a collection of Tinkar concepts and provides
+     * methods to access and manipulate these concepts.
+     */
+    private final TinkarConceptRepository conceptRepository;
+
+
+    /**
+     * Constructs a new instance of ConversionServiceImpl with the given concept repository.
+     *
+     * @param conceptRepository the TinkarConceptRepository to be used for conversion
+     */
+    public ConversionServiceImpl(TinkarConceptRepository conceptRepository) {
+        this.conceptRepository = conceptRepository;
+    }
+
     /**
      * Converts a measure to the specified unit.
      *
@@ -35,25 +57,29 @@ public class ConversionServiceImpl implements ConversionService {
         }
 
         if(measure.getUpperBound() != null) {
-            convertedMeasure.setLowerBound(this.process(unit, measure.getUnit().getConceptId(), measure.getUpperBound()));
+            convertedMeasure.setUpperBound(this.process(unit, measure.getUnit().getConceptId(), measure.getUpperBound()));
         }
+        log.info("Looking up Concept: {}", unit);
+        convertedMeasure.setUnit(this.conceptRepository.findByConceptId(unit));
 
         return convertedMeasure;
     }
 
     /**
-     * Converts the given measure to either imperial or metric based on the value of the 'imperial' parameter.
+     * Converts the given measure to the specified unit output format.
      *
-     * @param imperial true if the measure should be converted to imperial, false if it should be converted to metric
-     * @param measure the measure to be converted
-     * @return the converted measure
+     * @param unitOutput The desired unit output format (IMPERIAL or METRIC).
+     * @param measure The measure to convert.
+     * @return The converted measure in the specified unit output format.
      */
-    public MeasureModel output(boolean imperial, MeasureModel measure) {
-        if(imperial) {
+    @Override
+    public MeasureModel output(UnitOutput unitOutput, MeasureModel measure) {
+        if(unitOutput.equals(UnitOutput.IMPERIAL)) {
             return this.convert(this.convertToImperial(measure), measure);
-        } else {
+        } else if(unitOutput.equals(UnitOutput.METRIC)) {
             return this.convert(this.convertToMetric(measure), measure);
         }
+        return measure;
     }
 
     /**

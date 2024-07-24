@@ -14,6 +14,7 @@ import java.util.UUID;
  */
 @Data
 public class Query {
+
     /**
      * The conceptId variable represents the unique identifier for a concept.
      * <p>

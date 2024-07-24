@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.adr.service;
 
+import cdx.opencdx.adr.dto.ADRQuery;
 import cdx.opencdx.adr.dto.Query;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.grpc.data.ANFStatement;
@@ -42,10 +43,10 @@ public interface OpenCDXAdrService {
     List<TinkarConceptModel> getQueryableData();
 
     /**
-     * Executes a stream query on a list of {@link Query} objects and writes the results to a {@link PrintWriter}.
+     * Streams the query results to the specified PrintWriter.
      *
-     * @param query  The list of {@link Query} objects representing the queries to be executed.
-     * @param writer The {@link PrintWriter} to which the query results will be written.
+     * @param adrQuery The ADRQuery object representing the query to be executed.
+     * @param writer   The PrintWriter object used to write the query results.
      */
-    void streamQuery(List<Query> query, PrintWriter writer);
+    void streamQuery(ADRQuery adrQuery , PrintWriter writer);
 }

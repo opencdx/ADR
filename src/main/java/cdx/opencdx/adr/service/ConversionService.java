@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service;
 
+import cdx.opencdx.adr.dto.UnitOutput;
 import cdx.opencdx.adr.model.MeasureModel;
 
 import java.util.UUID;
@@ -20,11 +21,11 @@ public interface ConversionService {
     MeasureModel convert(UUID unit, MeasureModel measure);
 
     /**
-     * This method is used to output a measure model instance in either imperial or metric units.
+     * This method is responsible for producing the output of a measure model in a specified unit of measurement.
      *
-     * @param imperial a boolean flag indicating whether to output in imperial units
-     * @param measure the measure model instance to be output
-     * @return the outputted measure model instance
+     * @param unitOutput the unit of measurement for the output
+     * @param measure the measure model to be outputted
+     * @return the measure model converted to the specified unit of measurement
      */
-    MeasureModel output(boolean imperial, MeasureModel measure);
+    MeasureModel output(UnitOutput unitOutput, MeasureModel measure);
 }

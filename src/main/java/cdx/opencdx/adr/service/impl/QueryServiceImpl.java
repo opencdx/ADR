@@ -1,8 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.dto.JoinOperation;
-import cdx.opencdx.adr.dto.Operation;
-import cdx.opencdx.adr.dto.Query;
+import cdx.opencdx.adr.dto.*;
 import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
@@ -58,33 +56,32 @@ public class QueryServiceImpl implements QueryService {
     }
 
     /**
-     * Processes the given list of queries and writes the results as CSV content to the provided PrintWriter.
+     * Processes the given ADRQuery and writes the results to the provided PrintWriter.
      *
-     * @param queries The list of queries to process.
-     * @param writer  The PrintWriter to write the CSV content to.
+     * @param adrQuery The ADRQuery to process.
+     * @param writer The PrintWriter to write the results to.
      */
     @Override
-    public void processQuery(List<Query> queries, PrintWriter writer) {
-        log.info("Processing query: {}", queries);
-
-        ProcessingResults processingResults = processQuery(queries);
+    public void processQuery(ADRQuery adrQuery, PrintWriter writer) {
+        ProcessingResults processingResults = processQuery(adrQuery.getQueries());
 
         List<AnfStatementModel> results = processingResults.anfStatements;
 
         List<UUID> list = processingResults.conceptIds;
-        List<String> csvContent = prepareCsvContent(list, results);
+        List<String> csvContent = prepareCsvContent(list, results, adrQuery.getUnitOutput());
         csvContent.forEach(writer::println);
     }
 
     /**
-     * Prepares the content of a CSV file.
+     * Prepares the content for a CSV file based on the given UUIDs, results, and unit output.
      *
-     * @param uuids   the list of UUIDs.
-     * @param results the list of AnfStatementModel objects.
-     * @return the list of strings representing the content of the CSV file.
+     * @param uuids      The list of UUIDs.
+     * @param results    The list of AnfStatementModel objects.
+     * @param unitOutput The unit output.
+     * @return The prepared CSV content as a list of strings.
      */
-    private List<String> prepareCsvContent(List<UUID> uuids, List<AnfStatementModel> results) {
-        CsvBuilder csvDto = this.csvService.buildCsvDto(uuids, results);
+    private List<String> prepareCsvContent(List<UUID> uuids, List<AnfStatementModel> results,UnitOutput unitOutput) {
+        CsvBuilder csvDto = this.csvService.buildCsvDto(uuids, results, unitOutput);
         List<String> csvContent = new ArrayList<>();
         csvContent.add(csvDto.getHeaders());
         for (int i = 0; i < csvDto.getRowCount(); i++) {
