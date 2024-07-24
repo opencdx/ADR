@@ -24,7 +24,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
     @Override
     public boolean measureOperation(Operation operation, Double operationValue, MeasureModel measure) {
         return switch (operation) {
-            case GREATER_THAN -> greatherThan(operationValue, getMeasureValue(measure));
+            case GREATER_THAN -> greaterThan(operationValue, getMeasureValue(measure));
             case LESS_THAN -> lessThan(operationValue, getMeasureValue(measure));
             case GREATER_THAN_OR_EQUAL -> greatherThanOrEqual(operationValue, getMeasureValue(measure));
             case LESS_THAN_OR_EQUAL -> lessThanOrEqual(operationValue, getMeasureValue(measure));
@@ -85,7 +85,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @param measureValue   The MeasureValue containing the upper limit.
      * @return True if the operation value is greater than the upper limit, false otherwise.
      */
-    boolean greatherThan(Double operationValue, MeasureValue measureValue) {
+    boolean greaterThan(Double operationValue, MeasureValue measureValue) {
         return measureValue.upper > operationValue;
     }
 
