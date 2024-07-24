@@ -70,7 +70,6 @@ public class QueryServiceImpl implements QueryService {
         ProcessingResults processingResults = processQuery(queries);
 
         List<AnfStatementModel> results = processingResults.anfStatements;
-        log.info("Found {} anf statements", results.size());
 
         List<UUID> list = processingResults.conceptIds;
         List<String> csvContent = prepareCsvContent(list, results);
@@ -140,7 +139,7 @@ public class QueryServiceImpl implements QueryService {
         }
 
         int index = 1;
-        while (index + 2 < queries.size()) {
+        while (index + 1 < queries.size()) {
             processByJoinOperation(queries, index);
             index += 2;
         }
@@ -239,7 +238,7 @@ public class QueryServiceImpl implements QueryService {
      * @return The processing results obtained by combining the concept IDs and ANF statements from the queries.
      */
     private ProcessingResults processAndResults(Query query1, Query query2) {
-        List<UUID> uuids = ListUtils.union(query1.getConceptIds(), query2.getConceptIds());
+        List<UUID> uuids = ListUtils.intersection(query1.getConceptIds(), query2.getConceptIds());
         List<AnfStatementModel> anfStatements = new ArrayList<>(query1.getAnfStatements());
         anfStatements.addAll(query2.getAnfStatements());
 
