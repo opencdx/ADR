@@ -18,4 +18,13 @@ public interface ConversionService {
      * @return the converted measure model instance
      */
     MeasureModel convert(UUID unit, MeasureModel measure);
+
+    /**
+     * This method is used to output a measure model instance in either imperial or metric units.
+     *
+     * @param imperial a boolean flag indicating whether to output in imperial units
+     * @param measure the measure model instance to be output
+     * @return the outputted measure model instance
+     */
+    MeasureModel output(boolean imperial, MeasureModel measure);
 }
