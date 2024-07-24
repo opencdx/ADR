@@ -227,6 +227,9 @@ public class QueryServiceImpl implements QueryService {
         List<AnfStatementModel> anfStatements = new ArrayList<>(query1.getAnfStatements());
         anfStatements.addAll(query2.getAnfStatements());
 
+        uuids = uuids.stream().distinct().toList();
+        anfStatements = anfStatements.stream().distinct().toList();
+
         return new ProcessingResults(uuids, anfStatements);
     }
 

@@ -119,6 +119,9 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
         }
     }
 
+    /**
+     * Represents a measure value range with lower and upper bounds.
+     */
     public record MeasureValue(Double lower, Double upper) {
     }
 }
