@@ -59,7 +59,7 @@ public class ConversionServiceImpl implements ConversionService {
         if(measure.getUpperBound() != null) {
             convertedMeasure.setUpperBound(this.process(unit, measure.getUnit().getConceptId(), measure.getUpperBound()));
         }
-        log.info("Looking up Concept: {}", unit);
+        
         convertedMeasure.setUnit(this.conceptRepository.findByConceptId(unit));
 
         return convertedMeasure;
