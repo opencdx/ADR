@@ -1,12 +1,16 @@
 package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.JoinOperation;
+import cdx.opencdx.adr.dto.Operation;
 import cdx.opencdx.adr.dto.Query;
 import cdx.opencdx.adr.model.AnfStatementModel;
+import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.service.CsvService;
+import cdx.opencdx.adr.service.MeasureOperationService;
 import cdx.opencdx.adr.service.QueryService;
+import cdx.opencdx.adr.service.TextOperationService;
 import cdx.opencdx.adr.utils.CsvBuilder;
 import cdx.opencdx.adr.utils.ListUtils;
 import jakarta.persistence.EntityManager;
@@ -33,6 +37,10 @@ public class QueryServiceImpl implements QueryService {
 
     private final ANFRepo anfRepo;
     private final CsvService csvService;
+    private final MeasureOperationService measureOperationService;
+    private final TextOperationService textOperationService;
+
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -42,9 +50,11 @@ public class QueryServiceImpl implements QueryService {
      * @param anfRepo    the ANFRepo object used for querying ANF data
      * @param csvService the CsvService object used for csv operations
      */
-    public QueryServiceImpl(ANFRepo anfRepo, CsvService csvService) {
+    public QueryServiceImpl(ANFRepo anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService) {
         this.anfRepo = anfRepo;
         this.csvService = csvService;
+        this.measureOperationService = measureOperationService;
+        this.textOperationService = textOperationService;
     }
 
     /**
@@ -237,12 +247,12 @@ public class QueryServiceImpl implements QueryService {
     }
 
     /**
-     * Runs a query to retrieve a list of {@link AnfStatementModel} based on the given {@link Query}.
+     * Executes a simple query to retrieve a list of {@link AnfStatementModel}.
      *
-     * @param query the query object used to filter the data
-     * @return a list of AnfStatementModel objects that match the given query
+     * @param query the query object containing the concept id to filter the results
+     * @return a list of {@link AnfStatementModel} matching the query criteria
      */
-    private List<AnfStatementModel> runQuery(Query query) {
+    private List<AnfStatementModel> runSimpleQuery(Query query) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<TinkarConceptModel> criteriaQuery = cb.createQuery(TinkarConceptModel.class);
         Root<TinkarConceptModel> root = criteriaQuery.from(TinkarConceptModel.class);
@@ -254,6 +264,49 @@ public class QueryServiceImpl implements QueryService {
                 .collect(ArrayList::new, List::addAll, List::addAll);
     }
 
+    /**
+     * Checks the operation based on the given value.
+     *
+     * @param operation the operation to be checked
+     * @param value the value parameter to be checked, can be a MeasureModel or a String
+     *
+     * @return true if the operation is successfully checked, false otherwise
+     */
+    private boolean check(Operation operation, Object operationValue,  Object value) {
+        if(value instanceof MeasureModel measure) {
+            return this.measureOperationService.measureOperation(operation, (Double)operationValue,  measure);
+        } else if(value instanceof String text) {
+            return this.textOperationService.textOperation(operation, (String) operationValue, text);
+        } return false;
+    }
+
+    /**
+     * Executes a query and returns a list of AnfStatementModel objects filtered based on query conditions.
+     *
+     * @param query The query object representing the conditions to filter the AnfStatementModel objects.
+     * @return A list of AnfStatementModel objects that match the conditions specified in the query.
+     */
+    private List<AnfStatementModel> runQuery(Query query) {
+        List<AnfStatementModel> simpleQueryResults = runSimpleQuery(query);
+
+        if(query.getOperation() == null) {
+            return simpleQueryResults;
+        }
+
+        return simpleQueryResults.stream().filter(anf -> {
+            if(anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
+                return this.check(query.getOperation(), query.getOperationDouble(), anf.getPerformanceCircumstance().getResult());
+            } else if(anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
+                return this.check(query.getOperation(), query.getOperationDouble(),  anf.getRequestCircumstance().getRequestedResult());
+            } else if(anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
+                return this.check(query.getOperation(), query.getOperationText(), anf.getNarrativeCircumstance().getText());
+            } return false;
+        }).toList();
+    }
+
+    /**
+     * Represents the result of processing certain data.
+     */
     public record ProcessingResults(List<UUID> conceptIds, List<AnfStatementModel> anfStatements) {
     }
 
