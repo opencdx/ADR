@@ -19,6 +19,12 @@ import cdx.opencdx.adr.model.RepetitionModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * This class is a repository for the repetition.
+ * This interface represents a repository for managing instances of the {@link RepetitionModel} class.
+ * It extends the {@link JpaRepository} interface, providing basic CRUD operations.
+ * The {@code RepetitionModel} class represents a repetition with various attributes such as period start, period duration,
+ * event frequency, event separation, and event duration.
+ *
+ * @param <T> The type of the entity (RepetitionModel) managed by this repository.
  */
-public interface RepetitionRepository extends JpaRepository<RepetitionModel, Long> {}
+public interface RepetitionRepository extends JpaRepository<RepetitionModel, Long> {
+}

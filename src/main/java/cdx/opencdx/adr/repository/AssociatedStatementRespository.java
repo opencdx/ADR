@@ -19,6 +19,7 @@ import cdx.opencdx.adr.model.AssociatedStatementModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * This class is a repository for the associated statement.
+ * The AssociatedStatementRespository interface extends the JpaRepository interface and is used for managing AssociatedStatementModel objects.
  */
-public interface AssociatedStatementRespository extends JpaRepository<AssociatedStatementModel, Long> {}
+public interface AssociatedStatementRespository extends JpaRepository<AssociatedStatementModel, Long> {
+}

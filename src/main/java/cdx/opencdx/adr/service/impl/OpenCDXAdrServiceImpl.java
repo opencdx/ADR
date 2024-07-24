@@ -21,40 +21,93 @@ import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
-import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
+import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.adr.service.QueryService;
 import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
+
 
 /**
- * Service for processing HelloWorld Requests
+ * This class implements the OpenCDXAdrService interface and provides methods
+ * for storing ANF statements, retrieving queryable data, and streaming queries.
+ *
+ * @see OpenCDXAdrService
  */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
+    /**
+     * The ANFStatementRepository variable represents an instance of a repository
+     * for ANF (Abstract Syntax Tree Normal Form) statements. It is a private final
+     * variable, indicating that it cannot be modified once initialized and
+     * only accessible within the class it is defined.
+     * <p>
+     * This repository provides methods to access and manipulate ANF statements,
+     * which are representations of code or expressions transformed into a specific
+     * normal form. It encapsulates the logic for storing and retrieving ANF
+     * statements, enabling the class to interact with the repository for
+     * performing operations on ANF statements.
+     * <p>
+     * This variable is generally instantiated and assigned a value using dependency
+     * injection or object creation during class initialization.
+     */
     private final ANFStatementRepository anfStatementRepository;
+    /**
+     * Represents a Tinkar concept repository.
+     */
     private final TinkarConceptRepository conceptRepository;
 
+    /**
+     *
+     */
     private final QueryService queryService;
+    /**
+     * This variable is a list of OpenCDXANFProcessors.
+     * Each OpenCDXANFProcessor represents a processor for the OpenCDXANF format.
+     * The list is final, meaning it cannot be reassigned to a new instance once initialized.
+     *
+     * @see OpenCDXANFProcessor
+     */
     private final List<OpenCDXANFProcessor> openCDXANFProcessors;
+    /**
+     * This private final variable represents an instance of ANFRepo.
+     * ANFRepo is a repository class that provides functionality for
+     * accessing and managing ANF objects.
+     */
     private final ANFRepo anfRepo;
+    /**
+     * The variable mapper for object-to-JSON serialization and deserialization.
+     * It is an instance of the ObjectMapper class, which provides functionality
+     * for converting between JSON and Java objects.
+     */
     private final ObjectMapper mapper;
 
+    /**
+     * Represents a list of unique identifiers for block concepts.
+     */
     private final List<UUID> blockConcepts = new ArrayList<>();
 
     /**
-     * Constructor taking the a PersonRepository
+     * Initialize the OpenCDXAdrServiceImpl with the required dependencies.
+     *
+     * @param anfStatementRepository The ANF Statement Repository
+     * @param conceptRepository      The Tinkar Concept Repository
+     * @param queryService           The Query Service
+     * @param openCDXANFProcessors   List of OpenCDXANFProcessors
+     * @param anfRepo                The ANF Repo
+     * @param mapper                 The ObjectMapper
      */
     public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, TinkarConceptRepository conceptRepository, QueryService queryService, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFRepo anfRepo, ObjectMapper mapper) {
         this.anfStatementRepository = anfStatementRepository;
@@ -78,18 +131,24 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     }
 
     /**
-     * Store the ANF Statement
+     * Stores the given ANF statement in the system and returns the assigned ID.
      *
-     * @param anfStatement
+     * @param anfStatement The ANF statement to be stored.
+     * @return The assigned ID of the stored ANF statement.
      */
     @Override
-    public synchronized Long  storeAnfStatement(ANFStatement anfStatement) {
-        AnfStatementModel model =  this.anfStatementRepository.save(new AnfStatementModel(anfStatement, anfRepo));
+    public synchronized Long storeAnfStatement(ANFStatement anfStatement) {
+        AnfStatementModel model = this.anfStatementRepository.save(new AnfStatementModel(anfStatement, anfRepo));
         this.anfStatementRepository.flush();
         this.openCDXANFProcessors.forEach(processor -> processor.processAnfStatement(model));
         return model.getId();
     }
 
+    /**
+     * Retrieves the queryable data from the concept repository.
+     *
+     * @return A list of TinkarConceptModel objects representing the queryable data.
+     */
     @Override
     public List<TinkarConceptModel> getQueryableData() {
         //return this.conceptRepository.findAll() sorted by conceptName
@@ -97,9 +156,15 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
                 .filter(concept -> !this.blockConcepts.contains(concept.getConceptId())).sorted(Comparator.comparing(TinkarConceptModel::getConceptName)).toList();
     }
 
+    /**
+     * Streams a list of queries and writes the output to a PrintWriter.
+     *
+     * @param query  the list of queries to be processed
+     * @param writer the PrintWriter to write the output to
+     */
     @Override
-    public void streamQuery(Query query, PrintWriter writer) {
-        this.queryService.processQuery(query,writer);
+    public void streamQuery(List<Query> query, PrintWriter writer) {
+        this.queryService.processQuery(query, writer);
     }
 
 }

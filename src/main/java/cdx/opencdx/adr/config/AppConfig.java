@@ -15,16 +15,21 @@ import org.springframework.context.annotation.Primary;
 import java.util.List;
 
 /**
- * Application configuration.
-
+ * The AppConfig class is a configuration class that defines various beans used by the system.
+ * It is annotated with @Configuration to indicate that it is a configuration class.
+ * <p>
+ * This class provides the following functionalities:
+ * - Defines an ObjectMapper bean with all required registered modules.
+ * - Defines a list of OpenCDXANFProcessor beans with required dependencies.
  */
 @Slf4j
 @Configuration
 public class AppConfig {
 
     /**
-     * Create an ObjectMapper for use by the system.
-     * @return ObjectMapper
+     * Jackson ObjectMapper with all required registered modules.
+     *
+     * @return the configured ObjectMapper instance
      */
     @Bean
     @Primary
@@ -38,11 +43,18 @@ public class AppConfig {
         return mapper;
     }
 
+    /**
+     * Opens the CDX ANF Processors.
+     *
+     * @param logicalExpressionProcessor     The logical expression processor.
+     * @param logicalExpressionUnitProcessor The logical expression unit processor.
+     * @return The list of OpenCDXANFProcessor objects.
+     */
     @Bean
     @Description("OpenCDXANFProcessors")
     public List<OpenCDXANFProcessor> openCDXANFProcessors(
-            LogicalExpressionProcessor  logicalExpressionProcessor,
+            LogicalExpressionProcessor logicalExpressionProcessor,
             LogicalExpressionUnitProcessor logicalExpressionUnitProcessor) {
-        return List.of(logicalExpressionProcessor,logicalExpressionUnitProcessor);
+        return List.of(logicalExpressionProcessor, logicalExpressionUnitProcessor);
     }
 }

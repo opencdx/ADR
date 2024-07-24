@@ -36,43 +36,51 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Class used to register for Jackson ObjectMapper for reading protobuf generated java classes
+ * Returns a map of the FieldDescriptors for the fields of the given class.
+ *
+ * @param clazz The class for which to get the FieldDescriptors.
+ * @return A map of field names to FieldDescriptor objects.
  */
 @Slf4j
 public class ProtobufClassAttributesModule extends Module {
 
-    private final Map<Class<?>, Map<String, FieldDescriptor>> cache = new ConcurrentHashMap<>();
-
     /**
-     * Default Constructor
+     * An implementation of the {@link AnnotationIntrospector}
+     * interface that performs no introspection or annotation processing.
+     * This implementation is used for specific requirements in the application.
+     *
+     * <p>
+     * The {@code NopAnnotationIntrospector} class overrides two methods from the
+     * base {@code AnnotationIntrospector} class:
+     * </p>
+     * <ul>
+     *     <li>{@link #findAutoDetectVisibility(AnnotatedClass, VisibilityChecker)}</li>
+     *     <li>{@link #findNamingStrategy(AnnotatedClass)}</li>
+     * </ul>
+     *
+     * <p>
+     * Note that this class is marked as {@code final} to prevent inheritance.
+     * </p>
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     *     final NopAnnotationIntrospector annotationIntrospector = new NopAnnotationIntrospector() {
+     *         // Override methods as required
+     *     };
+     * }</pre>
      */
-    public ProtobufClassAttributesModule() {
-        log.trace("ProtobufClassAttributesModule created");
-    }
-
-    @Override
-    public String getModuleName() {
-        log.trace("ProtobufClassAttributesModule getModuleName");
-        return "ProtobufClassAttributesModule";
-    }
-
-    @Override
-    public Version version() {
-        log.trace("ProtobufClassAttributesModule version");
-        return VersionUtil.versionFor(getClass());
-    }
-
-    @Override
-    public void setupModule(SetupContext context) {
-        log.trace("ProtobufClassAttributesModule setupModule");
-
-        context.setClassIntrospector(new ProtobufClassIntrospector());
-
-        context.insertAnnotationIntrospector(annotationIntrospector);
-    }
-
     final NopAnnotationIntrospector annotationIntrospector = new NopAnnotationIntrospector() {
 
+        /**
+         * Determines the visibility rules for auto-detection of property accessors and fields for the given annotated class.
+         * If the class is a protobuf message (or a superclass of a protobuf message), the visibility rules will be modified
+         * to have PUBLIC_ONLY getter visibility and ANY field visibility. Otherwise, the visibility rules will be unchanged.
+         *
+         * @param ac      The annotated class for which to determine the visibility rules.
+         * @param checker The original visibility checker object.
+         * @return A visibility checker object with modified visibility rules if the class is a protobuf message, otherwise
+         *         the original visibility checker object.
+         */
         @Override
         public VisibilityChecker<?> findAutoDetectVisibility(AnnotatedClass ac, VisibilityChecker<?> checker) {
             log.trace("ProtobufClassAttributesModule findAutoDetectVisibility");
@@ -82,6 +90,12 @@ public class ProtobufClassAttributesModule extends Module {
             return super.findAutoDetectVisibility(ac, checker);
         }
 
+        /**
+         * Finds the naming strategy for the given annotated class.
+         *
+         * @param ac the annotated class
+         * @return the naming strategy for the class
+         */
         @Override
         public Object findNamingStrategy(AnnotatedClass ac) {
             log.trace("ProtobufClassAttributesModule findNamingStrategy");
@@ -100,9 +114,76 @@ public class ProtobufClassAttributesModule extends Module {
             };
         }
     };
+    /**
+     * The cache variable is a private final field of type Map.
+     * It is used to store field descriptors based on their class and name.
+     * The cache is a concurrent hash map, meaning it is thread-safe for multiple threads to access and modify it concurrently.
+     * The key of the cache is a Class object, which represents the class of the field described.
+     * The value is another map, which maps the field name to its corresponding FieldDescriptor object.
+     * The cache variable is declared as final, indicating that its reference cannot be changed once assigned.
+     * It is also marked as private, meaning that it can only be accessed within the same class.
+     */
+    private final Map<Class<?>, Map<String, FieldDescriptor>> cache = new ConcurrentHashMap<>();
 
+    /**
+     * Class representing a module for protobuf class attributes.
+     */
+    public ProtobufClassAttributesModule() {
+        log.trace("ProtobufClassAttributesModule created");
+    }
+
+    /**
+     * Retrieves the name of the module.
+     *
+     * @return The name of the module as a String.
+     */
+    @Override
+    public String getModuleName() {
+        log.trace("ProtobufClassAttributesModule getModuleName");
+        return "ProtobufClassAttributesModule";
+    }
+
+    /**
+     * Returns the version of the ProtobufClassAttributesModule.
+     *
+     * @return The version of the ProtobufClassAttributesModule.
+     */
+    @Override
+    public Version version() {
+        log.trace("ProtobufClassAttributesModule version");
+        return VersionUtil.versionFor(getClass());
+    }
+
+    /**
+     * Sets up the module with the provided setup context.
+     *
+     * @param context the setup context
+     */
+    @Override
+    public void setupModule(SetupContext context) {
+        log.trace("ProtobufClassAttributesModule setupModule");
+
+        context.setClassIntrospector(new ProtobufClassIntrospector());
+
+        context.insertAnnotationIntrospector(annotationIntrospector);
+    }
+
+    /**
+     * The ProtobufClassIntrospector class is a subclass of BasicClassIntrospector. It provides
+     * custom introspection logic for protobuf-based classes during serialization and deserialization.
+     */
     class ProtobufClassIntrospector extends BasicClassIntrospector {
 
+        /**
+         * Returns the BasicBeanDescription for deserialization based on the provided DeserializationConfig, JavaType, and MixInResolver.
+         * If the raw class of the JavaType is assignable from Message, it returns a protobuf-based BeanDescription using the protobufBeanDescription method.
+         * Otherwise, it returns the BasicBeanDescription generated by the super method.
+         *
+         * @param cfg  The DeserializationConfig used for deserialization.
+         * @param type The JavaType representing the deserialized type.
+         * @param r    The MixInResolver used to resolve mix-ins.
+         * @return The BasicBeanDescription for deserialization.
+         */
         @Override
         public BasicBeanDescription forDeserialization(DeserializationConfig cfg, JavaType type, MixInResolver r) {
             log.trace("ProtobufClassAttributesModule forDeserialization");
@@ -113,6 +194,15 @@ public class ProtobufClassAttributesModule extends Module {
             return desc;
         }
 
+        /**
+         * Returns the BasicBeanDescription for serialization based on the specified SerializationConfig,
+         * JavaType, and MixInResolver.
+         *
+         * @param cfg  The SerializationConfig object.
+         * @param type The JavaType object.
+         * @param r    The MixInResolver object.
+         * @return The BasicBeanDescription object.
+         */
         @Override
         public BasicBeanDescription forSerialization(SerializationConfig cfg, JavaType type, MixInResolver r) {
             log.trace("ProtobufClassAttributesModule forSerialization");
@@ -123,6 +213,15 @@ public class ProtobufClassAttributesModule extends Module {
             return desc;
         }
 
+        /**
+         * Generate a BasicBeanDescription for a protobof bean.
+         *
+         * @param cfg      The MapperConfig object.
+         * @param type     The JavaType of the bean.
+         * @param r        The MixInResolver object.
+         * @param baseDesc The base BasicBeanDescription.
+         * @return The generated BasicBeanDescription.
+         */
         private BasicBeanDescription protobufBeanDescription(
                 MapperConfig<?> cfg, JavaType type, MixInResolver r, BasicBeanDescription baseDesc) {
             log.trace("ProtobufClassAttributesModule protobufBeanDescription");
@@ -144,18 +243,28 @@ public class ProtobufClassAttributesModule extends Module {
                 }
             });
 
-            return new BasicBeanDescription(cfg, type, ac, new ArrayList<>(props)) {};
+            return new BasicBeanDescription(cfg, type, ac, new ArrayList<>(props)) {
+            };
         }
 
-        @JsonFormat(shape = Shape.STRING)
-        static class AnnotationHelper {}
-
+        /**
+         * Adds a @JsonFormat annotation to the given BeanPropertyDefinition's field,
+         * if the field is of type java.lang.Object and its corresponding protobuf field type is STRING.
+         *
+         * @param p The BeanPropertyDefinition to add the annotation to.
+         */
         private void addStringFormatAnnotation(BeanPropertyDefinition p) {
             log.trace("ProtobufClassAttributesModule addStringFormatAnnotation");
             JsonFormat jsonFormatAnnotation = AnnotationHelper.class.getAnnotation(JsonFormat.class);
             p.getField().getAllAnnotations().addIfNotPresent(jsonFormatAnnotation);
         }
 
+        /**
+         * Retrieves the descriptor of a given class type.
+         *
+         * @param type The class type for which to retrieve the descriptor.
+         * @return A map of field descriptors, with field names and corresponding FieldDescriptor objects.
+         */
         private Map<String, FieldDescriptor> getTypeDescriptor(Class<?> type) {
             log.trace("ProtobufClassAttributesModule getTypeDescriptor");
             try {
@@ -171,6 +280,10 @@ public class ProtobufClassAttributesModule extends Module {
                 log.error("Error getting proto descriptor for swagger UI.", e);
                 return new HashMap<>();
             }
+        }
+
+        @JsonFormat(shape = Shape.STRING)
+        static class AnnotationHelper {
         }
     }
 }

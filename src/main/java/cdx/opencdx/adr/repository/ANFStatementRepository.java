@@ -16,14 +16,13 @@
 package cdx.opencdx.adr.repository;
 
 import cdx.opencdx.adr.model.AnfStatementModel;
-import cdx.opencdx.grpc.data.ANFStatement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
- * This class is a repository for the ANF statement.
+ * The ANFStatementRepository interface is used to interact with the database table "dimanfstatement".
+ * It extends the JpaRepository interface, providing basic CRUD operations for the AnfStatementModel entity.
  */
 @Repository
-public interface ANFStatementRepository extends JpaRepository<AnfStatementModel, Long> {}
+public interface ANFStatementRepository extends JpaRepository<AnfStatementModel, Long> {
+}

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * This class is a repository for the participant.
+ * The ParticipantRepository interface provides methods for managing participants.
  */
 public interface ParticipantRepository extends JpaRepository<ParticipantModel, Long> {
     List<ParticipantModel> findAllByPartId(UUID uuid);

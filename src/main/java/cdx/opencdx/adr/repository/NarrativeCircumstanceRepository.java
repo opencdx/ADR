@@ -19,6 +19,7 @@ import cdx.opencdx.adr.model.NarrativeCircumstanceModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * This class is a repository for the narrative circumstance.
+ * The NarrativeCircumstanceRepository interface extends the JpaRepository interface and provides methods for managing narrative circumstances.
  */
-public interface NarrativeCircumstanceRepository extends JpaRepository<NarrativeCircumstanceModel, Long> {}
+public interface NarrativeCircumstanceRepository extends JpaRepository<NarrativeCircumstanceModel, Long> {
+}

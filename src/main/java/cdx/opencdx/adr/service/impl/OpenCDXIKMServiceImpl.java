@@ -10,11 +10,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * The OpenCDXIKMServiceImpl class is a service implementation that initializes and populates a concept model map.
+ * <p>
+ * The concept model map is a mapping of concept codes to concept models. Concept models contain the UUID, description, and display labels of concepts.
+ */
 @Service
 @Slf4j
 public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
-    private final Map<String,TinkarConceptModel> conceptModelMap;
+    /**
+     * A private final variable conceptModelMap is declared as a Map, mapping strings to TinkarConceptModel objects.
+     */
+    private final Map<String, TinkarConceptModel> conceptModelMap;
 
+    /**
+     * OpenCDXIKMServiceImpl is a service class that initializes and populates a concept model map.
+     * The concept model map is a mapping of concept codes to concept models.
+     * Concept models contain the UUID, description, and display labels of concepts.
+     */
     public OpenCDXIKMServiceImpl() {
         this.conceptModelMap = new HashMap<>();
 
@@ -58,6 +71,12 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
 
     }
 
+    /**
+     * Returns the TinkarConceptModel associated with the given LogicalExpressionModel.
+     *
+     * @param logicalExpression the LogicalExpressionModel for which to retrieve the TinkarConceptModel
+     * @return the TinkarConceptModel associated with the given LogicalExpressionModel, or null if not found
+     */
     @Override
     public TinkarConceptModel getInkarConceptModel(LogicalExpressionModel logicalExpression) {
         return this.conceptModelMap.get(logicalExpression.getExpression());

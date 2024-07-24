@@ -19,6 +19,11 @@ import cdx.opencdx.adr.model.PractitionerModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * This class is a repository for the practitioner.
+ * This interface represents a repository for managing instances of the {@link PractitionerModel} class.
+ * It extends the {@link JpaRepository} interface, providing basic CRUD operations.
+ * The {@code PractitionerModel} class represents a practitioner entity with various attributes such as ID, Practitioner ID, practitioner value, and code.
+ *
+ * @param <T> The type of the entity (PractitionerModel) managed by this repository.
  */
-public interface PractitionerRepository extends JpaRepository<PractitionerModel, Long> {}
+public interface PractitionerRepository extends JpaRepository<PractitionerModel, Long> {
+}
