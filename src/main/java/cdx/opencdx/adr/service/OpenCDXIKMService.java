@@ -15,4 +15,6 @@ public interface OpenCDXIKMService {
      * @return The TinkarConceptModel associated with the given LogicalExpressionModel.
      */
     TinkarConceptModel getInkarConceptModel(LogicalExpressionModel logicalExpression);
+
+
 }

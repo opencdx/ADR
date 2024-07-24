@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.dto.ADRQuery;
 import cdx.opencdx.adr.dto.Query;
 import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
@@ -157,14 +158,14 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     }
 
     /**
-     * Streams a list of queries and writes the output to a PrintWriter.
+     * Streams the result of an ADR query to the specified print writer.
      *
-     * @param query  the list of queries to be processed
-     * @param writer the PrintWriter to write the output to
+     * @param adrQuery The ADR query to process.
+     * @param writer   The print writer to stream the result to.
      */
     @Override
-    public void streamQuery(List<Query> query, PrintWriter writer) {
-        this.queryService.processQuery(query, writer);
+    public void streamQuery(ADRQuery adrQuery, PrintWriter writer) {
+        this.queryService.processQuery(adrQuery, writer);
     }
 
 }

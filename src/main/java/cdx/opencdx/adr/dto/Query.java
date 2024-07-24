@@ -14,6 +14,7 @@ import java.util.UUID;
  */
 @Data
 public class Query {
+
     /**
      * The conceptId variable represents the unique identifier for a concept.
      * <p>
@@ -114,6 +115,26 @@ public class Query {
      */
     private Double operationDouble;
 
+
+    /**
+     * The operationUnit variable represents the unique identifier for an operation unit.
+     * It is of type UUID, which stands for Universally Unique Identifier.
+     *
+     * A UUID is a 128-bit unique identifier that is used to uniquely identify information
+     * in distributed systems or across multiple devices. It is generated using a combination
+     * of timestamp, unique network address, and a random number.
+     *
+     * The operationUnit variable is private, which means it can only be accessed within the
+     * class it is defined in (Query). It is used to store the UUID value for the operation unit.
+     *
+     * Example usage:
+     *
+     * Query query = new Query();
+     * query.setOperationUnit(UUID.randomUUID());
+     * UUID operationUnit = query.getOperationUnit();
+     * System.out.println(operationUnit.toString()); // prints the UUID value
+     */
+    private UUID operationUnit;
     /**
      * The operationText variable stores a String value representing the operation for querying.
      * It is used in the Query class to specify the operation to be performed in the query.

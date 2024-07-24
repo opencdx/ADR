@@ -1,6 +1,7 @@
 package cdx.opencdx.adr.controller;
 
 
+import cdx.opencdx.adr.dto.ADRQuery;
 import cdx.opencdx.adr.dto.Query;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
@@ -59,13 +60,13 @@ public class QueryController {
      * @throws IOException If an I/O error occurs while writing the response.
      */
     @PostMapping
-    public void postQuery(@RequestBody List<Query> query, HttpServletResponse response) throws IOException {
+    public void postQuery(@RequestBody ADRQuery adrQuery, HttpServletResponse response) throws IOException {
         log.info("Received query request");
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=\"generated_data.csv\"");
 
         try (PrintWriter writer = response.getWriter()) {
-            adrService.streamQuery(query, writer);
+            adrService.streamQuery(adrQuery, writer);
         }
     }
 }

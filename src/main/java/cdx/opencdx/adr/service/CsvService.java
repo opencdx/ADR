@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service;
 
+import cdx.opencdx.adr.dto.UnitOutput;
 import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.utils.CsvBuilder;
 
@@ -11,12 +12,12 @@ import java.util.UUID;
  */
 public interface CsvService {
     /**
-     * Build a CsvBuilder object with the provided list of UUIDs and AnfStatementModels.
+     * Builds a CsvBuilder object from the given parameters.
      *
-     * @param list    The list of UUIDs.
-     * @param results The list of AnfStatementModels.
-     * @return CsvBuilder The CsvBuilder object.
-     * @throws IllegalArgumentException If the header name already exists.
+     * @param list       the list of UUIDs
+     * @param results    the list of AnfStatementModel objects
+     * @param unitOutput the UnitOutput object
+     * @return a CsvBuilder object
      */
-    CsvBuilder buildCsvDto(List<UUID> list, List<AnfStatementModel> results);
+    CsvBuilder buildCsvDto(List<UUID> list, List<AnfStatementModel> results, UnitOutput unitOutput);
 }

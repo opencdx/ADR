@@ -1,7 +1,9 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.dto.UnitOutput;
 import cdx.opencdx.adr.model.*;
 import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.CsvService;
 import cdx.opencdx.adr.utils.CsvBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -19,47 +21,55 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class CsvServiceImpl implements CsvService {
     /**
-     * Represents the concept of negative infinity.
-     * <p>
-     * This constant is used to represent a value that is smaller than any finite number.
-     * </p>
+     * Represents the string representation of negative infinity.
+     * The value of this constant is "INF".
      */
     private static final String NEGATIVE_INFINITY = "INF";
     /**
-     * Represents the positive infinity value.
-     * The value is represented as a string with the value "INF".
+     * Represents the symbol used to denote positive infinity.
      */
     private static final String POSITIVE_INFINITY = "INF";
     /**
-     * This constant variable represents the separator used to separate elements in a string.
-     * The value of this variable is "-".
+     * Represents the separator used to separate different parts of a string.
+     * This separator is a constant and is not meant to be modified.
+     *
+     * The separator is defined as " - ".
+     *
      */
     private static final String SEPARATOR = " - ";
 
     /**
-     * The ANFRepo class is used to access and manipulate ANF (Algebraic Normal Form) data.
+     * Represents an instance of ANFRepo.
      */
     private final ANFRepo anfRepo;
 
+
     /**
-     * Creates a new instance of CsvServiceImpl with the given ANFRepo.
-     *
-     * @param anfRepo the ANFRepo to be used by CsvServiceImpl
+     * Represents a conversion service.
      */
-    public CsvServiceImpl(ANFRepo anfRepo) {
+    private final ConversionService conversionService;
+
+    /**
+     * Constructs a new CsvServiceImpl with the specified ANFRepo and ConversionService.
+     *
+     * @param anfRepo the ANFRepo used for data access
+     * @param conversionService the ConversionService used for data conversion
+     */
+    public CsvServiceImpl(ANFRepo anfRepo, ConversionService conversionService) {
         this.anfRepo = anfRepo;
+        this.conversionService = conversionService;
     }
 
-
     /**
-     * Builds a CsvBuilder object based on the given list of UUIDs and list of AnfStatementModels.
+     * Builds a CsvBuilder object based on the given parameters.
      *
-     * @param list    the list of UUIDs
-     * @param results the list of AnfStatementModels
-     * @return the CsvBuilder object containing the built CSV data
+     * @param list       The list of UUIDs.
+     * @param results    The list of AnfStatementModel results.
+     * @param unitOutput The UnitOutput object.
+     * @return The CsvBuilder object with the constructed CSV data.
      */
     @Override
-    public CsvBuilder buildCsvDto(List<UUID> list, List<AnfStatementModel> results) {
+    public CsvBuilder buildCsvDto(List<UUID> list, List<AnfStatementModel> results, UnitOutput unitOutput) {
         CsvBuilder csvDto = new CsvBuilder();
         AtomicInteger row = new AtomicInteger();
 
@@ -79,9 +89,9 @@ public class CsvServiceImpl implements CsvService {
                 if (anf.getTopic() != null) {
                     var conceptName = anf.getTopic().getTinkarConcept().getConceptName();
                     if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
-                        processPerformanceCircumstance(csvDto, currentRow, conceptName, anf.getPerformanceCircumstance());
+                        processPerformanceCircumstance(csvDto, currentRow, conceptName, anf.getPerformanceCircumstance(),unitOutput);
                     } else if (anf.getRequestCircumstance() != null) {
-                        processRequestCircumstance(csvDto, currentRow, conceptName, anf.getRequestCircumstance());
+                        processRequestCircumstance(csvDto, currentRow, conceptName, anf.getRequestCircumstance(), unitOutput);
                     } else if (anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
                         processNarrativeCircumstance(csvDto, currentRow, conceptName, anf.getNarrativeCircumstance());
                     }
@@ -92,42 +102,44 @@ public class CsvServiceImpl implements CsvService {
     }
 
     /**
-     * Processes the performance circumstance for a given row in the CSV builder.
+     * This method processes the performance circumstance and updates the CsvBuilder object with the result.
      *
-     * @param csvDto                  - the CSV builder object to update the cells
-     * @param row                     - the row number to update
-     * @param conceptName             - the name of the performance circumstance concept
-     * @param performanceCircumstance - the performance circumstance model containing the timing and result information
+     * @param csvDto The CsvBuilder object to be updated with the result
+     * @param row The row index for which the result needs to be updated
+     * @param conceptName The name of the concept for which the result is being processed
+     * @param performanceCircumstance The PerformanceCircumstanceModel object containing the performance circumstance details
+     * @param unitOutput The UnitOutput object containing the unit output details
      */
-    private void processPerformanceCircumstance(CsvBuilder csvDto, int row, String conceptName, PerformanceCircumstanceModel performanceCircumstance) {
+    private void processPerformanceCircumstance(CsvBuilder csvDto, int row, String conceptName, PerformanceCircumstanceModel performanceCircumstance, UnitOutput unitOutput) {
         if (performanceCircumstance.getTiming() != null) {
             csvDto.setCell(row, conceptName + " Reported", new Date(performanceCircumstance.getTiming().getLowerBound().longValue()).toString());
         }
-        csvDto.setCell(row, conceptName, formatMeasure(performanceCircumstance.getResult()));
+        csvDto.setCell(row, conceptName, formatMeasure(performanceCircumstance.getResult(),unitOutput));
     }
 
     /**
-     * Process the request circumstance and populate the given CsvBuilder object.
+     * Process the request circumstance and update the CSV builder object.
      *
-     * @param csvDto              The CsvBuilder object to populate.
-     * @param row                 The row number in the CsvBuilder to populate.
-     * @param conceptName         The name of the concept.
-     * @param requestCircumstance The RequestCircumstanceModel object containing the request circumstance data.
+     * @param csvDto The CSV builder object that holds the CSV data.
+     * @param row The row number in the CSV where the data will be updated.
+     * @param conceptName The name of the concept being processed.
+     * @param requestCircumstance The request circumstance model.
+     * @param unitOutput The unit output object that provides formatting information for the requested result.
      */
-    private void processRequestCircumstance(CsvBuilder csvDto, int row, String conceptName, RequestCircumstanceModel requestCircumstance) {
+    private void processRequestCircumstance(CsvBuilder csvDto, int row, String conceptName, RequestCircumstanceModel requestCircumstance, UnitOutput unitOutput) {
         if (requestCircumstance.getTiming() != null) {
             csvDto.setCell(row, conceptName + " Reported", new Date(requestCircumstance.getTiming().getLowerBound().longValue()).toString());
         }
-        csvDto.setCell(row, conceptName, formatMeasure(requestCircumstance.getRequestedResult()));
+        csvDto.setCell(row, conceptName, formatMeasure(requestCircumstance.getRequestedResult(),unitOutput));
     }
 
     /**
-     * Processes the narrative circumstance and updates the CSV builder with the necessary information.
+     * Process the narrative circumstance for a given row in the CSV.
      *
-     * @param csvDto                The CSV builder object used to store the data.
-     * @param row                   The index of the row to update in the CSV builder.
-     * @param conceptName           The name of the concept associated with the narrative circumstance.
-     * @param narrativeCircumstance The narrative circumstance model to process.
+     * @param csvDto The CsvBuilder object representing the CSV file.
+     * @param row The row index in the CSV.
+     * @param conceptName The name of the concept associated with the narrative circumstance.
+     * @param narrativeCircumstance The NarrativeCircumstanceModel object containing the narrative circumstance data.
      */
     private void processNarrativeCircumstance(CsvBuilder csvDto, int row, String conceptName, NarrativeCircumstanceModel narrativeCircumstance) {
         if (narrativeCircumstance.getTiming() != null) {
@@ -137,12 +149,11 @@ public class CsvServiceImpl implements CsvService {
     }
 
     /**
-     * Finds the most recent statement result for a given UUID.
+     * Finds the most recent statement result by matching the UUID in the given list of AnfStatementModel.
      *
-     * @param results the list of AnfStatementModel objects to search through
-     * @param uuid    the UUID to find the recent statement result for
-     * @return an Optional object containing the Date of the most recent statement result, or an empty Optional if no result is found
-     * @throws NullPointerException if either results or uuid is null
+     * @param results the list of AnfStatementModel containing statement results
+     * @param uuid the UUID to match with the subject partId
+     * @return an optional Date representing the most recent statement result time, or an empty Optional if no matching result is found
      */
     private Optional<Date> findRecentStatementResult(List<AnfStatementModel> results, UUID uuid) {
         return results.stream()
@@ -154,34 +165,37 @@ public class CsvServiceImpl implements CsvService {
 
 
     /**
-     * Formats a MeasureModel object into a string representation.
+     * Formats a measure based on the provided unit output.
      *
-     * @param measure the MeasureModel object to format
-     * @return the string representation of the MeasureModel object
+     * @param measure the measure to be formatted
+     * @param unitOutput the desired unit output
+     * @return the formatted measure as a string
      */
-    private String formatMeasure(MeasureModel measure) {
-        if (measure == null) {
+    private String formatMeasure(MeasureModel measure, UnitOutput unitOutput) {
+
+        MeasureModel convertedMeasure = conversionService.output(unitOutput, measure);
+
+        if (convertedMeasure == null) {
             return "\"\"";
         }
         StringBuilder sb = new StringBuilder();
-        if (boundsAreEqualAndIncluded(measure)) {
-            sb.append(measure.getLowerBound());
-            appendUnitIfPresent(measure, sb);
+        if (boundsAreEqualAndIncluded(convertedMeasure)) {
+            sb.append(convertedMeasure.getLowerBound());
+            appendUnitIfPresent(convertedMeasure, sb);
         } else {
-            appendLowerBoundIfIncluded(measure, sb);
-            appendSeparatorIfBoundsIncluded(measure, sb);
-            appendUpperBoundIfIncluded(measure, sb);
-            appendUnitIfPresent(measure, sb);
+            appendLowerBoundIfIncluded(convertedMeasure, sb);
+            appendSeparatorIfBoundsIncluded(convertedMeasure, sb);
+            appendUpperBoundIfIncluded(convertedMeasure, sb);
+            appendUnitIfPresent(convertedMeasure, sb);
         }
         return sb.toString();
     }
 
     /**
-     * Determines if the lower bound and upper bound of a MeasureModel object are both equal and included,
-     * based on the provided MeasureModel object.
+     * Checks if the given MeasureModel object has equal and inclusive bounds.
      *
-     * @param measure the MeasureModel object to check the bounds for
-     * @return true if the lower bound and upper bound are both equal and included, false otherwise
+     * @param measure the MeasureModel object to check
+     * @return true if the bounds are equal and inclusive, false otherwise
      */
     private boolean boundsAreEqualAndIncluded(MeasureModel measure) {
         return Boolean.TRUE.equals(measure.getIncludeLowerBound())
@@ -192,10 +206,10 @@ public class CsvServiceImpl implements CsvService {
     }
 
     /**
-     * Appends the unit of the given MeasureModel to the StringBuilder if it is present.
+     * Appends the unit of measure to the given StringBuilder if it is present in the MeasureModel object.
      *
-     * @param measure The MeasureModel object.
-     * @param sb      The StringBuilder object to append the unit to.
+     * @param measure The MeasureModel object containing the unit of measure.
+     * @param sb The StringBuilder object to append the unit of measure.
      */
     private void appendUnitIfPresent(MeasureModel measure, StringBuilder sb) {
         if (measure.getUnit() != null) {
@@ -204,10 +218,10 @@ public class CsvServiceImpl implements CsvService {
     }
 
     /**
-     * Appends the lower bound to the StringBuilder if it is included.
+     * Appends the lower bound of the MeasureModel to the given StringBuilder if it is included.
      *
-     * @param measure The MeasureModel object containing the lower bound information.
-     * @param sb      The StringBuilder object to which the lower bound will be appended.
+     * @param measure The MeasureModel object.
+     * @param sb The StringBuilder object to append the lower bound to.
      */
     private void appendLowerBoundIfIncluded(MeasureModel measure, StringBuilder sb) {
         if (Boolean.TRUE.equals(measure.getIncludeLowerBound())) {
@@ -220,10 +234,10 @@ public class CsvServiceImpl implements CsvService {
     }
 
     /**
-     * Appends a separator to the StringBuilder if both the lower bound and upper bound of the MeasureModel are included.
+     * Appends a separator to the given StringBuilder if both the lower bound and upper bound are included in the measure.
      *
      * @param measure The MeasureModel object representing the measure.
-     * @param sb      The StringBuilder object to which the separator will be appended.
+     * @param sb The StringBuilder object to which the separator will be appended.
      */
     private void appendSeparatorIfBoundsIncluded(MeasureModel measure, StringBuilder sb) {
         if (measure.getIncludeLowerBound() && measure.getIncludeUpperBound()) {
@@ -232,10 +246,10 @@ public class CsvServiceImpl implements CsvService {
     }
 
     /**
-     * Appends the upper bound of a MeasureModel object to a StringBuilder if it is included.
+     * Appends the upper bound of a MeasureModel to a StringBuilder if it is included.
      *
-     * @param measure the MeasureModel object containing the upper bound
-     * @param sb      the StringBuilder to append the upper bound to
+     * @param measure The MeasureModel object containing the upper bound.
+     * @param sb      The StringBuilder object to append the upper bound to.
      */
     private void appendUpperBoundIfIncluded(MeasureModel measure, StringBuilder sb) {
         if (Boolean.TRUE.equals(measure.getIncludeUpperBound())) {

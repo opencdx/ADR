@@ -1,6 +1,7 @@
 package cdx.opencdx.adr.service;
 
 
+import cdx.opencdx.adr.dto.ADRQuery;
 import cdx.opencdx.adr.dto.Query;
 
 import java.io.PrintWriter;
@@ -12,10 +13,10 @@ import java.util.List;
 public interface QueryService {
 
     /**
-     * Processes the given list of query DTOs and writes the result to the provided PrintWriter.
+     * Processes the given ADRQuery object and writes the result to the provided PrintWriter.
      *
-     * @param queryDto the list of Query DTOs to process
-     * @param writer   the PrintWriter to write the result to
+     * @param adrQuery the ADRQuery object representing the query to be processed
+     * @param writer   the PrintWriter object used to write the result
      */
-    void processQuery(List<Query> queryDto, PrintWriter writer);
+    void processQuery(ADRQuery adrQuery, PrintWriter writer);
 }
