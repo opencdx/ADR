@@ -181,13 +181,19 @@ public class QueryServiceImpl implements QueryService {
      */
     private void processByJoinOperation(List<Query> queries, int index) {
         JoinOperation joinOperation = queries.get(index).getJoinOperation();
-        ProcessingResults results = (joinOperation.equals(JoinOperation.AND))
-                ? processAndResults(queries.get(index - 1), queries.get(index + 1))
-                : processOrResults(queries.get(index - 1), queries.get(index + 1));
-        if (joinOperation.equals(JoinOperation.AND) || joinOperation.equals(JoinOperation.OR)) {
-            updateQueryWithResults(queries.get(index + 1), results);
+        ProcessingResults results;
+
+        if (joinOperation.equals(JoinOperation.AND)) {
+            results = processAndResults(queries.get(index - 1), queries.get(index + 1));
+        } else if (joinOperation.equals(JoinOperation.OR)) {
+            results = processOrResults(queries.get(index - 1), queries.get(index + 1));
         } else {
             throw new IllegalArgumentException("Malformed Query syntax");
+        }
+
+        if (joinOperation.equals(JoinOperation.AND) || joinOperation.equals(JoinOperation.OR)
+                || joinOperation.equals(JoinOperation.XOR)) {
+            updateQueryWithResults(queries.get(index + 1), results);
         }
     }
 
