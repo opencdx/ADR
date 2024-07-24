@@ -81,46 +81,55 @@ public class QueryServiceImpl implements QueryService {
     }
 
     private ProcessingResults processQuery(List<Query> queries) {
+        validateQueryList(queries);
+        processQueries(queries);
 
+        if(queries.size() == 1) {
+            return prepareResult(queries.get(0));
+        }
+
+        int index = 1;
+        while(index + 2 < queries.size()) {
+            processByJoinOperation(queries, index);
+            index += 2;
+        }
+        return prepareResult(queries.get(queries.size() - 1));
+    }
+
+    private void validateQueryList(List<Query> queries) {
         if (queries.size() % 2 == 0) {
             throw new IllegalArgumentException("Malformed Query syntax");
         }
+    }
 
+    private void processQueries(List<Query> queries) {
         queries.forEach(query -> {
             if(query.getConceptId() != null) {
                 query.setAnfStatements(this.runQuery(query));
                 query.setConceptIds(this.getAnfStatementUuids(query.getAnfStatements()));
             }
         });
+    }
 
-        if(queries.size() == 1) {
-            return new ProcessingResults(queries.get(0).getConceptIds(), queries.get(0).getAnfStatements());
+    private ProcessingResults prepareResult(Query query) {
+        return new ProcessingResults(query.getConceptIds(), query.getAnfStatements());
+    }
+
+    private void processByJoinOperation(List<Query> queries, int index) {
+        JoinOperation joinOperation = queries.get(index).getJoinOperation();
+        ProcessingResults results = (joinOperation.equals(JoinOperation.AND))
+                ? processAndResults(queries.get(index - 1), queries.get(index + 1))
+                : processOrResults(queries.get(index - 1), queries.get(index + 1));
+        if(joinOperation.equals(JoinOperation.AND) || joinOperation.equals(JoinOperation.OR)) {
+            updateQueryWithResults(queries.get(index+1), results);
+        } else {
+            throw new IllegalArgumentException("Malformed Query syntax");
         }
-        boolean keepProcessing = true;
-        int index = 1;
+    }
 
-        do {
-            if(queries.get(index).getJoinOperation().equals(JoinOperation.AND)) {
-                ProcessingResults results = processAndResults(queries.get(index - 1), queries.get(index + 1));
-                queries.get(index+1).setConceptIds(results.conceptIds);
-                queries.get(index+1).setAnfStatements(results.anfStatements);
-            } else if(queries.get(index).getJoinOperation().equals(JoinOperation.OR)){
-                ProcessingResults results = processOrResults(queries.get(index - 1), queries.get(index + 1));
-                queries.get(index+1).setConceptIds(results.conceptIds);
-                queries.get(index+1).setAnfStatements(results.anfStatements);
-            } else {
-                throw new IllegalArgumentException("Malformed Query syntax");
-            }
-
-            if(index + 2 >= queries.size()) {
-                keepProcessing = false;
-            } else {
-                index += 2;
-            }
-
-        } while(keepProcessing);
-
-        return new ProcessingResults(queries.get(queries.size() - 1).getConceptIds(), queries.get(queries.size() - 1).getAnfStatements());
+    private void updateQueryWithResults(Query query, ProcessingResults results) {
+        query.setConceptIds(results.conceptIds);
+        query.setAnfStatements(results.anfStatements);
     }
 
     private ProcessingResults processOrResults(Query query1, Query query2) {
