@@ -274,9 +274,9 @@ public class QueryServiceImpl implements QueryService {
      *
      * @return true if the operation is successfully checked, false otherwise
      */
-    private boolean check(Operation operation, Object operationValue,  Object value) {
+    private boolean check(Operation operation, Object operationValue, UUID operationUnit,  Object value) {
         if(value instanceof MeasureModel measure) {
-            return this.measureOperationService.measureOperation(operation, (Double)operationValue,  measure);
+            return this.measureOperationService.measureOperation(operation, (Double)operationValue, operationUnit,  measure);
         } else if(value instanceof String text) {
             return this.textOperationService.textOperation(operation, (String) operationValue, text);
         } return false;
@@ -297,11 +297,11 @@ public class QueryServiceImpl implements QueryService {
 
         return simpleQueryResults.stream().filter(anf -> {
             if(anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
-                return this.check(query.getOperation(), query.getOperationDouble(), anf.getPerformanceCircumstance().getResult());
+                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getPerformanceCircumstance().getResult());
             } else if(anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
-                return this.check(query.getOperation(), query.getOperationDouble(),  anf.getRequestCircumstance().getRequestedResult());
+                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(),  anf.getRequestCircumstance().getRequestedResult());
             } else if(anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
-                return this.check(query.getOperation(), query.getOperationText(), anf.getNarrativeCircumstance().getText());
+                return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), anf.getNarrativeCircumstance().getText());
             } return false;
         }).toList();
     }

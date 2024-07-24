@@ -2,9 +2,13 @@ package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.Operation;
 import cdx.opencdx.adr.model.MeasureModel;
+import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.MeasureOperationService;
+import cdx.opencdx.grpc.data.Measure;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * The MeasureOperationServiceImpl class implements the MeasureOperationService interface.
@@ -14,6 +18,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class MeasureOperationServiceImpl implements MeasureOperationService {
 
+
+    /**
+     * This variable represents the ConversionService used for converting data types.
+     */
+    private final ConversionService conversionService;
+
+    /**
+     * Constructs a new MeasureOperationServiceImpl instance.
+     *
+     * @param conversionService the ConversionService used for performing unit conversions
+     */
+    public MeasureOperationServiceImpl(ConversionService conversionService) {
+        this.conversionService = conversionService;
+    }
+
     /**
      * Measures the given operation using the MeasureModel.
      *
@@ -22,14 +41,14 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return True if the operation measurement is successful, false otherwise.
      */
     @Override
-    public boolean measureOperation(Operation operation, Double operationValue, MeasureModel measure) {
+    public boolean measureOperation(Operation operation, Double operationValue, UUID operationUnit, MeasureModel measure) {
         return switch (operation) {
-            case GREATER_THAN -> greaterThan(operationValue, getMeasureValue(measure));
-            case LESS_THAN -> lessThan(operationValue, getMeasureValue(measure));
-            case GREATER_THAN_OR_EQUAL -> greatherThanOrEqual(operationValue, getMeasureValue(measure));
-            case LESS_THAN_OR_EQUAL -> lessThanOrEqual(operationValue, getMeasureValue(measure));
-            case EQUAL -> equalValue(operationValue, getMeasureValue(measure));
-            case NOT_EQUAL -> notEqualValue(operationValue, getMeasureValue(measure));
+            case GREATER_THAN -> greaterThan(operationValue, getMeasureValue(operationUnit, measure));
+            case LESS_THAN -> lessThan(operationValue, getMeasureValue(operationUnit, measure));
+            case GREATER_THAN_OR_EQUAL -> greatherThanOrEqual(operationValue, getMeasureValue(operationUnit, measure));
+            case LESS_THAN_OR_EQUAL -> lessThanOrEqual(operationValue, getMeasureValue(operationUnit, measure));
+            case EQUAL -> equalValue(operationValue, getMeasureValue(operationUnit, measure));
+            case NOT_EQUAL -> notEqualValue(operationValue, getMeasureValue(operationUnit, measure));
         };
     }
 
@@ -107,13 +126,15 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return The MeasureValue object retrieved based on the MeasureModel.
      * @throws IllegalArgumentException if the measure bounds are invalid.
      */
-    MeasureValue getMeasureValue(MeasureModel measure) {
-        if (measure.getIncludeLowerBound() && measure.getIncludeUpperBound()) {
-            return new MeasureValue(measure.getLowerBound(), measure.getUpperBound());
-        } else if (Boolean.TRUE.equals(measure.getIncludeLowerBound())) {
-            return new MeasureValue(measure.getLowerBound(), measure.getLowerBound());
-        } else if (Boolean.TRUE.equals(measure.getIncludeUpperBound())) {
-            return new MeasureValue(measure.getUpperBound(), measure.getUpperBound());
+    MeasureValue getMeasureValue(UUID operationUnit, MeasureModel measure) {
+
+        MeasureModel workingMeasure = this.conversionService.convert(operationUnit, measure);
+        if (workingMeasure.getIncludeLowerBound() && workingMeasure.getIncludeUpperBound()) {
+            return new MeasureValue(workingMeasure.getLowerBound(), workingMeasure.getUpperBound());
+        } else if (Boolean.TRUE.equals(workingMeasure.getIncludeLowerBound())) {
+            return new MeasureValue(workingMeasure.getLowerBound(), workingMeasure.getLowerBound());
+        } else if (Boolean.TRUE.equals(workingMeasure.getIncludeUpperBound())) {
+            return new MeasureValue(workingMeasure.getUpperBound(), workingMeasure.getUpperBound());
         } else {
             throw new IllegalArgumentException("Invalid measure bounds");
         }
