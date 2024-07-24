@@ -191,10 +191,7 @@ public class QueryServiceImpl implements QueryService {
             throw new IllegalArgumentException("Malformed Query syntax");
         }
 
-        if (joinOperation.equals(JoinOperation.AND) || joinOperation.equals(JoinOperation.OR)
-                || joinOperation.equals(JoinOperation.XOR)) {
-            updateQueryWithResults(queries.get(index + 1), results);
-        }
+        updateQueryWithResults(queries.get(index + 1), results);
     }
 
     /**
