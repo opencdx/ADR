@@ -19,7 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -29,10 +31,6 @@ public class QueryServiceImpl implements QueryService {
     private final CsvService csvService;
     @PersistenceContext
     private EntityManager entityManager;
-
-    public record ProcessingResults(List<UUID> conceptIds, List<AnfStatementModel> anfStatements) {
-    }
-
 
     public QueryServiceImpl(ANFRepo anfRepo, CsvService csvService) {
         this.anfRepo = anfRepo;
@@ -84,12 +82,12 @@ public class QueryServiceImpl implements QueryService {
         validateQueryList(queries);
         processQueries(queries);
 
-        if(queries.size() == 1) {
+        if (queries.size() == 1) {
             return prepareResult(queries.get(0));
         }
 
         int index = 1;
-        while(index + 2 < queries.size()) {
+        while (index + 2 < queries.size()) {
             processByJoinOperation(queries, index);
             index += 2;
         }
@@ -104,7 +102,7 @@ public class QueryServiceImpl implements QueryService {
 
     private void processQueries(List<Query> queries) {
         queries.forEach(query -> {
-            if(query.getConceptId() != null) {
+            if (query.getConceptId() != null) {
                 query.setAnfStatements(this.runQuery(query));
                 query.setConceptIds(this.getAnfStatementUuids(query.getAnfStatements()));
             }
@@ -120,8 +118,8 @@ public class QueryServiceImpl implements QueryService {
         ProcessingResults results = (joinOperation.equals(JoinOperation.AND))
                 ? processAndResults(queries.get(index - 1), queries.get(index + 1))
                 : processOrResults(queries.get(index - 1), queries.get(index + 1));
-        if(joinOperation.equals(JoinOperation.AND) || joinOperation.equals(JoinOperation.OR)) {
-            updateQueryWithResults(queries.get(index+1), results);
+        if (joinOperation.equals(JoinOperation.AND) || joinOperation.equals(JoinOperation.OR)) {
+            updateQueryWithResults(queries.get(index + 1), results);
         } else {
             throw new IllegalArgumentException("Malformed Query syntax");
         }
@@ -149,7 +147,7 @@ public class QueryServiceImpl implements QueryService {
         return new ProcessingResults(uuids, anfStatements);
     }
 
-    private List<AnfStatementModel>  runQuery(Query query) {
+    private List<AnfStatementModel> runQuery(Query query) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<TinkarConceptModel> criteriaQuery = cb.createQuery(TinkarConceptModel.class);
         Root<TinkarConceptModel> root = criteriaQuery.from(TinkarConceptModel.class);
@@ -159,6 +157,9 @@ public class QueryServiceImpl implements QueryService {
         return entityManager.createQuery(criteriaQuery).getResultList().stream()
                 .map(TinkarConceptModel::getAnfStatements)
                 .collect(ArrayList::new, List::addAll, List::addAll);
+    }
+
+    public record ProcessingResults(List<UUID> conceptIds, List<AnfStatementModel> anfStatements) {
     }
 
 }
