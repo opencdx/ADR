@@ -60,7 +60,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return True if the operation value is less than or equal to the upper value, otherwise false.
      */
     boolean lessThanOrEqual(Double operationValue, MeasureValue measureValue) {
-        return  measureValue.upper <= operationValue;
+        return  measureValue.lower <= operationValue;
     }
 
     /**
@@ -93,8 +93,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return True if the operation value is not equal to the lower or upper bound and is outside the range, false otherwise.
      */
     boolean notEqualValue(Double operationValue, MeasureValue measureValue) {
-        return !operationValue.equals(measureValue.lower) && !operationValue.equals(measureValue.upper)
-                && (operationValue < measureValue.lower || operationValue > measureValue.upper);
+        return !equalValue(operationValue, measureValue);
     }
 
     /**
