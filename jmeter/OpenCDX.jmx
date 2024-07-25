@@ -37,17 +37,66 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,0)}</stringProp>
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Thread Setup" enabled="true">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Doctors" enabled="true">
+          <stringProp name="delimiter">,</stringProp>
+          <stringProp name="fileEncoding"></stringProp>
+          <stringProp name="filename">jmeter/datasetDoctors.csv</stringProp>
+          <boolProp name="ignoreFirstLine">true</boolProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+          <boolProp name="stopThread">true</boolProp>
+          <stringProp name="variableNames">practitionerID,practitionerIdentifier,practitionerDisplay,practitionerReference,practitionerUri,practitionerCodeExpression</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Patient Setup" enabled="true">
+          <stringProp name="BeanShellSampler.query">
+String jMUUID = &quot;${__UUID}&quot;;
+int ageT = ${__Random(1,100)};
+float heightT = ${__Random(54,84)};
+float weightT = ${__Random(100,350)};
+float bmiT = (weightT / (heightT * heightT)) * 703;
+
+vars.put(&quot;nationalHealthID&quot;,jMUUID);
+
+vars.put(&quot;age&quot;,Integer.toString(ageT));
+vars.put(&quot;height&quot;,Float.toString(heightT));
+vars.put(&quot;weight&quot;,Float.toString(weightT));
+vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(serverName,localhost)}</stringProp>
+          <stringProp name="HTTPSampler.port">${__P(serverPort,8085)}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout">10000</stringProp>
+          <stringProp name="HTTPSampler.response_timeout">10000</stringProp>
+        </ConfigTestElement>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
           <stringProp name="BeanShellSampler.query">import java.util.Date;
 import java.util.Random;
 import java.text.SimpleDateFormat;
@@ -74,42 +123,20 @@ double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
 
 // Store the random epoch seconds in a JMeter variable
 vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
+// Calculate the time range (12 hours in seconds)
+int twelveHoursInSeconds = 12 * 60 * 60;
+// Generate a random time within the last 12 hours
+double randomSecondsBefore = (double)(new Random().nextInt(twelveHoursInSeconds));
+// Calculate the random date in seconds before the specified epoch time
+double randomDateSeconds = randomDateEpochSeconds - randomSecondsBefore;
+// Assign the random seconds to a JMeter variable
+vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSeconds));
 
-String jMUUID = &quot;${__UUID}&quot;;
+
 String anfId = &quot;${__UUID}&quot;;
-int ageT = ${__Random(1,100)};
-float heightT = ${__Random(54,84)};
-float weightT = ${__Random(100,350)};
-float bmiT = (weightT / (heightT * heightT)) * 703;
-
-vars.put(&quot;nationalHealthID&quot;,jMUUID);
-vars.put(&quot;anf_id&quot;,anfId);
-vars.put(&quot;age&quot;,Integer.toString(ageT));
-vars.put(&quot;height&quot;,Float.toString(heightT));
-vars.put(&quot;weight&quot;,Float.toString(weightT));
-vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
+vars.put(&quot;anf_id&quot;,anfId);</stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
-        <hashTree/>
-        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">${__P(serverName,localhost)}</stringProp>
-          <stringProp name="HTTPSampler.port">${__P(serverPort,8085)}</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
-          <stringProp name="HTTPSampler.connect_timeout">5000</stringProp>
-          <stringProp name="HTTPSampler.response_timeout">5000</stringProp>
-        </ConfigTestElement>
-        <hashTree/>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
-          <collectionProp name="HeaderManager.headers">
-            <elementProp name="" elementType="Header">
-              <stringProp name="Header.name">Content-Type</stringProp>
-              <stringProp name="Header.value">application/json</stringProp>
-            </elementProp>
-          </collectionProp>
-        </HeaderManager>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="423493009 | Age at diagnosis (observable entity)" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -136,15 +163,15 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
      }&#xd;
    },&#xd;
    &quot;authors&quot; : [ {&#xd;
-     &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+     &quot;id&quot; : ${practitionerID},&#xd;
      &quot;practitionerValue&quot; : {&#xd;
-       &quot;identifier&quot; : &quot;123456&quot;,&#xd;
-       &quot;display&quot; : &quot;Dr. John Doe&quot;,&#xd;
-       &quot;reference&quot; : &quot;http://example.com&quot;,&#xd;
-       &quot;uri&quot; : &quot;http://example.com&quot;&#xd;
+       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
+       &quot;display&quot; : ${practitionerDisplay},&#xd;
+       &quot;reference&quot; : ${practitionerReference},&#xd;
+       &quot;uri&quot; : ${practitionerUri}&#xd;
      },&#xd;
      &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
      }&#xd;
    } ],&#xd;
    &quot;subjectOfInformation&quot; : {&#xd;
@@ -159,8 +186,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
-       &quot;upperBound&quot; : 1.721343492E9,&#xd;
-       &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
@@ -185,9 +212,9 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;participant&quot; : [ {&#xd;
-       &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+       &quot;id&quot; : ${practitionerID},&#xd;
        &quot;code&quot; : {&#xd;
-         &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
        }&#xd;
      } ],&#xd;
      &quot;deviceid&quot; : [ ]&#xd;
@@ -211,6 +238,48 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
           <boolProp name="HTTPSampler.md5">false</boolProp>
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+          <stringProp name="BeanShellSampler.query">import java.util.Date;
+import java.util.Random;
+import java.text.SimpleDateFormat;
+
+// Set the start date (January 1, 2019)
+SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
+
+// Get the current date
+Date currentDate = new Date();
+
+// Calculate the difference in milliseconds between the current date and the start date
+long diffInMillies = currentDate.getTime() - startDate.getTime();
+
+// Generate a random number of milliseconds within this range
+Random random = new Random();
+long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
+
+// Create a Date object with the random milliseconds
+Date randomDate = new Date(randomMillisSinceEpoch);
+
+// Get the epoch seconds for the random date as a double
+double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+
+// Store the random epoch seconds in a JMeter variable
+vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
+// Calculate the time range (12 hours in seconds)
+int twelveHoursInSeconds = 12 * 60 * 60;
+// Generate a random time within the last 12 hours
+double randomSecondsBefore = (double)(new Random().nextInt(twelveHoursInSeconds));
+// Calculate the random date in seconds before the specified epoch time
+double randomDateSeconds = randomDateEpochSeconds - randomSecondsBefore;
+// Assign the random seconds to a JMeter variable
+vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSeconds));
+
+
+String anfId = &quot;${__UUID}&quot;;
+vars.put(&quot;anf_id&quot;,anfId);</stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="60621009 | Body mass index (observable entity)" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -237,15 +306,15 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
      }&#xd;
    },&#xd;
    &quot;authors&quot; : [ {&#xd;
-     &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+     &quot;id&quot; : ${practitionerID},&#xd;
      &quot;practitionerValue&quot; : {&#xd;
-       &quot;identifier&quot; : &quot;123456&quot;,&#xd;
-       &quot;display&quot; : &quot;Dr. John Doe&quot;,&#xd;
-       &quot;reference&quot; : &quot;http://example.com&quot;,&#xd;
-       &quot;uri&quot; : &quot;http://example.com&quot;&#xd;
+       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
+       &quot;display&quot; : ${practitionerDisplay},&#xd;
+       &quot;reference&quot; : ${practitionerReference},&#xd;
+       &quot;uri&quot; : ${practitionerUri}&#xd;
      },&#xd;
      &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
      }&#xd;
    } ],&#xd;
    &quot;subjectOfInformation&quot; : {&#xd;
@@ -260,8 +329,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
-       &quot;upperBound&quot; : 1.721343492E9,&#xd;
-       &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
@@ -286,9 +355,9 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;participant&quot; : [ {&#xd;
-       &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+       &quot;id&quot; : ${practitionerID},&#xd;
        &quot;code&quot; : {&#xd;
-         &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
        }&#xd;
      } ],&#xd;
      &quot;deviceid&quot; : [ ]&#xd;
@@ -312,6 +381,48 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
           <boolProp name="HTTPSampler.md5">false</boolProp>
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+          <stringProp name="BeanShellSampler.query">import java.util.Date;
+import java.util.Random;
+import java.text.SimpleDateFormat;
+
+// Set the start date (January 1, 2019)
+SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
+
+// Get the current date
+Date currentDate = new Date();
+
+// Calculate the difference in milliseconds between the current date and the start date
+long diffInMillies = currentDate.getTime() - startDate.getTime();
+
+// Generate a random number of milliseconds within this range
+Random random = new Random();
+long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
+
+// Create a Date object with the random milliseconds
+Date randomDate = new Date(randomMillisSinceEpoch);
+
+// Get the epoch seconds for the random date as a double
+double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+
+// Store the random epoch seconds in a JMeter variable
+vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
+// Calculate the time range (12 hours in seconds)
+int twelveHoursInSeconds = 12 * 60 * 60;
+// Generate a random time within the last 12 hours
+double randomSecondsBefore = (double)(new Random().nextInt(twelveHoursInSeconds));
+// Calculate the random date in seconds before the specified epoch time
+double randomDateSeconds = randomDateEpochSeconds - randomSecondsBefore;
+// Assign the random seconds to a JMeter variable
+vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSeconds));
+
+
+String anfId = &quot;${__UUID}&quot;;
+vars.put(&quot;anf_id&quot;,anfId);</stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="27113001 | Body weight (observable entity)" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -338,15 +449,15 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
      }&#xd;
    },&#xd;
    &quot;authors&quot; : [ {&#xd;
-     &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+     &quot;id&quot; : ${practitionerID},&#xd;
      &quot;practitionerValue&quot; : {&#xd;
-       &quot;identifier&quot; : &quot;123456&quot;,&#xd;
-       &quot;display&quot; : &quot;Dr. John Doe&quot;,&#xd;
-       &quot;reference&quot; : &quot;http://example.com&quot;,&#xd;
-       &quot;uri&quot; : &quot;http://example.com&quot;&#xd;
+       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
+       &quot;display&quot; : ${practitionerDisplay},&#xd;
+       &quot;reference&quot; : ${practitionerReference},&#xd;
+       &quot;uri&quot; : ${practitionerUri}&#xd;
      },&#xd;
      &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
      }&#xd;
    } ],&#xd;
    &quot;subjectOfInformation&quot; : {&#xd;
@@ -361,8 +472,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
-       &quot;upperBound&quot; : 1.721343492E9,&#xd;
-       &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
@@ -387,9 +498,9 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;participant&quot; : [ {&#xd;
-       &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+       &quot;id&quot; : ${practitionerID},&#xd;
        &quot;code&quot; : {&#xd;
-         &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
        }&#xd;
      } ],&#xd;
      &quot;deviceid&quot; : [ ]&#xd;
@@ -413,6 +524,48 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
           <boolProp name="HTTPSampler.md5">false</boolProp>
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+          <stringProp name="BeanShellSampler.query">import java.util.Date;
+import java.util.Random;
+import java.text.SimpleDateFormat;
+
+// Set the start date (January 1, 2019)
+SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
+
+// Get the current date
+Date currentDate = new Date();
+
+// Calculate the difference in milliseconds between the current date and the start date
+long diffInMillies = currentDate.getTime() - startDate.getTime();
+
+// Generate a random number of milliseconds within this range
+Random random = new Random();
+long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
+
+// Create a Date object with the random milliseconds
+Date randomDate = new Date(randomMillisSinceEpoch);
+
+// Get the epoch seconds for the random date as a double
+double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+
+// Store the random epoch seconds in a JMeter variable
+vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
+// Calculate the time range (12 hours in seconds)
+int twelveHoursInSeconds = 12 * 60 * 60;
+// Generate a random time within the last 12 hours
+double randomSecondsBefore = (double)(new Random().nextInt(twelveHoursInSeconds));
+// Calculate the random date in seconds before the specified epoch time
+double randomDateSeconds = randomDateEpochSeconds - randomSecondsBefore;
+// Assign the random seconds to a JMeter variable
+vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSeconds));
+
+
+String anfId = &quot;${__UUID}&quot;;
+vars.put(&quot;anf_id&quot;,anfId);</stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1153637007 | Body height (observable entity))" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -439,15 +592,15 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
      }&#xd;
    },&#xd;
    &quot;authors&quot; : [ {&#xd;
-     &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+     &quot;id&quot; : ${practitionerID},&#xd;
      &quot;practitionerValue&quot; : {&#xd;
-       &quot;identifier&quot; : &quot;123456&quot;,&#xd;
-       &quot;display&quot; : &quot;Dr. John Doe&quot;,&#xd;
-       &quot;reference&quot; : &quot;http://example.com&quot;,&#xd;
-       &quot;uri&quot; : &quot;http://example.com&quot;&#xd;
+       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
+       &quot;display&quot; : ${practitionerDisplay},&#xd;
+       &quot;reference&quot; : ${practitionerReference},&#xd;
+       &quot;uri&quot; : ${practitionerUri}&#xd;
      },&#xd;
      &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
      }&#xd;
    } ],&#xd;
    &quot;subjectOfInformation&quot; : {&#xd;
@@ -462,8 +615,8 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
-       &quot;upperBound&quot; : 1.721343492E9,&#xd;
-       &quot;lowerBound&quot; : 1.721343492E9,&#xd;
+       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
@@ -488,9 +641,9 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;participant&quot; : [ {&#xd;
-       &quot;id&quot; : &quot;719cba66-ebe9-4588-a6c8-53b57c5cc6bf&quot;,&#xd;
+       &quot;id&quot; : ${practitionerID},&#xd;
        &quot;code&quot; : {&#xd;
-         &quot;expression&quot; : &quot;62247001 | Family medicine specialist (occupation)&quot;&#xd;
+         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
        }&#xd;
      } ],&#xd;
      &quot;deviceid&quot; : [ ]&#xd;
