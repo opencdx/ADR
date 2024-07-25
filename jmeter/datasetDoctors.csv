@@ -1,0 +1,6 @@
+id,practitioner_identifier,practitioner_display,practitioner_reference,practitioner_uri,code_expression
+"719cba66-ebe9-4588-a6c8-53b57c5cc6bf","123456","Dr. John Doe","http://example.com","http://example.com","62247001 | Family medicine specialist (occupation)"
+"b7b9a56e-c594-4e2c-a6c4-ecbe5f5c2c9d","234567","Dr. Jane Smith","http://example.com","http://example.com","62247001 | Family medicine specialist (occupation)"
+"c8d56dcd-2b7e-4f50-8c5d-39cfc9d5ad7a","345678","Dr. Alice Johnson","http://example.com","http://example.com","62247001 | Family medicine specialist (occupation)"
+"d9e678f1-3d7f-4a51-9c7d-4bfcbeb6f8b2","456789","Dr. Bob Brown","http://example.com","http://example.com","62247001 | Family medicine specialist (occupation)"
+"ea9f7890-4d8e-4b52-ad8e-5cfc5c8b6e3c","567890","Dr. Carol White","http://example.com","http://example.com","62247001 | Family medicine specialist (occupation)"
