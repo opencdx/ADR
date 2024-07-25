@@ -112,7 +112,7 @@ public class CsvServiceImpl implements CsvService {
      */
     private void processPerformanceCircumstance(CsvBuilder csvDto, int row, String conceptName, PerformanceCircumstanceModel performanceCircumstance, UnitOutput unitOutput) {
         if (performanceCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", new Date(performanceCircumstance.getTiming().getLowerBound().longValue()).toString());
+            csvDto.setCell(row, conceptName + " Reported", new Date(performanceCircumstance.getTiming().getLowerBound().longValue() * 1000).toString());
         }
         csvDto.setCell(row, conceptName, formatMeasure(performanceCircumstance.getResult(),unitOutput));
     }
@@ -128,7 +128,7 @@ public class CsvServiceImpl implements CsvService {
      */
     private void processRequestCircumstance(CsvBuilder csvDto, int row, String conceptName, RequestCircumstanceModel requestCircumstance, UnitOutput unitOutput) {
         if (requestCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", new Date(requestCircumstance.getTiming().getLowerBound().longValue()).toString());
+            csvDto.setCell(row, conceptName + " Reported", new Date(requestCircumstance.getTiming().getLowerBound().longValue() * 1000).toString());
         }
         csvDto.setCell(row, conceptName, formatMeasure(requestCircumstance.getRequestedResult(),unitOutput));
     }
@@ -143,7 +143,7 @@ public class CsvServiceImpl implements CsvService {
      */
     private void processNarrativeCircumstance(CsvBuilder csvDto, int row, String conceptName, NarrativeCircumstanceModel narrativeCircumstance) {
         if (narrativeCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", new Date(narrativeCircumstance.getTiming().getLowerBound().longValue()).toString());
+            csvDto.setCell(row, conceptName + " Reported", new Date(narrativeCircumstance.getTiming().getLowerBound().longValue()* 1000).toString());
         }
         csvDto.setCell(row, conceptName, narrativeCircumstance.getText());
     }
@@ -159,7 +159,7 @@ public class CsvServiceImpl implements CsvService {
         return results.stream()
                 .filter(item -> item.getSubjectOfRecord().getPartId().equals(uuid))
                 .sorted(Comparator.comparing(item -> item.getTime().getLowerBound()))
-                .map(item -> new Date(item.getTime().getLowerBound().longValue()))
+                .map(item -> new Date(item.getTime().getLowerBound().longValue() * 1000))
                 .findFirst();
     }
 

@@ -59,7 +59,7 @@ public class ConversionServiceImpl implements ConversionService {
         if(measure.getUpperBound() != null) {
             convertedMeasure.setUpperBound(this.process(unit, measure.getUnit().getConceptId(), measure.getUpperBound()));
         }
-        
+
         convertedMeasure.setUnit(this.conceptRepository.findByConceptId(unit));
 
         return convertedMeasure;
@@ -185,7 +185,7 @@ public class ConversionServiceImpl implements ConversionService {
     private Double convertToMeters(UUID unit, Double value) {
         switch(unit.toString()) {
             case OpenCDXIKMServiceImpl.UNIT_INCH: // inches
-                return value / 9.3701;
+                return value / 39.3701;
             default:
                 return null;
         }
