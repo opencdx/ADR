@@ -45,7 +45,7 @@ public class ConversionServiceImpl implements ConversionService {
      */
     @Override
     public MeasureModel convert(UUID unit, MeasureModel measure) {
-        if(measure.getUnit() != null && unit.equals(measure.getUnit().getConceptId())) {
+        if(measure.getSemantic() != null && unit.equals(measure.getSemantic().getConceptId())) {
             return measure;
         }
         MeasureModel convertedMeasure = new MeasureModel();
@@ -53,14 +53,14 @@ public class ConversionServiceImpl implements ConversionService {
         convertedMeasure.setIncludeUpperBound(measure.getIncludeUpperBound());
 
         if(measure.getLowerBound() != null) {
-            convertedMeasure.setLowerBound(this.process(unit, measure.getUnit().getConceptId(), measure.getLowerBound()));
+            convertedMeasure.setLowerBound(this.process(unit, measure.getSemantic().getConceptId(), measure.getLowerBound()));
         }
 
         if(measure.getUpperBound() != null) {
-            convertedMeasure.setUpperBound(this.process(unit, measure.getUnit().getConceptId(), measure.getUpperBound()));
+            convertedMeasure.setUpperBound(this.process(unit, measure.getSemantic().getConceptId(), measure.getUpperBound()));
         }
 
-        convertedMeasure.setUnit(this.conceptRepository.findByConceptId(unit));
+        convertedMeasure.setSemantic(this.conceptRepository.findByConceptId(unit));
 
         return convertedMeasure;
     }
@@ -89,13 +89,13 @@ public class ConversionServiceImpl implements ConversionService {
      * @return a UUID representing the converted measure in the imperial unit
      */
     private UUID convertToImperial(MeasureModel measure) {
-        switch (measure.getUnit().getConceptId().toString()) {
+        switch (measure.getSemantic().getConceptId().toString()) {
             case OpenCDXIKMServiceImpl.UNIT_INCH , OpenCDXIKMServiceImpl.UNIT_METER:
                 return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_INCH);
             case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS:
                 return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_POUNDS);
             default:
-                return measure.getUnit().getConceptId();
+                return measure.getSemantic().getConceptId();
         }
     }
 
@@ -106,13 +106,13 @@ public class ConversionServiceImpl implements ConversionService {
      * @return the UUID of the metric unit corresponding to the measure's unit
      */
     private UUID convertToMetric(MeasureModel measure) {
-        switch (measure.getUnit().getConceptId().toString()) {
+        switch (measure.getSemantic().getConceptId().toString()) {
             case OpenCDXIKMServiceImpl.UNIT_INCH, OpenCDXIKMServiceImpl.UNIT_METER:
                 return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_METER);
             case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS:
                 return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_KILOGRAMS);
             default:
-                return measure.getUnit().getConceptId();
+                return measure.getSemantic().getConceptId();
         }
     }
 

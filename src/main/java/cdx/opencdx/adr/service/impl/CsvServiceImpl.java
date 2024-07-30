@@ -2,7 +2,7 @@ package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.UnitOutput;
 import cdx.opencdx.adr.model.*;
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.CsvService;
 import cdx.opencdx.adr.utils.CsvBuilder;
@@ -41,7 +41,7 @@ public class CsvServiceImpl implements CsvService {
     /**
      * Represents an instance of ANFRepo.
      */
-    private final ANFRepo anfRepo;
+    private final ANFHelper anfRepo;
 
 
     /**
@@ -55,7 +55,7 @@ public class CsvServiceImpl implements CsvService {
      * @param anfRepo the ANFRepo used for data access
      * @param conversionService the ConversionService used for data conversion
      */
-    public CsvServiceImpl(ANFRepo anfRepo, ConversionService conversionService) {
+    public CsvServiceImpl(ANFHelper anfRepo, ConversionService conversionService) {
         this.anfRepo = anfRepo;
         this.conversionService = conversionService;
     }
@@ -87,7 +87,7 @@ public class CsvServiceImpl implements CsvService {
 
             anfs.forEach(anf -> {
                 if (anf.getTopic() != null) {
-                    var conceptName = anf.getTopic().getTinkarConcept().getConceptName();
+                    var conceptName = anf.getTopic().getConceptName();
                     if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
                         processPerformanceCircumstance(csvDto, currentRow, conceptName, anf.getPerformanceCircumstance(),unitOutput);
                     } else if (anf.getRequestCircumstance() != null) {
@@ -212,8 +212,8 @@ public class CsvServiceImpl implements CsvService {
      * @param sb The StringBuilder object to append the unit of measure.
      */
     private void appendUnitIfPresent(MeasureModel measure, StringBuilder sb) {
-        if (measure.getUnit() != null) {
-            sb.append(" ").append(measure.getUnit().getConceptName());
+        if (measure.getSemantic() != null) {
+            sb.append(" ").append(measure.getSemantic().getConceptName());
         }
     }
 

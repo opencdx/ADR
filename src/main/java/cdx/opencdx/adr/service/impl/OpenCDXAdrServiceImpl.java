@@ -19,12 +19,12 @@ import cdx.opencdx.adr.dto.ADRQuery;
 import cdx.opencdx.adr.dto.Query;
 import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
-import cdx.opencdx.adr.repository.ANFRepo;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.adr.service.QueryService;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
@@ -87,7 +87,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      * ANFRepo is a repository class that provides functionality for
      * accessing and managing ANF objects.
      */
-    private final ANFRepo anfRepo;
+    private final ANFHelper anfRepo;
     /**
      * The variable mapper for object-to-JSON serialization and deserialization.
      * It is an instance of the ObjectMapper class, which provides functionality
@@ -110,7 +110,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      * @param anfRepo                The ANF Repo
      * @param mapper                 The ObjectMapper
      */
-    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, TinkarConceptRepository conceptRepository, QueryService queryService, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFRepo anfRepo, ObjectMapper mapper) {
+    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, TinkarConceptRepository conceptRepository, QueryService queryService, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFHelper anfRepo, ObjectMapper mapper) {
         this.anfStatementRepository = anfStatementRepository;
         this.conceptRepository = conceptRepository;
         this.queryService = queryService;

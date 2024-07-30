@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.Repetition;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -174,7 +174,7 @@ public class RepetitionModel {
      *
      * <p>
      * The constructor of the {@link RepetitionModel} class initializes the event duration by creating a new instance
-     * of the {@link MeasureModel} class using the value from the input repetition and the {@link ANFRepo} repository.
+     * of the {@link MeasureModel} class using the value from the input repetition and the {@link ANFHelper} repository.
      * </p>
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -184,7 +184,7 @@ public class RepetitionModel {
     /**
      * Represents a repetition in the system.
      */
-    public RepetitionModel(Repetition repetition, ANFRepo anfRepo) {
+    public RepetitionModel(Repetition repetition, ANFHelper anfRepo) {
         this.periodStart = anfRepo.getMeasureRepository().save(new MeasureModel(repetition.getPeriodStart(), anfRepo));
         this.periodDuration = anfRepo.getMeasureRepository().save(new MeasureModel(repetition.getPeriodDuration(), anfRepo));
         this.eventFrequency = anfRepo.getMeasureRepository().save(new MeasureModel(repetition.getEventFrequency(), anfRepo));

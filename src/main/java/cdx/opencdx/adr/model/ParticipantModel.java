@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.Participant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -120,11 +120,11 @@ public class ParticipantModel {
      * @see ManyToOne
      * @see JoinColumn
      * @see FetchType
-     * @see LogicalExpressionModel
+     * @see TinkarConceptModel
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "code_id")
-    private LogicalExpressionModel code;
+    private TinkarConceptModel code;
 
     /**
      * Set of AnfStatementModel objects representing the DIM ANF statements.
@@ -149,9 +149,9 @@ public class ParticipantModel {
      * @param participant The Participant object used to set the values of the ParticipantModel.
      * @param anfRepo     The ANFRepo object used for database operations.
      */
-    public ParticipantModel(Participant participant, ANFRepo anfRepo) {
+    public ParticipantModel(Participant participant, ANFHelper anfRepo) {
         this.partId = UUID.fromString(participant.getId());
         this.practitioner = anfRepo.getReferenceRepository().save(new ReferenceModel(participant.getPractitionerValue(), anfRepo));
-        this.code = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(participant.getCode(), anfRepo));
+        this.code = anfRepo.getOpenCDXIKMService().getInkarConceptModel(participant.getCode());
     }
 }

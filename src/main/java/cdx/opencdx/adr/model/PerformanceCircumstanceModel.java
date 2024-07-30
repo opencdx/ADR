@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.PerformanceCircumstance;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -62,7 +62,7 @@ public class PerformanceCircumstanceModel {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
-    private LogicalExpressionModel status;
+    private TinkarConceptModel status;
 
     /**
      * Represents the result of a performance circumstance.
@@ -97,14 +97,14 @@ public class PerformanceCircumstanceModel {
      * @JoinColumn(name = "health_risk_id")
      * private LogicalExpressionModel healthRisk;
      * <p>
-     * The healthRisk field is a reference to a {@link LogicalExpressionModel} object. It is annotated with @ManyToOne to indicate that it represents a many-to-one relationship with
+     * The healthRisk field is a reference to a {@link TinkarConceptModel} object. It is annotated with @ManyToOne to indicate that it represents a many-to-one relationship with
      * the parent class PerformanceCircumstanceModel.
      * The fetch type is set to LAZY, meaning that the related LogicalExpressionModel object will be loaded lazily in the application when needed.
      * The JoinColumn annotation specifies the name of the foreign key column in the database table that represents the health risk association.
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "health_risk_id")
-    private LogicalExpressionModel healthRisk;
+    private TinkarConceptModel healthRisk;
 
     /**
      * Represents the normal range of a measure.
@@ -206,7 +206,7 @@ public class PerformanceCircumstanceModel {
             name = "unionperformancecircumstance_purpose",
             joinColumns = @JoinColumn(name = "performance_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "purpose_id"))
-    private List<LogicalExpressionModel> purposes = new LinkedList<>();
+    private List<TinkarConceptModel> purposes = new LinkedList<>();
 
 
     /**
@@ -215,18 +215,18 @@ public class PerformanceCircumstanceModel {
      * @param circumstance The PerformanceCircumstance object containing the circumstances for the model.
      * @param anfRepo      The ANFRepo instance used to interact with the repository.
      */
-    public PerformanceCircumstanceModel(PerformanceCircumstance circumstance, ANFRepo anfRepo) {
+    public PerformanceCircumstanceModel(PerformanceCircumstance circumstance, ANFHelper anfRepo) {
         this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getTiming(), anfRepo));
         this.result = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getResult(), anfRepo));
         if (circumstance.hasNormalRange()) {
             this.normalRange = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getNormalRange(), anfRepo));
         }
-        this.status = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(circumstance.getStatus(), anfRepo));
+        this.status = anfRepo.getOpenCDXIKMService().getInkarConceptModel(circumstance.getStatus());
         if (circumstance.hasHealthRisk()) {
-            this.healthRisk = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(circumstance.getHealthRisk(), anfRepo));
+            this.healthRisk = anfRepo.getOpenCDXIKMService().getInkarConceptModel(circumstance.getHealthRisk());
         }
         this.participants = circumstance.getParticipantList().stream().map(participant -> anfRepo.getParticipantRepository().save(new ParticipantModel(participant, anfRepo))).toList();
-        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(purpose, anfRepo))).toList();
+        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getOpenCDXIKMService().getInkarConceptModel(purpose)).toList();
 
         this.deviceIds = circumstance.getDeviceIdList();
     }

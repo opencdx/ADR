@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.Practitioner;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -110,7 +110,7 @@ public class PractitionerModel {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "code_id")
-    private LogicalExpressionModel code;
+    private TinkarConceptModel code;
 
     /**
      * Constructs a new PractitionerModel object.
@@ -118,9 +118,9 @@ public class PractitionerModel {
      * @param practitioner The Practitioner object from which the data is obtained.
      * @param anfRepo      The ANFRepo object used to save the reference and logical expression models.
      */
-    public PractitionerModel(Practitioner practitioner, ANFRepo anfRepo) {
+    public PractitionerModel(Practitioner practitioner, ANFHelper anfRepo) {
         this.practId = UUID.fromString(practitioner.getId());
         this.practitioner = anfRepo.getReferenceRepository().save(new ReferenceModel(practitioner.getPractitionerValue(), anfRepo));
-        this.code = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(practitioner.getCode(), anfRepo));
+        this.code = anfRepo.getOpenCDXIKMService().getInkarConceptModel(practitioner.getCode());
     }
 }

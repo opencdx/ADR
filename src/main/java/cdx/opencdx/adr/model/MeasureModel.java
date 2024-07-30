@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.Measure;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -104,38 +104,11 @@ public class MeasureModel {
     private Boolean includeLowerBound;
 
     /**
-     * The variable "unit" represents the TinkarConceptModel associated with a MeasureModel instance.
-     * It is a ManyToOne relationship, indicating that multiple MeasureModel instances can refer to the same TinkarConceptModel instance.
-     * The FetchType.LAZY attribute specifies that the TinkarConceptModel should be lazily fetched, i.e., loaded only when accessed.
-     * The JoinColumn annotation specifies the database column name "unit_id" that is used to store the relationship between MeasureModel and TinkarConceptModel.
-     * <p>
-     * The TinkarConceptModel class represents a Tinkar concept stored in the database.
-     * It contains properties like conceptId, conceptName, conceptDescription, and anfStatements.
-     * The TinkarConceptModel class is annotated as an entity and is mapped to the "dimtinkarconcept" table in the database.
-     * <p>
-     * The MeasureModel class represents a measure stored in the database.
-     * It contains properties like id, upperBound, lowerBound, includeUpperBound, includeLowerBound, unit, semantic, and resolution.
-     * The MeasureModel class is annotated as an entity and is mapped to the "dimmeasure" table in the database.
-     * <p>
-     * The unit property of a MeasureModel instance is used to associate a TinkarConceptModel instance with the measure.
-     * This allows for semantic referencing and grouping of measures based on the concept represented by the TinkarConceptModel.
-     * <p>
-     * Example usage:
-     * <p>
-     * MeasureModel measure = new MeasureModel();
-     * TinkarConceptModel unit = new TinkarConceptModel();
-     * measure.setUnit(unit);
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "unit_id")
-    private TinkarConceptModel unit;
-
-    /**
      *
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semantic_id")
-    private LogicalExpressionModel semantic;
+    private TinkarConceptModel semantic;
 
     /**
      * The resolution variable represents the resolution of a measure in the MeasureModel class.
@@ -164,12 +137,12 @@ public class MeasureModel {
      * @param measure The Measure object to be stored.
      * @param anfRepo The ANFRepo object used to save or find a LogicalExpressionModel.
      */
-    public MeasureModel(Measure measure, ANFRepo anfRepo) {
+    public MeasureModel(Measure measure, ANFHelper anfRepo) {
         this.upperBound = measure.getUpperBound();
         this.lowerBound = measure.getLowerBound();
         this.includeLowerBound = measure.getIncludeLowerBound();
         this.includeUpperBound = measure.getIncludeUpperBound();
-        this.semantic = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(measure.getSemantic(), anfRepo));
+        this.semantic = anfRepo.getOpenCDXIKMService().getInkarConceptModel(measure.getSemantic());
         this.resolution = measure.getResolution();
     }
 }

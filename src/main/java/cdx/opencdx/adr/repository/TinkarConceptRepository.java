@@ -27,4 +27,13 @@ public interface TinkarConceptRepository extends JpaRepository<TinkarConceptMode
      * @return The TinkarConceptModel object corresponding to the conceptId, or null if not found.
      */
     TinkarConceptModel findByConceptId(UUID conceptId);
+
+
+    /**
+     * Retrieves a TinkarConceptModel object based on the given description.
+     *
+     * @param conceptDescription The description of the concept to search for.
+     * @return The TinkarConceptModel object corresponding to the description, or null if not found.
+     */
+    TinkarConceptModel findByConceptDescription(String conceptDescription);
 }

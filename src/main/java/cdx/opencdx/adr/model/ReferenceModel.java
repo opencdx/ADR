@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.Reference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -119,7 +119,7 @@ public class ReferenceModel {
      * @param reference the reference object used to initialize the fields of the ReferenceModel
      * @param anfRepo   the ANFRepo object to be used
      */
-    public ReferenceModel(Reference reference, ANFRepo anfRepo) {
+    public ReferenceModel(Reference reference, ANFHelper anfRepo) {
         this.identifier = reference.getIdentifier();
         this.display = reference.getDisplay();
         this.reference = reference.getReference();

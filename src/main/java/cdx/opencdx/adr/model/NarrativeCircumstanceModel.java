@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.NarrativeCircumstance;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -74,7 +74,7 @@ public class NarrativeCircumstanceModel {
             name = "unionnarrativecircumstance_purpose",
             joinColumns = @JoinColumn(name = "narrative_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "purpose_id"))
-    private List<LogicalExpressionModel> purposes = new LinkedList<>();
+    private List<TinkarConceptModel> purposes = new LinkedList<>();
 
     /**
      * Constructs a new NarrativeCircumstanceModel object.
@@ -82,10 +82,10 @@ public class NarrativeCircumstanceModel {
      * @param circumstance the NarrativeCircumstance object to be used in the construction of the model
      * @param anfRepo      the ANFRepo object used for saving data to the repository
      */
-    public NarrativeCircumstanceModel(NarrativeCircumstance circumstance, ANFRepo anfRepo) {
+    public NarrativeCircumstanceModel(NarrativeCircumstance circumstance, ANFHelper anfRepo) {
         this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(circumstance.getTiming(), anfRepo));
         this.text = circumstance.getText();
-        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(purpose, anfRepo))).toList();
+        this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getOpenCDXIKMService().getInkarConceptModel(purpose)).toList();
     }
 
 }

@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.adr.repository;
+package cdx.opencdx.adr.utils;
 
 import cdx.opencdx.adr.model.RepetitionModel;
+import cdx.opencdx.adr.repository.*;
+import cdx.opencdx.adr.service.OpenCDXIKMService;
 import lombok.Getter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
@@ -25,14 +27,19 @@ import org.springframework.stereotype.Component;
  */
 @Getter
 @Component
-public class ANFRepo {
+public class ANFHelper {
+
+
+    /**
+     * The OpenCDXIKMService interface provides methods for retrieving TinkarConceptModel
+     * associated with LogicalExpressionModel.
+     */
+    private final OpenCDXIKMService openCDXIKMService;
 
     /**
      * The ANFStatementRepository class is a private final variable that represents a repository
      * for ANFStatementModel objects. It is used to interact with the database table "dimanfstatement"
      * and extends the JpaRepository interface, providing basic CRUD operations for the ANFStatementModel entity.
-     *
-     * @see ANFStatementModel
      */
     private final ANFStatementRepository anfStatementRepository;
     /**
@@ -106,13 +113,7 @@ public class ANFRepo {
      * @param <T> The type of the entity (RequestCircumstanceModel) managed by this repository.
      */
     private final RequestCircumstanceRepository requestCircumstanceRepository;
-    /**
-     * The logicalExpressionRepository variable is an instance of the LogicalExpressionRepository interface.
-     * It is used to manage logical expressions in the application.
-     * The repository provides methods for checking if an expression exists, finding a logical expression by its expression,
-     * and saving or finding a logical expression model.
-     */
-    private final LogicalExpressionRepository logicalExpressionRepository;
+
     /**
      * The referenceRepository variable is an instance of the ReferenceRepository interface.
      * It is used as a repository for managing instances of the ReferenceModel class.
@@ -162,8 +163,8 @@ public class ANFRepo {
     /**
      * The ANFRepo class represents a repository for the ANF.
      */
-    public ANFRepo(
-            ANFStatementRepository anfStatementRepository,
+    public ANFHelper(
+            OpenCDXIKMService openCDXIKMService, ANFStatementRepository anfStatementRepository,
             AssociatedStatementRespository associatedStatementRespository,
             MeasureRepository measureRepository,
             NarrativeCircumstanceRepository narrativeCircumstanceRepository,
@@ -171,7 +172,8 @@ public class ANFRepo {
             PerformanceCircumstanceRepository performanceCircumstanceRepository,
             PractitionerRepository practitionerRepository,
             RepetitionRepository repetitionRepository,
-            RequestCircumstanceRepository requestCircumstanceRepository, LogicalExpressionRepository logicalExpressionRepository, ReferenceRepository referenceRepository, TinkarConceptRepository tinkarConceptRepository) {
+            RequestCircumstanceRepository requestCircumstanceRepository, ReferenceRepository referenceRepository, TinkarConceptRepository tinkarConceptRepository) {
+        this.openCDXIKMService = openCDXIKMService;
         this.anfStatementRepository = anfStatementRepository;
         this.associatedStatementRespository = associatedStatementRespository;
         this.measureRepository = measureRepository;
@@ -181,7 +183,6 @@ public class ANFRepo {
         this.practitionerRepository = practitionerRepository;
         this.repetitionRepository = repetitionRepository;
         this.requestCircumstanceRepository = requestCircumstanceRepository;
-        this.logicalExpressionRepository = logicalExpressionRepository;
         this.referenceRepository = referenceRepository;
         this.tinkarConceptRepository = tinkarConceptRepository;
     }
