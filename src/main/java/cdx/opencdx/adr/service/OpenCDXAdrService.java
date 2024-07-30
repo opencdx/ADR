@@ -16,7 +16,6 @@
 package cdx.opencdx.adr.service;
 
 import cdx.opencdx.adr.dto.ADRQuery;
-import cdx.opencdx.adr.dto.Query;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.grpc.data.ANFStatement;
 

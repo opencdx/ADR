@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
  * The TextOperationServiceImpl class implements the TextOperationService interface.
  * It provides a method for performing text operations based on a specified operation.
  */
+@SuppressWarnings("ALL")
 @Slf4j
 @Service
 public class TextOperationServiceImpl implements TextOperationService {
@@ -21,21 +22,14 @@ public class TextOperationServiceImpl implements TextOperationService {
      */
     @Override
     public boolean textOperation(Operation operation, String operationValue, String text) {
-        switch (operation) {
-            case GREATER_THAN:
-                return text.compareTo(operationValue) > 0;
-            case LESS_THAN:
-                return text.compareTo(operationValue) < 0;
-            case GREATER_THAN_OR_EQUAL:
-                return text.compareTo(operationValue) >= 0;
-            case LESS_THAN_OR_EQUAL:
-                return text.compareTo(operationValue) <= 0;
-            case EQUAL:
-                return text.equals(operationValue);
-            case NOT_EQUAL:
-                return !text.equals(operationValue);
-            default:
-                return false;
-        }
+        return switch (operation) {
+            case GREATER_THAN -> text.compareTo(operationValue) > 0;
+            case LESS_THAN -> text.compareTo(operationValue) < 0;
+            case GREATER_THAN_OR_EQUAL -> text.compareTo(operationValue) >= 0;
+            case LESS_THAN_OR_EQUAL -> text.compareTo(operationValue) <= 0;
+            case EQUAL -> text.equals(operationValue);
+            case NOT_EQUAL -> !text.equals(operationValue);
+            default -> false;
+        };
     }
 }

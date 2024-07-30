@@ -31,11 +31,6 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
     private final ANFHelper anfRepo;
 
     /**
-     * The ikmService variable represents an instance of the OpenCDXIKMService class.
-     */
-    private final OpenCDXIKMService ikmService;
-
-    /**
      * Creates a new instance of LogicalExpressionProcessor.
      *
      * @param ikmService the OpenCDXIKMService used for processing logical expressions
@@ -43,7 +38,9 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
      */
     public LogicalExpressionProcessor(OpenCDXIKMService ikmService,
                                       ANFHelper anfRepo) {
-        this.ikmService = ikmService;
+        /**
+         * The ikmService variable represents an instance of the OpenCDXIKMService class.
+         */
         this.anfRepo = anfRepo;
     }
 

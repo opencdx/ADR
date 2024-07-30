@@ -46,7 +46,7 @@ public class ListUtils {
      * @return List of K
      */
     public static <K, V> List<K> mapKeyToList(Map<K, V> map) {
-        return ListUtils.safe(new ArrayList<>(map.keySet()));
+        return new ArrayList<>(map.keySet());
     }
 
     /**
@@ -81,7 +81,7 @@ public class ListUtils {
      * @return List of V
      */
     public static <K, V> List<V> mapValuesToList(Map<K, V> map) {
-        return ListUtils.safe(new ArrayList<>(map.values()));
+        return new ArrayList<>(map.values());
     }
 
     /**
@@ -237,7 +237,7 @@ public class ListUtils {
      * @return List with value set or an empty list.
      */
     public static <E, R> List<E> setValue(List<E> list, R value, BiConsumer<E, R> setter) {
-        list.stream().forEach(item -> setter.accept(item, value));
+        list.forEach(item -> setter.accept(item, value));
         return list;
     }
 
