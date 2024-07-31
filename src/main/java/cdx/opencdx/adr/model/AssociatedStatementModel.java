@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.AssociatedStatement;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -106,7 +106,7 @@ public class AssociatedStatementModel {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "semantic_id")
-    private LogicalExpressionModel semantic;
+    private TinkarConceptModel semantic;
 
     /**
      * Creates a new AssociatedStatementModel instance with the given associatedStatement and anfRepo.
@@ -114,8 +114,8 @@ public class AssociatedStatementModel {
      * @param associatedStatement the associated statement object
      * @param anfRepo             the ANF repository object
      */
-    public AssociatedStatementModel(AssociatedStatement associatedStatement, ANFRepo anfRepo) {
+    public AssociatedStatementModel(AssociatedStatement associatedStatement, ANFHelper anfRepo) {
         this.stateId = anfRepo.getReferenceRepository().save(new ReferenceModel(associatedStatement.getId(), anfRepo));
-        this.semantic = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(associatedStatement.getSemantic(), anfRepo));
+        this.semantic = anfRepo.getOpenCDXIKMService().getInkarConceptModel(associatedStatement.getSemantic());
     }
 }

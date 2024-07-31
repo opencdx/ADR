@@ -2,7 +2,6 @@ package cdx.opencdx.adr.config;
 
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.impl.LogicalExpressionProcessor;
-import cdx.opencdx.adr.service.impl.LogicalExpressionUnitProcessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
@@ -47,14 +46,12 @@ public class AppConfig {
      * Opens the CDX ANF Processors.
      *
      * @param logicalExpressionProcessor     The logical expression processor.
-     * @param logicalExpressionUnitProcessor The logical expression unit processor.
      * @return The list of OpenCDXANFProcessor objects.
      */
     @Bean
     @Description("OpenCDXANFProcessors")
     public List<OpenCDXANFProcessor> openCDXANFProcessors(
-            LogicalExpressionProcessor logicalExpressionProcessor,
-            LogicalExpressionUnitProcessor logicalExpressionUnitProcessor) {
-        return List.of(logicalExpressionProcessor, logicalExpressionUnitProcessor);
+            LogicalExpressionProcessor logicalExpressionProcessor) {
+        return List.of(logicalExpressionProcessor);
     }
 }

@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.RequestCircumstance;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -71,7 +71,7 @@ public class RequestCircumstanceModel {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "priority_id")
-    private LogicalExpressionModel priority;
+    private TinkarConceptModel priority;
 
     /**
      * The requestedResult variable represents a MeasureModel object, which is a model class for storing information about a measurement.
@@ -149,7 +149,7 @@ public class RequestCircumstanceModel {
             name = "unionrequestcircumstance_purpose",
             joinColumns = @JoinColumn(name = "request_circumstance_id"),
             inverseJoinColumns = @JoinColumn(name = "purpose_id"))
-    private List<LogicalExpressionModel> purposes = new LinkedList<>();
+    private List<TinkarConceptModel> purposes = new LinkedList<>();
 
 
     /**
@@ -178,13 +178,13 @@ public class RequestCircumstanceModel {
      * It is used to construct an instance of RequestCircumstanceModel
      * by providing the necessary information.
      */
-    public RequestCircumstanceModel(RequestCircumstance request, ANFRepo anfRepo) {
+    public RequestCircumstanceModel(RequestCircumstance request, ANFHelper anfRepo) {
         this.timing = anfRepo.getMeasureRepository().save(new MeasureModel(request.getTiming(), anfRepo));
-        this.priority = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(request.getPriority(), anfRepo));
+        this.priority = anfRepo.getOpenCDXIKMService().getInkarConceptModel(request.getPriority());
         this.requestedResult = anfRepo.getMeasureRepository().save(new MeasureModel(request.getRequestedResult(), anfRepo));
         this.repetition = anfRepo.getRepetitionRepository().save(new RepetitionModel(request.getRepetition(), anfRepo));
         this.conditionalTrigger = request.getConditionalTriggerList().stream().map(trigger -> anfRepo.getAssociatedStatementRespository().save(new AssociatedStatementModel(trigger, anfRepo))).toList();
-        this.purposes = request.getPurposeList().stream().map(purpose -> anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(purpose, anfRepo))).toList();
+        this.purposes = request.getPurposeList().stream().map(purpose -> anfRepo.getOpenCDXIKMService().getInkarConceptModel(purpose)).toList();
         this.requestedParticipant = request.getRequestedParticipantList().stream().map(participant -> anfRepo.getReferenceRepository().save(new ReferenceModel(participant, anfRepo))).toList();
         this.deviceIds = request.getDeviceIdList();
     }

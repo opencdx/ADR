@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.model;
 
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.ANFStatement;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -118,7 +118,7 @@ public class AnfStatementModel {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_of_information_id")
-    private LogicalExpressionModel subjectOfInformation;
+    private TinkarConceptModel subjectOfInformation;
 
     /**
      * The `topic` variable represents a related `LogicalExpressionModel` that is associated with the current `AnfStatementModel` entity.
@@ -136,7 +136,7 @@ public class AnfStatementModel {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
-    private LogicalExpressionModel topic;
+    private TinkarConceptModel topic;
 
     /**
      * The type variable represents the type of a logical expression stored in the database.
@@ -153,7 +153,7 @@ public class AnfStatementModel {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
-    private LogicalExpressionModel type;
+    private TinkarConceptModel type;
 
     /**
      * Variable representing the performance circumstance of an AnfStatementModel.
@@ -263,13 +263,13 @@ public class AnfStatementModel {
      * @param anfStatement the ANFStatement object to initialize the AnfStatementModel with
      * @param anfRepo      the ANFRepo object for accessing repositories
      */
-    public AnfStatementModel(ANFStatement anfStatement, ANFRepo anfRepo) {
+    public AnfStatementModel(ANFStatement anfStatement, ANFHelper anfRepo) {
         this.anfid = UUID.fromString(anfStatement.getId());
         this.time = anfRepo.getMeasureRepository().save(new MeasureModel(anfStatement.getTime(), anfRepo));
         this.subjectOfRecord = anfRepo.getParticipantRepository().save(new ParticipantModel(anfStatement.getSubjectOfRecord(), anfRepo));
-        this.subjectOfInformation = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(anfStatement.getSubjectOfInformation(), anfRepo));
-        this.topic = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(anfStatement.getTopic(), anfRepo));
-        this.type = anfRepo.getLogicalExpressionRepository().saveOrFind(new LogicalExpressionModel(anfStatement.getType(), anfRepo));
+        this.subjectOfInformation = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getSubjectOfInformation());
+        this.topic = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getTopic());
+        this.type = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getType());
 
         if (anfStatement.hasPerformanceCircumstance()) {
             this.performanceCircumstance = anfRepo.getPerformanceCircumstanceRepository().save(new PerformanceCircumstanceModel(anfStatement.getPerformanceCircumstance(), anfRepo));

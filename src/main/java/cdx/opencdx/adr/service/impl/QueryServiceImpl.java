@@ -4,7 +4,7 @@ import cdx.opencdx.adr.dto.*;
 import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
-import cdx.opencdx.adr.repository.ANFRepo;
+import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.adr.service.CsvService;
 import cdx.opencdx.adr.service.MeasureOperationService;
 import cdx.opencdx.adr.service.QueryService;
@@ -33,7 +33,7 @@ import java.util.UUID;
 @Service
 public class QueryServiceImpl implements QueryService {
 
-    private final ANFRepo anfRepo;
+    private final ANFHelper anfRepo;
     private final CsvService csvService;
     private final MeasureOperationService measureOperationService;
     private final TextOperationService textOperationService;
@@ -48,7 +48,7 @@ public class QueryServiceImpl implements QueryService {
      * @param anfRepo    the ANFRepo object used for querying ANF data
      * @param csvService the CsvService object used for csv operations
      */
-    public QueryServiceImpl(ANFRepo anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService) {
+    public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService) {
         this.anfRepo = anfRepo;
         this.csvService = csvService;
         this.measureOperationService = measureOperationService;
