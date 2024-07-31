@@ -2,6 +2,7 @@ package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.UnitOutput;
 import cdx.opencdx.adr.model.MeasureModel;
+import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.ConversionService;
 import lombok.extern.slf4j.Slf4j;
@@ -88,13 +89,14 @@ public class ConversionServiceImpl implements ConversionService {
      * @return a UUID representing the converted measure in the imperial unit
      */
     private UUID convertToImperial(MeasureModel measure) {
-        return switch (measure.getSemantic().getConceptId().toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH, OpenCDXIKMServiceImpl.UNIT_METER ->
-                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_INCH);
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS ->
-                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_POUNDS);
-            default -> measure.getSemantic().getConceptId();
-        };
+        switch (measure.getSemantic().getConceptId().toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_INCH , OpenCDXIKMServiceImpl.UNIT_METER:
+                return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_INCH);
+            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS:
+                return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_POUNDS);
+            default:
+                return measure.getSemantic().getConceptId();
+        }
     }
 
     /**
@@ -104,13 +106,14 @@ public class ConversionServiceImpl implements ConversionService {
      * @return the UUID of the metric unit corresponding to the measure's unit
      */
     private UUID convertToMetric(MeasureModel measure) {
-        return switch (measure.getSemantic().getConceptId().toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH, OpenCDXIKMServiceImpl.UNIT_METER ->
-                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_METER);
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS ->
-                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_KILOGRAMS);
-            default -> measure.getSemantic().getConceptId();
-        };
+        switch (measure.getSemantic().getConceptId().toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_INCH, OpenCDXIKMServiceImpl.UNIT_METER:
+                return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_METER);
+            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS:
+                return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_KILOGRAMS);
+            default:
+                return measure.getSemantic().getConceptId();
+        }
     }
 
     /**
@@ -126,17 +129,18 @@ public class ConversionServiceImpl implements ConversionService {
      * @return The processed value. If the operation unit is not recognized, the original value is returned.
      */
     private Double process(UUID operationUnit, UUID unit, Double value) {
-        return switch (operationUnit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH -> // inches
-                    convertToInches(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_METER -> // meters
-                    convertToMeters(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS -> // pounds
-                    convertToPounds(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_KILOGRAMS -> // kilograms
-                    convertToKilograms(unit, value);
-            default -> value;
-        };
+        switch(operationUnit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_INCH: // inches
+                return convertToInches(unit,value);
+            case OpenCDXIKMServiceImpl.UNIT_METER: // meters
+                return convertToMeters(unit,value);
+            case OpenCDXIKMServiceImpl.UNIT_POUNDS: // pounds
+                return convertToPounds(unit,value);
+            case  OpenCDXIKMServiceImpl.UNIT_KILOGRAMS: // kilograms
+                return convertToKilograms(unit,value);
+            default:
+                return value;
+        }
     }
 
     /**
@@ -147,11 +151,12 @@ public class ConversionServiceImpl implements ConversionService {
      * @return the converted value in kilograms, or null if the unit is not supported
      */
     private Double convertToKilograms(UUID unit, Double value) {
-        return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS -> // pounds
-                    value / 2.20462;
-            default -> null;
-        };
+        switch(unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_POUNDS: // pounds
+                return value / 2.20462;
+            default:
+                return null;
+        }
     }
 
     /**
@@ -162,11 +167,12 @@ public class ConversionServiceImpl implements ConversionService {
      * @return The value converted to pounds. Returns null if the unit is not supported.
      */
     private Double convertToPounds(UUID unit, Double value) {
-        return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_KILOGRAMS -> // Kilograms
-                    value * 2.20462;
-            default -> null;
-        };
+        switch(unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_KILOGRAMS: // Kilograms
+                return value * 2.20462;
+            default:
+                return null;
+        }
     }
 
     /**
@@ -177,11 +183,12 @@ public class ConversionServiceImpl implements ConversionService {
      * @return The converted value in meters. If the unit is not supported, null is returned.
      */
     private Double convertToMeters(UUID unit, Double value) {
-        return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH -> // inches
-                    value / 39.3701;
-            default -> null;
-        };
+        switch(unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_INCH: // inches
+                return value / 39.3701;
+            default:
+                return null;
+        }
     }
 
     /**
@@ -192,10 +199,11 @@ public class ConversionServiceImpl implements ConversionService {
      * @return The converted value in inches, or null if the unit is not supported.
      */
     private Double convertToInches(UUID unit, Double value) {
-        return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_METER -> // meters
-                    value * 39.3701;
-            default -> null;
-        };
+        switch(unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_METER: // meters
+                return value * 39.3701;
+            default:
+                return null;
+        }
     }
 }

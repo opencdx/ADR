@@ -4,6 +4,7 @@ import cdx.opencdx.adr.dto.Operation;
 import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.MeasureOperationService;
+import cdx.opencdx.grpc.data.Measure;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

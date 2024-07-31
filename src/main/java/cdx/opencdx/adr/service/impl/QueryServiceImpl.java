@@ -33,6 +33,7 @@ import java.util.UUID;
 @Service
 public class QueryServiceImpl implements QueryService {
 
+    private final ANFHelper anfRepo;
     private final CsvService csvService;
     private final MeasureOperationService measureOperationService;
     private final TextOperationService textOperationService;
@@ -48,6 +49,7 @@ public class QueryServiceImpl implements QueryService {
      * @param csvService the CsvService object used for csv operations
      */
     public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService) {
+        this.anfRepo = anfRepo;
         this.csvService = csvService;
         this.measureOperationService = measureOperationService;
         this.textOperationService = textOperationService;
@@ -130,7 +132,7 @@ public class QueryServiceImpl implements QueryService {
         processQueries(queries);
 
         if (queries.size() == 1) {
-            return prepareResult(queries.getFirst());
+            return prepareResult(queries.get(0));
         }
 
         int index = 1;
@@ -138,7 +140,7 @@ public class QueryServiceImpl implements QueryService {
             processByJoinOperation(queries, index);
             index += 2;
         }
-        return prepareResult(queries.getLast());
+        return prepareResult(queries.get(queries.size() - 1));
     }
 
     /**

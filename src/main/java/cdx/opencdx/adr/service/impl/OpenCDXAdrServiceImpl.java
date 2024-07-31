@@ -16,6 +16,7 @@
 package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.ADRQuery;
+import cdx.opencdx.adr.dto.Query;
 import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
@@ -87,6 +88,12 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      * accessing and managing ANF objects.
      */
     private final ANFHelper anfRepo;
+    /**
+     * The variable mapper for object-to-JSON serialization and deserialization.
+     * It is an instance of the ObjectMapper class, which provides functionality
+     * for converting between JSON and Java objects.
+     */
+    private final ObjectMapper mapper;
 
     /**
      * Represents a list of unique identifiers for block concepts.
@@ -109,11 +116,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
         this.queryService = queryService;
         this.openCDXANFProcessors = openCDXANFProcessors;
         this.anfRepo = anfRepo;
-        /**
-         * The variable mapper for object-to-JSON serialization and deserialization.
-         * It is an instance of the ObjectMapper class, which provides functionality
-         * for converting between JSON and Java objects.
-         */
+        this.mapper = mapper;
 
         this.openCDXANFProcessors.forEach(processor -> log.info("Processor: {}", processor.getClass().getName()));
 
