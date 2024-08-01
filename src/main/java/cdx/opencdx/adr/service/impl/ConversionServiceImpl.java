@@ -48,6 +48,7 @@ public class ConversionServiceImpl implements ConversionService {
         if(measure.getSemantic() != null && unit.equals(measure.getSemantic().getConceptId())) {
             return measure;
         }
+        log.info("Converting measure to unit: " + unit);
         MeasureModel convertedMeasure = new MeasureModel();
         convertedMeasure.setIncludeLowerBound(measure.getIncludeLowerBound());
         convertedMeasure.setIncludeUpperBound(measure.getIncludeUpperBound());

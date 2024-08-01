@@ -163,6 +163,12 @@ public class Query {
      */
     private JoinOperation joinOperation;
 
+
+    /**
+     * This variable group represents a list of Query objects.
+     */
+    private List<Query> group;
+
     /**
      * The anfStatements variable is a private list of AnfStatementModel objects.
      * It is annotated with @JsonIgnore and @Transient, indicating that it should
