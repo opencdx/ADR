@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -162,10 +163,8 @@ public class QueryServiceImpl implements QueryService {
      */
     private void processQueries(List<Query> queries) {
         queries.forEach(query -> {
-            if (query.getConceptId() != null) {
-                query.setAnfStatements(this.runQuery(query));
-                query.setConceptIds(this.getAnfStatementUuids(query.getAnfStatements()));
-            }
+            query.setAnfStatements(this.runQuery(query));
+            query.setConceptIds(this.getAnfStatementUuids(query.getAnfStatements()));
         });
     }
 
@@ -286,21 +285,33 @@ public class QueryServiceImpl implements QueryService {
      * @return A list of AnfStatementModel objects that match the conditions specified in the query.
      */
     private List<AnfStatementModel> runQuery(Query query) {
-        List<AnfStatementModel> simpleQueryResults = runSimpleQuery(query);
+        if(query.getConceptId() != null) {
+            List<AnfStatementModel> simpleQueryResults = runSimpleQuery(query);
 
-        if(query.getOperation() == null) {
+            if (query.getOperation() == null) {
+                log.info("Returning Simple Query Results: {}", simpleQueryResults.size());
+                return simpleQueryResults;
+            }
+            log.info("Processing Operational Query Results: {}", simpleQueryResults.size());
+            simpleQueryResults = simpleQueryResults.stream().filter(anf -> {
+                if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
+                    return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getPerformanceCircumstance().getResult());
+                } else if (anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
+                    return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getRequestCircumstance().getRequestedResult());
+                } else if (anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
+                    return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), anf.getNarrativeCircumstance().getText());
+                }
+                return false;
+            }).toList();
+            log.info("Returning Operational Query Results: {}", simpleQueryResults.size());
             return simpleQueryResults;
+        } else if(query.getGroup() != null) {
+            ProcessingResults results = this.processQuery(query.getGroup());
+            log.info("Returning Group Query Results: {}", results.anfStatements.size());
+            return results.anfStatements;
         }
-
-        return simpleQueryResults.stream().filter(anf -> {
-            if(anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
-                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getPerformanceCircumstance().getResult());
-            } else if(anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
-                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(),  anf.getRequestCircumstance().getRequestedResult());
-            } else if(anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
-                return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), anf.getNarrativeCircumstance().getText());
-            } return false;
-        }).toList();
+        log.info("Returning Empty Query Results");
+        return Collections.emptyList();
     }
 
     /**
