@@ -1,10 +1,9 @@
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.dto.Operation;
+import cdx.opencdx.adr.dto.ComparisonOperation;
 import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.MeasureOperationService;
-import cdx.opencdx.grpc.data.Measure;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +40,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return True if the operation measurement is successful, false otherwise.
      */
     @Override
-    public boolean measureOperation(Operation operation, Double operationValue, UUID operationUnit, MeasureModel measure) {
+    public boolean measureOperation(ComparisonOperation operation, Double operationValue, UUID operationUnit, MeasureModel measure) {
         return switch (operation) {
             case GREATER_THAN -> greaterThan(operationValue, getMeasureValue(operationUnit, measure));
             case LESS_THAN -> lessThan(operationValue, getMeasureValue(operationUnit, measure));

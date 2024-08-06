@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.dto.Operation;
+import cdx.opencdx.adr.dto.ComparisonOperation;
 import cdx.opencdx.adr.service.TextOperationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class TextOperationServiceImpl implements TextOperationService {
      * @return true if the operation is successful, false otherwise
      */
     @Override
-    public boolean textOperation(Operation operation, String operationValue, String text) {
+    public boolean textOperation(ComparisonOperation operation, String operationValue, String text) {
         switch (operation) {
             case GREATER_THAN:
                 return text.compareTo(operationValue) > 0;

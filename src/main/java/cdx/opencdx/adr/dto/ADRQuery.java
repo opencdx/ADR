@@ -36,7 +36,7 @@ import java.util.List;
  * To access and manipulate the list of queries, use the getter and setter methods provided by the ADRQuery class.
  *
  * @see Query
- * @see Operation
+ * @see ComparisonOperation
  * @see UnitOutput
  */
 @Data
@@ -105,7 +105,7 @@ public class ADRQuery {
      * </p>
      *
      * @see Query
-     * @see Operation
+     * @see ComparisonOperation
      * @see UnitOutput
      */
     private List<Query> queries;

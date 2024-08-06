@@ -46,7 +46,7 @@ public class Query {
      * such as greater than, less than, equal, etc.
      *
      * <p>
-     * This class is defined in the {@link Operation} enum and can be used in conjunction
+     * This class is defined in the {@link ComparisonOperation} enum and can be used in conjunction
      * with other values defined in the enum to perform comparison operations.
      * </p>
      *
@@ -74,7 +74,7 @@ public class Query {
      * </pre>
      * </p>
      */
-    private Operation operation;
+    private ComparisonOperation operation;
 
     /**
      * The operationDouble variable represents a double value used in querying operations.
@@ -111,7 +111,7 @@ public class Query {
      * </p>
      *
      * @see Query
-     * @see Operation
+     * @see ComparisonOperation
      */
     private Double operationDouble;
 
@@ -152,7 +152,7 @@ public class Query {
      *
      * </p>
      *
-     * @see Operation
+     * @see ComparisonOperation
      * @see Query
      */
     private String operationText;

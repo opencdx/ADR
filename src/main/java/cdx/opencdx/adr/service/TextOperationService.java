@@ -1,6 +1,6 @@
 package cdx.opencdx.adr.service;
 
-import cdx.opencdx.adr.dto.Operation;
+import cdx.opencdx.adr.dto.ComparisonOperation;
 
 /**
  * The TextOperationService interface represents a service for performing text operations on a given text.
@@ -14,5 +14,5 @@ public interface TextOperationService {
      * @param text the text to perform the operation on
      * @return true if the operation is successful, false otherwise
      */
-    boolean textOperation(Operation operation, String operationValue, String text);
+    boolean textOperation(ComparisonOperation operation, String operationValue, String text);
 }

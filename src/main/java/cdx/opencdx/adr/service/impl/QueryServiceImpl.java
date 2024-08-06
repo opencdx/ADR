@@ -270,7 +270,7 @@ public class QueryServiceImpl implements QueryService {
      *
      * @return true if the operation is successfully checked, false otherwise
      */
-    private boolean check(Operation operation, Object operationValue, UUID operationUnit,  Object value) {
+    private boolean check(ComparisonOperation operation, Object operationValue, UUID operationUnit, Object value) {
         if(value instanceof MeasureModel measure) {
             return this.measureOperationService.measureOperation(operation, (Double)operationValue, operationUnit,  measure);
         } else if(value instanceof String text) {
