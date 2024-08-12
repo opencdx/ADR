@@ -238,8 +238,10 @@ public class QueryServiceImpl implements QueryService {
      */
     private ProcessingResults processAndResults(Query query1, Query query2) {
         List<UUID> uuids = ListUtils.intersection(query1.getConceptIds(), query2.getConceptIds());
-        List<AnfStatementModel> anfStatements = new ArrayList<>(query1.getAnfStatements());
-        anfStatements.addAll(query2.getAnfStatements());
+        List<AnfStatementModel> anfStatements = new ArrayList<>();
+
+        anfStatements.addAll(query1.getAnfStatements().stream().filter(anf -> uuids.contains(anf.getSubjectOfRecord().getPartId())).toList());
+        anfStatements.addAll(query2.getAnfStatements().stream().filter(anf -> uuids.contains(anf.getSubjectOfRecord().getPartId())).toList());
 
         return new ProcessingResults(uuids, anfStatements);
     }
