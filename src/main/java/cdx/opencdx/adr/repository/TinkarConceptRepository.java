@@ -4,6 +4,7 @@ import cdx.opencdx.adr.model.TinkarConceptModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -36,4 +37,12 @@ public interface TinkarConceptRepository extends JpaRepository<TinkarConceptMode
      * @return The TinkarConceptModel object corresponding to the description, or null if not found.
      */
     TinkarConceptModel findByConceptDescription(String conceptDescription);
+
+    /**
+     * Retrieves a list of TinkarConceptModel objects based on the given list of conceptIds.
+     *
+     * @param conceptIds The list of UUIDs representing the conceptIds.
+     * @return A list of TinkarConceptModel objects corresponding to the conceptIds, or an empty list if none are found.
+     */
+    List<TinkarConceptModel> findAllByConceptIdIn(List<UUID> conceptIds);
 }

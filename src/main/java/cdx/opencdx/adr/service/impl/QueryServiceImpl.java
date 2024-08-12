@@ -4,6 +4,7 @@ import cdx.opencdx.adr.dto.*;
 import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.repository.CalculatedConceptRepository;
 import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.adr.service.CsvService;
 import cdx.opencdx.adr.service.MeasureOperationService;
@@ -38,6 +39,7 @@ public class QueryServiceImpl implements QueryService {
     private final CsvService csvService;
     private final MeasureOperationService measureOperationService;
     private final TextOperationService textOperationService;
+    private final CalculatedConceptRepository calculatedConceptRepository;
 
 
     @PersistenceContext
@@ -46,14 +48,18 @@ public class QueryServiceImpl implements QueryService {
     /**
      * Creates a new instance of QueryServiceImpl with the given ANFRepo and CsvService objects.
      *
-     * @param anfRepo    the ANFRepo object used for querying ANF data
-     * @param csvService the CsvService object used for csv operations
+     * @param anfRepo                     the ANFRepo object used for querying ANF data
+     * @param csvService                  the CsvService object used for csv operations
+     * @param measureOperationService     the MeasureOperationService object used for measure operations
+     * @param textOperationService        the TextOperationService object used for text operations
+     * @param calculatedConceptRepository the CalculatedConceptRepository object used for calculated concept operations
      */
-    public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService) {
+    public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService, CalculatedConceptRepository calculatedConceptRepository) {
         this.anfRepo = anfRepo;
         this.csvService = csvService;
         this.measureOperationService = measureOperationService;
         this.textOperationService = textOperationService;
+        this.calculatedConceptRepository = calculatedConceptRepository;
     }
 
     /**
@@ -64,6 +70,8 @@ public class QueryServiceImpl implements QueryService {
      */
     @Override
     public void processQuery(ADRQuery adrQuery, PrintWriter writer) {
+        this.calculatedConceptRepository.deleteAllByThreadName(Thread.currentThread().getName());
+
         ProcessingResults processingResults = processQuery(adrQuery.getQueries());
 
         List<AnfStatementModel> results = processingResults.anfStatements;
@@ -309,6 +317,8 @@ public class QueryServiceImpl implements QueryService {
             ProcessingResults results = this.processQuery(query.getGroup());
             log.info("Returning Group Query Results: {}", results.anfStatements.size());
             return results.anfStatements;
+        } else if(query.getFormula() != null) {
+           //TODO Process Formula
         }
         log.info("Returning Empty Query Results");
         return Collections.emptyList();

@@ -158,6 +158,11 @@ public class Query {
     private String operationText;
 
     /**
+     * The formula variable represents a mathematical formula for performing calculations.
+     */
+    private Formula formula;
+
+    /**
      * The JoinOperation represents the type of join operation to be used in a query.
      * It can have two possible values: OR and AND.
      */
