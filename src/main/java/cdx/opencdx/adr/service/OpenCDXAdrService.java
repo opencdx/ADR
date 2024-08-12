@@ -43,6 +43,13 @@ public interface OpenCDXAdrService {
     List<TinkarConceptModel> getQueryableData();
 
     /**
+     * Retrieves the units.
+     *
+     * @return a list of TinkarConceptModel objects.
+     */
+    List<TinkarConceptModel> getUnits();
+
+    /**
      * Streams the query results to the specified PrintWriter.
      *
      * @param adrQuery The ADRQuery object representing the query to be executed.

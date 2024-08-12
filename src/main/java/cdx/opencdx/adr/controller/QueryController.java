@@ -51,6 +51,12 @@ public class QueryController {
         return ResponseEntity.ok(this.adrService.getQueryableData());
     }
 
+    @GetMapping("/units")
+    public ResponseEntity<List<TinkarConceptModel>> getUnits() {
+        log.trace("Received queryable data request");
+        return ResponseEntity.ok(this.adrService.getUnits());
+    }
+
     /**
      * Handles POST requests for querying concepts.
      * Writes the query results to a CSV file.
