@@ -45,7 +45,7 @@ public class ConversionServiceImpl implements ConversionService {
      */
     @Override
     public MeasureModel convert(UUID unit, MeasureModel measure) {
-        if(measure.getSemantic() != null && unit.equals(measure.getSemantic().getConceptId())) {
+        if(unit == null || (measure.getSemantic() != null && unit.equals(measure.getSemantic().getConceptId()))) {
             return measure;
         }
         log.info("Converting measure to unit: " + unit);

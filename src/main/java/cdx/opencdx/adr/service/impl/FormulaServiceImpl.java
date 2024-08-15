@@ -5,6 +5,7 @@ import cdx.opencdx.adr.dto.NumericalOperation;
 import cdx.opencdx.adr.model.*;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.repository.CalculatedConceptRepository;
+import cdx.opencdx.adr.repository.PerformanceCircumstanceRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.FormulaService;
@@ -76,7 +77,9 @@ public class FormulaServiceImpl implements FormulaService {
             AnfStatementModel anf = new AnfStatementModel();
             ParticipantModel participantModel = new ParticipantModel();
             MeasureModel timing = new MeasureModel();
+            MeasureModel result = new MeasureModel();
             TinkarConceptModel semantic = new TinkarConceptModel();
+            PerformanceCircumstanceModel performanceCircumstance = new PerformanceCircumstanceModel();
 
             semantic.setConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_SECONDS));
             timing.setSemantic(semantic);
@@ -84,10 +87,18 @@ public class FormulaServiceImpl implements FormulaService {
             timing.setLowerBound((double) Instant.now().getEpochSecond());
             timing.setUpperBound(timing.getLowerBound());
 
+            result.setUpperBound(value);
+            result.setLowerBound(value);
+            result.setIncludeLowerBound(true);
+            result.setIncludeUpperBound(true);
+
+            performanceCircumstance.setTiming(timing);
+            performanceCircumstance.setResult(result);
 
             participantModel.setPartId(participantId);
             anf.setSubjectOfRecord(participantModel);
             anf.setTime(timing);
+            anf.setPerformanceCircumstance(performanceCircumstance);
 
             return anf;
         }

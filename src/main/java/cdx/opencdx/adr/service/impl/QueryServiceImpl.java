@@ -303,35 +303,19 @@ public class QueryServiceImpl implements QueryService {
      * @return A list of AnfStatementModel objects that match the conditions specified in the query.
      */
     private List<AnfStatementModel> runQuery(Query query) {
+        List<AnfStatementModel> simpleQueryResults = null;
         if(query.getConceptId() != null) {
-            List<AnfStatementModel> simpleQueryResults = runSimpleQuery(query);
-
-            if (query.getOperation() == null) {
-                log.info("Returning Simple Query Results: {}", simpleQueryResults.size());
-                return simpleQueryResults;
-            }
-            log.info("Processing Operational Query Results: {}", simpleQueryResults.size());
-            simpleQueryResults = simpleQueryResults.stream().filter(anf -> {
-                if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
-                    return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getPerformanceCircumstance().getResult());
-                } else if (anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
-                    return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getRequestCircumstance().getRequestedResult());
-                } else if (anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
-                    return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), anf.getNarrativeCircumstance().getText());
-                }
-                return false;
-            }).toList();
-            log.info("Returning Operational Query Results: {}", simpleQueryResults.size());
-            return simpleQueryResults;
+           simpleQueryResults = runSimpleQuery(query);
         } else if(query.getGroup() != null) {
             ProcessingResults results = this.processQuery(query.getGroup());
-            log.info("Returning Group Query Results: {}", results.anfStatements.size());
-            return results.anfStatements;
+            simpleQueryResults = results.anfStatements;
         } else if(query.getFormula() != null) {
-            return this.formulaService.evaluateFormula(query.getFormula());
+            simpleQueryResults = this.formulaService.evaluateFormula(query.getFormula());
+        } else {
+            log.info("Returning Empty Query Results");
+            return Collections.emptyList();
         }
-        log.info("Returning Empty Query Results");
-        return Collections.emptyList();
+        return this.processOperational(query, simpleQueryResults);
     }
 
     /**
@@ -340,4 +324,24 @@ public class QueryServiceImpl implements QueryService {
     public record ProcessingResults(List<UUID> conceptIds, List<AnfStatementModel> anfStatements) {
     }
 
+    private List<AnfStatementModel> processOperational(Query query, List<AnfStatementModel> simpleQueryResults) {
+        if (query.getOperation() == null) {
+            log.info("Returning Simple Query Results: {}", simpleQueryResults.size());
+            return simpleQueryResults;
+        }
+        log.info("Processing Operational Query Results: {} on Operation: {}", simpleQueryResults.size(),query.getOperation());
+        return simpleQueryResults.stream().filter(anf -> {
+            if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
+                log.info("Processing Performance Circumstance Operation Double: {}", query.getOperationDouble());
+                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getPerformanceCircumstance().getResult());
+            } else if (anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
+                log.info("Processing Request Circumstance Operation Double: {}", query.getOperationDouble());
+                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getRequestCircumstance().getRequestedResult());
+            } else if (anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
+                log.info("Processing Narrative Circumstance Operation Text: {}", query.getOperationText());
+                return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), anf.getNarrativeCircumstance().getText());
+            }
+            return false;
+        }).toList();
+    }
 }
