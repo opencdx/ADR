@@ -2,6 +2,7 @@ package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.UnitOutput;
 import cdx.opencdx.adr.model.*;
+import cdx.opencdx.adr.repository.CalculatedConceptRepository;
 import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.CsvService;
@@ -50,14 +51,24 @@ public class CsvServiceImpl implements CsvService {
     private final ConversionService conversionService;
 
     /**
-     * Constructs a new CsvServiceImpl with the specified ANFRepo and ConversionService.
-     *
-     * @param anfRepo the ANFRepo used for data access
-     * @param conversionService the ConversionService used for data conversion
+     * The calculatedConceptRepository variable represents an instance of the CalculatedConceptRepository class.
+     * It is marked as final to indicate that it cannot be reassigned once initialized.
+     * CalculatedConceptRepository is responsible for interacting with the database to perform operations related to calculated concepts.
+     * This variable provides access to the methods and functionality provided by the CalculatedConceptRepository class.
      */
-    public CsvServiceImpl(ANFHelper anfRepo, ConversionService conversionService) {
+    private final CalculatedConceptRepository calculatedConceptRepository;
+
+    /**
+     * Constructs a new CsvServiceImpl with the given repositories and services.
+     *
+     * @param anfRepo                      the ANFHelper repository used for retrieving ANF data
+     * @param conversionService            the ConversionService used for performing data conversions
+     * @param calculatedConceptRepository  the CalculatedConceptRepository used for storing calculated concepts
+     */
+    public CsvServiceImpl(ANFHelper anfRepo, ConversionService conversionService, CalculatedConceptRepository calculatedConceptRepository) {
         this.anfRepo = anfRepo;
         this.conversionService = conversionService;
+        this.calculatedConceptRepository = calculatedConceptRepository;
     }
 
     /**
@@ -97,6 +108,11 @@ public class CsvServiceImpl implements CsvService {
                     }
                 }
             });
+
+            this.calculatedConceptRepository.findAllByParticipantIdAndThreadName(uuid,Thread.currentThread().getName())
+                    .forEach(calculatedConcept -> {
+                        csvDto.setCell(currentRow, calculatedConcept.getConceptName(), calculatedConcept.getValue().toString());
+                    });
         });
         return csvDto;
     }
