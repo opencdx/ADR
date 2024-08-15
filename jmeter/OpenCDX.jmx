@@ -1882,6 +1882,268 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+          <stringProp name="BeanShellSampler.query">import java.util.Date;
+import java.util.Random;
+import java.text.SimpleDateFormat;
+
+// Set the start date (January 1, 2019)
+SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
+
+// Get the current date
+Date currentDate = new Date();
+
+// Calculate the difference in milliseconds between the current date and the start date
+long diffInMillies = currentDate.getTime() - startDate.getTime();
+
+// Generate a random number of milliseconds within this range
+Random random = new Random();
+long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
+
+// Create a Date object with the random milliseconds
+Date randomDate = new Date(randomMillisSinceEpoch);
+
+// Get the epoch seconds for the random date as a double
+double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+
+// Store the random epoch seconds in a JMeter variable
+vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
+// Calculate the time range (12 hours in seconds)
+int twelveHoursInSeconds = 12 * 60 * 60;
+// Generate a random time within the last 12 hours
+double randomSecondsBefore = (double)(new Random().nextInt(twelveHoursInSeconds));
+// Calculate the random date in seconds before the specified epoch time
+double randomDateSeconds = randomDateEpochSeconds - randomSecondsBefore;
+// Assign the random seconds to a JMeter variable
+vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSeconds));
+
+
+String anfId = &quot;${__UUID}&quot;;
+vars.put(&quot;anf_id&quot;,anfId);</stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Gender Options" enabled="true">
+          <intProp name="InterleaveControl.style">1</intProp>
+        </RandomController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="NOOP" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/query</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="224526002 | Woman (person)" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+   &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
+   &quot;time&quot; : {&#xd;
+     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;includeUpperBound&quot; : true,&#xd;
+     &quot;includeLowerBound&quot; : true,&#xd;
+     &quot;semantic&quot; : {&#xd;
+       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+     },&#xd;
+     &quot;resolution&quot; : 1.0&#xd;
+   },&#xd;
+   &quot;subjectOfRecord&quot; : {&#xd;
+     &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+     }&#xd;
+   },&#xd;
+   &quot;authors&quot; : [ {&#xd;
+     &quot;id&quot; : ${practitionerID},&#xd;
+     &quot;practitionerValue&quot; : {&#xd;
+       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
+       &quot;display&quot; : ${practitionerDisplay},&#xd;
+       &quot;reference&quot; : ${practitionerReference},&#xd;
+       &quot;uri&quot; : ${practitionerUri}&#xd;
+     },&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
+     }&#xd;
+   } ],&#xd;
+   &quot;subjectOfInformation&quot; : {&#xd;
+     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+   },&#xd;
+   &quot;associatedStatement&quot; : [ ],&#xd;
+   &quot;topic&quot; : {&#xd;
+     &quot;expression&quot; : &quot;224526002 | Woman (person)&quot;&#xd;
+   },&#xd;
+   &quot;type&quot; : {&#xd;
+     &quot;expression&quot; : &quot;224526002 | Woman (person)&quot;&#xd;
+   },&#xd;
+   &quot;performanceCircumstance&quot; : {&#xd;
+     &quot;timing&quot; : {&#xd;
+       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;purpose&quot; : [ {&#xd;
+       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+     } ],&#xd;
+     &quot;status&quot; : {&#xd;
+       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+     },&#xd;
+     &quot;result&quot; : {&#xd;
+       &quot;upperBound&quot; : 1.0,&#xd;
+       &quot;lowerBound&quot; : 1.0,&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;participant&quot; : [ {&#xd;
+       &quot;id&quot; : ${practitionerID},&#xd;
+       &quot;code&quot; : {&#xd;
+         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
+       }&#xd;
+     } ],&#xd;
+     &quot;deviceid&quot; : [ ]&#xd;
+   },&#xd;
+   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+ }</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/anf</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="339947000 | Man (person)" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+   &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
+   &quot;time&quot; : {&#xd;
+     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;includeUpperBound&quot; : true,&#xd;
+     &quot;includeLowerBound&quot; : true,&#xd;
+     &quot;semantic&quot; : {&#xd;
+       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+     },&#xd;
+     &quot;resolution&quot; : 1.0&#xd;
+   },&#xd;
+   &quot;subjectOfRecord&quot; : {&#xd;
+     &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+     }&#xd;
+   },&#xd;
+   &quot;authors&quot; : [ {&#xd;
+     &quot;id&quot; : ${practitionerID},&#xd;
+     &quot;practitionerValue&quot; : {&#xd;
+       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
+       &quot;display&quot; : ${practitionerDisplay},&#xd;
+       &quot;reference&quot; : ${practitionerReference},&#xd;
+       &quot;uri&quot; : ${practitionerUri}&#xd;
+     },&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
+     }&#xd;
+   } ],&#xd;
+   &quot;subjectOfInformation&quot; : {&#xd;
+     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+   },&#xd;
+   &quot;associatedStatement&quot; : [ ],&#xd;
+   &quot;topic&quot; : {&#xd;
+     &quot;expression&quot; : &quot;339947000 | Man (person)&quot;&#xd;
+   },&#xd;
+   &quot;type&quot; : {&#xd;
+     &quot;expression&quot; : &quot;339947000 | Man (person)&quot;&#xd;
+   },&#xd;
+   &quot;performanceCircumstance&quot; : {&#xd;
+     &quot;timing&quot; : {&#xd;
+       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;purpose&quot; : [ {&#xd;
+       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+     } ],&#xd;
+     &quot;status&quot; : {&#xd;
+       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+     },&#xd;
+     &quot;result&quot; : {&#xd;
+       &quot;upperBound&quot; : 1.0,&#xd;
+       &quot;lowerBound&quot; : 1.0,&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;participant&quot; : [ {&#xd;
+       &quot;id&quot; : ${practitionerID},&#xd;
+       &quot;code&quot; : {&#xd;
+         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
+       }&#xd;
+     } ],&#xd;
+     &quot;deviceid&quot; : [ ]&#xd;
+   },&#xd;
+   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+ }</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/anf</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/query [GET]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">

@@ -75,6 +75,9 @@ public class ConversionServiceImpl implements ConversionService {
      */
     @Override
     public MeasureModel output(UnitOutput unitOutput, MeasureModel measure) {
+        if(measure == null || measure.getSemantic() == null) {
+            return measure;
+        }
         if(unitOutput.equals(UnitOutput.IMPERIAL)) {
             return this.convert(this.convertToImperial(measure), measure);
         } else if(unitOutput.equals(UnitOutput.METRIC)) {

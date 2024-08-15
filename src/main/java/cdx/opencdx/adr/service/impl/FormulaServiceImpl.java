@@ -76,8 +76,11 @@ public class FormulaServiceImpl implements FormulaService {
             this.calculatedConceptRepository.save(temp);
 
             AnfStatementModel anf = new AnfStatementModel();
+            ParticipantModel participantModel = new ParticipantModel();
+            participantModel.setPartId(participantId);
+            anf.setSubjectOfRecord(participantModel);
 
-
+            return anf;
         }
 
         return null;
