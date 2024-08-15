@@ -16,9 +16,10 @@
 package cdx.opencdx.adr.service;
 
 import cdx.opencdx.adr.dto.ADRQuery;
-import cdx.opencdx.adr.dto.Query;
+import cdx.opencdx.adr.dto.SavedQuery;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.grpc.data.ANFStatement;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -56,4 +57,27 @@ public interface OpenCDXAdrService {
      * @param writer   The PrintWriter object used to write the query results.
      */
     void streamQuery(ADRQuery adrQuery , PrintWriter writer);
+
+    /**
+     * Saves a list of SavedQuery objects.
+     *
+     * @param save The list of SavedQuery objects to be saved.
+     * @return
+     */
+    SavedQuery saveQuery(SavedQuery save) throws JsonProcessingException;
+
+    /**
+     * Retrieves a list of saved queries.
+     *
+     * @return a List of SavedQuery objects representing the saved queries.
+     * @throws JsonProcessingException if there is an error processing JSON data.
+     */
+    List<SavedQuery> listSavedQueries() throws JsonProcessingException;
+
+    /**
+     * Deletes a saved query with the specified ID.
+     *
+     * @param id The ID of the saved query to delete.
+     */
+    void deleteSavedQuery(Long id);
 }

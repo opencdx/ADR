@@ -170,3 +170,9 @@ CREATE TABLE RequestCircumstance_DeviceId (
                                               deviceId TEXT,
                                               PRIMARY KEY (request_circumstance_id, deviceId)
 );
+
+CREATE TABLE SavedQuery (
+                            id BIGSERIAL PRIMARY KEY,
+                            name TEXT NOT NULL,
+                            content TEXT NOT NULL
+);

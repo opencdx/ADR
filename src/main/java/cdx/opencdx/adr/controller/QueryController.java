@@ -3,8 +3,10 @@ package cdx.opencdx.adr.controller;
 
 import cdx.opencdx.adr.dto.ADRQuery;
 import cdx.opencdx.adr.dto.Query;
+import cdx.opencdx.adr.dto.SavedQuery;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -74,5 +76,31 @@ public class QueryController {
         try (PrintWriter writer = response.getWriter()) {
             adrService.streamQuery(adrQuery, writer);
         }
+    }
+
+    /**
+     * Saves a query and returns the saved query object.
+     *
+     * @param save The SavedQuery object representing the query to be saved.
+     * @return A ResponseEntity object containing the saved query object.
+     * @throws JsonProcessingException If an error occurs while processing the query.
+     */
+    @PostMapping("/save")
+    public ResponseEntity<SavedQuery> saveQuery(@RequestBody SavedQuery save) throws JsonProcessingException {
+        log.info("Received save query request");
+        return ResponseEntity.ok(adrService.saveQuery(save));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<SavedQuery>> listQueries() throws JsonProcessingException {
+        log.info("Received list queries request");
+        return ResponseEntity.ok(adrService.listSavedQueries());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteQuery(@PathVariable Long id) {
+        log.info("Received delete query request");
+        adrService.deleteSavedQuery(id);
+        return ResponseEntity.ok().build();
     }
 }

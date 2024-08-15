@@ -10,6 +10,192 @@
       </elementProp>
     </TestPlan>
     <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Populate Saved Queries" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.delayedStart">false</boolProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(serverName,localhost)}</stringProp>
+          <stringProp name="HTTPSampler.port">${__P(serverPort,8085)}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+        </ConfigTestElement>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save BMI Calculation" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;name&quot;: &quot;BMI Calculation&quot;,&#xd;
+  &quot;query&quot;: {&#xd;
+    &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
+    &quot;queries&quot;: [&#xd;
+      {&#xd;
+        &quot;formula&quot;: {&#xd;
+          &quot;name&quot;: &quot;BMI Calculation&quot;,&#xd;
+          &quot;leftOperandFormula&quot;: {&#xd;
+            &quot;leftOperand&quot;: &quot;1339a965-5c4d-40a7-b04f-60a17b43455b&quot;,&#xd;
+            &quot;leftOperandUnit&quot;: &quot;98999a1c-11b1-4777-a9b6-3b25482676c4&quot;,&#xd;
+            &quot;operation&quot;: &quot;DIVIDE&quot;,&#xd;
+            &quot;rightOperandFormula&quot;: {&#xd;
+              &quot;leftOperand&quot;: &quot;f99f17a3-5248-472d-b88f-f4c894630084&quot;,&#xd;
+              &quot;leftOperandUnit&quot;: &quot;01759586-062f-455f-a0c4-23904464b5f4&quot;,&#xd;
+              &quot;operation&quot;: &quot;POWER&quot;,&#xd;
+              &quot;rightOperandValue&quot;: &quot;2.0&quot;&#xd;
+            }&#xd;
+          },&#xd;
+          &quot;operation&quot;: &quot;MULTIPLY&quot;,&#xd;
+          &quot;rightOperandValue&quot;: &quot;703.0&quot;&#xd;
+        },&#xd;
+        &quot;operation&quot;: &quot;GREATER_THAN&quot;,&#xd;
+        &quot;operationDouble&quot;: 30&#xd;
+      }&#xd;
+    ]&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/query/save</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Grouping Test" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;name&quot;: &quot;Grouping Test&quot;,&#xd;
+  &quot;query&quot;: {&#xd;
+    &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
+    &quot;queries&quot;: [&#xd;
+      {&#xd;
+        &quot;conceptId&quot;: &quot;9061a0d4-254a-42b2-b786-82e5e9f79661&quot;,&#xd;
+        &quot;operation&quot;: &quot;GREATER_THAN&quot;,&#xd;
+        &quot;operationDouble&quot;: 30,&#xd;
+        &quot;operationUnit&quot;: &quot;d9036e1e-3397-4f00-a40a-021626644970&quot;&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;joinOperation&quot;: &quot;OR&quot;&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;formula&quot;: {&#xd;
+          &quot;name&quot;: &quot;BMI Calculation&quot;,&#xd;
+          &quot;leftOperandFormula&quot;: {&#xd;
+            &quot;leftOperand&quot;: &quot;1339a965-5c4d-40a7-b04f-60a17b43455b&quot;,&#xd;
+            &quot;leftOperandUnit&quot;: &quot;98999a1c-11b1-4777-a9b6-3b25482676c4&quot;,&#xd;
+            &quot;operation&quot;: &quot;DIVIDE&quot;,&#xd;
+            &quot;rightOperandFormula&quot;: {&#xd;
+              &quot;leftOperand&quot;: &quot;f99f17a3-5248-472d-b88f-f4c894630084&quot;,&#xd;
+              &quot;leftOperandUnit&quot;: &quot;01759586-062f-455f-a0c4-23904464b5f4&quot;,&#xd;
+              &quot;operation&quot;: &quot;POWER&quot;,&#xd;
+              &quot;rightOperandValue&quot;: &quot;2.0&quot;&#xd;
+            }&#xd;
+          },&#xd;
+          &quot;operation&quot;: &quot;MULTIPLY&quot;,&#xd;
+          &quot;rightOperandValue&quot;: &quot;703.0&quot;&#xd;
+        }&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;joinOperation&quot;: &quot;AND&quot;&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;group&quot;: [&#xd;
+          {&#xd;
+            &quot;conceptId&quot;: &quot;f99f17a3-5248-472d-b88f-f4c894630084&quot;,&#xd;
+            &quot;operation&quot;: &quot;GREATER_THAN&quot;,&#xd;
+            &quot;operationDouble&quot;: 70,&#xd;
+            &quot;operationUnit&quot;: &quot;01759586-062f-455f-a0c4-23904464b5f4&quot;&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;joinOperation&quot;: &quot;AND&quot;&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;conceptId&quot;: &quot;1339a965-5c4d-40a7-b04f-60a17b43455b&quot;,&#xd;
+            &quot;operation&quot;: &quot;GREATER_THAN&quot;,&#xd;
+            &quot;operationDouble&quot;: 250,&#xd;
+            &quot;operationUnit&quot;: &quot;98999a1c-11b1-4777-a9b6-3b25482676c4&quot;&#xd;
+          }&#xd;
+        ]&#xd;
+      }&#xd;
+    ]&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/query/save</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Saved Queries" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/query/list</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Populate ADR" enabled="true">
         <stringProp name="ThreadGroup.num_threads">${__P(noThreads,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,0)}</stringProp>
