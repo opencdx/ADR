@@ -10,7 +10,7 @@
       </elementProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Populate Saved Queries" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Populate Saved Queries" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">1</stringProp>
@@ -43,7 +43,7 @@
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save BMI Calculation" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save BMI Calculation" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -95,7 +95,7 @@
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Grouping Test" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Grouping Test" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -211,6 +211,50 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Concept Setup" enabled="true">
+          <stringProp name="BeanShellSampler.query">vars.put(&quot;UNIT_METER&quot;,&quot;258669008 | meter (qualifier value)&quot;);
+vars.put(&quot;UNIT_INCH&quot;,&quot;258677007 | inch (qualifier value)&quot;);
+vars.put(&quot;UNIT_POUNDS&quot;,&quot;258693003 | pounds (qualifier value)&quot;);
+vars.put(&quot;UNIT_KILOGRAMS&quot;,&quot;258683005 | kilogram (qualifier value)&quot;);
+vars.put(&quot;UNIT_METER&quot;,&quot;258669008 | meter (qualifier value)&quot;);
+vars.put(&quot;UNIT_INCH&quot;,&quot;258677007 | inch (qualifier value)&quot;);
+vars.put(&quot;UNIT_POUNDS&quot;,&quot;258693003 | pounds (qualifier value)&quot;);
+vars.put(&quot;UNIT_KILOGRAMS&quot;,&quot;258683005 | kilogram (qualifier value)&quot;);
+vars.put(&quot;UNIT_SECONDS&quot;,&quot;257997001 | Seconds (qualifier value)&quot;);
+
+
+
+vars.put(&quot;ANF_MAN&quot;,&quot;339947000 | Man (person)&quot;);
+vars.put(&quot;ANF_WOMAN&quot;,&quot;224526002 | Woman (person)&quot;);
+vars.put(&quot;ANF_NEGATIVE&quot;,&quot;260385009 | Negative (qualifier value)&quot;);
+vars.put(&quot;ANF_NOT_DETECTED&quot;,&quot;260415000 | Not Detected (qualifier value)&quot;);
+vars.put(&quot;ANF_POSITIVE&quot;,&quot;10828004 | Positive (qualifier value)&quot;);
+vars.put(&quot;ANF_PRESUMPTIVE_POSITIVE&quot;,&quot;720735008 | Presumptive Positive (qualifier value)&quot;);
+vars.put(&quot;ANF_NORMAL_BMI&quot;,&quot;35425004 | Normal body mass index (finding)&quot;);
+vars.put(&quot;ANF_PATIENT&quot;,&quot;116154003 | Patient (person)&quot;);
+vars.put(&quot;ANF_FAMILY_DOCTOR&quot;,&quot;62247001 | Family medicine specialist (occupation)&quot;);
+vars.put(&quot;ANF_EVAL_PROCEDURE&quot;,&quot;386053000 | Evaluation procedure (procedure)&quot;);
+vars.put(&quot;ANF_EVAL_FINDING&quot;,&quot;441742003 | Evaluation finding (finding)&quot;);
+vars.put(&quot;ANF_RASH&quot;,&quot;723010005 | Acute eruption of skin (disorder)&quot;);
+vars.put(&quot;ANF_AGE&quot;,&quot;397669002 | Age (qualifier value)&quot;);
+vars.put(&quot;ANF_AGE_DIAGNOSIS&quot;,&quot;423493009 | Age at diagnosis (observable entity)&quot;);
+vars.put(&quot;ANF_HEIGHT&quot;,&quot;1153637007 | Body height (observable entity)&quot;);
+vars.put(&quot;ANF_BMI&quot;,&quot;60621009 | Body mass index (observable entity)&quot;);
+vars.put(&quot;ANF_OVERWEIGHT_BMI&quot;,&quot;162863004 | Body mass index 25-29 - overweight (finding)&quot;);
+vars.put(&quot;ANF_OBESE_BMI&quot;,&quot;162864005 | Body mass index 30+ - obesity (finding)&quot;);
+vars.put(&quot;ANF_LOW_BMI&quot;,&quot;310252000 | Body mass index less than 20 (finding)&quot;);
+vars.put(&quot;ANF_WEIGHT&quot;,&quot;27113001 | Body weight (observable entity)&quot;);
+vars.put(&quot;ANF_CHRONIC_LUNG_DISEASE&quot;,&quot;413839001 | Chronic lung disease (disorder)&quot;);
+vars.put(&quot;ANF_CHRONIC_LUNG_DISEASE_DISORDER&quot;,&quot;707534000 | Chronic lung disease due to surfactant disorder (disorder)&quot;);
+vars.put(&quot;ANF_DATE_OF_BIRTH&quot;,&quot;184099003 | Date of birth (observable entity)&quot;);
+vars.put(&quot;ANF_DATE_OF_ONSET&quot;,&quot;298059007 | Date of onset (observable entity)&quot;);
+vars.put(&quot;ANF_DETECTED&quot;,&quot;260373001 | Detected (qualifier value)&quot;);
+vars.put(&quot;ANF_HISTORY_OF_CLD&quot;,&quot;414415007 | History of chronic lung disease (situation)&quot;);
+vars.put(&quot;ANF_INVALID&quot;,&quot;455371000124106 | Invalid result (qualifier value)&quot;);
+</stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Doctors" enabled="true">
           <stringProp name="delimiter">,</stringProp>
           <stringProp name="fileEncoding"></stringProp>
@@ -308,7 +352,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
           <intProp name="InterleaveControl.style">1</intProp>
         </RandomController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="423493009 | Age at diagnosis (observable entity)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_AGE_DIAGNOSIS}" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -322,7 +366,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -349,10 +393,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;423493009 | Age at diagnosis (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_AGE_DIAGNOSIS}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;423493009 | Age at diagnosis (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_AGE_DIAGNOSIS}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -361,15 +405,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${age},&#xd;
@@ -409,7 +453,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="397669002 | Age (qualifier value)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_AGE}" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -423,7 +467,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -450,10 +494,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;397669002 | Age (qualifier value)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_AGE}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;397669002 | Age (qualifier value)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_AGE}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -462,15 +506,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${age},&#xd;
@@ -584,7 +628,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
               <intProp name="InterleaveControl.style">1</intProp>
             </RandomController>
             <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="60621009 | Body mass index (observable entity)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -598,7 +642,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -625,10 +669,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -637,15 +681,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${bmi},&#xd;
@@ -653,7 +697,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -699,7 +743,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -738,15 +782,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : &quot;Infinity&quot;,&#xd;
@@ -754,7 +798,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -800,7 +844,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -839,15 +883,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : &quot;Infinity&quot;,&#xd;
@@ -855,7 +899,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -899,7 +943,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
               <intProp name="InterleaveControl.style">1</intProp>
             </RandomController>
             <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="60621009 | Body mass index (observable entity)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -913,7 +957,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -940,10 +984,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -952,15 +996,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${bmi},&#xd;
@@ -968,7 +1012,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -1000,7 +1044,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="162863004 | Body mass index 25-29 - overweight (finding)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_OVERWEIGHT_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -1014,7 +1058,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -1041,10 +1085,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;162863004 | Body mass index 25-29 - overweight (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_OVERWEIGHT_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;162863004 | Body mass index 25-29 - overweight (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_OVERWEIGHT_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -1053,15 +1097,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${bmi},&#xd;
@@ -1069,7 +1113,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -1101,7 +1145,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="162863004 | Body mass index 25-29 - overweight (finding)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_OVERWEIGHT_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -1115,7 +1159,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -1142,10 +1186,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;162863004 | Body mass index 25-29 - overweight (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_OVERWEIGHT_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;162863004 | Body mass index 25-29 - overweight (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_OVERWEIGHT_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -1154,15 +1198,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : 29.9,&#xd;
@@ -1170,7 +1214,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -1214,7 +1258,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
               <intProp name="InterleaveControl.style">1</intProp>
             </RandomController>
             <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="60621009 | Body mass index (observable entity)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -1228,7 +1272,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -1255,10 +1299,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -1267,15 +1311,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${bmi},&#xd;
@@ -1283,7 +1327,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -1315,7 +1359,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="60621009 | Body mass index (observable entity)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -1329,7 +1373,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -1356,10 +1400,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -1368,15 +1412,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : 25.0,&#xd;
@@ -1384,7 +1428,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -1428,7 +1472,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
               <intProp name="InterleaveControl.style">1</intProp>
             </RandomController>
             <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="60621009 | Body mass index (observable entity)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -1442,7 +1486,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -1469,10 +1513,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -1481,15 +1525,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${bmi},&#xd;
@@ -1497,7 +1541,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -1529,7 +1573,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="310252000 | Body mass index less than 20 (finding)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_LOW_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -1543,7 +1587,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -1573,7 +1617,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;expression&quot; : &quot;310252000 | Body mass index less than 20 (finding))&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;310252000 | Body mass index less than 20 (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_LOW_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -1582,15 +1626,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${bmi},&#xd;
@@ -1598,7 +1642,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -1630,7 +1674,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="310252000 | Body mass index less than 20 (finding)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_LOW_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -1644,7 +1688,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -1671,10 +1715,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;310252000 | Body mass index less than 20 (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_LOW_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;310252000 | Body mass index less than 20 (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_LOW_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -1683,15 +1727,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${bmi},&#xd;
@@ -1699,7 +1743,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;60621009 | Body mass index (observable entity)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ANF_BMI}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -1799,7 +1843,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="27113001 | Body weight (observable entity)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_WEIGHT}" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -1813,7 +1857,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -1840,10 +1884,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;27113001 | Body weight (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_WEIGHT}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;27113001 | Body weight (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_WEIGHT}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -1852,15 +1896,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${weight},&#xd;
@@ -1868,7 +1912,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;258693003 | pounds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_POUNDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -1980,7 +2024,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -2007,10 +2051,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;1153637007 | Body height (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_HEIGHT}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;1153637007 | Body height (observable entity)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_HEIGHT}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -2019,15 +2063,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : ${height},&#xd;
@@ -2035,7 +2079,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;258677007 | inch (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_INCH}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -2133,7 +2177,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="224526002 | Woman (person)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_WOMAN}" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2147,7 +2191,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -2174,10 +2218,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;224526002 | Woman (person)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_WOMAN}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;224526002 | Woman (person)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_WOMAN}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -2186,15 +2230,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : 1.0,&#xd;
@@ -2231,7 +2275,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="339947000 | Man (person)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_MAN}" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2245,7 +2289,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
      &quot;includeUpperBound&quot; : true,&#xd;
      &quot;includeLowerBound&quot; : true,&#xd;
      &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
      },&#xd;
      &quot;resolution&quot; : 1.0&#xd;
    },&#xd;
@@ -2272,10 +2316,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;339947000 | Man (person)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_MAN}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;339947000 | Man (person)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_MAN}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -2284,15 +2328,15 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;257997001 | Seconds (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
      &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;386053000 | Evaluation procedure (procedure)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
      } ],&#xd;
      &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;441742003 | Evaluation finding (finding)&quot;&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
      },&#xd;
      &quot;result&quot; : {&#xd;
        &quot;upperBound&quot; : 1.0,&#xd;
