@@ -29,4 +29,12 @@ public interface CalculatedConceptRepository extends JpaRepository<CalculatedCon
      */
     void deleteAllByThreadName(String threadName);
 
+
+    /**
+     * Finds all CalculatedConcept objects with the specified thread name.
+     *
+     * @param threadName The name of the thread.
+     * @return A List of CalculatedConcept objects that match the thread name.
+     */
+    List<CalculatedConcept> findAllByThreadName(String threadName);
 }

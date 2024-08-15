@@ -2,10 +2,7 @@ package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.Formula;
 import cdx.opencdx.adr.dto.NumericalOperation;
-import cdx.opencdx.adr.model.AnfStatementModel;
-import cdx.opencdx.adr.model.CalculatedConcept;
-import cdx.opencdx.adr.model.ParticipantModel;
-import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.model.*;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.repository.CalculatedConceptRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
@@ -14,6 +11,7 @@ import cdx.opencdx.adr.service.FormulaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.*;
 
 @Slf4j
@@ -62,11 +60,11 @@ public class FormulaServiceImpl implements FormulaService {
     }
 
     private AnfStatementModel applyFormula(Formula formula, UUID participantId) {
-
+        log.info("Applying formula {} for participant {}", formula.getName(), participantId);
         Double value = this.evaluateFormula(formula, participantId);
 
-        //TODO: Create temporary Anf Statement
         if(value != null) {
+            log.info("Formula {} evaluated to {}", formula.getName(), value);
             CalculatedConcept temp = new CalculatedConcept();
             temp.setConceptName(formula.getName());
             temp.setParticipantId(participantId);
@@ -77,8 +75,19 @@ public class FormulaServiceImpl implements FormulaService {
 
             AnfStatementModel anf = new AnfStatementModel();
             ParticipantModel participantModel = new ParticipantModel();
+            MeasureModel timing = new MeasureModel();
+            TinkarConceptModel semantic = new TinkarConceptModel();
+
+            semantic.setConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_SECONDS));
+            timing.setSemantic(semantic);
+            timing.setResolution(1.0);
+            timing.setLowerBound((double) Instant.now().getEpochSecond());
+            timing.setUpperBound(timing.getLowerBound());
+
+
             participantModel.setPartId(participantId);
             anf.setSubjectOfRecord(participantModel);
+            anf.setTime(timing);
 
             return anf;
         }
@@ -90,11 +99,16 @@ public class FormulaServiceImpl implements FormulaService {
         Double leftOperandValue = formula.getLeftOperandValue();
         Double rightOperandValue = formula.getRightOperandValue();
 
+        log.info("Evaluating formula {} for participant {}", formula.getName(), participantId);
+        log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
+
         if(formula.getLeftOperandFormula() != null) {
             leftOperandValue = this.evaluateFormula(formula.getLeftOperandFormula(), participantId);
         } else if(formula.getLeftOperand() != null) {
             leftOperandValue = this.getMeasureValue(participantId, formula.getLeftOperand(), formula.getLeftOperandUnit());
         }
+
+        log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
 
         if(formula.getRightOperandFormula() != null) {
             rightOperandValue = this.evaluateFormula(formula.getRightOperandFormula(), participantId);
@@ -102,7 +116,10 @@ public class FormulaServiceImpl implements FormulaService {
             rightOperandValue = this.getMeasureValue(participantId, formula.getRightOperand(), formula.getRightOperandUnit());
         }
 
+        log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
+
         if(leftOperandValue == null || rightOperandValue == null) {
+            log.warn("Unable to evaluate formula {} for participant {}", formula.getName(), participantId);
             return null;
         }
 
@@ -113,6 +130,7 @@ public class FormulaServiceImpl implements FormulaService {
         TinkarConceptModel concept = this.tinkarConceptRepository.findByConceptId(conceptId);
 
         if(concept == null) {
+            log.warn("Concept {} not found", conceptId);
             return null;
         }
 
@@ -120,19 +138,24 @@ public class FormulaServiceImpl implements FormulaService {
                 .sorted((anf1, anf2) -> anf2.getTime().getUpperBound().compareTo(anf1.getTime().getUpperBound())).findFirst();
 
         if(selected.isEmpty()) {
+            log.warn("Participant {} not found in concept {}", participantId, conceptId);
             return null;
         }
 
         if (selected.get().getPerformanceCircumstance() != null && selected.get().getPerformanceCircumstance().getResult() != null) {
+            log.info("Performance circumstance found");
             return this.conversionService.convert(unitId,selected.get().getPerformanceCircumstance().getResult()).getUpperBound();
         } else if (selected.get().getRequestCircumstance() != null) {
+            log.info("Request circumstance found");
             return this.conversionService.convert(unitId,selected.get().getRequestCircumstance().getRequestedResult()).getUpperBound();
         }
+        log.info("No performance or request circumstance found");
         return null;
     }
 
 
     private Double performCalculation(Double left, NumericalOperation operation, Double right) {
+        log.info("Performing calculation: {} {} {}", left, operation, right);
         switch (operation) {
             case ADD:
                 return left + right;

@@ -2,14 +2,13 @@ package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.*;
 import cdx.opencdx.adr.model.AnfStatementModel;
+import cdx.opencdx.adr.model.CalculatedConcept;
 import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.repository.CalculatedConceptRepository;
+import cdx.opencdx.adr.service.*;
 import cdx.opencdx.adr.utils.ANFHelper;
-import cdx.opencdx.adr.service.CsvService;
-import cdx.opencdx.adr.service.MeasureOperationService;
-import cdx.opencdx.adr.service.QueryService;
-import cdx.opencdx.adr.service.TextOperationService;
 import cdx.opencdx.adr.utils.CsvBuilder;
 import cdx.opencdx.adr.utils.ListUtils;
 import jakarta.persistence.EntityManager;
@@ -34,12 +33,14 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class QueryServiceImpl implements QueryService {
+    private final ANFStatementRepository aNFStatementRepository;
 
     private final ANFHelper anfRepo;
     private final CsvService csvService;
     private final MeasureOperationService measureOperationService;
     private final TextOperationService textOperationService;
     private final CalculatedConceptRepository calculatedConceptRepository;
+    private final FormulaService formulaService;
 
 
     @PersistenceContext
@@ -54,12 +55,15 @@ public class QueryServiceImpl implements QueryService {
      * @param textOperationService        the TextOperationService object used for text operations
      * @param calculatedConceptRepository the CalculatedConceptRepository object used for calculated concept operations
      */
-    public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService, CalculatedConceptRepository calculatedConceptRepository) {
+    public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService, CalculatedConceptRepository calculatedConceptRepository, FormulaService formulaService,
+                            ANFStatementRepository aNFStatementRepository) {
         this.anfRepo = anfRepo;
         this.csvService = csvService;
         this.measureOperationService = measureOperationService;
         this.textOperationService = textOperationService;
         this.calculatedConceptRepository = calculatedConceptRepository;
+        this.formulaService = formulaService;
+        this.aNFStatementRepository = aNFStatementRepository;
     }
 
     /**
@@ -70,7 +74,11 @@ public class QueryServiceImpl implements QueryService {
      */
     @Override
     public void processQuery(ADRQuery adrQuery, PrintWriter writer) {
-        this.calculatedConceptRepository.deleteAllByThreadName(Thread.currentThread().getName());
+
+        List<CalculatedConcept> allByThreadName = this.calculatedConceptRepository.findAllByThreadName(Thread.currentThread().getName());
+        if(!allByThreadName.isEmpty()) {
+            this.calculatedConceptRepository.deleteAll(allByThreadName);
+        }
 
         ProcessingResults processingResults = processQuery(adrQuery.getQueries());
 
@@ -320,7 +328,7 @@ public class QueryServiceImpl implements QueryService {
             log.info("Returning Group Query Results: {}", results.anfStatements.size());
             return results.anfStatements;
         } else if(query.getFormula() != null) {
-           //TODO Process Formula
+            return this.formulaService.evaluateFormula(query.getFormula());
         }
         log.info("Returning Empty Query Results");
         return Collections.emptyList();

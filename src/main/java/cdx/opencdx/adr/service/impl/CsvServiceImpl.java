@@ -111,7 +111,7 @@ public class CsvServiceImpl implements CsvService {
 
             this.calculatedConceptRepository.findAllByParticipantIdAndThreadName(uuid,Thread.currentThread().getName())
                     .forEach(calculatedConcept -> {
-                        csvDto.setCell(currentRow, calculatedConcept.getConceptName(), calculatedConcept.getValue().toString());
+                        csvDto.setCell(currentRow, calculatedConcept.getConceptName() + " Calculation", calculatedConcept.getValue().toString());
                     });
         });
         return csvDto;
