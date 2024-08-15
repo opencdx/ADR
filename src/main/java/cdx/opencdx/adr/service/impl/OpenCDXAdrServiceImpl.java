@@ -127,7 +127,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
         this.blockConcepts.add(UUID.fromString("3a44167a-e94a-4962-8d2e-d94e57475732")); // month
         this.blockConcepts.add(UUID.fromString("98999a1c-11b1-4777-a9b6-3b25482676c4")); // pounds
         this.blockConcepts.add(UUID.fromString("d9036e1e-3397-4f00-a40a-021626644970")); // year
-        this.blockConcepts.add(UUID.fromString("c4e07b26-88f9-4250-803c-86463391c001")); // seconds
+        this.blockConcepts.add(UUID.fromString("b66571ca-bba7-4a5a-a90f-2ef9f0c33a56")); // seconds
 
     }
 
@@ -155,6 +155,12 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
         //return this.conceptRepository.findAll() sorted by conceptName
         return this.conceptRepository.findAll().stream()
                 .filter(concept -> !this.blockConcepts.contains(concept.getConceptId())).sorted(Comparator.comparing(TinkarConceptModel::getConceptName)).toList();
+    }
+
+    @Override
+    public List<TinkarConceptModel> getUnits() {
+        return this.conceptRepository.findAll().stream()
+                .filter(concept -> this.blockConcepts.contains(concept.getConceptId())).sorted(Comparator.comparing(TinkarConceptModel::getConceptName)).toList();
     }
 
     /**
