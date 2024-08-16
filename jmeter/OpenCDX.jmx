@@ -212,7 +212,7 @@
       </ThreadGroup>
       <hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Concept Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">vars.put(&quot;UNIT_METER&quot;,&quot;258669008 | meter (qualifier value)&quot;);
+          <stringProp name="BeanShellSampler.query">Ωvars.put(&quot;UNIT_METER&quot;,&quot;258669008 | meter (qualifier value)&quot;);
 vars.put(&quot;UNIT_INCH&quot;,&quot;258677007 | inch (qualifier value)&quot;);
 vars.put(&quot;UNIT_POUNDS&quot;,&quot;258693003 | pounds (qualifier value)&quot;);
 vars.put(&quot;UNIT_KILOGRAMS&quot;,&quot;258683005 | kilogram (qualifier value)&quot;);
@@ -230,7 +230,6 @@ vars.put(&quot;ANF_NEGATIVE&quot;,&quot;260385009 | Negative (qualifier value)&q
 vars.put(&quot;ANF_NOT_DETECTED&quot;,&quot;260415000 | Not Detected (qualifier value)&quot;);
 vars.put(&quot;ANF_POSITIVE&quot;,&quot;10828004 | Positive (qualifier value)&quot;);
 vars.put(&quot;ANF_PRESUMPTIVE_POSITIVE&quot;,&quot;720735008 | Presumptive Positive (qualifier value)&quot;);
-vars.put(&quot;ANF_NORMAL_BMI&quot;,&quot;35425004 | Normal body mass index (finding)&quot;);
 vars.put(&quot;ANF_PATIENT&quot;,&quot;116154003 | Patient (person)&quot;);
 vars.put(&quot;ANF_FAMILY_DOCTOR&quot;,&quot;62247001 | Family medicine specialist (occupation)&quot;);
 vars.put(&quot;ANF_EVAL_PROCEDURE&quot;,&quot;386053000 | Evaluation procedure (procedure)&quot;);
@@ -239,10 +238,6 @@ vars.put(&quot;ANF_RASH&quot;,&quot;723010005 | Acute eruption of skin (disorder
 vars.put(&quot;ANF_AGE&quot;,&quot;397669002 | Age (qualifier value)&quot;);
 vars.put(&quot;ANF_AGE_DIAGNOSIS&quot;,&quot;423493009 | Age at diagnosis (observable entity)&quot;);
 vars.put(&quot;ANF_HEIGHT&quot;,&quot;153637007 | Body height (observable entity)&quot;);
-vars.put(&quot;ANF_BMI&quot;,&quot;60621009 | Body mass index (observable entity)&quot;);
-vars.put(&quot;ANF_OVERWEIGHT_BMI&quot;,&quot;162863004 | Body mass index 25-29 - overweight (finding)&quot;);
-vars.put(&quot;ANF_OBESE_BMI&quot;,&quot;162864005 | Body mass index 30+ - obesity (finding)&quot;);
-vars.put(&quot;ANF_LOW_BMI&quot;,&quot;310252000 | Body mass index less than 20 (finding)&quot;);
 vars.put(&quot;ANF_WEIGHT&quot;,&quot;27113001 | Body weight (observable entity)&quot;);
 vars.put(&quot;ANF_CHRONIC_LUNG_DISEASE&quot;,&quot;413839001 | Chronic lung disease (disorder)&quot;);
 vars.put(&quot;ANF_CHRONIC_LUNG_DISEASE_DISORDER&quot;,&quot;707534000 | Chronic lung disease due to surfactant disorder (disorder)&quot;);
@@ -252,11 +247,19 @@ vars.put(&quot;ANF_DETECTED&quot;,&quot;260373001 | Detected (qualifier value)&q
 vars.put(&quot;ANF_HISTORY_OF_CLD&quot;,&quot;414415007 | History of chronic lung disease (situation)&quot;);
 vars.put(&quot;ANF_INVALID&quot;,&quot;455371000124106 | Invalid result (qualifier value)&quot;);
 
+
+// RASH
 vars.put(&quot;ANF_ACUTE_ERUPTION&quot;,&quot;72301000510005 | Acute eruption of skin (disorder)&quot;);
 vars.put(&quot;ANF_ACUTE_DESQUAMMATING&quot;,&quot;721543007 | Acute desquamating eruption of skin (disorder)&quot;);
 vars.put(&quot;ANF_ACUTE_EXUDATIVE&quot;,&quot;723014001 | Acute exudative skin eruption (disorder)&quot;);
 vars.put(&quot;ANF_ACUTE_MACUOPAPULAR&quot;,&quot;723012002 | Acute maculopapular eruption of skin (disorder)&quot;);
-vars.put(&quot;ANF_ACUTE_PURPURIC&quot;,&quot;723011009 | Acute purpuric eruption of skin (disorder)&quot;);</stringProp>
+vars.put(&quot;ANF_ACUTE_PURPURIC&quot;,&quot;723011009 | Acute purpuric eruption of skin (disorder)&quot;);
+
+//BMI
+vars.put(&quot;ANF_LOW_BMI&quot;,&quot;310252000 | Body mass index less than 20 (finding)&quot;);
+vars.put(&quot;ANF_BMI&quot;,&quot;60621009 | Body mass index (observable entity)&quot;);
+vars.put(&quot;ANF_OVERWEIGHT_BMI&quot;,&quot;162863004 | Body mass index 25-29 - overweight (finding)&quot;);
+vars.put(&quot;ANF_OBESE_BMI&quot;,&quot;162864005 | Body mass index 30+ - obesity (finding)&quot;);</stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
         <hashTree/>
