@@ -60,59 +60,6 @@ public class AnfController {
     public AnfController(ObjectMapper objectMapper, OpenCDXAdrService openCDXAdrService) throws JsonProcessingException {
         this.objectMapper = objectMapper;
         this.openCDXAdrService = openCDXAdrService;
-
-        UUID nhId = UUID.randomUUID();
-        UUID practitionerId = UUID.randomUUID();
-        Instant now = Instant.now();
-
-        ANFStatement anfStatement = ANFStatement.newBuilder()
-                .setId(UUID.randomUUID().toString())
-                .setSubjectOfRecord(Participant.newBuilder()
-                        .setId(nhId.toString())
-                        .setCode(LogicalExpression.newBuilder().setExpression("363698007 |National identifier|")))
-                .addAuthors(Practitioner.newBuilder()
-                        .setId(practitionerId.toString())
-                        .setPractitionerValue(Reference.newBuilder()
-                                .setDisplay("Dr. John Doe")
-                                .setIdentifier("123456")
-                                .setReference("http://example.com")
-                                .setUri("http://example.com"))
-                        .setCode(LogicalExpression.newBuilder().setExpression("311287001 | General practitioner (role)")))
-                .setSubjectOfInformation(LogicalExpression.newBuilder()
-                        .setExpression(nhId + " |Identifier| : 363704007 |Associated with| = 363698007 |National identifier|")
-                        .build())
-                .setTime(Measure.newBuilder()
-                        .setResolution(1.0)
-                        .setIncludeUpperBound(true)
-                        .setIncludeLowerBound(true)
-                        .setSemantic(LogicalExpression.newBuilder().setExpression("81170007 | Second (qualifier value)"))
-                        .setLowerBound(now.getEpochSecond())
-                        .setUpperBound(now.getEpochSecond()))
-                .setTopic(LogicalExpression.newBuilder().setExpression("423493009 | Age at diagnosis (observable entity)"))
-                .setType(LogicalExpression.newBuilder().setExpression("423493009 | Age at diagnosis (observable entity)"))
-                .setPerformanceCircumstance(PerformanceCircumstance.newBuilder()
-                        .setStatus(LogicalExpression.newBuilder().setExpression("260271001 | Completed (qualifier value)").build())
-                        .addParticipant(Participant.newBuilder()
-                                .setId(practitionerId.toString())
-                                .setCode(LogicalExpression.newBuilder().setExpression("311287001 | General practitioner (role)").build()))
-                        .addPurpose(LogicalExpression.newBuilder().setExpression("386053000 |Evaluation procedure (procedure)|"))
-                        .setTiming(Measure.newBuilder()
-                                .setResolution(1.0)
-                                .setIncludeUpperBound(true)
-                                .setIncludeLowerBound(true)
-                                .setSemantic(LogicalExpression.newBuilder().setExpression("81170007 | Second (qualifier value)"))
-                                .setLowerBound(now.getEpochSecond())
-                                .setUpperBound(now.getEpochSecond()))
-                        .setResult(Measure.newBuilder()
-                                .setLowerBound(22.0)
-                                .setUpperBound(22.0)
-                                .setIncludeLowerBound(true)
-                                .setIncludeUpperBound(true)
-                                .setResolution(1.0)
-                                .setSemantic(LogicalExpression.newBuilder().setExpression("258707000 | Year (qualifier value)"))))
-                .build();
-
-        log.info("Sample ANF statement: \n{}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(anfStatement));
     }
 
     /**
