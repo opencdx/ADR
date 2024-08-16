@@ -212,7 +212,7 @@
       </ThreadGroup>
       <hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Concept Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">Ωvars.put(&quot;UNIT_METER&quot;,&quot;258669008 | meter (qualifier value)&quot;);
+          <stringProp name="BeanShellSampler.query">vars.put(&quot;UNIT_METER&quot;,&quot;258669008 | meter (qualifier value)&quot;);
 vars.put(&quot;UNIT_INCH&quot;,&quot;258677007 | inch (qualifier value)&quot;);
 vars.put(&quot;UNIT_POUNDS&quot;,&quot;258693003 | pounds (qualifier value)&quot;);
 vars.put(&quot;UNIT_KILOGRAMS&quot;,&quot;258683005 | kilogram (qualifier value)&quot;);
@@ -737,7 +737,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="162864005 | Body mass index 30+ - obesity (finding)" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_OBESE_BMI}" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -778,10 +778,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;162864005 | Body mass index 30+ - obesity (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_OBESE_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;162864005 | Body mass index 30+ - obesity (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_OBESE_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
@@ -879,10 +879,10 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;associatedStatement&quot; : [ ],&#xd;
    &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;162864005 | Body mass index 30+ - obesity (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_OBESE_BMI}&quot;&#xd;
    },&#xd;
    &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;162864005 | Body mass index 30+ - obesity (finding)&quot;&#xd;
+     &quot;expression&quot; : &quot;${ANF_OBESE_BMI}&quot;&#xd;
    },&#xd;
    &quot;performanceCircumstance&quot; : {&#xd;
      &quot;timing&quot; : {&#xd;
