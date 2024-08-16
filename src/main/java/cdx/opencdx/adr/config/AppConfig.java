@@ -5,6 +5,7 @@ import cdx.opencdx.adr.service.impl.LogicalExpressionProcessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import io.swagger.v3.core.jackson.ModelResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,5 +54,16 @@ public class AppConfig {
     public List<OpenCDXANFProcessor> openCDXANFProcessors(
             LogicalExpressionProcessor logicalExpressionProcessor) {
         return List.of(logicalExpressionProcessor);
+    }
+
+    /**
+     * Model Resolver for Swagger
+     * @param objectMapper Object Mapper to use.
+     * @return Model Resolver for Swagger
+     */
+    @Bean
+    public ModelResolver modelResolver(final ObjectMapper objectMapper) {
+        log.trace("Creating Model Resolver for Swagger");
+        return new ModelResolver(objectMapper);
     }
 }

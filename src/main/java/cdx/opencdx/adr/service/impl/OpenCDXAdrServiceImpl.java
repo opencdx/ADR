@@ -16,16 +16,19 @@
 package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.ADRQuery;
-import cdx.opencdx.adr.dto.Query;
+import cdx.opencdx.adr.dto.SavedQuery;
 import cdx.opencdx.adr.model.AnfStatementModel;
+import cdx.opencdx.adr.model.SavedQueryModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
+import cdx.opencdx.adr.repository.SavedQueryRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import cdx.opencdx.adr.service.QueryService;
 import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.ANFStatement;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -101,22 +104,37 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     private final List<UUID> blockConcepts = new ArrayList<>();
 
     /**
-     * Initialize the OpenCDXAdrServiceImpl with the required dependencies.
+     * This variable represents an instance of the SavedQueryRepository interface, which
+     * is responsible for managing saved queries in the application.
      *
-     * @param anfStatementRepository The ANF Statement Repository
-     * @param conceptRepository      The Tinkar Concept Repository
-     * @param queryService           The Query Service
-     * @param openCDXANFProcessors   List of OpenCDXANFProcessors
-     * @param anfRepo                The ANF Repo
-     * @param mapper                 The ObjectMapper
+     * The SavedQueryRepository interface provides methods to perform CRUD (Create, Read,
+     * Update, and Delete) operations on saved queries in the application's data storage.
+     *
+     * This variable is declared as private and final, indicating that it is intended to be
+     * accessed only within the current class and cannot be reassigned to another instance
+     * of the SavedQueryRepository interface.
      */
-    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, TinkarConceptRepository conceptRepository, QueryService queryService, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFHelper anfRepo, ObjectMapper mapper) {
+    private final SavedQueryRepository savedQueryRepository;
+
+    /**
+     * Initializes an instance of OpenCDXAdrServiceImpl.
+     *
+     * @param anfStatementRepository   the ANF statement repository
+     * @param conceptRepository        the Tinkar concept repository
+     * @param queryService             the query service
+     * @param openCDXANFProcessors     a list of OpenCDXANFProcessor instances
+     * @param anfRepo                  the ANF repository
+     * @param mapper                   the object mapper
+     * @param savedQueryRepository     the saved query repository
+     */
+    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, TinkarConceptRepository conceptRepository, QueryService queryService, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFHelper anfRepo, ObjectMapper mapper, SavedQueryRepository savedQueryRepository) {
         this.anfStatementRepository = anfStatementRepository;
         this.conceptRepository = conceptRepository;
         this.queryService = queryService;
         this.openCDXANFProcessors = openCDXANFProcessors;
         this.anfRepo = anfRepo;
         this.mapper = mapper;
+        this.savedQueryRepository = savedQueryRepository;
 
         this.openCDXANFProcessors.forEach(processor -> log.info("Processor: {}", processor.getClass().getName()));
 
@@ -172,6 +190,32 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     @Override
     public void streamQuery(ADRQuery adrQuery, PrintWriter writer) {
         this.queryService.processQuery(adrQuery, writer);
+    }
+
+    @Override
+    public SavedQuery saveQuery(SavedQuery save) throws JsonProcessingException {
+        SavedQueryModel model = new SavedQueryModel(save.getName(),this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(save.getQuery()));
+        model = this.savedQueryRepository.save(model);
+
+        return new SavedQuery(model.getId(), model.getName(), save.getQuery());
+    }
+
+    @Override
+    public List<SavedQuery> listSavedQueries() throws JsonProcessingException {
+        List<SavedQueryModel> all = this.savedQueryRepository.findAll();
+
+        List<SavedQuery> savedQueries = new ArrayList<>();
+
+        for (SavedQueryModel model : all) {
+            savedQueries.add(new SavedQuery(model.getId(), model.getName(), this.mapper.readValue(model.getContent(), ADRQuery.class)));
+        }
+
+        return savedQueries;
+    }
+
+    @Override
+    public void deleteSavedQuery(Long id) {
+        this.savedQueryRepository.deleteById(id);
     }
 
 }

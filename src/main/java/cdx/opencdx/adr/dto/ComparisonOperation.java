@@ -4,7 +4,7 @@ package cdx.opencdx.adr.dto;
  * The Operation enum represents comparison operations for querying.
  * It provides constants for various comparison operations such as greater than, less than, equal to, etc.
  */
-public enum Operation {
+public enum ComparisonOperation {
     /**
      * Represents the "greater than" operation.
      */

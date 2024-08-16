@@ -2,13 +2,13 @@ package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.*;
 import cdx.opencdx.adr.model.AnfStatementModel;
+import cdx.opencdx.adr.model.CalculatedConcept;
 import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.repository.ANFStatementRepository;
+import cdx.opencdx.adr.repository.CalculatedConceptRepository;
+import cdx.opencdx.adr.service.*;
 import cdx.opencdx.adr.utils.ANFHelper;
-import cdx.opencdx.adr.service.CsvService;
-import cdx.opencdx.adr.service.MeasureOperationService;
-import cdx.opencdx.adr.service.QueryService;
-import cdx.opencdx.adr.service.TextOperationService;
 import cdx.opencdx.adr.utils.CsvBuilder;
 import cdx.opencdx.adr.utils.ListUtils;
 import jakarta.persistence.EntityManager;
@@ -33,11 +33,14 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class QueryServiceImpl implements QueryService {
+    private final ANFStatementRepository aNFStatementRepository;
 
     private final ANFHelper anfRepo;
     private final CsvService csvService;
     private final MeasureOperationService measureOperationService;
     private final TextOperationService textOperationService;
+    private final CalculatedConceptRepository calculatedConceptRepository;
+    private final FormulaService formulaService;
 
 
     @PersistenceContext
@@ -46,14 +49,21 @@ public class QueryServiceImpl implements QueryService {
     /**
      * Creates a new instance of QueryServiceImpl with the given ANFRepo and CsvService objects.
      *
-     * @param anfRepo    the ANFRepo object used for querying ANF data
-     * @param csvService the CsvService object used for csv operations
+     * @param anfRepo                     the ANFRepo object used for querying ANF data
+     * @param csvService                  the CsvService object used for csv operations
+     * @param measureOperationService     the MeasureOperationService object used for measure operations
+     * @param textOperationService        the TextOperationService object used for text operations
+     * @param calculatedConceptRepository the CalculatedConceptRepository object used for calculated concept operations
      */
-    public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService) {
+    public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService, CalculatedConceptRepository calculatedConceptRepository, FormulaService formulaService,
+                            ANFStatementRepository aNFStatementRepository) {
         this.anfRepo = anfRepo;
         this.csvService = csvService;
         this.measureOperationService = measureOperationService;
         this.textOperationService = textOperationService;
+        this.calculatedConceptRepository = calculatedConceptRepository;
+        this.formulaService = formulaService;
+        this.aNFStatementRepository = aNFStatementRepository;
     }
 
     /**
@@ -64,6 +74,12 @@ public class QueryServiceImpl implements QueryService {
      */
     @Override
     public void processQuery(ADRQuery adrQuery, PrintWriter writer) {
+
+        List<CalculatedConcept> allByThreadName = this.calculatedConceptRepository.findAllByThreadName(Thread.currentThread().getName());
+        if(!allByThreadName.isEmpty()) {
+            this.calculatedConceptRepository.deleteAll(allByThreadName);
+        }
+
         ProcessingResults processingResults = processQuery(adrQuery.getQueries());
 
         List<AnfStatementModel> results = processingResults.anfStatements;
@@ -272,7 +288,7 @@ public class QueryServiceImpl implements QueryService {
      *
      * @return true if the operation is successfully checked, false otherwise
      */
-    private boolean check(Operation operation, Object operationValue, UUID operationUnit,  Object value) {
+    private boolean check(ComparisonOperation operation, Object operationValue, UUID operationUnit, Object value) {
         if(value instanceof MeasureModel measure) {
             return this.measureOperationService.measureOperation(operation, (Double)operationValue, operationUnit,  measure);
         } else if(value instanceof String text) {
@@ -287,33 +303,19 @@ public class QueryServiceImpl implements QueryService {
      * @return A list of AnfStatementModel objects that match the conditions specified in the query.
      */
     private List<AnfStatementModel> runQuery(Query query) {
+        List<AnfStatementModel> simpleQueryResults = null;
         if(query.getConceptId() != null) {
-            List<AnfStatementModel> simpleQueryResults = runSimpleQuery(query);
-
-            if (query.getOperation() == null) {
-                log.info("Returning Simple Query Results: {}", simpleQueryResults.size());
-                return simpleQueryResults;
-            }
-            log.info("Processing Operational Query Results: {}", simpleQueryResults.size());
-            simpleQueryResults = simpleQueryResults.stream().filter(anf -> {
-                if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
-                    return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getPerformanceCircumstance().getResult());
-                } else if (anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
-                    return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getRequestCircumstance().getRequestedResult());
-                } else if (anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
-                    return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), anf.getNarrativeCircumstance().getText());
-                }
-                return false;
-            }).toList();
-            log.info("Returning Operational Query Results: {}", simpleQueryResults.size());
-            return simpleQueryResults;
+           simpleQueryResults = runSimpleQuery(query);
         } else if(query.getGroup() != null) {
             ProcessingResults results = this.processQuery(query.getGroup());
-            log.info("Returning Group Query Results: {}", results.anfStatements.size());
-            return results.anfStatements;
+            simpleQueryResults = results.anfStatements;
+        } else if(query.getFormula() != null) {
+            simpleQueryResults = this.formulaService.evaluateFormula(query.getFormula());
+        } else {
+            log.info("Returning Empty Query Results");
+            return Collections.emptyList();
         }
-        log.info("Returning Empty Query Results");
-        return Collections.emptyList();
+        return this.processOperational(query, simpleQueryResults);
     }
 
     /**
@@ -322,4 +324,24 @@ public class QueryServiceImpl implements QueryService {
     public record ProcessingResults(List<UUID> conceptIds, List<AnfStatementModel> anfStatements) {
     }
 
+    private List<AnfStatementModel> processOperational(Query query, List<AnfStatementModel> simpleQueryResults) {
+        if (query.getOperation() == null) {
+            log.info("Returning Simple Query Results: {}", simpleQueryResults.size());
+            return simpleQueryResults;
+        }
+        log.info("Processing Operational Query Results: {} on Operation: {}", simpleQueryResults.size(),query.getOperation());
+        return simpleQueryResults.stream().filter(anf -> {
+            if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
+                log.info("Processing Performance Circumstance Operation Double: {}", query.getOperationDouble());
+                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getPerformanceCircumstance().getResult());
+            } else if (anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
+                log.info("Processing Request Circumstance Operation Double: {}", query.getOperationDouble());
+                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getRequestCircumstance().getRequestedResult());
+            } else if (anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
+                log.info("Processing Narrative Circumstance Operation Text: {}", query.getOperationText());
+                return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), anf.getNarrativeCircumstance().getText());
+            }
+            return false;
+        }).toList();
+    }
 }

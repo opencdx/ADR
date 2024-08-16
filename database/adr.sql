@@ -28,6 +28,15 @@ CREATE TABLE DimMeasure (
                             resolution DOUBLE PRECISION       -- Resolution of the measurement (e.g., decimal places)
 );
 
+-- Represents temporary calculated concepts
+CREATE TABLE DimCalculatedConcept (
+                                     id BIGSERIAL PRIMARY KEY,          -- Unique identifier
+                                     concept_name TEXT,                -- Name of the calculated concept
+                                     participant_id UUID,          -- ID of the participant
+                                     thread_name TEXT,                 -- Name of the thread
+                                     value DOUBLE PRECISION           -- Calculated value
+);
+
 -- Represents participants (patients, subjects) in medical events
 CREATE TABLE DimParticipant (
                                 id BIGSERIAL PRIMARY KEY,          -- Unique identifier
@@ -160,4 +169,10 @@ CREATE TABLE RequestCircumstance_DeviceId (
                                               request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),
                                               deviceId TEXT,
                                               PRIMARY KEY (request_circumstance_id, deviceId)
+);
+
+CREATE TABLE SavedQuery (
+                            id BIGSERIAL PRIMARY KEY,
+                            name TEXT NOT NULL,
+                            content TEXT NOT NULL
 );

@@ -23,6 +23,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
     public static final String UNIT_METER = "757702f5-2516-4d25-ab74-4a226806857f";
     public static final String UNIT_POUNDS = "98999a1c-11b1-4777-a9b6-3b25482676c4";
     public static final String UNIT_KILOGRAMS = "20e0e0e0-70a1-4161-b7a4-e7725f5f583e";
+    public static final String UNIT_SECONDS = "b66571ca-bba7-4a5a-a90f-2ef9f0c33a56";
     /**
      * A private final variable conceptModelMap is declared as a Map, mapping strings to TinkarConceptModel objects.
      */
@@ -71,7 +72,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("99782a3a-2e09-4482-9c4c-2213f69792e5"), "Normal body mass index", "35425004 | Normal body mass index (finding)"));
         }
         if(!this.conceptRepository.existsByConceptId(UUID.fromString("b66571ca-bba7-4a5a-a90f-2ef9f0c33a56"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b66571ca-bba7-4a5a-a90f-2ef9f0c33a56"), "Seconds", "257997001 | Seconds (qualifier value)"));
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString(UNIT_SECONDS), "Seconds", "257997001 | Seconds (qualifier value)"));
         }
         if(!this.conceptRepository.existsByConceptId(UUID.fromString("9f19e2d2-3992-4474-b717-e1050e3a5341"))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("9f19e2d2-3992-4474-b717-e1050e3a5341"), "Patient", "116154003 | Patient (person)"));
