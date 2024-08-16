@@ -68,9 +68,6 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         if(!this.conceptRepository.existsByConceptId(UUID.fromString("d9036e1e-3397-4f00-a40a-021626644970"))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("d9036e1e-3397-4f00-a40a-021626644970"), "year", "258707000 | year (qualifier value)"));
         }
-        if(!this.conceptRepository.existsByConceptId(UUID.fromString("99782a3a-2e09-4482-9c4c-2213f69792e5"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("99782a3a-2e09-4482-9c4c-2213f69792e5"), "Normal body mass index", "35425004 | Normal body mass index (finding)"));
-        }
         if(!this.conceptRepository.existsByConceptId(UUID.fromString("b66571ca-bba7-4a5a-a90f-2ef9f0c33a56"))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString(UNIT_SECONDS), "Seconds", "257997001 | Seconds (qualifier value)"));
         }
@@ -88,7 +85,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         }
 
         if(!this.conceptRepository.existsByConceptId(UUID.fromString("dc12873c-8989-42f8-ac29-c2eecc3e3b69"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("dc12873c-8989-42f8-ac29-c2eecc3e3b69"), "Acute eruption of skin", "723010005 | Acute eruption of skin (disorder)"));
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("dc12873c-8989-42f8-ac29-c2eecc3e3b69"), "Acute eruption of skin", "72301000510005 | Acute eruption of skin (disorder)"));
         }
         if (!this.conceptRepository.existsByConceptId(UUID.fromString("3a01b6d1-9613-42d6-a6b8-828882e69c2a"))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("3a01b6d1-9613-42d6-a6b8-828882e69c2a"), "Age", "397669002 | Age (qualifier value)"));
@@ -97,19 +94,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("9061a0d4-254a-42b2-b786-82e5e9f79661"), "Age at diagnosis", "423493009 | Age at diagnosis (observable entity)"));
         }
         if (!this.conceptRepository.existsByConceptId(UUID.fromString("f99f17a3-5248-472d-b88f-f4c894630084"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("f99f17a3-5248-472d-b88f-f4c894630084"), "Body height", "1153637007 | Body height (observable entity)"));
-        }
-        if (!this.conceptRepository.existsByConceptId(UUID.fromString("0f0a0956-9019-4006-b74d-71c04d9a9b59"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("0f0a0956-9019-4006-b74d-71c04d9a9b59"), "Body mass index", "60621009 | Body mass index (observable entity)"));
-        }
-        if (!this.conceptRepository.existsByConceptId(UUID.fromString("64f4704d-d1f3-46d8-8330-780c1768e541"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("64f4704d-d1f3-46d8-8330-780c1768e541"), "Body mass index 25-29 - overweight", "162863004 | Body mass index 25-29 - overweight (finding)"));
-        }
-        if (!this.conceptRepository.existsByConceptId(UUID.fromString("49d74011-a43a-4258-b8d7-206679349384"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("49d74011-a43a-4258-b8d7-206679349384"), "Body mass index 30+ - obesity", "162864005 | Body mass index 30+ - obesity (finding)"));
-        }
-        if (!this.conceptRepository.existsByConceptId(UUID.fromString("d9188b17-d87e-4f70-92f1-8a9848f2c30f"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("d9188b17-d87e-4f70-92f1-8a9848f2c30f"), "Body mass index less than 20", "310252000 | Body mass index less than 20 (finding)"));
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("f99f17a3-5248-472d-b88f-f4c894630084"), "Body height", "153637007 | Body height (observable entity)"));
         }
         if (!this.conceptRepository.existsByConceptId(UUID.fromString("1339a965-5c4d-40a7-b04f-60a17b43455b"))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("1339a965-5c4d-40a7-b04f-60a17b43455b"), "Body weight", "27113001 | Body weight (observable entity)"));
@@ -135,6 +120,44 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Invalid result", "455371000124106 | Invalid result (qualifier value)"));
         }
+
+
+        //BMI
+        if(!this.conceptRepository.existsByConceptId(UUID.fromString("99782a3a-2e09-4482-9c4c-2213f69792e5"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("99782a3a-2e09-4482-9c4c-2213f69792e5"), "Normal body mass index", "35425004 | Normal body mass index (finding)"));
+        }
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("0f0a0956-9019-4006-b74d-71c04d9a9b59"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("0f0a0956-9019-4006-b74d-71c04d9a9b59"), "Body mass index", "60621009 | Body mass index (observable entity)"));
+        }
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("64f4704d-d1f3-46d8-8330-780c1768e541"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("64f4704d-d1f3-46d8-8330-780c1768e541"), "Body mass index 25-29 - overweight", "162863004 | Body mass index 25-29 - overweight (finding)"));
+        }
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("49d74011-a43a-4258-b8d7-206679349384"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("49d74011-a43a-4258-b8d7-206679349384"), "Body mass index 30+ - obesity", "162864005 | Body mass index 30+ - obesity (finding)"));
+        }
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("d9188b17-d87e-4f70-92f1-8a9848f2c30f"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("d9188b17-d87e-4f70-92f1-8a9848f2c30f"), "Body mass index less than 20", "310252000 | Body mass index less than 20 (finding)"));
+        }
+
+
+        // Rash
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e85736"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e85736"), "Acute desquamating eruption of skin (disorder)", "721543007 | Acute desquamating eruption of skin (disorder)"));
+        }
+
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e86736"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Acute exudative skin eruption (disorder)", "723014001 | Acute exudative skin eruption (disorder)"));
+        }
+
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e87736"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Acute maculopapular eruption of skin (disorder)", "723012002 | Acute maculopapular eruption of skin (disorder)"));
+        }
+
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e87736"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Acute purpuric eruption of skin (disorder)", "723011009 | Acute purpuric eruption of skin (disorder)"));
+        }
+
+        //Units
 
         if(!this.conceptRepository.existsByConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_METER))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString(UNIT_METER), "meter", "258669008 | meter (qualifier value)"));
