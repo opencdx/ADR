@@ -88,7 +88,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         }
 
         if(!this.conceptRepository.existsByConceptId(UUID.fromString("dc12873c-8989-42f8-ac29-c2eecc3e3b69"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("dc12873c-8989-42f8-ac29-c2eecc3e3b69"), "Acute eruption of skin", "723010005 | Acute eruption of skin (disorder)"));
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("dc12873c-8989-42f8-ac29-c2eecc3e3b69"), "Acute eruption of skin", "72301000510005 | Acute eruption of skin (disorder)"));
         }
         if (!this.conceptRepository.existsByConceptId(UUID.fromString("3a01b6d1-9613-42d6-a6b8-828882e69c2a"))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("3a01b6d1-9613-42d6-a6b8-828882e69c2a"), "Age", "397669002 | Age (qualifier value)"));
@@ -97,7 +97,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("9061a0d4-254a-42b2-b786-82e5e9f79661"), "Age at diagnosis", "423493009 | Age at diagnosis (observable entity)"));
         }
         if (!this.conceptRepository.existsByConceptId(UUID.fromString("f99f17a3-5248-472d-b88f-f4c894630084"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("f99f17a3-5248-472d-b88f-f4c894630084"), "Body height", "1153637007 | Body height (observable entity)"));
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("f99f17a3-5248-472d-b88f-f4c894630084"), "Body height", "153637007 | Body height (observable entity)"));
         }
         if (!this.conceptRepository.existsByConceptId(UUID.fromString("0f0a0956-9019-4006-b74d-71c04d9a9b59"))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("0f0a0956-9019-4006-b74d-71c04d9a9b59"), "Body mass index", "60621009 | Body mass index (observable entity)"));
@@ -134,6 +134,22 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         }
         if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Invalid result", "455371000124106 | Invalid result (qualifier value)"));
+        }
+
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e85736"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e85736"), "Acute desquamating eruption of skin (disorder)", "721543007 | Acute desquamating eruption of skin (disorder)"));
+        }
+
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e86736"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Acute exudative skin eruption (disorder)", "723014001 | Acute exudative skin eruption (disorder)"));
+        }
+
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e87736"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Acute maculopapular eruption of skin (disorder)", "723012002 | Acute maculopapular eruption of skin (disorder)"));
+        }
+
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e87736"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Acute purpuric eruption of skin (disorder)", "723011009 | Acute purpuric eruption of skin (disorder)"));
         }
 
         if(!this.conceptRepository.existsByConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_METER))) {
