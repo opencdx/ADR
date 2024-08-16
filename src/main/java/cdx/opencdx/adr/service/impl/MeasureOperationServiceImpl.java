@@ -129,9 +129,9 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
         MeasureModel workingMeasure = this.conversionService.convert(operationUnit, measure);
         if (workingMeasure.getIncludeLowerBound() && workingMeasure.getIncludeUpperBound()) {
             return new MeasureValue(workingMeasure.getLowerBound(), workingMeasure.getUpperBound());
-        } else if (Boolean.TRUE.equals(workingMeasure.getIncludeLowerBound())) {
+        } else if (workingMeasure.getIncludeLowerBound()) {
             return new MeasureValue(workingMeasure.getLowerBound(), workingMeasure.getLowerBound());
-        } else if (Boolean.TRUE.equals(workingMeasure.getIncludeUpperBound())) {
+        } else if (workingMeasure.getIncludeUpperBound()) {
             return new MeasureValue(workingMeasure.getUpperBound(), workingMeasure.getUpperBound());
         } else {
             throw new IllegalArgumentException("Invalid measure bounds");
