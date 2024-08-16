@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.UUID;
@@ -32,6 +33,7 @@ import java.util.UUID;
  * @see NumericalOperation
  */
 @Data
+@Schema(description = "This class represents a mathematical formula for performing calculations. Only one of leftOperand, leftOperandValue, or leftOperandFormula should be set. Only one of rightOperand, rightOperandValue, or rightOperandFormula should be set. Operation is required.")
 public class Formula {
 
     /**
@@ -51,6 +53,7 @@ public class Formula {
      *
      * @see Formula
      */
+    @Schema(description = "The name of the formula, this will be used as the CSC Header.")
     private String name;
 
     /**
@@ -71,6 +74,7 @@ public class Formula {
      *
      * @see Formula
      */
+    @Schema(description = "The left operand of the formula. Only one of leftOperand, leftOperandValue, or leftOperandFormula should be set.")
     private UUID leftOperand;
     /**
      * The rightOperand variable represents the right operand value of a mathematical formula.
@@ -85,6 +89,7 @@ public class Formula {
      *
      * @see Formula
      */
+    @Schema(description = "The right operand of the formula. Only one of rightOperand, rightOperandValue, or rightOperandFormula should be set.")
     private UUID rightOperand;
 
     /**
@@ -105,6 +110,7 @@ public class Formula {
      * @see Formula#setLeftOperandValue(Double)
      * @see Formula#getLeftOperandValue()
      */
+    @Schema(description = "The value of the left operand in the formula. Only one of leftOperand, leftOperandValue, or leftOperandFormula should be set.")
     private Double leftOperandValue;
     /**
      * The rightOperandValue is a private variable of type Double.
@@ -119,6 +125,7 @@ public class Formula {
      *
      * @see Formula
      */
+    @Schema(description = "The value of the right operand in the formula. Only one of rightOperand, rightOperandValue, or rightOperandFormula should be set.")
     private Double rightOperandValue;
 
     /**
@@ -143,6 +150,7 @@ public class Formula {
      * @see Formula
      * @see NumericalOperation
      */
+    @Schema(description = "The formula for the left operand in the formula. Only one of leftOperand, leftOperandValue, or leftOperandFormula should be set.")
     private Formula leftOperandFormula;
     /**
      * Represents the right operand formula in a numerical calculation.
@@ -160,6 +168,7 @@ public class Formula {
      *
      * @see Formula
      */
+    @Schema(description = "The formula for the right operand in the formula. Only one of rightOperand, rightOperandValue, or rightOperandFormula should be set.")
     private Formula rightOperandFormula;
 
     /**
@@ -173,6 +182,7 @@ public class Formula {
      * </pre>
      *
      */
+    @Schema(description = "The unit of measurement for the left operand in the formula.")
     private UUID leftOperandUnit;
     /**
      * The rightOperandUnit represents the unit of measurement for the right operand in a mathematical formula.
@@ -186,6 +196,7 @@ public class Formula {
      *
      * @see Formula
      */
+    @Schema(description = "The unit of measurement for the right operand in the formula.")
     private UUID rightOperandUnit;
 
     /**
@@ -202,5 +213,6 @@ public class Formula {
      *
      * @see NumericalOperation
      */
+    @Schema(description = "The operation to be performed in the formula. Required.")
     private NumericalOperation operation;
 }

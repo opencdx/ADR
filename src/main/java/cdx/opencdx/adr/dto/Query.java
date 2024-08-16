@@ -2,6 +2,7 @@ package cdx.opencdx.adr.dto;
 
 import cdx.opencdx.adr.model.AnfStatementModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Transient;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
  * The Query class represents a query object used for searching concepts.
  * It holds the concept ID and join operation to be used in the query.
  */
+@Schema(description = "A query object used for searching concepts.  Only one of these fields should be used at a time: formula, conceptId, group. Operation fields are used to compare the value of those fields against another value.  JoinOperation is used to bring together the multiple queries in an ADRQuery.")
 @Data
 public class Query {
 
@@ -38,6 +40,7 @@ public class Query {
      * Use this conceptId variable to store and manipulate the unique identifier
      * for a concept in your system.
      */
+    @Schema(description = "Tinkar Concept ID that will be queried.  Optional")
     private UUID conceptId;
 
     /**
@@ -74,6 +77,7 @@ public class Query {
      * </pre>
      * </p>
      */
+    @Schema(description = "The comparison operation to be performance on the value coming from the query.  Optional")
     private ComparisonOperation operation;
 
     /**
@@ -113,6 +117,7 @@ public class Query {
      * @see Query
      * @see ComparisonOperation
      */
+    @Schema(description = "The value to be compared against the conceptId, if the value is to be compared against a number..  Optional")
     private Double operationDouble;
 
 
@@ -134,6 +139,7 @@ public class Query {
      * UUID operationUnit = query.getOperationUnit();
      * System.out.println(operationUnit.toString()); // prints the UUID value
      */
+    @Schema(description = "The unit of the value to be compared against the conceptId, if the value is to be compared against a number.  Optional")
     private UUID operationUnit;
     /**
      * The operationText variable stores a String value representing the operation for querying.
@@ -155,23 +161,27 @@ public class Query {
      * @see ComparisonOperation
      * @see Query
      */
+    @Schema(description = "The value to be compared against the conceptId, if the value is to be compared against a string.  Optional")
     private String operationText;
 
     /**
      * The formula variable represents a mathematical formula for performing calculations.
      */
+    @Schema(description = "A formula that would be run to calculate a value.  Optional")
     private Formula formula;
 
     /**
      * The JoinOperation represents the type of join operation to be used in a query.
      * It can have two possible values: OR and AND.
      */
+    @Schema(description = "Indicates how queries should be applied AND / OR  order of operation is the given order of queries  Optional")
     private JoinOperation joinOperation;
 
 
     /**
      * This variable group represents a list of Query objects.
      */
+    @Schema(description = "A group of queries that should be run together.  Optional")
     private List<Query> group;
 
     /**

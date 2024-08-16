@@ -1,5 +1,7 @@
 package cdx.opencdx.adr.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * The Operation enum represents comparison operations for querying.
  * It provides constants for various comparison operations such as greater than, less than, equal to, etc.

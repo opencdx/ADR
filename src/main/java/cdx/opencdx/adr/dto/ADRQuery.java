@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
@@ -52,6 +53,7 @@ public class ADRQuery {
      *
      * @see UnitOutput
      */
+    @Schema(description = "Unit output for the system. This maybe IMPERIAL or METRIC or DEFAULT. All units that can be converted will be converted")
     private UnitOutput unitOutput;
     /**
      * The queries variable is a private list of Query objects.
@@ -108,5 +110,6 @@ public class ADRQuery {
      * @see ComparisonOperation
      * @see UnitOutput
      */
+    @Schema(description = "The query that is be executed. It can be made up of multiple individual queries, combined with AND or OR")
     private List<Query> queries;
 }
