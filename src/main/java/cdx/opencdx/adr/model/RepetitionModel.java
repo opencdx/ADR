@@ -163,7 +163,7 @@ public class RepetitionModel {
      * <p>
      * The event duration is stored in the database as a foreign key column named "event_duration_id" in the
      * "dimrepetition" table. It is mapped to the {@link MeasureModel} entity using the {@link ManyToOne} annotation
-     * with the fetch type set to {@link FetchType.LAZY}.
+     * with the fetch type set to FetchType.LAZY.
      * </p>
      *
      * <p>

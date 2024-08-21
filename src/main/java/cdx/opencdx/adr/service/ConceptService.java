@@ -15,5 +15,5 @@ public interface ConceptService {
      * @param conceptModel The TinkarConceptModel for which to retrieve the focus concepts.
      * @return A List of UUIDs representing the focus concepts.
      */
-    public List<UUID> getFocusConcepts(TinkarConceptModel conceptModel);
+    List<UUID> getFocusConcepts(TinkarConceptModel conceptModel);
 }

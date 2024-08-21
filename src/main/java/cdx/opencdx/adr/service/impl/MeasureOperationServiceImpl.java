@@ -8,8 +8,6 @@ import cdx.opencdx.adr.service.MeasureOperationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 /**
  * The MeasureOperationServiceImpl class implements the MeasureOperationService interface.
  * It provides methods to measure an operation using a MeasureModel.

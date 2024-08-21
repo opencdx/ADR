@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
-import java.util.UUID;
-
 /**
  * The AnfController class is a REST controller that handles operations related to ANF statements.
  */
@@ -55,9 +52,8 @@ public class AnfController {
      *
      * @param objectMapper      The ObjectMapper instance used for logging the sample ANFStatement.
      * @param openCDXAdrService The OpenCDXAdrService instance to be used.
-     * @throws JsonProcessingException If there is an error processing the ANFStatement as JSON.
      */
-    public AnfController(ObjectMapper objectMapper, OpenCDXAdrService openCDXAdrService) throws JsonProcessingException {
+    public AnfController(ObjectMapper objectMapper, OpenCDXAdrService openCDXAdrService) {
         this.objectMapper = objectMapper;
         this.openCDXAdrService = openCDXAdrService;
     }
@@ -72,8 +68,7 @@ public class AnfController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> postANFStatement(@RequestBody String data) throws JsonProcessingException {
         ANFStatement anfStatement = objectMapper.readValue(data, ANFStatement.class);
-        this.openCDXAdrService.storeAnfStatement(anfStatement);
-        return ResponseEntity.ok(0L);
+        return ResponseEntity.ok(this.openCDXAdrService.storeAnfStatement(anfStatement));
     }
 
 

@@ -1,9 +1,7 @@
 package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.dto.ConceptFocus;
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -91,7 +89,7 @@ public class TinkarConceptModel {
      * The concept focus mode determines the scope or focus of operations or queries performed on a concept.
      * It is an enumerated type with various possible values defined in the {@link ConceptFocus} enum.
      * The concept focus can be used to perform operations or access information related to different aspects of a concept.
-     *
+     * <p>
      * Example usage:
      * <pre>
      *     ConceptFocus focus = ConceptFocus.DESCENDANTS;

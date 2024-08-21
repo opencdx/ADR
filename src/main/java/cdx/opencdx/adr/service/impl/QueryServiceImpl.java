@@ -154,7 +154,7 @@ public class QueryServiceImpl implements QueryService {
         processQueries(queries);
 
         if (queries.size() == 1) {
-            return prepareResult(queries.get(0));
+            return prepareResult(queries.getFirst());
         }
 
         int index = 1;
@@ -162,7 +162,7 @@ public class QueryServiceImpl implements QueryService {
             processByJoinOperation(queries, index);
             index += 2;
         }
-        return prepareResult(queries.get(queries.size() - 1));
+        return prepareResult(queries.getLast());
     }
 
     /**
@@ -308,7 +308,7 @@ public class QueryServiceImpl implements QueryService {
      * @return A list of AnfStatementModel objects that match the conditions specified in the query.
      */
     private List<AnfStatementModel> runQuery(Query query) {
-        List<AnfStatementModel> simpleQueryResults = null;
+        List<AnfStatementModel> simpleQueryResults;
         if(query.getConcept() != null && query.getConcept().getConceptId() != null) {
            simpleQueryResults = runSimpleQuery(query);
         } else if(query.getGroup() != null) {

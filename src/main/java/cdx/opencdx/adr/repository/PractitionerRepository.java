@@ -23,7 +23,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * It extends the {@link JpaRepository} interface, providing basic CRUD operations.
  * The {@code PractitionerModel} class represents a practitioner entity with various attributes such as ID, Practitioner ID, practitioner value, and code.
  *
- * @param <T> The type of the entity (PractitionerModel) managed by this repository.
  */
 public interface PractitionerRepository extends JpaRepository<PractitionerModel, Long> {
 }

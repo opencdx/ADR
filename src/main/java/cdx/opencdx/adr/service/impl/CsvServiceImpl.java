@@ -33,7 +33,7 @@ public class CsvServiceImpl implements CsvService {
     /**
      * Represents the separator used to separate different parts of a string.
      * This separator is a constant and is not meant to be modified.
-     *
+     * <p>
      * The separator is defined as " - ".
      *
      */
@@ -110,9 +110,7 @@ public class CsvServiceImpl implements CsvService {
             });
 
             this.calculatedConceptRepository.findAllByParticipantIdAndThreadName(uuid,Thread.currentThread().getName())
-                    .forEach(calculatedConcept -> {
-                        csvDto.setCell(currentRow, calculatedConcept.getConceptName() + " Calculation", calculatedConcept.getValue().toString());
-                    });
+                    .forEach(calculatedConcept -> csvDto.setCell(currentRow, calculatedConcept.getConceptName() + " Calculation", calculatedConcept.getValue().toString()));
         });
         return csvDto;
     }

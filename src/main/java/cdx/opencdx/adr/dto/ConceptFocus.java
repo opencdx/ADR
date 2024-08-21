@@ -16,7 +16,7 @@ public enum ConceptFocus {
      * A descendant symbol is any symbol that is directly or indirectly derived from the given symbol.
      * The DESCENDANTS focus can be used to perform operations or access information related to the descendants of a symbol.
      * This concept focus is part of an enumerated type called ConceptFocus which defines various types of concept foci.
-     *
+     * <p>
      * Example usage:
      * ConceptFocus focus = ConceptFocus.DESCENDANTS;
      */
@@ -52,10 +52,10 @@ public enum ConceptFocus {
     PARENT,
     /**
      * Represents the concept focus of "parent or self" in a hierarchy.
-     *
+     * <p>
      * This concept focus indicates that the selection should include the parent
      * element and the current element itself.
-     *
+     * <p>
      * It is one of the several possible values defined in the {@link ConceptFocus}
      * enum.
      */
@@ -67,10 +67,10 @@ public enum ConceptFocus {
     /**
      * Represents the concept focus for a search or operation.
      * The ANY concept focus allows for searching or operating on any concept.
-     *
+     * <p>
      * It is one of the possible values of the ConceptFocus enum.
      *
      * @see ConceptFocus
      */
-    ANY;
+    ANY
 }

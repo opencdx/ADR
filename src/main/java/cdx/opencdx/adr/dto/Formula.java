@@ -4,8 +4,6 @@ import cdx.opencdx.adr.model.TinkarConceptModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.UUID;
-
 /**
  * The Formula class represents a mathematical formula for performing calculations.
  * Only one of leftOperand, leftOperandValue, or leftOperandFormula should be set.
@@ -53,17 +51,17 @@ public class Formula {
      * The leftOperandFormula variable represents the formula for the left operand in the formula.
      * Only one of leftOperand, leftOperandValue, or leftOperandFormula should be set.
      * It is an instance of the Formula class.
-     *
+     * <p>
      * The Formula class represents a mathematical formula for performing calculations.
      * It contains various properties such as name, leftOperand, rightOperand, leftOperandValue, etc.
      * Only one of leftOperand, leftOperandValue, or leftOperandFormula should be set.
      * Only one of rightOperand, rightOperandValue, or rightOperandFormula should be set.
      * Operation is required.
-     *
+     * <p>
      * The TinkarConceptModel class represents a Tinkar concept stored in the database.
      * It contains various properties of a concept including conceptId, conceptName, conceptDescription, and anfStatements.
      * TinkarConceptModel is used to store and retrieve Tinkar concepts in the database.
-     *
+     * <p>
      * The NumericalOperation enum represents different numerical operations that can be performed on numerical values.
      * The operations include multiply, divide, add, subtract, modulo, and power.
      * NumericalOperation is used as a symbol to perform the corresponding operation between two numerical values.
@@ -80,9 +78,9 @@ public class Formula {
     /**
      * The leftOperandUnit variable represents the unit of measurement for the left operand in the formula.
      * It is of type TinkarConceptModel.
-     *
+     * <p>
      * Example usage:
-     *
+     * <p>
      * Formula formula = new Formula();
      * TinkarConceptModel unit = new TinkarConceptModel(UUID.randomUUID(), "Meter", "Unit of length measurement");
      * formula.setLeftOperandUnit(unit);

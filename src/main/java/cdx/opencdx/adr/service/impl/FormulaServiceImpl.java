@@ -3,9 +3,7 @@ package cdx.opencdx.adr.service.impl;
 import cdx.opencdx.adr.dto.Formula;
 import cdx.opencdx.adr.dto.NumericalOperation;
 import cdx.opencdx.adr.model.*;
-import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.repository.CalculatedConceptRepository;
-import cdx.opencdx.adr.repository.PerformanceCircumstanceRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.ConceptService;
 import cdx.opencdx.adr.service.ConversionService;
@@ -171,21 +169,13 @@ public class FormulaServiceImpl implements FormulaService {
 
     private Double performCalculation(Double left, NumericalOperation operation, Double right) {
         log.info("Performing calculation: {} {} {}", left, operation, right);
-        switch (operation) {
-            case ADD:
-                return left + right;
-            case SUBTRACT:
-                return left - right;
-            case MULTIPLY:
-                return left * right;
-            case DIVIDE:
-                return left / right;
-            case MODULO:
-                return left % right;
-            case POWER:
-                return Math.pow(left, right);
-            default:
-                return null;
-        }
+        return switch (operation) {
+            case ADD -> left + right;
+            case SUBTRACT -> left - right;
+            case MULTIPLY -> left * right;
+            case DIVIDE -> left / right;
+            case MODULO -> left % right;
+            case POWER -> Math.pow(left, right);
+        };
     }
 }

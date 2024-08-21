@@ -2,11 +2,11 @@ package cdx.opencdx.adr.dto;
 
 /**
  * The NumericalOperation enum represents different numerical operations that can be performed on numerical values.
- *
+ * <p>
  * The operations include multiply, divide, add, subtract, modulo, and power.
- *
+ * <p>
  * This enum is used as a symbol to perform the corresponding operation between two numerical values.
- *
+ * <p>
  * Example usage:
  * <pre>
  *     NumericalOperation operation = NumericalOperation.ADD;
@@ -19,7 +19,7 @@ public enum NumericalOperation {
     /**
      * This is an enumeration constant representing the "multiply" operation.
      * It is used as a symbol to perform multiplication between two numerical values.
-     *
+     * <p>
      * Example usage:
      * double result = a * b;
      *
@@ -36,7 +36,7 @@ public enum NumericalOperation {
     ADD,
     /**
      * Represents the subtraction operation.
-     *
+     * <p>
      * Usage:
      * <pre>
      *     int result = operand1 - operand2;

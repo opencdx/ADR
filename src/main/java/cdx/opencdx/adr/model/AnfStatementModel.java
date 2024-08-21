@@ -164,9 +164,6 @@ public class AnfStatementModel {
      * when accessed. The join column name is "performance_circumstance_id".
      *
      * @see PerformanceCircumstanceModel
-     * @see javax.persistence.ManyToOne
-     * @see javax.persistence.FetchType
-     * @see javax.persistence.JoinColumn
      * @since (version)
      */
     @ManyToOne(fetch = FetchType.LAZY)

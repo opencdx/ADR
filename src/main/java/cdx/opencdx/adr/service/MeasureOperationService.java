@@ -4,8 +4,6 @@ import cdx.opencdx.adr.dto.ComparisonOperation;
 import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 
-import java.util.UUID;
-
 /**
  * The MeasureOperationService interface represents a service that measures an operation using a MeasureModel.
  */
