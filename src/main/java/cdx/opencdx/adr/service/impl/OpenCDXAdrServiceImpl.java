@@ -106,10 +106,10 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     /**
      * This variable represents an instance of the SavedQueryRepository interface, which
      * is responsible for managing saved queries in the application.
-     *
+     * <p>
      * The SavedQueryRepository interface provides methods to perform CRUD (Create, Read,
      * Update, and Delete) operations on saved queries in the application's data storage.
-     *
+     * <p>
      * This variable is declared as private and final, indicating that it is intended to be
      * accessed only within the current class and cannot be reassigned to another instance
      * of the SavedQueryRepository interface.

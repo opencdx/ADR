@@ -2,12 +2,11 @@ package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.ComparisonOperation;
 import cdx.opencdx.adr.model.MeasureModel;
+import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.MeasureOperationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 /**
  * The MeasureOperationServiceImpl class implements the MeasureOperationService interface.
@@ -40,7 +39,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return True if the operation measurement is successful, false otherwise.
      */
     @Override
-    public boolean measureOperation(ComparisonOperation operation, Double operationValue, UUID operationUnit, MeasureModel measure) {
+    public boolean measureOperation(ComparisonOperation operation, Double operationValue, TinkarConceptModel operationUnit, MeasureModel measure) {
         return switch (operation) {
             case GREATER_THAN -> greaterThan(operationValue, getMeasureValue(operationUnit, measure));
             case LESS_THAN -> lessThan(operationValue, getMeasureValue(operationUnit, measure));
@@ -124,7 +123,7 @@ public class MeasureOperationServiceImpl implements MeasureOperationService {
      * @return The MeasureValue object retrieved based on the MeasureModel.
      * @throws IllegalArgumentException if the measure bounds are invalid.
      */
-    MeasureValue getMeasureValue(UUID operationUnit, MeasureModel measure) {
+    MeasureValue getMeasureValue(TinkarConceptModel operationUnit, MeasureModel measure) {
 
         MeasureModel workingMeasure = this.conversionService.convert(operationUnit, measure);
         if (workingMeasure.getIncludeLowerBound() && workingMeasure.getIncludeUpperBound()) {

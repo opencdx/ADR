@@ -49,13 +49,13 @@ public class QueryController {
      */
     @GetMapping
     public ResponseEntity<List<TinkarConceptModel>> getQueryableData() {
-        log.trace("Received queryable data request");
+        log.trace("Received Available Criteria request");
         return ResponseEntity.ok(this.adrService.getQueryableData());
     }
 
     @GetMapping("/units")
     public ResponseEntity<List<TinkarConceptModel>> getUnits() {
-        log.trace("Received queryable data request");
+        log.trace("Received Units request");
         return ResponseEntity.ok(this.adrService.getUnits());
     }
 
@@ -63,7 +63,6 @@ public class QueryController {
      * Handles POST requests for querying concepts.
      * Writes the query results to a CSV file.
      *
-     * @param query    The list of {@link Query} objects representing the queries to be executed.
      * @param response The {@link HttpServletResponse} object used to write the response.
      * @throws IOException If an I/O error occurs while writing the response.
      */

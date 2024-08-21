@@ -3,10 +3,9 @@ package cdx.opencdx.adr.service.impl;
 import cdx.opencdx.adr.dto.Formula;
 import cdx.opencdx.adr.dto.NumericalOperation;
 import cdx.opencdx.adr.model.*;
-import cdx.opencdx.adr.repository.ANFStatementRepository;
 import cdx.opencdx.adr.repository.CalculatedConceptRepository;
-import cdx.opencdx.adr.repository.PerformanceCircumstanceRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
+import cdx.opencdx.adr.service.ConceptService;
 import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.FormulaService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +21,13 @@ public class FormulaServiceImpl implements FormulaService {
     private final TinkarConceptRepository tinkarConceptRepository;
     private final ConversionService conversionService;
     private final CalculatedConceptRepository calculatedConceptRepository;
+    private final ConceptService conceptService;
 
-    public FormulaServiceImpl(TinkarConceptRepository tinkarConceptRepository, ConversionService conversionService, CalculatedConceptRepository calculatedConceptRepository) {
+    public FormulaServiceImpl(TinkarConceptRepository tinkarConceptRepository, ConversionService conversionService, CalculatedConceptRepository calculatedConceptRepository, ConceptService conceptService) {
         this.tinkarConceptRepository = tinkarConceptRepository;
         this.conversionService = conversionService;
         this.calculatedConceptRepository = calculatedConceptRepository;
+        this.conceptService = conceptService;
     }
 
     @Override
@@ -45,10 +46,10 @@ public class FormulaServiceImpl implements FormulaService {
         List<UUID> conceptIds = new ArrayList<>();
 
         if(formula.getLeftOperand() != null) {
-            conceptIds.add(formula.getLeftOperand());
+            conceptIds.addAll(this.conceptService.getFocusConcepts(formula.getLeftOperand()));
         }
         if(formula.getRightOperand() != null) {
-            conceptIds.add(formula.getRightOperand());
+            conceptIds.addAll(this.conceptService.getFocusConcepts(formula.getRightOperand()));
         }
         if(formula.getLeftOperandFormula() != null) {
             conceptIds.addAll(getConceptIds(formula.getLeftOperandFormula()));
@@ -116,7 +117,7 @@ public class FormulaServiceImpl implements FormulaService {
         if(formula.getLeftOperandFormula() != null) {
             leftOperandValue = this.evaluateFormula(formula.getLeftOperandFormula(), participantId);
         } else if(formula.getLeftOperand() != null) {
-            leftOperandValue = this.getMeasureValue(participantId, formula.getLeftOperand(), formula.getLeftOperandUnit());
+            leftOperandValue = this.getMeasureValue(participantId, formula.getLeftOperand(), formula.getLeftOperandUnit().getConceptId());
         }
 
         log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
@@ -124,7 +125,7 @@ public class FormulaServiceImpl implements FormulaService {
         if(formula.getRightOperandFormula() != null) {
             rightOperandValue = this.evaluateFormula(formula.getRightOperandFormula(), participantId);
         } else if (formula.getRightOperand() != null) {
-            rightOperandValue = this.getMeasureValue(participantId, formula.getRightOperand(), formula.getRightOperandUnit());
+            rightOperandValue = this.getMeasureValue(participantId, formula.getRightOperand(), formula.getRightOperandUnit().getConceptId());
         }
 
         log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
@@ -137,19 +138,20 @@ public class FormulaServiceImpl implements FormulaService {
         return this.performCalculation(leftOperandValue, formula.getOperation(), rightOperandValue);
     }
 
-    private Double getMeasureValue(UUID participantId, UUID conceptId, UUID unitId) {
-        TinkarConceptModel concept = this.tinkarConceptRepository.findByConceptId(conceptId);
+    private Double getMeasureValue(UUID participantId, TinkarConceptModel concept, UUID unitId) {
+        List<UUID> focusConcepts = this.conceptService.getFocusConcepts(concept);
 
-        if(concept == null) {
-            log.warn("Concept {} not found", conceptId);
+        List<TinkarConceptModel> concepts = this.tinkarConceptRepository.findAllByConceptIdIn(focusConcepts);
+
+        if(concepts.isEmpty()) {
+            log.warn("Concept {} not found", concept.getConceptId());
             return null;
         }
 
-        Optional<AnfStatementModel> selected = concept.getAnfStatements().stream().filter(anf -> anf.getSubjectOfRecord().getPartId().equals(participantId))
-                .sorted((anf1, anf2) -> anf2.getTime().getUpperBound().compareTo(anf1.getTime().getUpperBound())).findFirst();
+        Optional<AnfStatementModel> selected = concepts.stream().map(TinkarConceptModel::getAnfStatements).flatMap(List::stream).filter(anf -> anf.getSubjectOfRecord().getPartId().equals(participantId)).min((anf1, anf2) -> anf2.getTime().getUpperBound().compareTo(anf1.getTime().getUpperBound()));
 
         if(selected.isEmpty()) {
-            log.warn("Participant {} not found in concept {}", participantId, conceptId);
+            log.warn("Participant {} not found in concept {}", participantId, concept.getConceptId());
             return null;
         }
 
@@ -167,21 +169,13 @@ public class FormulaServiceImpl implements FormulaService {
 
     private Double performCalculation(Double left, NumericalOperation operation, Double right) {
         log.info("Performing calculation: {} {} {}", left, operation, right);
-        switch (operation) {
-            case ADD:
-                return left + right;
-            case SUBTRACT:
-                return left - right;
-            case MULTIPLY:
-                return left * right;
-            case DIVIDE:
-                return left / right;
-            case MODULO:
-                return left % right;
-            case POWER:
-                return Math.pow(left, right);
-            default:
-                return null;
-        }
+        return switch (operation) {
+            case ADD -> left + right;
+            case SUBTRACT -> left - right;
+            case MULTIPLY -> left * right;
+            case DIVIDE -> left / right;
+            case MODULO -> left % right;
+            case POWER -> Math.pow(left, right);
+        };
     }
 }

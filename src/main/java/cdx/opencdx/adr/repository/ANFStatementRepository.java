@@ -19,8 +19,6 @@ import cdx.opencdx.adr.model.AnfStatementModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * The ANFStatementRepository interface is used to interact with the database table "dimanfstatement".
  * It extends the JpaRepository interface, providing basic CRUD operations for the AnfStatementModel entity.

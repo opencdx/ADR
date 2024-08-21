@@ -20,7 +20,7 @@ public class ConversionServiceImpl implements ConversionService {
 
     /**
      * Represents a Tinkar concept repository.
-     *
+     * <p>
      * The concept repository holds a collection of Tinkar concepts and provides
      * methods to access and manipulate these concepts.
      */
@@ -37,6 +37,21 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     /**
+     * Converts the given measure model instances to the specified unit.
+     *
+     * @param unit    the UUID of the target unit to convert the measure to
+     * @param measure the measure model instance to be converted
+     * @return the converted measure model instance
+     */
+    @Override
+    public MeasureModel convert(TinkarConceptModel unit, MeasureModel measure) {
+        if(unit != null && unit.getConceptId() != null) {
+            return this.convert(unit.getConceptId(), measure);
+        }
+        return this.convert((UUID)null, measure);
+    }
+
+    /**
      * Converts a measure to the specified unit.
      *
      * @param unit the UUID of the unit to convert to
@@ -48,7 +63,7 @@ public class ConversionServiceImpl implements ConversionService {
         if(unit == null || (measure.getSemantic() != null && unit.equals(measure.getSemantic().getConceptId()))) {
             return measure;
         }
-        log.info("Converting measure to unit: " + unit);
+        log.info("Converting measure to unit: {}", unit);
         MeasureModel convertedMeasure = new MeasureModel();
         convertedMeasure.setIncludeLowerBound(measure.getIncludeLowerBound());
         convertedMeasure.setIncludeUpperBound(measure.getIncludeUpperBound());
@@ -93,14 +108,13 @@ public class ConversionServiceImpl implements ConversionService {
      * @return a UUID representing the converted measure in the imperial unit
      */
     private UUID convertToImperial(MeasureModel measure) {
-        switch (measure.getSemantic().getConceptId().toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH , OpenCDXIKMServiceImpl.UNIT_METER:
-                return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_INCH);
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS:
-                return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_POUNDS);
-            default:
-                return measure.getSemantic().getConceptId();
-        }
+        return switch (measure.getSemantic().getConceptId().toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_INCH, OpenCDXIKMServiceImpl.UNIT_METER ->
+                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_INCH);
+            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS ->
+                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_POUNDS);
+            default -> measure.getSemantic().getConceptId();
+        };
     }
 
     /**
@@ -110,14 +124,13 @@ public class ConversionServiceImpl implements ConversionService {
      * @return the UUID of the metric unit corresponding to the measure's unit
      */
     private UUID convertToMetric(MeasureModel measure) {
-        switch (measure.getSemantic().getConceptId().toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH, OpenCDXIKMServiceImpl.UNIT_METER:
-                return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_METER);
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS:
-                return UUID.fromString(OpenCDXIKMServiceImpl.UNIT_KILOGRAMS);
-            default:
-                return measure.getSemantic().getConceptId();
-        }
+        return switch (measure.getSemantic().getConceptId().toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_INCH, OpenCDXIKMServiceImpl.UNIT_METER ->
+                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_METER);
+            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS ->
+                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_KILOGRAMS);
+            default -> measure.getSemantic().getConceptId();
+        };
     }
 
     /**
@@ -133,127 +146,120 @@ public class ConversionServiceImpl implements ConversionService {
      * @return The processed value. If the operation unit is not recognized, the original value is returned.
      */
     private Double process(UUID operationUnit, UUID unit, Double value) {
-        switch(operationUnit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH: // inches
-                return convertToInches(unit,value);
-            case OpenCDXIKMServiceImpl.UNIT_METER: // meters
-                return convertToMeters(unit,value);
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS: // pounds
-                return convertToPounds(unit,value);
-            case  OpenCDXIKMServiceImpl.UNIT_KILOGRAMS: // kilograms
-                return convertToKilograms(unit,value);
-            case OpenCDXIKMServiceImpl.UNIT_DAY: // days
-                return convertToDays(unit,value);
-            case OpenCDXIKMServiceImpl.UNIT_MONTH: // months
-                return convertToMonths(unit,value);
-            case OpenCDXIKMServiceImpl.UNIT_YEAR: // years
-                return convertToYears(unit,value);
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS: // seconds
-                return convertToSeconds(unit,value);
-            case OpenCDXIKMServiceImpl.UNIT_HOUR: // hours
-                return convertToHours(unit,value);
-            case OpenCDXIKMServiceImpl.UNIT_MINUTE: // minutes
-                return convertToMinutes(unit,value);
-            default:
-                return value;
-        }
+        return switch (operationUnit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_INCH -> // inches
+                    convertToInches(unit, value);
+            case OpenCDXIKMServiceImpl.UNIT_METER -> // meters
+                    convertToMeters(unit, value);
+            case OpenCDXIKMServiceImpl.UNIT_POUNDS -> // pounds
+                    convertToPounds(unit, value);
+            case OpenCDXIKMServiceImpl.UNIT_KILOGRAMS -> // kilograms
+                    convertToKilograms(unit, value);
+            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+                    convertToDays(unit, value);
+            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // months
+                    convertToMonths(unit, value);
+            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+                    convertToYears(unit, value);
+            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+                    convertToSeconds(unit, value);
+            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+                    convertToHours(unit, value);
+            case OpenCDXIKMServiceImpl.UNIT_MINUTE -> // minutes
+                    convertToMinutes(unit, value);
+            default -> value;
+        };
     }
 
     private Double convertToMinutes(UUID unit, Double value) {
-        switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY: // days
-                return value * 1440; // 24 hours/day * 60 minutes/hour
-            case OpenCDXIKMServiceImpl.UNIT_MONTH: // Not a standard unit, assuming 30 days
-                return value * 43200; // 30 days/month * 24 hours/day * 60 minutes/hour
-            case OpenCDXIKMServiceImpl.UNIT_YEAR: // years
-                return value * 525600; // 365 days/year * 24 hours/day * 60 minutes/hour
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS: // seconds
-                return value / 60; // 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_HOUR: // hours
-                return value * 60; // 60 minutes/hour
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+                    value * 1440; // 24 hours/day * 60 minutes/hour
+            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // Not a standard unit, assuming 30 days
+                    value * 43200; // 30 days/month * 24 hours/day * 60 minutes/hour
+            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+                    value * 525600; // 365 days/year * 24 hours/day * 60 minutes/hour
+            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+                    value / 60; // 60 seconds/minute
+            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+                    value * 60; // 60 minutes/hour
+            default -> null;
+        };
     }
 
 
     private Double convertToHours(UUID unit, Double value) {
-        switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY: // days
-                return value * 24; // 24 hours/day
-            case OpenCDXIKMServiceImpl.UNIT_MONTH: // Not a standard unit, assuming 30 days
-                return value * 30 * 24; // 30 days/month * 24 hours/day
-            case OpenCDXIKMServiceImpl.UNIT_YEAR: // years
-                return value * 365 * 24; // 365 days/year * 24 hours/day
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS: // seconds
-                return value / 3600; // 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_MINUTE: // minutes
-                return value / 60; // 60 seconds/minute
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+                    value * 24; // 24 hours/day
+            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // Not a standard unit, assuming 30 days
+                    value * 30 * 24; // 30 days/month * 24 hours/day
+            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+                    value * 365 * 24; // 365 days/year * 24 hours/day
+            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+                    value / 3600; // 60 minutes/hour * 60 seconds/minute
+            case OpenCDXIKMServiceImpl.UNIT_MINUTE -> // minutes
+                    value / 60; // 60 seconds/minute
+            default -> null;
+        };
     }
 
     private Double convertToSeconds(UUID unit, Double value) {
-        switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY: // days
-                return value * 86400; // 24 hours/day * 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_MONTH: // Not a standard unit, assuming 30 days
-                return value * 30 * 86400; // 30 days/month * seconds/day
-            case OpenCDXIKMServiceImpl.UNIT_YEAR: // years
-                return value * 365 * 86400; // 365 days/year * seconds/day
-            case OpenCDXIKMServiceImpl.UNIT_HOUR: // hours
-                return value * 3600; // 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_MINUTE: // minutes
-                return value * 60; // 60 seconds/minute
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+                    value * 86400; // 24 hours/day * 60 minutes/hour * 60 seconds/minute
+            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // Not a standard unit, assuming 30 days
+                    value * 30 * 86400; // 30 days/month * seconds/day
+            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+                    value * 365 * 86400; // 365 days/year * seconds/day
+            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+                    value * 3600; // 60 minutes/hour * 60 seconds/minute
+            case OpenCDXIKMServiceImpl.UNIT_MINUTE -> // minutes
+                    value * 60; // 60 seconds/minute
+            default -> null;
+        };
     }
 
     private Double convertToYears(UUID unit, Double value) {
-        switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY: // days
-                return value / 365.0;
-            case OpenCDXIKMServiceImpl.UNIT_MONTH: // months
-                return value / 12.0;
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS: // seconds
-                return value / 31536000; // 365 days/year * 24 hours/day * 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_HOUR: // hours
-                return value / 8760; // 24 hours/day * 365 days/year
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+                    value / 365.0;
+            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // months
+                    value / 12.0;
+            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+                    value / 31536000; // 365 days/year * 24 hours/day * 60 minutes/hour * 60 seconds/minute
+            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+                    value / 8760; // 24 hours/day * 365 days/year
+            default -> null;
+        };
     }
 
     private Double convertToMonths(UUID unit, Double value) {
-        switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY: // days
-                return value / 30.0;
-            case OpenCDXIKMServiceImpl.UNIT_YEAR: // years
-                return value * 12.0;
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS: // seconds
-                return value / 2592000; // 30 days/month * 24 hours/day * 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_HOUR: // hours
-                return value / 730; // 24 hours/day * 30 days/month
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+                    value / 30.0;
+            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+                    value * 12.0;
+            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+                    value / 2592000; // 30 days/month * 24 hours/day * 60 minutes/hour * 60 seconds/minute
+            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+                    value / 730; // 24 hours/day * 30 days/month
+            default -> null;
+        };
     }
 
     private Double convertToDays(UUID unit, Double value) {
-        switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_MONTH: // months
-                return value * 30.0;
-            case OpenCDXIKMServiceImpl.UNIT_YEAR: // years
-                return value * 365.0;
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS: // seconds
-                return value / 86400; // 24 hours/day * 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_HOUR: // hours
-                return value / 24; // 24 hours/day
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // months
+                    value * 30.0;
+            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+                    value * 365.0;
+            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+                    value / 86400; // 24 hours/day * 60 minutes/hour * 60 seconds/minute
+            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+                    value / 24; // 24 hours/day
+            default -> null;
+        };
     }
 
     /**
@@ -264,12 +270,11 @@ public class ConversionServiceImpl implements ConversionService {
      * @return the converted value in kilograms, or null if the unit is not supported
      */
     private Double convertToKilograms(UUID unit, Double value) {
-        switch(unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS: // pounds
-                return value / 2.20462;
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_POUNDS -> // pounds
+                    value / 2.20462;
+            default -> null;
+        };
     }
 
     /**
@@ -280,12 +285,11 @@ public class ConversionServiceImpl implements ConversionService {
      * @return The value converted to pounds. Returns null if the unit is not supported.
      */
     private Double convertToPounds(UUID unit, Double value) {
-        switch(unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_KILOGRAMS: // Kilograms
-                return value * 2.20462;
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_KILOGRAMS -> // Kilograms
+                    value * 2.20462;
+            default -> null;
+        };
     }
 
     /**
@@ -296,12 +300,11 @@ public class ConversionServiceImpl implements ConversionService {
      * @return The converted value in meters. If the unit is not supported, null is returned.
      */
     private Double convertToMeters(UUID unit, Double value) {
-        switch(unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH: // inches
-                return value / 39.3701;
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_INCH -> // inches
+                    value / 39.3701;
+            default -> null;
+        };
     }
 
     /**
@@ -312,11 +315,10 @@ public class ConversionServiceImpl implements ConversionService {
      * @return The converted value in inches, or null if the unit is not supported.
      */
     private Double convertToInches(UUID unit, Double value) {
-        switch(unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_METER: // meters
-                return value * 39.3701;
-            default:
-                return null;
-        }
+        return switch (unit.toString()) {
+            case OpenCDXIKMServiceImpl.UNIT_METER -> // meters
+                    value * 39.3701;
+            default -> null;
+        };
     }
 }

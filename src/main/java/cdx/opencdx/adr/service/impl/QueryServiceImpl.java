@@ -41,6 +41,7 @@ public class QueryServiceImpl implements QueryService {
     private final TextOperationService textOperationService;
     private final CalculatedConceptRepository calculatedConceptRepository;
     private final FormulaService formulaService;
+    private final ConceptService conceptService;
 
 
     @PersistenceContext
@@ -54,9 +55,12 @@ public class QueryServiceImpl implements QueryService {
      * @param measureOperationService     the MeasureOperationService object used for measure operations
      * @param textOperationService        the TextOperationService object used for text operations
      * @param calculatedConceptRepository the CalculatedConceptRepository object used for calculated concept operations
+     * @param formulaService              the FormulaService object used for formula operations
+     * @param aNFStatementRepository      the ANFStatementRepository object used for ANF statement operations
+     * @param conceptService              the ConceptService object used for concept operations
      */
     public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService, CalculatedConceptRepository calculatedConceptRepository, FormulaService formulaService,
-                            ANFStatementRepository aNFStatementRepository) {
+                            ANFStatementRepository aNFStatementRepository, ConceptService conceptService) {
         this.anfRepo = anfRepo;
         this.csvService = csvService;
         this.measureOperationService = measureOperationService;
@@ -64,6 +68,7 @@ public class QueryServiceImpl implements QueryService {
         this.calculatedConceptRepository = calculatedConceptRepository;
         this.formulaService = formulaService;
         this.aNFStatementRepository = aNFStatementRepository;
+        this.conceptService = conceptService;
     }
 
     /**
@@ -149,7 +154,7 @@ public class QueryServiceImpl implements QueryService {
         processQueries(queries);
 
         if (queries.size() == 1) {
-            return prepareResult(queries.get(0));
+            return prepareResult(queries.getFirst());
         }
 
         int index = 1;
@@ -157,7 +162,7 @@ public class QueryServiceImpl implements QueryService {
             processByJoinOperation(queries, index);
             index += 2;
         }
-        return prepareResult(queries.get(queries.size() - 1));
+        return prepareResult(queries.getLast());
     }
 
     /**
@@ -273,7 +278,7 @@ public class QueryServiceImpl implements QueryService {
         CriteriaQuery<TinkarConceptModel> criteriaQuery = cb.createQuery(TinkarConceptModel.class);
         Root<TinkarConceptModel> root = criteriaQuery.from(TinkarConceptModel.class);
 
-        criteriaQuery.where(cb.equal(root.get("conceptId"), query.getConceptId()));
+        criteriaQuery.where(root.get("conceptId").in(this.conceptService.getFocusConcepts(query.getConcept())));
 
         return entityManager.createQuery(criteriaQuery).getResultList().stream()
                 .map(TinkarConceptModel::getAnfStatements)
@@ -288,7 +293,7 @@ public class QueryServiceImpl implements QueryService {
      *
      * @return true if the operation is successfully checked, false otherwise
      */
-    private boolean check(ComparisonOperation operation, Object operationValue, UUID operationUnit, Object value) {
+    private boolean check(ComparisonOperation operation, Object operationValue, TinkarConceptModel operationUnit, Object value) {
         if(value instanceof MeasureModel measure) {
             return this.measureOperationService.measureOperation(operation, (Double)operationValue, operationUnit,  measure);
         } else if(value instanceof String text) {
@@ -303,8 +308,8 @@ public class QueryServiceImpl implements QueryService {
      * @return A list of AnfStatementModel objects that match the conditions specified in the query.
      */
     private List<AnfStatementModel> runQuery(Query query) {
-        List<AnfStatementModel> simpleQueryResults = null;
-        if(query.getConceptId() != null) {
+        List<AnfStatementModel> simpleQueryResults;
+        if(query.getConcept() != null && query.getConcept().getConceptId() != null) {
            simpleQueryResults = runSimpleQuery(query);
         } else if(query.getGroup() != null) {
             ProcessingResults results = this.processQuery(query.getGroup());

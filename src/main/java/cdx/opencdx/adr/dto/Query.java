@@ -1,6 +1,7 @@
 package cdx.opencdx.adr.dto;
 
 import cdx.opencdx.adr.model.AnfStatementModel;
+import cdx.opencdx.adr.model.TinkarConceptModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Transient;
@@ -18,200 +19,145 @@ import java.util.UUID;
 public class Query {
 
     /**
-     * The conceptId variable represents the unique identifier for a concept.
+     * The concept variable represents a Tinkar Concept ID that will be queried. It is optional.
      * <p>
-     * Concept identifiers are represented as UUIDs (Universally Unique Identifiers),
-     * which provide a standardized format for identifying concepts in a system.
+     * This variable is of type TinkarConceptModel, which is a class representing a Tinkar concept stored in the database.
+     * The TinkarConceptModel class is annotated as an entity and is mapped to the "dimtinkarconcept" table in the database.
+     * It contains various properties of a concept including conceptId, conceptName, conceptDescription, and anfStatements.
      * <p>
-     * This variable is used in the Query class, which is a query object used for
-     * searching concepts. The conceptId is one of the fields in the Query class,
-     * along with the joinOperation field.
+     * The concept variable is a private member variable of the Query class, which represents a query object used for searching concepts.
+     * The Query class is annotated with @Schema to provide a description for the concept variable.
      * <p>
-     * The joinOperation field is an enumeration type that specifies how multiple
-     * query criteria are combined: either using the logical OR or logical AND
-     * operation.
+     * The concept ID is a unique identifier for a concept and is stored in the "concept_id" column of the "dimtinkarconcept" table.
      * <p>
-     * In addition to the conceptId and joinOperation fields, the Query class also
-     * contains the anfStatements and conceptIds fields. These fields are annotated
-     * with @JsonIgnore and @Transient, indicating that they should be ignored
-     * during JSON serialization/deserialization and that they are not persistent
-     * fields.
+     * The concept variable can be set or retrieved using getter and setter methods.
      * <p>
-     * Use this conceptId variable to store and manipulate the unique identifier
-     * for a concept in your system.
+     * Example usage:
+     * Query query = new Query();
+     * TinkarConceptModel concept = new TinkarConceptModel(UUID.randomUUID(), "Example Concept", "This is an example concept");
+     * query.setConcept(concept);
+     * TinkarConceptModel retrievedConcept = query.getConcept();
      */
     @Schema(description = "Tinkar Concept ID that will be queried.  Optional")
-    private UUID conceptId;
+    private TinkarConceptModel concept;
+
 
     /**
-     * The Operation class represents the comparison operators used in a query.
-     * It is an enumeration that provides constants for various comparison operations,
-     * such as greater than, less than, equal, etc.
-     *
-     * <p>
-     * This class is defined in the {@link ComparisonOperation} enum and can be used in conjunction
-     * with other values defined in the enum to perform comparison operations.
-     * </p>
-     *
-     * <p>
-     * The allowed comparison operations are:
-     * <ul>
-     * <li>{@code GREATER_THAN} - Represents the greater than operator</li>
-     * <li>{@code LESS_THAN} - Represents the less than operator</li>
-     * <li>{@code GREATER_THAN_OR_EQUAL} - Represents the greater than or equal to operator</li>
-     * <li>{@code LESS_THAN_OR_EQUAL} - Represents the less than or equal to operator</li>
-     * <li>{@code EQUAL} - Represents the equal operator</li>
-     * <li>{@code NOT_EQUAL} - Represents the not equal operator</li>
-     * </ul>
-     * </p>
-     *
-     * <p>
-     * Usage example:
-     * <pre>
-     * {@code
-     * Operation operation = Operation.LESS_THAN;
-     * if (operation == Operation.LESS_THAN) {
-     *     // Perform some action
-     * }
-     * }
-     * </pre>
-     * </p>
+     * The ComparisonOperation variable represents the comparison operation to be performed on the value coming from the query.
+     * It is an optional field.
      */
     @Schema(description = "The comparison operation to be performance on the value coming from the query.  Optional")
     private ComparisonOperation operation;
 
     /**
-     * The operationDouble variable represents a double value used in querying operations.
-     * It is a private field of the Query class.
-     *
-     * <p>
-     * This variable can be used in conjunction with the operation field to specify comparison operations
-     * on the conceptId field when querying.
-     * </p>
-     *
-     * Example usage:
-     *
-     * Query query = new Query();
-     * query.setOperationDouble(10.5);
-     * query.setOperation(Operation.GREATER_THAN);
-     * // This will perform a query to find conceptIds greater than 10.5
-     *
-     * query.setOperationDouble(20.0);
-     * query.setOperation(Operation.LESS_THAN_OR_EQUAL);
-     * // This will perform a query to find conceptIds less than or equal to 20.0
-     *
-     * <p>
-     * The operationDouble field should be used in conjunction with the operation field to specify
-     * the desired comparison operation.
-     * </p>
-     *
-     * <p>
-     * The possible operations for querying include greater than, less than, greater than or equal to,
-     * less than or equal to, equal to, and not equal to.
-     * </p>
-     *
-     * <p>
-     * The possible values for the operation field are defined in the Operation enum.
-     * </p>
-     *
-     * @see Query
-     * @see ComparisonOperation
+     * The operationDouble variable represents the value to be compared against the conceptId if the value is to be compared against a number.
+     * It is an optional field in the Query class and is of type Double.
      */
     @Schema(description = "The value to be compared against the conceptId, if the value is to be compared against a number..  Optional")
     private Double operationDouble;
 
 
     /**
-     * The operationUnit variable represents the unique identifier for an operation unit.
-     * It is of type UUID, which stands for Universally Unique Identifier.
-     *
-     * A UUID is a 128-bit unique identifier that is used to uniquely identify information
-     * in distributed systems or across multiple devices. It is generated using a combination
-     * of timestamp, unique network address, and a random number.
-     *
-     * The operationUnit variable is private, which means it can only be accessed within the
-     * class it is defined in (Query). It is used to store the UUID value for the operation unit.
-     *
-     * Example usage:
-     *
-     * Query query = new Query();
-     * query.setOperationUnit(UUID.randomUUID());
-     * UUID operationUnit = query.getOperationUnit();
-     * System.out.println(operationUnit.toString()); // prints the UUID value
+     * The operationUnit variable represents the unit of the value to be compared against the conceptId,
+     * if the value is to be compared against a number. This variable is optional.
+     * <p>
+     * The operationUnit variable is a member variable of the Query class, which is the containing class
+     * of the initial symbol. The Query class contains other member variables like concept, operation,
+     * operationDouble, operationText, formula, joinOperation, group, anfStatements, and conceptIds.
+     * <p>
+     * The operationUnit variable is an instance of the TinkarConceptModel class, which is an entity class
+     * representing a Tinkar concept stored in the database. It contains various properties of a concept
+     * including conceptId, conceptName, conceptDescription, and anfStatements.
+     * <p>
+     * The operationUnit variable is annotated with the @Schema annotation to provide additional information
+     * about the variable. The description attribute of the @Schema annotation describes the purpose of the
+     * variable.
      */
     @Schema(description = "The unit of the value to be compared against the conceptId, if the value is to be compared against a number.  Optional")
-    private UUID operationUnit;
+    private TinkarConceptModel operationUnit;
     /**
-     * The operationText variable stores a String value representing the operation for querying.
-     * It is used in the Query class to specify the operation to be performed in the query.
-     *
+     * The operationText variable represents the value to be compared against the conceptId,
+     * if the value is to be compared against a string. It is an optional field.
      * <p>
-     * The value of operationText should match one of the enum constants defined in the Operation enum.
-     * The Operation enum provides constants for various comparison operations such as greater than, less than, equal to, etc.
-     * </p>
-     *
+     * This variable is a member of the Query class, which represents a query object used for searching concepts.
+     * The Query class contains various fields for specifying query criteria like conceptId, joinOperation, etc.
+     * The operationText field is used to compare the value coming from the query against the conceptId.
      * <p>
      * Example usage:
-     *
      * Query query = new Query();
-     * query.setOperationText(Operation.GREATER_THAN.toString());
-     *
-     * </p>
-     *
-     * @see ComparisonOperation
-     * @see Query
+     * query.setOperationText("example");
+     * <p>
+     * // Perform query operation using operationText
+     * // ...
      */
     @Schema(description = "The value to be compared against the conceptId, if the value is to be compared against a string.  Optional")
     private String operationText;
 
     /**
-     * The formula variable represents a mathematical formula for performing calculations.
+     * A formula that would be run to calculate a value.
      */
     @Schema(description = "A formula that would be run to calculate a value.  Optional")
     private Formula formula;
 
     /**
-     * The JoinOperation represents the type of join operation to be used in a query.
-     * It can have two possible values: OR and AND.
+     * The JoinOperation enum represents logical join operations for querying.
+     * It provides two constants: OR and AND.
      */
     @Schema(description = "Indicates how queries should be applied AND / OR  order of operation is the given order of queries  Optional")
     private JoinOperation joinOperation;
 
 
     /**
-     * This variable group represents a list of Query objects.
+     * A group of queries that should be run together. Optional.
+     * <p>
+     * This variable represents a list of {@link Query} objects that should be executed together as a group.
+     * The queries in the group can be applied using either "AND" or "OR" join operation specified by the {@link JoinOperation} field.
+     * <p>
+     * The group field is optional and may contain zero or more queries.
+     *
+     * @see Query
+     * @see JoinOperation
      */
     @Schema(description = "A group of queries that should be run together.  Optional")
     private List<Query> group;
 
     /**
-     * The anfStatements variable is a private list of AnfStatementModel objects.
-     * It is annotated with @JsonIgnore and @Transient, indicating that it should
-     * be ignored during JSON serialization/deserialization and that it is not a
-     * persistent field.
+     * This variable represents a list of AnfStatementModel objects.
+     * An AnfStatementModel represents a statement in ANF format (Assertion and Normal Form), which is a logical
+     * representation of a statement using atomic concepts and logical operators.
      * <p>
-     * AnfStatementModel is a model class representing an ANF statement. ANF stands
-     * for Alternative Normal Form, which is a way to represent logical formulas.
-     * AnfStatementModel holds the necessary information to construct an ANF statement,
-     * such as the symbol, inputs, and outputs.
+     * The list of AnfStatementModel objects in this variable is used for storing multiple ANF statements.
+     * It is annotated with @JsonIgnore and @Transient, which means it will be ignored during JSON serialization
+     * and it is not persisted in the database.
      * <p>
-     * The variable is used in the Query class, which represents a query object used for
-     * searching concepts. It is one of the fields along with the conceptId and joinOperation.
+     * AnfStatementModel:
+     * - Represents a statement in Assertion and Normal Form (ANF).
+     * - Consists of a subject, predicate, object, and context, each represented by a Concept.
+     * - Allows expressing relationships between concepts using logical operators like AND, OR, and NOT.
+     * - Provides methods to manipulate and evaluate ANF statements.
      * <p>
-     * To access and manipulate the list of ANF statements, use the getter and setter
-     * methods provided by the Query class.
+     * Usage:
+     * - To add a new ANF statement to the list:
+     *   anfStatements.add(anfStatement);
+     * <p>
+     * - To iterate over the ANF statements:
+     *   for (AnfStatementModel statement : anfStatements) {
+     *       // do something with the statement
+     *   }
+     * <p>
+     * - To retrieve the size of the list of ANF statements:
+     *   int size = anfStatements.size();
+     * <p>
+     * Important Note: This variable is marked as @JsonIgnore and @Transient, so it will not be serialized
+     * or persisted automatically. If you need to include it in JSON serialization or database persistence,
+     * you should remove the annotations and adjust the corresponding logic accordingly.
      */
     @JsonIgnore
     @Transient
     private List<AnfStatementModel> anfStatements;
 
     /**
-     * The conceptIds variable is a private list of UUIDs. It is annotated with @JsonIgnore and @Transient, which means
-     * that it will be ignored during JSON serialization and that it is not persistent. This variable is used to store
-     * multiple concept IDs associated with a query in the Query class.
-     * <p>
-     * The conceptIds variable is defined in the class Query, which represents a query object used for searching concepts.
-     * It holds the concept ID and join operation to be used in the query.
+     *
      */
     @JsonIgnore
     @Transient

@@ -6,7 +6,7 @@ services:
   postgres:
     image: postgres:14-alpine
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - ../data/postgress:/var/lib/postgresql/data
       - ../database/adr.sql:/docker-entrypoint-initdb.d/adr.sql
@@ -28,7 +28,7 @@ services:
         window: 60s
     image: adr:latest
     ports:
-      - 8085:8085
+      - "8085:8085"
     depends_on:
       postgres:
         condition: service_healthy

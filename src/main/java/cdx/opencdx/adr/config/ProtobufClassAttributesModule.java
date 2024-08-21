@@ -38,7 +38,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Returns a map of the FieldDescriptors for the fields of the given class.
  *
- * @param clazz The class for which to get the FieldDescriptors.
  * @return A map of field names to FieldDescriptor objects.
  */
 @Slf4j
@@ -54,8 +53,8 @@ public class ProtobufClassAttributesModule extends Module {
      * base {@code AnnotationIntrospector} class:
      * </p>
      * <ul>
-     *     <li>{@link #findAutoDetectVisibility(AnnotatedClass, VisibilityChecker)}</li>
-     *     <li>{@link #findNamingStrategy(AnnotatedClass)}</li>
+     *     <li> </li>
+     *     <li> </li>
      * </ul>
      *
      * <p>

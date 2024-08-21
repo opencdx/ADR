@@ -2,10 +2,8 @@ package cdx.opencdx.adr.service;
 
 
 import cdx.opencdx.adr.dto.ADRQuery;
-import cdx.opencdx.adr.dto.Query;
 
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * The QueryService interface defines the methods to process query DTOs and write the result to a PrintWriter.

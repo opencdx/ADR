@@ -24,7 +24,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * The {@code RepetitionModel} class represents a repetition with various attributes such as period start, period duration,
  * event frequency, event separation, and event duration.
  *
- * @param <T> The type of the entity (RepetitionModel) managed by this repository.
  */
 public interface RepetitionRepository extends JpaRepository<RepetitionModel, Long> {
 }
