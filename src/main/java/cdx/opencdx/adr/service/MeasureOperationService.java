@@ -2,6 +2,7 @@ package cdx.opencdx.adr.service;
 
 import cdx.opencdx.adr.dto.ComparisonOperation;
 import cdx.opencdx.adr.model.MeasureModel;
+import cdx.opencdx.adr.model.TinkarConceptModel;
 
 import java.util.UUID;
 
@@ -19,5 +20,5 @@ public interface MeasureOperationService {
      *
      * @return true if the operation was successfully measured and the measurement result was stored in the MeasureModel, false otherwise.
      */
-    boolean measureOperation(ComparisonOperation operation, Double operationValue, UUID operationUnit, MeasureModel measure);
+    boolean measureOperation(ComparisonOperation operation, Double operationValue, TinkarConceptModel operationUnit, MeasureModel measure);
 }

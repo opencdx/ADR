@@ -45,10 +45,10 @@ public class FormulaServiceImpl implements FormulaService {
         List<UUID> conceptIds = new ArrayList<>();
 
         if(formula.getLeftOperand() != null) {
-            conceptIds.add(formula.getLeftOperand());
+            conceptIds.add(formula.getLeftOperand().getConceptId());
         }
         if(formula.getRightOperand() != null) {
-            conceptIds.add(formula.getRightOperand());
+            conceptIds.add(formula.getRightOperand().getConceptId());
         }
         if(formula.getLeftOperandFormula() != null) {
             conceptIds.addAll(getConceptIds(formula.getLeftOperandFormula()));
@@ -116,7 +116,7 @@ public class FormulaServiceImpl implements FormulaService {
         if(formula.getLeftOperandFormula() != null) {
             leftOperandValue = this.evaluateFormula(formula.getLeftOperandFormula(), participantId);
         } else if(formula.getLeftOperand() != null) {
-            leftOperandValue = this.getMeasureValue(participantId, formula.getLeftOperand(), formula.getLeftOperandUnit());
+            leftOperandValue = this.getMeasureValue(participantId, formula.getLeftOperand().getConceptId(), formula.getLeftOperandUnit().getConceptId());
         }
 
         log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
@@ -124,7 +124,7 @@ public class FormulaServiceImpl implements FormulaService {
         if(formula.getRightOperandFormula() != null) {
             rightOperandValue = this.evaluateFormula(formula.getRightOperandFormula(), participantId);
         } else if (formula.getRightOperand() != null) {
-            rightOperandValue = this.getMeasureValue(participantId, formula.getRightOperand(), formula.getRightOperandUnit());
+            rightOperandValue = this.getMeasureValue(participantId, formula.getRightOperand().getConceptId(), formula.getRightOperandUnit().getConceptId());
         }
 
         log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);

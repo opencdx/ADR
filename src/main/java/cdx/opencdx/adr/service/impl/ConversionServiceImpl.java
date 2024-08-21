@@ -37,6 +37,21 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     /**
+     * Converts the given measure model instances to the specified unit.
+     *
+     * @param unit    the UUID of the target unit to convert the measure to
+     * @param measure the measure model instance to be converted
+     * @return the converted measure model instance
+     */
+    @Override
+    public MeasureModel convert(TinkarConceptModel unit, MeasureModel measure) {
+        if(unit != null && unit.getConceptId() != null) {
+            return this.convert(unit.getConceptId(), measure);
+        }
+        return this.convert((UUID)null, measure);
+    }
+
+    /**
      * Converts a measure to the specified unit.
      *
      * @param unit the UUID of the unit to convert to

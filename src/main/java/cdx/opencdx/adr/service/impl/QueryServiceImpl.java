@@ -273,7 +273,7 @@ public class QueryServiceImpl implements QueryService {
         CriteriaQuery<TinkarConceptModel> criteriaQuery = cb.createQuery(TinkarConceptModel.class);
         Root<TinkarConceptModel> root = criteriaQuery.from(TinkarConceptModel.class);
 
-        criteriaQuery.where(cb.equal(root.get("conceptId"), query.getConceptId()));
+        criteriaQuery.where(cb.equal(root.get("conceptId"), query.getConcept().getConceptId()));
 
         return entityManager.createQuery(criteriaQuery).getResultList().stream()
                 .map(TinkarConceptModel::getAnfStatements)
@@ -288,7 +288,7 @@ public class QueryServiceImpl implements QueryService {
      *
      * @return true if the operation is successfully checked, false otherwise
      */
-    private boolean check(ComparisonOperation operation, Object operationValue, UUID operationUnit, Object value) {
+    private boolean check(ComparisonOperation operation, Object operationValue, TinkarConceptModel operationUnit, Object value) {
         if(value instanceof MeasureModel measure) {
             return this.measureOperationService.measureOperation(operation, (Double)operationValue, operationUnit,  measure);
         } else if(value instanceof String text) {
@@ -304,7 +304,7 @@ public class QueryServiceImpl implements QueryService {
      */
     private List<AnfStatementModel> runQuery(Query query) {
         List<AnfStatementModel> simpleQueryResults = null;
-        if(query.getConceptId() != null) {
+        if(query.getConcept() != null && query.getConcept().getConceptId() != null) {
            simpleQueryResults = runSimpleQuery(query);
         } else if(query.getGroup() != null) {
             ProcessingResults results = this.processQuery(query.getGroup());
