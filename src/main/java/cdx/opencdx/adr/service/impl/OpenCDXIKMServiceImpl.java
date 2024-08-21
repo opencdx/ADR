@@ -29,6 +29,8 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
     public static final String UNIT_YEAR = "d9036e1e-3397-4f00-a40a-021626644970";
     public static final String UNIT_MINUTE = "d9036e1e-3397-4f00-a40a-021646644970";
     public static final String UNIT_HOUR = "d9036e1e-3397-4f00-a40a-021616644970";
+    public static final String UNIT_DATE = "e37140a1-8180-4a30-91f4-70350c5e1736";
+
 
     /**
      * A private final variable conceptModelMap is declared as a Map, mapping strings to TinkarConceptModel objects.
@@ -136,20 +138,20 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
 
 
         // Rash
-        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e85736"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e85736"), "Acute desquamating eruption of skin (disorder)", "721543007 | Acute desquamating eruption of skin (disorder)"));
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("6f4b32d4-a39c-4d81-9f03-e678c5f2a1b5"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("6f4b32d4-a39c-4d81-9f03-e678c5f2a1b5"), "Acute desquamating eruption of skin (disorder)", "721543007 | Acute desquamating eruption of skin (disorder)"));
         }
 
-        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e86736"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Acute exudative skin eruption (disorder)", "723014001 | Acute exudative skin eruption (disorder)"));
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b0e7f3a2-d5c6-47e8-a73f-091c2e6d3b4a"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b0e7f3a2-d5c6-47e8-a73f-091c2e6d3b4a"), "Acute exudative skin eruption (disorder)", "723014001 | Acute exudative skin eruption (disorder)"));
         }
 
-        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e87736"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Acute maculopapular eruption of skin (disorder)", "723012002 | Acute maculopapular eruption of skin (disorder)"));
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("3c8d1f6e-9a57-4c0f-822a-65e4b7c3d2f1"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("3c8d1f6e-9a57-4c0f-822a-65e4b7c3d2f1"), "Acute maculopapular eruption of skin (disorder)", "723012002 | Acute maculopapular eruption of skin (disorder)"));
         }
 
-        if (!this.conceptRepository.existsByConceptId(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e87736"))) {
-            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("b3a45188-79f6-457c-b2b6-957780e84736"), "Acute purpuric eruption of skin (disorder)", "723011009 | Acute purpuric eruption of skin (disorder)"));
+        if (!this.conceptRepository.existsByConceptId(UUID.fromString("e2a607b8-f1d3-432b-b64c-5a901d8e7c06"))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString("e2a607b8-f1d3-432b-b64c-5a901d8e7c06"), "Acute purpuric eruption of skin (disorder)", "723011009 | Acute purpuric eruption of skin (disorder)"));
         }
 
         //Units
@@ -189,6 +191,10 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
 
         if(!this.conceptRepository.existsByConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_HOUR))) {
             this.conceptRepository.save(new TinkarConceptModel(UUID.fromString(UNIT_KILOGRAMS), "hour", "2258702006 | hour (qualifier value)"));
+        }
+
+        if(!this.conceptRepository.existsByConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_DATE))) {
+            this.conceptRepository.save(new TinkarConceptModel(UUID.fromString(UNIT_DATE), "hour", "410672004 | Date property (qualifier value)"));
         }
     }
 

@@ -235,7 +235,11 @@ vars.put(&quot;UNIT_INCH&quot;,&quot;258677007 | inch (qualifier value)&quot;);
 vars.put(&quot;UNIT_POUNDS&quot;,&quot;258693003 | pounds (qualifier value)&quot;);
 vars.put(&quot;UNIT_KILOGRAMS&quot;,&quot;258683005 | kilogram (qualifier value)&quot;);
 vars.put(&quot;UNIT_SECONDS&quot;,&quot;257997001 | Seconds (qualifier value)&quot;);
-
+vars.put(&quot;UNIT_DAY&quot;,&quot;258703001 | day (qualifier value)&quot;);
+vars.put(&quot;UNIT_MONTH&quot;,&quot;258706009 | month (qualifier value)&quot;);
+vars.put(&quot;UNIT_YEAR&quot;,&quot;258707000 | year (qualifier value)&quot;);
+vars.put(&quot;UNIT_MINUTE&quot;,&quot;1156209001 | minute (qualifier value)&quot;);
+vars.put(&quot;UNIT_HOUR&quot;,&quot;2258702006 | hour (qualifier value)&quot;);
 
 
 vars.put(&quot;ANF_MAN&quot;,&quot;339947000 | Man (person)&quot;);
@@ -290,7 +294,11 @@ vars.put(&quot;ANF_OBESE_BMI&quot;,&quot;162864005 | Body mass index 30+ - obesi
         </CSVDataSet>
         <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Patient Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">
+          <stringProp name="BeanShellSampler.query">import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.Random;
+
 String jMUUID = &quot;${__UUID}&quot;;
 int ageT = ${__Random(1,100)};
 float heightT = ${__Random(54,84)};
@@ -300,7 +308,61 @@ float rash = ${__Random(1,100)};
 
 vars.put(&quot;nationalHealthID&quot;,jMUUID);
 
-vars.put(&quot;age&quot;,Integer.toString(ageT));
+// Set the fixed date of birth (DoB)
+// Assuming August 16, 2024 as per our previous conversation
+Calendar cal = Calendar.getInstance();
+cal.set(2024, Calendar.AUGUST, 16); // Month is 0-based, so August is 7
+Date dobDate = cal.getTime();
+
+// Get the current date
+Date currentDate = new Date();
+
+// Calculate the difference in milliseconds between the current date and the DoB
+long diffInMillies = currentDate.getTime() - dobDate.getTime();
+
+// Generate a random number of milliseconds within this range (for submission date)
+Random random = new Random();
+long randomMillisSinceEpoch = dobDate.getTime() + (long)(random.nextDouble() * diffInMillies);
+
+// Create a Date object with the random milliseconds (submission date)
+Date randomDate = new Date(randomMillisSinceEpoch);
+
+// Get the epoch seconds for the random date as a double
+double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+
+// Use Calendar to calculate the age
+Calendar calA = Calendar.getInstance();
+Calendar calB = Calendar.getInstance();
+calA.setTime(dobDate);
+calB.setTime(currentDate); // Use currentDate to calculate age as of today
+
+long diffInMillis = Math.abs(calB.getTimeInMillis() - calA.getTimeInMillis());
+
+long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(diffInMillis);
+long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis);
+long diffInHours = TimeUnit.MILLISECONDS.toHours(diffInMillis);
+long diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMillis);
+
+// Determine the appropriate unit and calculate the difference (for age)
+String unit;
+long diff;
+
+if (diffInDays &lt; 30) {
+    unit = vars.get(&quot;UNIT_DAY&quot;); 
+    diff = diffInDays;
+} else if (diffInDays &lt; 365) {
+    unit = vars.get(&quot;UNIT_MONTH&quot;);
+    diff = Math.round(diffInDays / 30.436875); // Average days per month
+} else {
+    unit = vars.get(&quot;UNIT_YEAR&quot;);
+    diff = Math.round(diffInDays / 365.25); // Account for leap years
+}
+
+// Store the results in JMeter variables
+vars.put(&quot;age&quot;, String.valueOf(diff));
+vars.put(&quot;ageUnit&quot;, unit);
+vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds)); // Assuming this is for submission date
+vars.put(&quot;dob&quot;, String.valueOf(dobDate.getTime() / 1000));
 vars.put(&quot;height&quot;,Float.toString(heightT));
 vars.put(&quot;weight&quot;,Float.toString(weightT));
 vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
@@ -329,30 +391,19 @@ vars.put(&quot;bmi&quot;,Float.toString(bmiT));</stringProp>
           <stringProp name="ConstantTimer.delay">${__P(threadDelay,50)}</stringProp>
         </ConstantTimer>
         <hashTree/>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">import java.util.Date;
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Age Options" enabled="true">
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+          <stringProp name="IfController.condition">${__jexl3(${__Random(1,100)} &lt;= 75.0)}</stringProp>
+        </IfController>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.Date;
 import java.util.Random;
 import java.text.SimpleDateFormat;
 
-// Set the start date (January 1, 2019)
-SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
-
-// Get the current date
-Date currentDate = new Date();
-
-// Calculate the difference in milliseconds between the current date and the start date
-long diffInMillies = currentDate.getTime() - startDate.getTime();
-
-// Generate a random number of milliseconds within this range
-Random random = new Random();
-long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
-
-// Create a Date object with the random milliseconds
-Date randomDate = new Date(randomMillisSinceEpoch);
-
 // Get the epoch seconds for the random date as a double
-double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+double randomDateEpochSeconds = Double.parseDouble(vars.get(&quot;anfSubmissionDate&quot;));
 
 // Store the random epoch seconds in a JMeter variable
 vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
@@ -368,20 +419,20 @@ vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSe
 
 String anfId = &quot;${__UUID}&quot;;
 vars.put(&quot;anf_id&quot;,anfId);</stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-        </BeanShellSampler>
-        <hashTree/>
-        <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Age Options" enabled="true">
-          <intProp name="InterleaveControl.style">1</intProp>
-        </RandomController>
-        <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_AGE_DIAGNOSIS}" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
+          <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Random Age" enabled="true">
+            <intProp name="InterleaveControl.style">1</intProp>
+          </RandomController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_AGE_DIAGNOSIS}" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
    &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
    &quot;time&quot; : {&#xd;
      &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
@@ -444,7 +495,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;258707000 | year (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ageUnit)&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -458,31 +509,31 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
  }</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/anf</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_AGE}" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.path">/anf</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+              <boolProp name="HTTPSampler.image_parser">false</boolProp>
+              <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+              <boolProp name="HTTPSampler.md5">false</boolProp>
+              <intProp name="HTTPSampler.ipSourceType">0</intProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_AGE}" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
    &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
    &quot;time&quot; : {&#xd;
      &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
@@ -545,7 +596,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;258707000 | year (qualifier value)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ageUnit)&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -559,55 +610,39 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
    },&#xd;
    &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
  }</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/anf</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="NOOP " enabled="true">
-            <intProp name="ActionProcessor.action">1</intProp>
-            <intProp name="ActionProcessor.target">0</intProp>
-            <stringProp name="ActionProcessor.duration">0</stringProp>
-          </TestAction>
-          <hashTree/>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.path">/anf</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+              <boolProp name="HTTPSampler.image_parser">false</boolProp>
+              <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+              <boolProp name="HTTPSampler.md5">false</boolProp>
+              <intProp name="HTTPSampler.ipSourceType">0</intProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
         </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">import java.util.Date;
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="BMI Options" enabled="true">
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+          <stringProp name="IfController.condition">${__jexl3(${__Random(1,100)} &lt;= 50.0)}</stringProp>
+        </IfController>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.Date;
 import java.util.Random;
 import java.text.SimpleDateFormat;
 
-// Set the start date (January 1, 2019)
-SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
-
-// Get the current date
-Date currentDate = new Date();
-
-// Calculate the difference in milliseconds between the current date and the start date
-long diffInMillies = currentDate.getTime() - startDate.getTime();
-
-// Generate a random number of milliseconds within this range
-Random random = new Random();
-long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
-
-// Create a Date object with the random milliseconds
-Date randomDate = new Date(randomMillisSinceEpoch);
-
 // Get the epoch seconds for the random date as a double
-double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+double randomDateEpochSeconds = Double.parseDouble(vars.get(&quot;anfSubmissionDate&quot;));
 
 // Store the random epoch seconds in a JMeter variable
 vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
@@ -623,11 +658,9 @@ vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSe
 
 String anfId = &quot;${__UUID}&quot;;
 vars.put(&quot;anf_id&quot;,anfId);</stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-        </BeanShellSampler>
-        <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="BMI Options" enabled="true"/>
-        <hashTree>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
           <IfController guiclass="IfControllerPanel" testclass="IfController" testname="BMI &gt;= 30" enabled="true">
             <boolProp name="IfController.evaluateAll">false</boolProp>
             <boolProp name="IfController.useExpression">true</boolProp>
@@ -940,12 +973,6 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <boolProp name="HTTPSampler.md5">false</boolProp>
                 <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
-              <hashTree/>
-              <TestAction guiclass="TestActionGui" testclass="TestAction" testname="NOOP " enabled="true">
-                <intProp name="ActionProcessor.action">1</intProp>
-                <intProp name="ActionProcessor.target">0</intProp>
-                <stringProp name="ActionProcessor.duration">0</stringProp>
-              </TestAction>
               <hashTree/>
             </hashTree>
           </hashTree>
@@ -1262,12 +1289,6 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <TestAction guiclass="TestActionGui" testclass="TestAction" testname="NOOP " enabled="true">
-                <intProp name="ActionProcessor.action">1</intProp>
-                <intProp name="ActionProcessor.target">0</intProp>
-                <stringProp name="ActionProcessor.duration">0</stringProp>
-              </TestAction>
-              <hashTree/>
             </hashTree>
           </hashTree>
           <IfController guiclass="IfControllerPanel" testclass="IfController" testname="BMI &gt;= 20.0 &amp;&amp; BMI &lt; 25.0" enabled="true">
@@ -1481,12 +1502,6 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <boolProp name="HTTPSampler.md5">false</boolProp>
                 <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
-              <hashTree/>
-              <TestAction guiclass="TestActionGui" testclass="TestAction" testname="NOOP " enabled="true">
-                <intProp name="ActionProcessor.action">1</intProp>
-                <intProp name="ActionProcessor.target">0</intProp>
-                <stringProp name="ActionProcessor.duration">0</stringProp>
-              </TestAction>
               <hashTree/>
             </hashTree>
           </hashTree>
@@ -1812,30 +1827,19 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </hashTree>
           </hashTree>
         </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">import java.util.Date;
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Weight Options" enabled="true">
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+          <stringProp name="IfController.condition">${__jexl3(${__Random(1,100)} &lt;= 60.0)}</stringProp>
+        </IfController>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.Date;
 import java.util.Random;
 import java.text.SimpleDateFormat;
 
-// Set the start date (January 1, 2019)
-SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
-
-// Get the current date
-Date currentDate = new Date();
-
-// Calculate the difference in milliseconds between the current date and the start date
-long diffInMillies = currentDate.getTime() - startDate.getTime();
-
-// Generate a random number of milliseconds within this range
-Random random = new Random();
-long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
-
-// Create a Date object with the random milliseconds
-Date randomDate = new Date(randomMillisSinceEpoch);
-
 // Get the epoch seconds for the random date as a double
-double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+double randomDateEpochSeconds = Double.parseDouble(vars.get(&quot;anfSubmissionDate&quot;));
 
 // Store the random epoch seconds in a JMeter variable
 vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
@@ -1851,13 +1855,9 @@ vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSe
 
 String anfId = &quot;${__UUID}&quot;;
 vars.put(&quot;anf_id&quot;,anfId);</stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-        </BeanShellSampler>
-        <hashTree/>
-        <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Weight Options" enabled="true">
-          <intProp name="InterleaveControl.style">1</intProp>
-        </RandomController>
-        <hashTree>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_WEIGHT}" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -1959,37 +1959,20 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="NOOP " enabled="true">
-            <intProp name="ActionProcessor.action">1</intProp>
-            <intProp name="ActionProcessor.target">0</intProp>
-            <stringProp name="ActionProcessor.duration">0</stringProp>
-          </TestAction>
-          <hashTree/>
         </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">import java.util.Date;
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Height Options" enabled="true">
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+          <stringProp name="IfController.condition">${__jexl3(${__Random(1,100)} &lt;= 50.0)}</stringProp>
+        </IfController>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.Date;
 import java.util.Random;
 import java.text.SimpleDateFormat;
 
-// Set the start date (January 1, 2019)
-SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
-
-// Get the current date
-Date currentDate = new Date();
-
-// Calculate the difference in milliseconds between the current date and the start date
-long diffInMillies = currentDate.getTime() - startDate.getTime();
-
-// Generate a random number of milliseconds within this range
-Random random = new Random();
-long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
-
-// Create a Date object with the random milliseconds
-Date randomDate = new Date(randomMillisSinceEpoch);
-
 // Get the epoch seconds for the random date as a double
-double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+double randomDateEpochSeconds = Double.parseDouble(vars.get(&quot;anfSubmissionDate&quot;));
 
 // Store the random epoch seconds in a JMeter variable
 vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
@@ -2005,13 +1988,9 @@ vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSe
 
 String anfId = &quot;${__UUID}&quot;;
 vars.put(&quot;anf_id&quot;,anfId);</stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-        </BeanShellSampler>
-        <hashTree/>
-        <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Height Options" enabled="true">
-          <intProp name="InterleaveControl.style">1</intProp>
-        </RandomController>
-        <hashTree>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1153637007 | Body height (observable entity))" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -2113,286 +2092,20 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="NOOP " enabled="true">
-            <intProp name="ActionProcessor.action">1</intProp>
-            <intProp name="ActionProcessor.target">0</intProp>
-            <stringProp name="ActionProcessor.duration">0</stringProp>
-          </TestAction>
-          <hashTree/>
         </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">import java.util.Date;
-import java.util.Random;
-import java.text.SimpleDateFormat;
-
-// Set the start date (January 1, 2019)
-SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
-
-// Get the current date
-Date currentDate = new Date();
-
-// Calculate the difference in milliseconds between the current date and the start date
-long diffInMillies = currentDate.getTime() - startDate.getTime();
-
-// Generate a random number of milliseconds within this range
-Random random = new Random();
-long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
-
-// Create a Date object with the random milliseconds
-Date randomDate = new Date(randomMillisSinceEpoch);
-
-// Get the epoch seconds for the random date as a double
-double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
-
-// Store the random epoch seconds in a JMeter variable
-vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
-// Calculate the time range (12 hours in seconds)
-int twelveHoursInSeconds = 12 * 60 * 60;
-// Generate a random time within the last 12 hours
-double randomSecondsBefore = (double)(new Random().nextInt(twelveHoursInSeconds));
-// Calculate the random date in seconds before the specified epoch time
-double randomDateSeconds = randomDateEpochSeconds - randomSecondsBefore;
-// Assign the random seconds to a JMeter variable
-vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSeconds));
-
-
-String anfId = &quot;${__UUID}&quot;;
-vars.put(&quot;anf_id&quot;,anfId);</stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-        </BeanShellSampler>
-        <hashTree/>
-        <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Gender Options" enabled="true">
-          <intProp name="InterleaveControl.style">1</intProp>
-        </RandomController>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Gender Options" enabled="true">
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+          <stringProp name="IfController.condition">${__jexl3(${__Random(1,100)} &lt;= 75.0)}</stringProp>
+        </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_WOMAN}" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-   &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
-   &quot;time&quot; : {&#xd;
-     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
-     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
-     &quot;includeUpperBound&quot; : true,&#xd;
-     &quot;includeLowerBound&quot; : true,&#xd;
-     &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
-     },&#xd;
-     &quot;resolution&quot; : 1.0&#xd;
-   },&#xd;
-   &quot;subjectOfRecord&quot; : {&#xd;
-     &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
-     &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
-     }&#xd;
-   },&#xd;
-   &quot;authors&quot; : [ {&#xd;
-     &quot;id&quot; : ${practitionerID},&#xd;
-     &quot;practitionerValue&quot; : {&#xd;
-       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
-       &quot;display&quot; : ${practitionerDisplay},&#xd;
-       &quot;reference&quot; : ${practitionerReference},&#xd;
-       &quot;uri&quot; : ${practitionerUri}&#xd;
-     },&#xd;
-     &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
-     }&#xd;
-   } ],&#xd;
-   &quot;subjectOfInformation&quot; : {&#xd;
-     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
-   },&#xd;
-   &quot;associatedStatement&quot; : [ ],&#xd;
-   &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;${ANF_WOMAN}&quot;&#xd;
-   },&#xd;
-   &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;${ANF_WOMAN}&quot;&#xd;
-   },&#xd;
-   &quot;performanceCircumstance&quot; : {&#xd;
-     &quot;timing&quot; : {&#xd;
-       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
-       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
-       &quot;includeUpperBound&quot; : true,&#xd;
-       &quot;includeLowerBound&quot; : true,&#xd;
-       &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
-       },&#xd;
-       &quot;resolution&quot; : 1.0&#xd;
-     },&#xd;
-     &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
-     } ],&#xd;
-     &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
-     },&#xd;
-     &quot;result&quot; : {&#xd;
-       &quot;upperBound&quot; : 1.0,&#xd;
-       &quot;lowerBound&quot; : 1.0,&#xd;
-       &quot;includeUpperBound&quot; : true,&#xd;
-       &quot;includeLowerBound&quot; : true,&#xd;
-       &quot;resolution&quot; : 1.0&#xd;
-     },&#xd;
-     &quot;participant&quot; : [ {&#xd;
-       &quot;id&quot; : ${practitionerID},&#xd;
-       &quot;code&quot; : {&#xd;
-         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
-       }&#xd;
-     } ],&#xd;
-     &quot;deviceid&quot; : [ ]&#xd;
-   },&#xd;
-   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
- }</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/anf</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_MAN}" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-   &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
-   &quot;time&quot; : {&#xd;
-     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
-     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
-     &quot;includeUpperBound&quot; : true,&#xd;
-     &quot;includeLowerBound&quot; : true,&#xd;
-     &quot;semantic&quot; : {&#xd;
-       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
-     },&#xd;
-     &quot;resolution&quot; : 1.0&#xd;
-   },&#xd;
-   &quot;subjectOfRecord&quot; : {&#xd;
-     &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
-     &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
-     }&#xd;
-   },&#xd;
-   &quot;authors&quot; : [ {&#xd;
-     &quot;id&quot; : ${practitionerID},&#xd;
-     &quot;practitionerValue&quot; : {&#xd;
-       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
-       &quot;display&quot; : ${practitionerDisplay},&#xd;
-       &quot;reference&quot; : ${practitionerReference},&#xd;
-       &quot;uri&quot; : ${practitionerUri}&#xd;
-     },&#xd;
-     &quot;code&quot; : {&#xd;
-       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
-     }&#xd;
-   } ],&#xd;
-   &quot;subjectOfInformation&quot; : {&#xd;
-     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
-   },&#xd;
-   &quot;associatedStatement&quot; : [ ],&#xd;
-   &quot;topic&quot; : {&#xd;
-     &quot;expression&quot; : &quot;${ANF_MAN}&quot;&#xd;
-   },&#xd;
-   &quot;type&quot; : {&#xd;
-     &quot;expression&quot; : &quot;${ANF_MAN}&quot;&#xd;
-   },&#xd;
-   &quot;performanceCircumstance&quot; : {&#xd;
-     &quot;timing&quot; : {&#xd;
-       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
-       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
-       &quot;includeUpperBound&quot; : true,&#xd;
-       &quot;includeLowerBound&quot; : true,&#xd;
-       &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
-       },&#xd;
-       &quot;resolution&quot; : 1.0&#xd;
-     },&#xd;
-     &quot;purpose&quot; : [ {&#xd;
-       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
-     } ],&#xd;
-     &quot;status&quot; : {&#xd;
-       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
-     },&#xd;
-     &quot;result&quot; : {&#xd;
-       &quot;upperBound&quot; : 1.0,&#xd;
-       &quot;lowerBound&quot; : 1.0,&#xd;
-       &quot;includeUpperBound&quot; : true,&#xd;
-       &quot;includeLowerBound&quot; : true,&#xd;
-       &quot;resolution&quot; : 1.0&#xd;
-     },&#xd;
-     &quot;participant&quot; : [ {&#xd;
-       &quot;id&quot; : ${practitionerID},&#xd;
-       &quot;code&quot; : {&#xd;
-         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
-       }&#xd;
-     } ],&#xd;
-     &quot;deviceid&quot; : [ ]&#xd;
-   },&#xd;
-   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
- }</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/anf</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="NOOP " enabled="true">
-            <intProp name="ActionProcessor.action">1</intProp>
-            <intProp name="ActionProcessor.target">0</intProp>
-            <stringProp name="ActionProcessor.duration">0</stringProp>
-          </TestAction>
-          <hashTree/>
-        </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
-          <stringProp name="BeanShellSampler.query">import java.util.Date;
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.Date;
 import java.util.Random;
 import java.text.SimpleDateFormat;
 
-// Set the start date (January 1, 2019)
-SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-Date startDate = dateFormat.parse(&quot;2019-01-01&quot;);
-
-// Get the current date
-Date currentDate = new Date();
-
-// Calculate the difference in milliseconds between the current date and the start date
-long diffInMillies = currentDate.getTime() - startDate.getTime();
-
-// Generate a random number of milliseconds within this range
-Random random = new Random();
-long randomMillisSinceEpoch = startDate.getTime() + (long)(random.nextDouble() * diffInMillies);
-
-// Create a Date object with the random milliseconds
-Date randomDate = new Date(randomMillisSinceEpoch);
-
 // Get the epoch seconds for the random date as a double
-double randomDateEpochSeconds = randomDate.getTime() / 1000.0;
+double randomDateEpochSeconds = Double.parseDouble(vars.get(&quot;anfSubmissionDate&quot;));
 
 // Store the random epoch seconds in a JMeter variable
 vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
@@ -2408,15 +2121,242 @@ vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSe
 
 String anfId = &quot;${__UUID}&quot;;
 vars.put(&quot;anf_id&quot;,anfId);</stringProp>
-          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-        </BeanShellSampler>
-        <hashTree/>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
+          <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Random Gender" enabled="true">
+            <intProp name="InterleaveControl.style">1</intProp>
+          </RandomController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_WOMAN}" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+   &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
+   &quot;time&quot; : {&#xd;
+     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;includeUpperBound&quot; : true,&#xd;
+     &quot;includeLowerBound&quot; : true,&#xd;
+     &quot;semantic&quot; : {&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
+     },&#xd;
+     &quot;resolution&quot; : 1.0&#xd;
+   },&#xd;
+   &quot;subjectOfRecord&quot; : {&#xd;
+     &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+     }&#xd;
+   },&#xd;
+   &quot;authors&quot; : [ {&#xd;
+     &quot;id&quot; : ${practitionerID},&#xd;
+     &quot;practitionerValue&quot; : {&#xd;
+       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
+       &quot;display&quot; : ${practitionerDisplay},&#xd;
+       &quot;reference&quot; : ${practitionerReference},&#xd;
+       &quot;uri&quot; : ${practitionerUri}&#xd;
+     },&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
+     }&#xd;
+   } ],&#xd;
+   &quot;subjectOfInformation&quot; : {&#xd;
+     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+   },&#xd;
+   &quot;associatedStatement&quot; : [ ],&#xd;
+   &quot;topic&quot; : {&#xd;
+     &quot;expression&quot; : &quot;${ANF_WOMAN}&quot;&#xd;
+   },&#xd;
+   &quot;type&quot; : {&#xd;
+     &quot;expression&quot; : &quot;${ANF_WOMAN}&quot;&#xd;
+   },&#xd;
+   &quot;performanceCircumstance&quot; : {&#xd;
+     &quot;timing&quot; : {&#xd;
+       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;purpose&quot; : [ {&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
+     } ],&#xd;
+     &quot;status&quot; : {&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
+     },&#xd;
+     &quot;result&quot; : {&#xd;
+       &quot;upperBound&quot; : 1.0,&#xd;
+       &quot;lowerBound&quot; : 1.0,&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;participant&quot; : [ {&#xd;
+       &quot;id&quot; : ${practitionerID},&#xd;
+       &quot;code&quot; : {&#xd;
+         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
+       }&#xd;
+     } ],&#xd;
+     &quot;deviceid&quot; : [ ]&#xd;
+   },&#xd;
+   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+ }</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.path">/anf</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+              <boolProp name="HTTPSampler.image_parser">false</boolProp>
+              <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+              <boolProp name="HTTPSampler.md5">false</boolProp>
+              <intProp name="HTTPSampler.ipSourceType">0</intProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${ANF_MAN}" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+   &quot;id&quot; : &quot;${anf_id}&quot;,&#xd;
+   &quot;time&quot; : {&#xd;
+     &quot;upperBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;lowerBound&quot; : ${anfSubmissionDate},&#xd;
+     &quot;includeUpperBound&quot; : true,&#xd;
+     &quot;includeLowerBound&quot; : true,&#xd;
+     &quot;semantic&quot; : {&#xd;
+       &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
+     },&#xd;
+     &quot;resolution&quot; : 1.0&#xd;
+   },&#xd;
+   &quot;subjectOfRecord&quot; : {&#xd;
+     &quot;id&quot; : &quot;${nationalHealthID}&quot;,&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+     }&#xd;
+   },&#xd;
+   &quot;authors&quot; : [ {&#xd;
+     &quot;id&quot; : ${practitionerID},&#xd;
+     &quot;practitionerValue&quot; : {&#xd;
+       &quot;identifier&quot; : ${practitionerIdentifier},&#xd;
+       &quot;display&quot; : ${practitionerDisplay},&#xd;
+       &quot;reference&quot; : ${practitionerReference},&#xd;
+       &quot;uri&quot; : ${practitionerUri}&#xd;
+     },&#xd;
+     &quot;code&quot; : {&#xd;
+       &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
+     }&#xd;
+   } ],&#xd;
+   &quot;subjectOfInformation&quot; : {&#xd;
+     &quot;expression&quot; : &quot;116154003 | Patient (person)&quot;&#xd;
+   },&#xd;
+   &quot;associatedStatement&quot; : [ ],&#xd;
+   &quot;topic&quot; : {&#xd;
+     &quot;expression&quot; : &quot;${ANF_MAN}&quot;&#xd;
+   },&#xd;
+   &quot;type&quot; : {&#xd;
+     &quot;expression&quot; : &quot;${ANF_MAN}&quot;&#xd;
+   },&#xd;
+   &quot;performanceCircumstance&quot; : {&#xd;
+     &quot;timing&quot; : {&#xd;
+       &quot;upperBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;lowerBound&quot; : ${performanceCircumstanceTiming},&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;semantic&quot; : {&#xd;
+         &quot;expression&quot; : &quot;${UNIT_SECONDS}&quot;&#xd;
+       },&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;purpose&quot; : [ {&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_PROCEDURE}&quot;&#xd;
+     } ],&#xd;
+     &quot;status&quot; : {&#xd;
+       &quot;expression&quot; : &quot;${ANF_EVAL_FINDING}&quot;&#xd;
+     },&#xd;
+     &quot;result&quot; : {&#xd;
+       &quot;upperBound&quot; : 1.0,&#xd;
+       &quot;lowerBound&quot; : 1.0,&#xd;
+       &quot;includeUpperBound&quot; : true,&#xd;
+       &quot;includeLowerBound&quot; : true,&#xd;
+       &quot;resolution&quot; : 1.0&#xd;
+     },&#xd;
+     &quot;participant&quot; : [ {&#xd;
+       &quot;id&quot; : ${practitionerID},&#xd;
+       &quot;code&quot; : {&#xd;
+         &quot;expression&quot; : ${practitionerCodeExpression}&#xd;
+       }&#xd;
+     } ],&#xd;
+     &quot;deviceid&quot; : [ ]&#xd;
+   },&#xd;
+   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
+ }</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.path">/anf</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+              <boolProp name="HTTPSampler.image_parser">false</boolProp>
+              <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+              <boolProp name="HTTPSampler.md5">false</boolProp>
+              <intProp name="HTTPSampler.ipSourceType">0</intProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Rash Options" enabled="true">
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">true</boolProp>
-          <stringProp name="IfController.condition">${__jexl3(${rash} &lt;= 10.0)}</stringProp>
+          <stringProp name="IfController.condition">${__jexl3(${__Random(1,100)} &lt;= 10.0)}</stringProp>
         </IfController>
         <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ANF Statement Setup" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.Date;
+import java.util.Random;
+import java.text.SimpleDateFormat;
+
+// Get the epoch seconds for the random date as a double
+double randomDateEpochSeconds = Double.parseDouble(vars.get(&quot;anfSubmissionDate&quot;));
+
+// Store the random epoch seconds in a JMeter variable
+vars.put(&quot;anfSubmissionDate&quot;, Double.toString(randomDateEpochSeconds));
+// Calculate the time range (12 hours in seconds)
+int twelveHoursInSeconds = 12 * 60 * 60;
+// Generate a random time within the last 12 hours
+double randomSecondsBefore = (double)(new Random().nextInt(twelveHoursInSeconds));
+// Calculate the random date in seconds before the specified epoch time
+double randomDateSeconds = randomDateEpochSeconds - randomSecondsBefore;
+// Assign the random seconds to a JMeter variable
+vars.put(&quot;performanceCircumstanceTiming&quot;, Double.toString(randomDateSeconds));
+
+
+String anfId = &quot;${__UUID}&quot;;
+vars.put(&quot;anf_id&quot;,anfId);</stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
           <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Random Rash" enabled="true">
             <intProp name="InterleaveControl.style">1</intProp>
           </RandomController>
