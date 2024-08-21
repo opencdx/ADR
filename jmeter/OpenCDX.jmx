@@ -50,46 +50,79 @@
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-  &quot;name&quot;: &quot;BMI Calculation&quot;,&#xd;
-  &quot;query&quot;: {&#xd;
     &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
     &quot;queries&quot;: [&#xd;
-      {&#xd;
-        &quot;formula&quot;: {&#xd;
-          &quot;name&quot;: &quot;BMI&quot;,&#xd;
-          &quot;leftOperandFormula&quot;: {&#xd;
-            &quot;leftOperand&quot;: &quot;1339a965-5c4d-40a7-b04f-60a17b43455b&quot;,&#xd;
-            &quot;leftOperandUnit&quot;: &quot;98999a1c-11b1-4777-a9b6-3b25482676c4&quot;,&#xd;
-            &quot;operation&quot;: &quot;DIVIDE&quot;,&#xd;
-            &quot;rightOperandFormula&quot;: {&#xd;
-              &quot;leftOperand&quot;: &quot;f99f17a3-5248-472d-b88f-f4c894630084&quot;,&#xd;
-              &quot;leftOperandUnit&quot;: &quot;01759586-062f-455f-a0c4-23904464b5f4&quot;,&#xd;
-              &quot;operation&quot;: &quot;POWER&quot;,&#xd;
-              &quot;rightOperandValue&quot;: &quot;2.0&quot;&#xd;
-            }&#xd;
-          },&#xd;
-          &quot;operation&quot;: &quot;MULTIPLY&quot;,&#xd;
-          &quot;rightOperandValue&quot;: &quot;703.0&quot;&#xd;
+        {&#xd;
+            &quot;formula&quot;: {&#xd;
+                &quot;name&quot;: &quot;BMI&quot;,&#xd;
+                &quot;leftOperandFormula&quot;: {&#xd;
+                    &quot;leftOperand&quot;: {&#xd;
+                        &quot;id&quot;: 16,&#xd;
+                        &quot;conceptId&quot;: &quot;1339a965-5c4d-40a7-b04f-60a17b43455b&quot;,&#xd;
+                        &quot;conceptName&quot;: &quot;Body weight&quot;,&#xd;
+                        &quot;conceptDescription&quot;: &quot;27113001 | Body weight (observable entity)&quot;,&#xd;
+                        &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                    },&#xd;
+                    &quot;leftOperandUnit&quot;: {&#xd;
+                        &quot;id&quot;: 39,&#xd;
+                        &quot;conceptId&quot;: &quot;98999a1c-11b1-4777-a9b6-3b25482676c4&quot;,&#xd;
+                        &quot;conceptName&quot;: &quot;pounds&quot;,&#xd;
+                        &quot;conceptDescription&quot;: &quot;258693003 | pounds (qualifier value)&quot;,&#xd;
+                        &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                    },&#xd;
+                    &quot;operation&quot;: &quot;DIVIDE&quot;,&#xd;
+                    &quot;rightOperandFormula&quot;: {&#xd;
+                        &quot;leftOperand&quot;: {&#xd;
+                            &quot;id&quot;: 15,&#xd;
+                            &quot;conceptId&quot;: &quot;f99f17a3-5248-472d-b88f-f4c894630084&quot;,&#xd;
+                            &quot;conceptName&quot;: &quot;Body height&quot;,&#xd;
+                            &quot;conceptDescription&quot;: &quot;153637007 | Body height (observable entity)&quot;,&#xd;
+                            &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                        },&#xd;
+                        &quot;leftOperandUnit&quot;: {&#xd;
+                            &quot;id&quot;: 38,&#xd;
+                            &quot;conceptId&quot;: &quot;01759586-062f-455f-a0c4-23904464b5f4&quot;,&#xd;
+                            &quot;conceptName&quot;: &quot;inch&quot;,&#xd;
+                            &quot;conceptDescription&quot;: &quot;258677007 | inch (qualifier value)&quot;,&#xd;
+                            &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                        },&#xd;
+                        &quot;operation&quot;: &quot;POWER&quot;,&#xd;
+                        &quot;rightOperandValue&quot;: &quot;2.0&quot;&#xd;
+                    }&#xd;
+                },&#xd;
+                &quot;operation&quot;: &quot;MULTIPLY&quot;,&#xd;
+                &quot;rightOperandValue&quot;: &quot;703.0&quot;&#xd;
+            },&#xd;
+            &quot;operation&quot;: &quot;GREATER_THAN&quot;,&#xd;
+            &quot;operationDouble&quot;: 30.0&#xd;
         },&#xd;
-        &quot;operation&quot;: &quot;GREATER_THAN&quot;,&#xd;
-        &quot;operationDouble&quot;: 30&#xd;
-      },&#xd;
-      {&#xd;
-        &quot;joinOperation&quot;: &quot;OR&quot;&#xd;
-      },&#xd;
-      {&#xd;
-        &quot;conceptId&quot;: &quot;0f0a0956-9019-4006-b74d-71c04d9a9b59&quot;,&#xd;
-        &quot;operation&quot;: &quot;GREATER_THAN&quot;,&#xd;
-        &quot;operationDouble&quot;: 30&#xd;
-      },&#xd;
-      {&#xd;
-        &quot;joinOperation&quot;: &quot;OR&quot;&#xd;
-      },&#xd;
-      {&#xd;
-        &quot;conceptId&quot;: &quot;49d74011-a43a-4258-b8d7-206679349384&quot;&#xd;
-      }&#xd;
+        {&#xd;
+            &quot;joinOperation&quot;: &quot;OR&quot;&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;concept&quot;: {&#xd;
+                &quot;id&quot;: 25,&#xd;
+                &quot;conceptId&quot;: &quot;0f0a0956-9019-4006-b74d-71c04d9a9b59&quot;,&#xd;
+                &quot;conceptName&quot;: &quot;Body mass index&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;60621009 | Body mass index (observable entity)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+            },&#xd;
+            &quot;operation&quot;: &quot;GREATER_THAN&quot;,&#xd;
+            &quot;operationDouble&quot;: 30&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;joinOperation&quot;: &quot;OR&quot;&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;concept&quot;: {&#xd;
+                &quot;id&quot;: 27,&#xd;
+                &quot;conceptId&quot;: &quot;49d74011-a43a-4258-b8d7-206679349384&quot;,&#xd;
+                &quot;conceptName&quot;: &quot;Body mass index 30+ - obesity&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;162864005 | Body mass index 30+ - obesity (finding)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+            }&#xd;
+        }&#xd;
     ]&#xd;
-  }&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
@@ -109,7 +142,7 @@
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Grouping Test" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Grouping Test" enabled="false">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">

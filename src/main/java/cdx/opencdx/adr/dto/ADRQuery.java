@@ -40,6 +40,7 @@ import java.util.List;
  * @see ComparisonOperation
  * @see UnitOutput
  */
+@Schema(description = "A query object used for searching concepts.")
 @Data
 public class ADRQuery {
     /**

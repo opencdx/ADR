@@ -1,5 +1,7 @@
 package cdx.opencdx.adr.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * The UnitOutput enum represents the different unit output options for a system.
  * <p>
@@ -13,14 +15,17 @@ package cdx.opencdx.adr.dto;
  * @see UnitOutput#METRIC
  * @see UnitOutput#DEFAULT
  */
+@Schema(description = "Unit output options for a system.")
 public enum UnitOutput {
     /**
      * Represents the output unit system as Imperial.
      */
+    @Schema(description = "Imperial unit output format.")
     IMPERIAL,
     /**
      * Represents the unit output format in metric system.
      */
+    @Schema(description = "Metric unit output format.")
     METRIC,
     /**
      * Represents the default unit output for a system.
@@ -31,5 +36,6 @@ public enum UnitOutput {
      *
      * @see UnitOutput
      */
+    @Schema(description = "Default unit output format.")
     DEFAULT
 }

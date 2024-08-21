@@ -2,6 +2,7 @@ package cdx.opencdx.adr.model;
 
 import cdx.opencdx.adr.dto.ConceptFocus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class TinkarConceptModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @Schema(description = "The ID of the concept")
     private Long id;
 
     /**
@@ -36,12 +38,14 @@ public class TinkarConceptModel {
      * <p>
      * The value is stored in the {@link Column} named "concept_id" in the database table "dimtinkarconcept".
      */
+    @Schema(description = "The UUID of the concept")
     @Column(name = "concept_id")
     private UUID conceptId;
 
     /**
      *
      */
+    @Schema(description = "The name of the concept")
     @Column(name = "concept_name", length = Integer.MAX_VALUE)
     private String conceptName;
 
@@ -62,6 +66,7 @@ public class TinkarConceptModel {
      * <p>
      * The concept description can be accessed through the getter and setter methods generated for this variable.
      */
+    @Schema(description = "The description of the concept")
     @Column(name = "concept_description", length = Integer.MAX_VALUE)
     private String conceptDescription;
 
@@ -98,6 +103,7 @@ public class TinkarConceptModel {
      * @see ConceptFocus
      */
     @Transient
+    @Schema(description = "The focus of the concept")
     private ConceptFocus focus = ConceptFocus.SELF;
     /**
      * Represents a Tinkar concept model.
