@@ -41,6 +41,7 @@ public class QueryServiceImpl implements QueryService {
     private final TextOperationService textOperationService;
     private final CalculatedConceptRepository calculatedConceptRepository;
     private final FormulaService formulaService;
+    private final ConceptService conceptService;
 
 
     @PersistenceContext
@@ -54,9 +55,12 @@ public class QueryServiceImpl implements QueryService {
      * @param measureOperationService     the MeasureOperationService object used for measure operations
      * @param textOperationService        the TextOperationService object used for text operations
      * @param calculatedConceptRepository the CalculatedConceptRepository object used for calculated concept operations
+     * @param formulaService              the FormulaService object used for formula operations
+     * @param aNFStatementRepository      the ANFStatementRepository object used for ANF statement operations
+     * @param conceptService              the ConceptService object used for concept operations
      */
     public QueryServiceImpl(ANFHelper anfRepo, CsvService csvService, MeasureOperationService measureOperationService, TextOperationService textOperationService, CalculatedConceptRepository calculatedConceptRepository, FormulaService formulaService,
-                            ANFStatementRepository aNFStatementRepository) {
+                            ANFStatementRepository aNFStatementRepository, ConceptService conceptService) {
         this.anfRepo = anfRepo;
         this.csvService = csvService;
         this.measureOperationService = measureOperationService;
@@ -64,6 +68,7 @@ public class QueryServiceImpl implements QueryService {
         this.calculatedConceptRepository = calculatedConceptRepository;
         this.formulaService = formulaService;
         this.aNFStatementRepository = aNFStatementRepository;
+        this.conceptService = conceptService;
     }
 
     /**
@@ -273,7 +278,7 @@ public class QueryServiceImpl implements QueryService {
         CriteriaQuery<TinkarConceptModel> criteriaQuery = cb.createQuery(TinkarConceptModel.class);
         Root<TinkarConceptModel> root = criteriaQuery.from(TinkarConceptModel.class);
 
-        criteriaQuery.where(cb.equal(root.get("conceptId"), query.getConcept().getConceptId()));
+        criteriaQuery.where(root.get("conceptId").in(this.conceptService.getFocusConcepts(query.getConcept())));
 
         return entityManager.createQuery(criteriaQuery).getResultList().stream()
                 .map(TinkarConceptModel::getAnfStatements)
