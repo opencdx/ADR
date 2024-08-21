@@ -51,12 +51,12 @@ public interface OpenCDXAdrService {
     List<TinkarConceptModel> getUnits();
 
     /**
-     * Streams the query results to the specified PrintWriter.
+     * Executes a stream query on the provided ADRQuery object and returns a list of strings.
      *
      * @param adrQuery The ADRQuery object representing the query to be executed.
-     * @param writer   The PrintWriter object used to write the query results.
+     * @return A list of strings representing the query results.
      */
-    void streamQuery(ADRQuery adrQuery , PrintWriter writer);
+    List<String> streamQuery(ADRQuery adrQuery );
 
     /**
      * Saves a list of SavedQuery objects.

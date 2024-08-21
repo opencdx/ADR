@@ -75,10 +75,11 @@ public class QueryServiceImpl implements QueryService {
      * Processes the given ADRQuery and writes the results to the provided PrintWriter.
      *
      * @param adrQuery The ADRQuery to process.
-     * @param writer The PrintWriter to write the results to.
+     * @param writer   The PrintWriter to write the results to.
+     * @return
      */
     @Override
-    public void processQuery(ADRQuery adrQuery, PrintWriter writer) {
+    public List<String> processQuery(ADRQuery adrQuery) {
 
         List<CalculatedConcept> allByThreadName = this.calculatedConceptRepository.findAllByThreadName(Thread.currentThread().getName());
         if(!allByThreadName.isEmpty()) {
@@ -90,8 +91,7 @@ public class QueryServiceImpl implements QueryService {
         List<AnfStatementModel> results = processingResults.anfStatements;
 
         List<UUID> list = processingResults.conceptIds;
-        List<String> csvContent = prepareCsvContent(list, results, adrQuery.getUnitOutput());
-        csvContent.forEach(writer::println);
+       return prepareCsvContent(list, results, adrQuery.getUnitOutput());
     }
 
     /**

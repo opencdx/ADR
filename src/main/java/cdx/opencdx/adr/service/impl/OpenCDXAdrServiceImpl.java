@@ -181,15 +181,10 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
                 .filter(concept -> this.blockConcepts.contains(concept.getConceptId())).sorted(Comparator.comparing(TinkarConceptModel::getConceptName)).toList();
     }
 
-    /**
-     * Streams the result of an ADR query to the specified print writer.
-     *
-     * @param adrQuery The ADR query to process.
-     * @param writer   The print writer to stream the result to.
-     */
+
     @Override
-    public void streamQuery(ADRQuery adrQuery, PrintWriter writer) {
-        this.queryService.processQuery(adrQuery, writer);
+    public List<String> streamQuery(ADRQuery adrQuery) {
+        return this.queryService.processQuery(adrQuery);
     }
 
     @Override

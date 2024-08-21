@@ -9,10 +9,13 @@ import cdx.opencdx.adr.service.OpenCDXAdrService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -59,22 +62,32 @@ public class QueryController {
         return ResponseEntity.ok(this.adrService.getUnits());
     }
 
-    /**
-     * Handles POST requests for querying concepts.
-     * Writes the query results to a CSV file.
-     *
-     * @param response The {@link HttpServletResponse} object used to write the response.
-     * @throws IOException If an I/O error occurs while writing the response.
-     */
-    @PostMapping
-    public void postQuery(@RequestBody ADRQuery adrQuery, HttpServletResponse response) throws IOException {
-        log.info("Received query request");
-        response.setContentType("text/csv");
-        response.setHeader("Content-Disposition", "attachment; filename=\"generated_data.csv\"");
 
-        try (PrintWriter writer = response.getWriter()) {
-            adrService.streamQuery(adrQuery, writer);
-        }
+    @PostMapping
+    public ResponseEntity<List<String>> postQuery(@RequestBody ADRQuery adrQuery) {
+        log.info("Received query request");
+        return ResponseEntity.ok(adrService.streamQuery(adrQuery));
+    }
+
+    @PostMapping("/csv")
+    public ResponseEntity<byte[]> queryCSV(@RequestBody ADRQuery adrQuery) {
+        List<String> data = adrService.streamQuery(adrQuery);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintWriter writer = new PrintWriter(outputStream);
+
+        data.forEach(writer::println);
+
+        writer.flush();
+
+        byte[] csvContent = outputStream.toByteArray();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/csv"));
+        headers.setContentDispositionFormData("attachment",
+                "results.csv");
+
+        return new ResponseEntity<>(csvContent, headers, HttpStatus.OK);
     }
 
     /**
