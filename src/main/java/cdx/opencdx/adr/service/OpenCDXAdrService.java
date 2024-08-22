@@ -21,7 +21,6 @@ import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -66,6 +65,13 @@ public interface OpenCDXAdrService {
      */
     SavedQuery saveQuery(SavedQuery save) throws JsonProcessingException;
 
+    /**
+     * Updates a SavedQuery object.
+     *
+     * @param save The SavedQuery object to update.
+     * @return The updated SavedQuery object.
+     */
+    SavedQuery updateQuery(SavedQuery save) throws JsonProcessingException;
     /**
      * Retrieves a list of saved queries.
      *

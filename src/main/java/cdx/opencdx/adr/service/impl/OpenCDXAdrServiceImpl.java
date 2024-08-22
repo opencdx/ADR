@@ -35,10 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -193,6 +190,18 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
         model = this.savedQueryRepository.save(model);
 
         return new SavedQuery(model.getId(), model.getName(), save.getQuery());
+    }
+
+    public SavedQuery updateQuery(SavedQuery save) throws JsonProcessingException {
+        Optional<SavedQueryModel> optionalModel = this.savedQueryRepository.findById(save.getId());
+
+        if(optionalModel.isPresent()) {
+            optionalModel.get().setName(save.getName());
+            optionalModel.get().setContent(this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(save.getQuery()));
+            SavedQueryModel model = this.savedQueryRepository.save(optionalModel.get());
+            return new SavedQuery(model.getId(), model.getName(), save.getQuery());
+        }
+        return null;
     }
 
     @Override

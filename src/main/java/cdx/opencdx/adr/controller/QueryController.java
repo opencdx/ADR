@@ -2,12 +2,10 @@ package cdx.opencdx.adr.controller;
 
 
 import cdx.opencdx.adr.dto.ADRQuery;
-import cdx.opencdx.adr.dto.Query;
 import cdx.opencdx.adr.dto.SavedQuery;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -102,6 +99,13 @@ public class QueryController {
         log.info("Received save query request");
         return ResponseEntity.ok(adrService.saveQuery(save));
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<SavedQuery>updateQuery(@RequestBody SavedQuery save) throws JsonProcessingException {
+        log.info("Received save query request");
+        return ResponseEntity.ok(adrService.updateQuery(save));
+    }
+
 
     @GetMapping("/list")
     public ResponseEntity<List<SavedQuery>> listQueries() throws JsonProcessingException {
