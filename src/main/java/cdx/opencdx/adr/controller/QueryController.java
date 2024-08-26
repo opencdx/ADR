@@ -23,6 +23,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(value = "/query", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin
 public class QueryController {
 
     /**
