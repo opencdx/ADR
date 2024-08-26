@@ -196,9 +196,17 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
         Optional<SavedQueryModel> optionalModel = this.savedQueryRepository.findById(save.getId());
 
         if(optionalModel.isPresent()) {
-            optionalModel.get().setName(save.getName());
-            optionalModel.get().setContent(this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(save.getQuery()));
-            SavedQueryModel model = this.savedQueryRepository.save(optionalModel.get());
+            log.info("Updating query with ID: {}", save.getId());
+            SavedQueryModel model = optionalModel.get();
+            if(save.getName() != null) {
+                log.info("Updating query name to: {}", save.getName());
+                model.setName(save.getName());
+            }
+            if(save.getQuery() != null) {
+                log.info("Updating query content");
+                model.setContent(this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(save.getQuery()));
+            }
+            model = this.savedQueryRepository.save(model);
             return new SavedQuery(model.getId(), model.getName(), save.getQuery());
         }
         return null;
