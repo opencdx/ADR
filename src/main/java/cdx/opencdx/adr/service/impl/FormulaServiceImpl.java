@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.dto.ConceptFocus;
 import cdx.opencdx.adr.dto.Formula;
 import cdx.opencdx.adr.dto.NumericalOperation;
 import cdx.opencdx.adr.model.*;
@@ -157,10 +158,13 @@ public class FormulaServiceImpl implements FormulaService {
 
         if (selected.get().getPerformanceCircumstance() != null && selected.get().getPerformanceCircumstance().getResult() != null) {
             log.info("Performance circumstance found");
-            return this.conversionService.convert(unitId,selected.get().getPerformanceCircumstance().getResult()).getUpperBound();
+            return this.conversionService.convert(unitId, ConceptFocus.DATE.equals(concept.getFocus()) ? selected.get().getPerformanceCircumstance().getTiming() : selected.get().getPerformanceCircumstance().getResult()).getUpperBound();
         } else if (selected.get().getRequestCircumstance() != null) {
             log.info("Request circumstance found");
-            return this.conversionService.convert(unitId,selected.get().getRequestCircumstance().getRequestedResult()).getUpperBound();
+            return this.conversionService.convert(unitId, ConceptFocus.DATE.equals(concept.getFocus()) ? selected.get().getRequestCircumstance().getTiming() : selected.get().getRequestCircumstance().getRequestedResult()).getUpperBound();
+        } else if(selected.get().getNarrativeCircumstance() != null && ConceptFocus.DATE.equals(concept.getFocus())) {
+            log.info("Narrative circumstance found");
+            return this.conversionService.convert(unitId, selected.get().getRequestCircumstance().getTiming()).getUpperBound();
         }
         log.info("No performance or request circumstance found");
         return null;

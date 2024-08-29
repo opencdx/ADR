@@ -143,6 +143,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
         this.blockConcepts.add(UUID.fromString("98999a1c-11b1-4777-a9b6-3b25482676c4")); // pounds
         this.blockConcepts.add(UUID.fromString("d9036e1e-3397-4f00-a40a-021626644970")); // year
         this.blockConcepts.add(UUID.fromString("b66571ca-bba7-4a5a-a90f-2ef9f0c33a56")); // seconds
+        this.blockConcepts.add(UUID.fromString("b5ba88ba-22d5-37fe-a9a1-b82c377e0212")); // Unit of Calendar Time
 
     }
 

@@ -76,14 +76,10 @@ public enum ConceptFocus {
      */
     @Schema(description = "Focus on the members of the current concept.")
     MEMBER,
+
     /**
-     * Represents the concept focus for a search or operation.
-     * The ANY concept focus allows for searching or operating on any concept.
-     * <p>
-     * It is one of the possible values of the ConceptFocus enum.
-     *
-     * @see ConceptFocus
+     * Represents a concept focus on the timing of the concept.
      */
-    @Schema(description = "Focus on any concept.")
-    ANY
+    @Schema(description = "Focus on the timing of the concept.")
+    DATE
 }
