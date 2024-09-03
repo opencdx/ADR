@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The OpenCDXIKMServiceImpl class is a service implementation that initializes and populates a concept model map.
@@ -161,11 +163,25 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         }
     }
 
-    private UUID testAndConvert(String uuidString) {
-        try {
-            return UUID.fromString(uuidString);
-        } catch (IllegalArgumentException e) {
-            return null;
+    private UUID testAndConvert(String string) {
+        // Regular expression pattern for UUID
+        Pattern uuidPattern = Pattern.compile(
+                "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}");
+
+        Matcher matcher = uuidPattern.matcher(string);
+        if (matcher.find()) {
+            // If finds match then convert it to UUID
+            String uuidString = matcher.group(0);
+            try {
+                return UUID.fromString(uuidString);
+            } catch (IllegalArgumentException e) {
+                log.error("Error converting string to UUID: {}" ,string);
+                return null;
+            }
         }
+
+        // if no UUID found, then returns null
+        log.warn("No UUID found in string: {}", string);
+        return null;
     }
 }
