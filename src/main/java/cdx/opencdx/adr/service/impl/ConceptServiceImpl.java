@@ -21,8 +21,7 @@ public class ConceptServiceImpl implements ConceptService {
 
         log.info("Retrieving focus concepts {} for concept model: {}", conceptModel.getFocus(), conceptModel.getConceptId());
         return switch (conceptModel.getFocus()) {
-            case SELF -> List.of(conceptModel.getConceptId());
-            case ANY -> List.of(UUID.randomUUID(),conceptModel.getConceptId());
+            case SELF, DATE -> List.of(conceptModel.getConceptId());
             case DESCENDANTS -> List.of(UUID.randomUUID());
             case DESCENDANTS_OR_SELF -> List.of(UUID.randomUUID(),conceptModel.getConceptId());
             case ANCESTORS -> List.of(UUID.randomUUID());

@@ -338,15 +338,24 @@ public class QueryServiceImpl implements QueryService {
         return simpleQueryResults.stream().filter(anf -> {
             if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
                 log.info("Processing Performance Circumstance Operation Double: {}", query.getOperationDouble());
-                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getPerformanceCircumstance().getResult());
+                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), checkDateFocus(query) ? anf.getPerformanceCircumstance().getTiming() : anf.getPerformanceCircumstance().getResult());
             } else if (anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
                 log.info("Processing Request Circumstance Operation Double: {}", query.getOperationDouble());
-                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), anf.getRequestCircumstance().getRequestedResult());
+                return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), checkDateFocus(query) ? anf.getRequestCircumstance().getTiming() : anf.getRequestCircumstance().getRequestedResult());
             } else if (anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
                 log.info("Processing Narrative Circumstance Operation Text: {}", query.getOperationText());
-                return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), anf.getNarrativeCircumstance().getText());
+                return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), checkDateFocus(query) ? anf.getNarrativeCircumstance().getTiming() : anf.getNarrativeCircumstance().getText());
             }
             return false;
         }).toList();
     }
+
+    private boolean checkDateFocus(Query query) {
+        if(query.getConcept() != null && query.getConcept().getFocus() != null) {
+            return ConceptFocus.DATE.equals(query.getConcept().getFocus());
+        }
+
+        return false;
+    }
+
 }
