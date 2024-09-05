@@ -74,10 +74,10 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
                 }
 
             } else {
-                log.warn("Concept not found: {}", logicalExpression.getExpression());
                 result.setConceptId(UUID.randomUUID());
                 result.setConceptName(logicalExpression.getExpression());
                 result.setConceptDescription(logicalExpression.getExpression());
+                log.warn("Concept not found: {} assign to UUID: {}", result.getConceptName(),result.getConceptId());
             }
             result = conceptRepository.save(result);
         }

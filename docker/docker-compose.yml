@@ -27,6 +27,9 @@ services:
         max_attempts: 5
         window: 60s
     image: adr:latest
+    volumes:
+#      - ../data:/data
+      - ../../../Solor:/data
     ports:
       - "8085:8085"
     depends_on:
