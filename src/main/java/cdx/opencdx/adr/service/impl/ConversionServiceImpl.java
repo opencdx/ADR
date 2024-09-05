@@ -5,6 +5,7 @@ import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.ConversionService;
+import cdx.opencdx.adr.service.OpenCDXIKMService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -147,25 +148,25 @@ public class ConversionServiceImpl implements ConversionService {
      */
     private Double process(UUID operationUnit, UUID unit, Double value) {
         return switch (operationUnit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH -> // inches
+            case OpenCDXIKMService.UNIT_INCH -> // inches
                     convertToInches(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_METER -> // meters
+            case OpenCDXIKMService.UNIT_METER -> // meters
                     convertToMeters(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS -> // pounds
+            case OpenCDXIKMService.UNIT_POUNDS -> // pounds
                     convertToPounds(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_KILOGRAMS -> // kilograms
+            case OpenCDXIKMService.UNIT_KILOGRAMS -> // kilograms
                     convertToKilograms(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+            case OpenCDXIKMService.UNIT_DAY -> // days
                     convertToDays(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // months
+            case OpenCDXIKMService.UNIT_MONTH -> // months
                     convertToMonths(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+            case OpenCDXIKMService.UNIT_YEAR -> // years
                     convertToYears(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+            case OpenCDXIKMService.UNIT_SECONDS -> // seconds
                     convertToSeconds(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+            case OpenCDXIKMService.UNIT_HOUR -> // hours
                     convertToHours(unit, value);
-            case OpenCDXIKMServiceImpl.UNIT_MINUTE -> // minutes
+            case OpenCDXIKMService.UNIT_MINUTE -> // minutes
                     convertToMinutes(unit, value);
             default -> value;
         };
@@ -173,15 +174,15 @@ public class ConversionServiceImpl implements ConversionService {
 
     private Double convertToMinutes(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+            case OpenCDXIKMService.UNIT_DAY -> // days
                     value * 1440; // 24 hours/day * 60 minutes/hour
-            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // Not a standard unit, assuming 30 days
+            case OpenCDXIKMService.UNIT_MONTH -> // Not a standard unit, assuming 30 days
                     value * 43200; // 30 days/month * 24 hours/day * 60 minutes/hour
-            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+            case OpenCDXIKMService.UNIT_YEAR -> // years
                     value * 525600; // 365 days/year * 24 hours/day * 60 minutes/hour
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+            case OpenCDXIKMService.UNIT_SECONDS -> // seconds
                     value / 60; // 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+            case OpenCDXIKMService.UNIT_HOUR -> // hours
                     value * 60; // 60 minutes/hour
             default -> null;
         };
@@ -190,15 +191,15 @@ public class ConversionServiceImpl implements ConversionService {
 
     private Double convertToHours(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+            case OpenCDXIKMService.UNIT_DAY -> // days
                     value * 24; // 24 hours/day
-            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // Not a standard unit, assuming 30 days
+            case OpenCDXIKMService.UNIT_MONTH -> // Not a standard unit, assuming 30 days
                     value * 30 * 24; // 30 days/month * 24 hours/day
-            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+            case OpenCDXIKMService.UNIT_YEAR -> // years
                     value * 365 * 24; // 365 days/year * 24 hours/day
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+            case OpenCDXIKMService.UNIT_SECONDS -> // seconds
                     value / 3600; // 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_MINUTE -> // minutes
+            case OpenCDXIKMService.UNIT_MINUTE -> // minutes
                     value / 60; // 60 seconds/minute
             default -> null;
         };
@@ -206,15 +207,15 @@ public class ConversionServiceImpl implements ConversionService {
 
     private Double convertToSeconds(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+            case OpenCDXIKMService.UNIT_DAY -> // days
                     value * 86400; // 24 hours/day * 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // Not a standard unit, assuming 30 days
+            case OpenCDXIKMService.UNIT_MONTH -> // Not a standard unit, assuming 30 days
                     value * 30 * 86400; // 30 days/month * seconds/day
-            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+            case OpenCDXIKMService.UNIT_YEAR -> // years
                     value * 365 * 86400; // 365 days/year * seconds/day
-            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+            case OpenCDXIKMService.UNIT_HOUR -> // hours
                     value * 3600; // 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_MINUTE -> // minutes
+            case OpenCDXIKMService.UNIT_MINUTE -> // minutes
                     value * 60; // 60 seconds/minute
             default -> null;
         };
@@ -222,13 +223,13 @@ public class ConversionServiceImpl implements ConversionService {
 
     private Double convertToYears(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+            case OpenCDXIKMService.UNIT_DAY -> // days
                     value / 365.0;
-            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // months
+            case OpenCDXIKMService.UNIT_MONTH -> // months
                     value / 12.0;
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+            case OpenCDXIKMService.UNIT_SECONDS -> // seconds
                     value / 31536000; // 365 days/year * 24 hours/day * 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+            case OpenCDXIKMService.UNIT_HOUR -> // hours
                     value / 8760; // 24 hours/day * 365 days/year
             default -> null;
         };
@@ -236,13 +237,13 @@ public class ConversionServiceImpl implements ConversionService {
 
     private Double convertToMonths(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_DAY -> // days
+            case OpenCDXIKMService.UNIT_DAY -> // days
                     value / 30.0;
-            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+            case OpenCDXIKMService.UNIT_YEAR -> // years
                     value * 12.0;
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+            case OpenCDXIKMService.UNIT_SECONDS -> // seconds
                     value / 2592000; // 30 days/month * 24 hours/day * 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+            case OpenCDXIKMService.UNIT_HOUR -> // hours
                     value / 730; // 24 hours/day * 30 days/month
             default -> null;
         };
@@ -250,13 +251,13 @@ public class ConversionServiceImpl implements ConversionService {
 
     private Double convertToDays(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_MONTH -> // months
+            case OpenCDXIKMService.UNIT_MONTH -> // months
                     value * 30.0;
-            case OpenCDXIKMServiceImpl.UNIT_YEAR -> // years
+            case OpenCDXIKMService.UNIT_YEAR -> // years
                     value * 365.0;
-            case OpenCDXIKMServiceImpl.UNIT_SECONDS -> // seconds
+            case OpenCDXIKMService.UNIT_SECONDS -> // seconds
                     value / 86400; // 24 hours/day * 60 minutes/hour * 60 seconds/minute
-            case OpenCDXIKMServiceImpl.UNIT_HOUR -> // hours
+            case OpenCDXIKMService.UNIT_HOUR -> // hours
                     value / 24; // 24 hours/day
             default -> null;
         };
@@ -271,7 +272,7 @@ public class ConversionServiceImpl implements ConversionService {
      */
     private Double convertToKilograms(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS -> // pounds
+            case OpenCDXIKMService.UNIT_POUNDS -> // pounds
                     value / 2.20462;
             default -> null;
         };
@@ -286,7 +287,7 @@ public class ConversionServiceImpl implements ConversionService {
      */
     private Double convertToPounds(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_KILOGRAMS -> // Kilograms
+            case OpenCDXIKMService.UNIT_KILOGRAMS -> // Kilograms
                     value * 2.20462;
             default -> null;
         };
@@ -301,7 +302,7 @@ public class ConversionServiceImpl implements ConversionService {
      */
     private Double convertToMeters(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH -> // inches
+            case OpenCDXIKMService.UNIT_INCH -> // inches
                     value / 39.3701;
             default -> null;
         };
@@ -316,7 +317,7 @@ public class ConversionServiceImpl implements ConversionService {
      */
     private Double convertToInches(UUID unit, Double value) {
         return switch (unit.toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_METER -> // meters
+            case OpenCDXIKMService.UNIT_METER -> // meters
                     value * 39.3701;
             default -> null;
         };

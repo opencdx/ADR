@@ -1,12 +1,20 @@
 package cdx.opencdx.adr.config;
 
+import cdx.opencdx.adr.repository.TinkarConceptRepository;
+import cdx.opencdx.adr.service.IKMInterface;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
+import cdx.opencdx.adr.service.impl.IKMInterfaceImpl;
 import cdx.opencdx.adr.service.impl.LogicalExpressionProcessor;
+import cdx.opencdx.adr.service.impl.MapInterfaceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import dev.ikm.tinkar.common.id.PublicId;
 import io.swagger.v3.core.jackson.ModelResolver;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -26,6 +34,29 @@ import java.util.List;
 @Configuration
 public class AppConfig {
 
+    /**
+     * IKM Interface
+     * @param pathParent Parent path
+     * @param pathChild Child path
+     * @return IKM Interface
+     */
+    @Bean
+    @Primary
+    @Description("IKM Interface")
+    @ConditionalOnProperty(name = "data.ikm.enabled", havingValue = "true")
+    public IKMInterface ikmInterface(@Value("${data.path.parent}") String pathParent,
+                                     @Value("${data.path.child}") String pathChild){
+        log.info("Creating IKM Interface");
+        return new IKMInterfaceImpl(pathParent, pathChild);
+    }
+
+    @Bean
+    @Description("Mocked IKM Interface")
+    @ConditionalOnMissingBean(IKMInterface.class)
+    public IKMInterface mockedIKMInterface(TinkarConceptRepository conceptRepository){
+        log.info("Creating Mocked IKM Interface");
+        return new MapInterfaceImpl(conceptRepository);
+    }
     /**
      * Jackson ObjectMapper with all required registered modules.
      *

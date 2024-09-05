@@ -40,6 +40,14 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    
+    //TINKAR
+    implementation "dev.ikm.tinkar:entity:1.49.0"
+    implementation "dev.ikm.tinkar:entity-provider:1.49.0"
+    implementation "dev.ikm.tinkar:common:1.49.0"
+    implementation "dev.ikm.tinkar:coordinate:1.49.0"
+    implementation "dev.ikm.tinkar:data-spinedarray-provider:1.49.0"
+    implementation "dev.ikm.tinkar:executor-provider:1.49.0"
 
 }
 
