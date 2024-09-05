@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebMvc
-@EnableScheduling
 @ComponentScan(basePackages = {"cdx.opencdx"})
 @SpringBootApplication
 public class Application implements WebMvcConfigurer {

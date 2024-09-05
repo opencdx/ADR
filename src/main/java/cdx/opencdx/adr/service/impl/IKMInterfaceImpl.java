@@ -5,7 +5,6 @@ import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.service.*;
 import dev.ikm.tinkar.provider.search.Searcher;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.File;
 import java.util.List;
@@ -17,8 +16,7 @@ import java.util.function.LongConsumer;
  */
 @Slf4j
 public class IKMInterfaceImpl implements IKMInterface {
-    private final String pathParent;
-    private final String pathChild;
+
 
     /**
      * Constructs an instance of IKMInterfaceImpl with the specified pathParent and pathChild.
@@ -27,12 +25,6 @@ public class IKMInterfaceImpl implements IKMInterface {
      * @param pathChild the child path
      */
     public IKMInterfaceImpl(String pathParent, String pathChild) {
-        this.pathParent = pathParent;
-        this.pathChild = pathChild;
-    }
-
-    @Scheduled(initialDelay = 120000, fixedDelay = Long.MAX_VALUE)
-    public void init() {
         log.info("Creating IKM Interface: pathParent={}, pathChild={}", pathParent, pathChild);
         if (!PrimitiveData.running()) {
             log.info("Initializing Primitive Data");
