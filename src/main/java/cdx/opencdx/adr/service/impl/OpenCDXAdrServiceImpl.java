@@ -25,6 +25,7 @@ import cdx.opencdx.adr.repository.SavedQueryRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
+import cdx.opencdx.adr.service.OpenCDXIKMService;
 import cdx.opencdx.adr.service.QueryService;
 import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.grpc.data.ANFStatement;
@@ -135,15 +136,18 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
         this.openCDXANFProcessors.forEach(processor -> log.info("Processor: {}", processor.getClass().getName()));
 
-        this.blockConcepts.add(UUID.fromString("9a6877c0-04b7-4d5d-9766-8695192790d4")); // day
-        this.blockConcepts.add(UUID.fromString("01759586-062f-455f-a0c4-23904464b5f4")); // inch
-        this.blockConcepts.add(UUID.fromString("20e0e0e0-70a1-4161-b7a4-e7725f5f583e")); // kilogram
-        this.blockConcepts.add(UUID.fromString("757702f5-2516-4d25-ab74-4a226806857f")); // meter
-        this.blockConcepts.add(UUID.fromString("3a44167a-e94a-4962-8d2e-d94e57475732")); // month
-        this.blockConcepts.add(UUID.fromString("98999a1c-11b1-4777-a9b6-3b25482676c4")); // pounds
-        this.blockConcepts.add(UUID.fromString("d9036e1e-3397-4f00-a40a-021626644970")); // year
-        this.blockConcepts.add(UUID.fromString("b66571ca-bba7-4a5a-a90f-2ef9f0c33a56")); // seconds
-        this.blockConcepts.add(UUID.fromString("b5ba88ba-22d5-37fe-a9a1-b82c377e0212")); // Unit of Calendar Time
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_DAY)); // day
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_INCH)); // inch
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_KILOGRAMS)); // kilogram
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_METER)); // meter
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_MONTH)); // month
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_POUNDS)); // pounds
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_YEAR)); // year
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_SECONDS)); // seconds
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_CALENDAR_TIME)); // Unit of Calendar Time
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_DATE)); // Unit of Calendar Time
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_HOUR)); // Unit of Calendar Time
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_MINUTE)); // Unit of Calendar Time
 
     }
 
