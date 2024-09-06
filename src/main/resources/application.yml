@@ -28,7 +28,9 @@ springdoc:
     path: /swagger-ui.html
   api-docs.path: /api-docs
 
-  data:
-    path:
-      parent: /data
-      child: solor-us-tinkar.sa
+data:
+  ikm:
+    enabled: false
+  path:
+    parent: /data
+    child: solor-us-tinkar.sa

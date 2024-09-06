@@ -43,7 +43,7 @@ public class AppConfig {
     @Bean
     @Primary
     @Description("IKM Interface")
-    @ConditionalOnProperty(name = "data.ikm.enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "data.ikm", name ="enabled", havingValue = "true")
     public IKMInterface ikmInterface(@Value("${data.path.parent}") String pathParent,
                                      @Value("${data.path.child}") String pathChild){
         log.info("Creating IKM Interface");

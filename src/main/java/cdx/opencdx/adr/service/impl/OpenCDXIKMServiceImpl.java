@@ -6,6 +6,7 @@ import cdx.opencdx.adr.service.IKMInterface;
 import cdx.opencdx.adr.service.OpenCDXIKMService;
 import cdx.opencdx.grpc.data.LogicalExpression;
 import dev.ikm.tinkar.common.id.PublicId;
+import dev.ikm.tinkar.common.id.PublicIds;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +64,12 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             result = new TinkarConceptModel();
             result.setConceptDescription(logicalExpression.getExpression());
 
-            PublicId publicId = this.ikmInterface.getPublicId(logicalExpression.getExpression());
+            PublicId publicId;
+            if(conceptId != null) {
+                publicId = PublicIds.of(conceptId);
+            } else {
+                publicId = this.ikmInterface.getPublicId(logicalExpression.getExpression());
+            }
             if(publicId != null) {
                 result.setConceptId(publicId.asUuidArray()[0]);
                 List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));
@@ -74,10 +80,14 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
                 }
 
             } else {
-                log.warn("Concept not found: {}", logicalExpression.getExpression());
-                result.setConceptId(UUID.randomUUID());
+                if(conceptId != null) {
+                    result.setConceptId(conceptId);
+                } else {
+                    result.setConceptId(UUID.randomUUID());
+                }
                 result.setConceptName(logicalExpression.getExpression());
                 result.setConceptDescription(logicalExpression.getExpression());
+                log.warn("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(),result.getConceptId());
             }
             result = conceptRepository.save(result);
         }

@@ -4,26 +4,43 @@ import cdx.opencdx.adr.service.IKMInterface;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.service.*;
 import dev.ikm.tinkar.provider.search.Searcher;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.LongConsumer;
-
+/**
+ * Implementation class for IKMInterface.
+ * Provides various methods to retrieve information from a data store.
+ */
+@Slf4j
 public class IKMInterfaceImpl implements IKMInterface {
 
+
+    /**
+     * Constructs an instance of IKMInterfaceImpl with the specified pathParent and pathChild.
+     *
+     * @param pathParent the parent path
+     * @param pathChild the child path
+     */
     public IKMInterfaceImpl(String pathParent, String pathChild) {
+        log.info("Creating IKM Interface: pathParent={}, pathChild={}", pathParent, pathChild);
         if (!PrimitiveData.running()) {
+            log.info("Initializing Primitive Data");
             CachingService.clearAll();
+            log.info("Cleared all caches");
             ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
+            log.info("Set data store root");
             PrimitiveData.selectControllerByName(ARRAY_STORE_TO_OPEN);
+            log.info("Selected controller by name");
             PrimitiveData.start();
+            log.info("Primitive data started");
         }
     }
 
     /**
-     * The name of the array store that should be opened.
-     * This variable is a constant of type String and it is private and static.
+     * The name of the controller used to open SpinedArrayStore.
      */
     private static final String ARRAY_STORE_TO_OPEN = "Open SpinedArrayStore";
 
@@ -41,8 +58,8 @@ public class IKMInterfaceImpl implements IKMInterface {
     /**
      * Returns a list of child PublicIds of the given parent PublicId.
      *
-     * @param parentConceptId The parent PublicId.
-     * @return A list of child PublicIds.
+     * @param parentConceptId the parent PublicId
+     * @return a list of child PublicIds
      */
     @Override
     public List<PublicId> childrenOf(PublicId parentConceptId) {
@@ -52,8 +69,8 @@ public class IKMInterfaceImpl implements IKMInterface {
     /**
      * Retrieves a list of Lidr record semantics from a test kit with the given testKitConceptId.
      *
-     * @param testKitConceptId the concept Id of the test kit
-     * @return a list of PublicIds representing the Lidr record semantics
+     * @param testKitConceptId The concept ID of the test kit.
+     * @return A list of PublicIds representing the Lidr record semantics.
      */
     @Override
     public List<PublicId> getLidrRecordSemanticsFromTestKit(PublicId testKitConceptId) {
