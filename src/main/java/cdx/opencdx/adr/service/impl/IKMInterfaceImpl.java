@@ -54,8 +54,8 @@ public class IKMInterfaceImpl implements IKMInterface {
             log.info("Primitive data started");
         }
 
-        addConceptIfMissing("ec55b876-1200-4470-abbc-878a3fa57bfb","Covid-19 Positive","Covid-19 Positive");
-        addConceptIfMissing("e2e79d53-7a29-4f64-9322-5065eec84985","Covid-19 Test Kits","Covid-19 Test Kits");
+        addConceptIfMissing("ec55b876-1200-4470-abbc-878a3fa57bfb","Covid-19 Positive (Lookup)","Covid-19 Positive (Lookup)");
+        addConceptIfMissing("e2e79d53-7a29-4f64-9322-5065eec84985","Covid-19 Test Kits (Lookup)","Covid-19 Test Kits (Lookup)");
         addConceptIfMissing("0b44d8e9-2aff-4f00-965c-9d7d42226d57","Body Mass Index (Lookup)","Body Mass Index (Lookup)");
 
         getRangeForValueConstraintSemantic();
