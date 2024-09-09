@@ -1,5 +1,7 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.IKMInterface;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.service.*;
@@ -25,14 +27,20 @@ import java.util.function.LongConsumer;
 @Slf4j
 public class IKMInterfaceImpl implements IKMInterface {
 
+    /**
+     * A private final variable conceptModelMap is declared as a Map, mapping strings to TinkarConceptModel objects.
+     */
 
+    private final TinkarConceptRepository conceptRepository;
     /**
      * Constructs an instance of IKMInterfaceImpl with the specified pathParent and pathChild.
      *
      * @param pathParent the parent path
      * @param pathChild the child path
+     *                  @param conceptRepository the concept repository
      */
-    public IKMInterfaceImpl(String pathParent, String pathChild) {
+    public IKMInterfaceImpl(String pathParent, String pathChild, TinkarConceptRepository conceptRepository) {
+        this.conceptRepository = conceptRepository;
         log.info("Creating IKM Interface: pathParent={}, pathChild={}", pathParent, pathChild);
         if (!PrimitiveData.running()) {
             log.info("Initializing Primitive Data");
@@ -45,6 +53,11 @@ public class IKMInterfaceImpl implements IKMInterface {
             PrimitiveData.start();
             log.info("Primitive data started");
         }
+
+        addConceptIfMissing("ec55b876-1200-4470-abbc-878a3fa57bfb","Covid-19 Positive","Covid-19 Positive");
+        addConceptIfMissing("e2e79d53-7a29-4f64-9322-5065eec84985","Covid-19 Test Kits","Covid-19 Test Kits");
+        addConceptIfMissing("0b44d8e9-2aff-4f00-965c-9d7d42226d57","Body Mass Index (Lookup)","Body Mass Index (Lookup)");
+
         getRangeForValueConstraintSemantic();
     }
 
@@ -195,5 +208,12 @@ public class IKMInterfaceImpl implements IKMInterface {
 
             }
         };
+    }
+
+    private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {
+        UUID concept = UUID.fromString(conceptId);
+        if (!this.conceptRepository.existsByConceptId(concept)) {
+            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription));
+        }
     }
 }
