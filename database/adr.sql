@@ -116,10 +116,16 @@ CREATE TABLE UnionANFStatement_TinkarConcept (
                                                  PRIMARY KEY (anf_statement_id, concept_id)
 );
 
-CREATE TABLE UnionPerformanceCircumstance_Purpose (
+CREATE TABLE UnionPerformanceCircumstance_Purpose
+(
+                                                performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance (id),
+                                                purpose_id                  BIGINT REFERENCES DimTinkarConcept (id),
+                                                PRIMARY KEY (performance_circumstance_id, purpose_id)
+);
+CREATE TABLE PerformanceCircumstance_DeviceId (
                                                  performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),
-                                                 purpose_id BIGINT REFERENCES DimTinkarConcept(id),
-                                                 PRIMARY KEY (performance_circumstance_id, purpose_id)
+                                                 deviceId BIGINT REFERENCES DimTinkarConcept(id),
+                                                 PRIMARY KEY (performance_circumstance_id, deviceId)
 );
 CREATE TABLE UnionPerformanceCircumstance_Participant (
                                                      performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),
@@ -159,11 +165,6 @@ CREATE TABLE UnionANFStatement_AssociatedStatement (
                                                   PRIMARY KEY (anf_statement_id, associated_statement_id)
 );
 
-CREATE TABLE PerformanceCircumstance_DeviceId (
-                                                  performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id),
-                                                  deviceId TEXT,
-                                                  PRIMARY KEY (performance_circumstance_id, deviceId)
-);
 
 CREATE TABLE RequestCircumstance_DeviceId (
                                               request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),

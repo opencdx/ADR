@@ -63,4 +63,11 @@ public interface IKMInterface {
      * @return The PublicId of the given concept.
      */
     PublicId getPublicId(String concept);
+
+    /**
+     * Retrieves the concept for a given PublicId.
+     * @param device The device for which to retrieve the PublicId.
+     * @return The PublicId of the given device.
+     */
+    PublicId getPublicIdForDevice(String device);
 }

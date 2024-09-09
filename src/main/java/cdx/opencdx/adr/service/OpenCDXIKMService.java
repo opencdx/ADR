@@ -28,5 +28,13 @@ public interface OpenCDXIKMService {
      */
     TinkarConceptModel getInkarConceptModel(LogicalExpression logicalExpression);
 
+    /**
+     * Retrieves the TinkarConceptModel associated with the given device ID.
+     *
+     * @param deviceId The device ID for which to retrieve the TinkarConceptModel.
+     * @return The TinkarConceptModel associated with the given device ID.
+     */
+    TinkarConceptModel getInkarConceptModelForDevice(String deviceId);
+
 
 }

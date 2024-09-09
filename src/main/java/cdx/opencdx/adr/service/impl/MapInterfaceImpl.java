@@ -119,6 +119,11 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing(OpenCDXIKMService.UNIT_DATE, "date", "410672004 | Date property (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_CALENDAR_TIME, "calendar time", "Unit of calendar time");
 
+        addConceptIfMissing("f7c234c5-69d5-3764-ae83-ad2517e8e120", "Test Kit A", "00000123456789");
+        addConceptIfMissing("4c99a870-6f84-4eb9-b226-1cf964c6b19f", "Test Kit B", "99999123456789");
+        addConceptIfMissing("9dd5e472-2363-4743-a56f-49c700f9fbfd", "Test Kit C", "00000987654321");
+        addConceptIfMissing("024f4556-8834-4add-84c6-eccbd17194ea", "Test Kit D", "99999987654321");
+
     }
 
     /**
@@ -211,6 +216,17 @@ public class MapInterfaceImpl implements IKMInterface {
 
             }
         };
+    }
+
+    /**
+     * Retrieves the concept for a given PublicId.
+     *
+     * @param device The device for which to retrieve the PublicId.
+     * @return The PublicId of the given device.
+     */
+    @Override
+    public PublicId getPublicIdForDevice(String device) {
+        return this.getPublicId(device);
     }
 
     private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {
