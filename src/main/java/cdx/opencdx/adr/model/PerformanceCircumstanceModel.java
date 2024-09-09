@@ -138,10 +138,10 @@ public class PerformanceCircumstanceModel {
      */
     @ElementCollection  // For the list of deviceIds
     @CollectionTable(
-            name = "performanceCircumstance_DeviceId",
+            name = "performancecircumstance_deviceid",
             joinColumns = @JoinColumn(name = "performance_circumstance_id")
     )
-    @Column(name = "deviceId")
+    @Column(name = "deviceid")
     private List<String> deviceIds;
 
     /**
