@@ -1,12 +1,22 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.IKMInterface;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.service.*;
+import dev.ikm.tinkar.coordinate.Calculators;
+import dev.ikm.tinkar.coordinate.stamp.calculator.Latest;
+import dev.ikm.tinkar.coordinate.stamp.calculator.StampCalculatorWithCache;
+import dev.ikm.tinkar.entity.PatternEntityVersion;
+import dev.ikm.tinkar.entity.SemanticEntityVersion;
 import dev.ikm.tinkar.provider.search.Searcher;
+import dev.ikm.tinkar.terms.EntityProxy;
+import dev.ikm.tinkar.terms.TinkarTerm;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.LongConsumer;
@@ -17,14 +27,20 @@ import java.util.function.LongConsumer;
 @Slf4j
 public class IKMInterfaceImpl implements IKMInterface {
 
+    /**
+     * A private final variable conceptModelMap is declared as a Map, mapping strings to TinkarConceptModel objects.
+     */
 
+    private final TinkarConceptRepository conceptRepository;
     /**
      * Constructs an instance of IKMInterfaceImpl with the specified pathParent and pathChild.
      *
      * @param pathParent the parent path
      * @param pathChild the child path
+     *                  @param conceptRepository the concept repository
      */
-    public IKMInterfaceImpl(String pathParent, String pathChild) {
+    public IKMInterfaceImpl(String pathParent, String pathChild, TinkarConceptRepository conceptRepository) {
+        this.conceptRepository = conceptRepository;
         log.info("Creating IKM Interface: pathParent={}, pathChild={}", pathParent, pathChild);
         if (!PrimitiveData.running()) {
             log.info("Initializing Primitive Data");
@@ -37,6 +53,38 @@ public class IKMInterfaceImpl implements IKMInterface {
             PrimitiveData.start();
             log.info("Primitive data started");
         }
+
+        addConceptIfMissing("ec55b876-1200-4470-abbc-878a3fa57bfb","Presence of COVID","Presence of COVID");
+        addConceptIfMissing("e2e79d53-7a29-4f64-9322-5065eec84985","Covid-19 Test Kits (Lookup)","Covid-19 Test Kits (Lookup)");
+        addConceptIfMissing("0b44d8e9-2aff-4f00-965c-9d7d42226d57","Body Mass Index (Lookup)","Body Mass Index (Lookup)");
+
+        getRangeForValueConstraintSemantic();
+    }
+
+    public void getRangeForValueConstraintSemantic() {
+        log.info("Getting range for value constraint semantic");
+        EntityProxy.Pattern valueConstraintPattern = TinkarTerm.VALUE_CONSTRAINT_PATTERN;
+        StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
+        List<SemanticEntityVersion> latestSemanticList = new ArrayList<>();
+
+        PrimitiveData.get().forEachSemanticNidOfPattern(valueConstraintPattern.nid(), (valueConstraintSemanticNid) -> {
+            Latest<SemanticEntityVersion> latestValueConstraintSemanticVersion = stampCalc.latest(valueConstraintSemanticNid);
+            latestSemanticList.add(latestValueConstraintSemanticVersion.get());
+            log.info("latestValueConstraintSemanticVersion: {}", latestValueConstraintSemanticVersion.get().publicId());
+        });
+
+        Latest<PatternEntityVersion> latestPatternVersion = stampCalc.latest(valueConstraintPattern);
+
+        latestSemanticList.forEach(valueConstraintSemantic -> {
+            EntityProxy.Concept minOperator = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.MINIMUM_VALUE_OPERATOR, valueConstraintSemantic);
+            float refRangeMin = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.REFERENCE_RANGE_MINIMUM, valueConstraintSemantic);
+
+            EntityProxy.Concept maxOperator = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.MAXIMUM_VALUE_OPERATOR, valueConstraintSemantic);
+            float refRangeMax = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.REFERENCE_RANGE_MAXIMUM, valueConstraintSemantic);
+
+            log.info("PublicID: {}, minOperator: {}, refRangeMin: {}, maxOperator: {}, refRangeMax: {}", valueConstraintSemantic.publicId(), minOperator, refRangeMin, maxOperator, refRangeMax);
+        });
+        log.info("Got range for value constraint semantic");
     }
 
     /**
@@ -53,6 +101,27 @@ public class IKMInterfaceImpl implements IKMInterface {
     @Override
     public List<PublicId> descendantsOf(PublicId parentConceptId) {
         return Searcher.descendantsOf(parentConceptId);
+    }
+
+    /**
+     * Determines the list of PublicId objects to which the given member belongs.
+     *
+     * @param member the PublicId object whose group memberships are to be found
+     * @return a list of PublicId objects representing the groups to which the specified member belongs
+     */
+    @Override
+    public List<PublicId> memberOf(PublicId member) {
+        ArrayList<PublicId> memberOfList = new ArrayList<>();
+
+        EntityProxy.Pattern valueConstraintPattern = TinkarTerm.VALUE_CONSTRAINT_PATTERN;
+        StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
+
+        PrimitiveData.get().forEachSemanticNidOfPattern(valueConstraintPattern.nid(), (valueConstraintSemanticNid) -> {
+            Latest<SemanticEntityVersion> latestValueConstraintSemanticVersion = stampCalc.latest(valueConstraintSemanticNid);
+            memberOfList.add(latestValueConstraintSemanticVersion.get().publicId());
+        });
+
+        return memberOfList;
     }
 
     /**
@@ -134,5 +203,38 @@ public class IKMInterfaceImpl implements IKMInterface {
 
             }
         };
+    }
+
+    /**
+     * Retrieves the concept for a given PublicId.
+     *
+     * @param device The device for which to retrieve the PublicId.
+     * @return The PublicId of the given device.
+     */
+    @Override
+    public PublicId getPublicIdForDevice(String device) {
+        return new PublicId() {
+            @Override
+            public UUID[] asUuidArray() {
+                return new UUID[]{UUID.randomUUID()};
+            }
+
+            @Override
+            public int uuidCount() {
+                return 1;
+            }
+
+            @Override
+            public void forEach(LongConsumer longConsumer) {
+
+            }
+        };
+    }
+
+    private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {
+        UUID concept = UUID.fromString(conceptId);
+        if (!this.conceptRepository.existsByConceptId(concept)) {
+            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription));
+        }
     }
 }

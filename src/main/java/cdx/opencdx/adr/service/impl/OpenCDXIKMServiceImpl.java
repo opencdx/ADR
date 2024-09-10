@@ -95,6 +95,39 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         return result;
     }
 
+    @Override
+    public TinkarConceptModel getInkarConceptModelForDevice(String deviceId) {
+        TinkarConceptModel result = conceptRepository.findByConceptDescription(deviceId);
+
+        if(result == null) {
+
+            result = new TinkarConceptModel();
+            result.setConceptDescription(deviceId);
+
+            PublicId publicId = this.ikmInterface.getPublicIdForDevice(deviceId);
+
+            if(publicId != null) {
+                result.setConceptId(publicId.asUuidArray()[0]);
+                List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));
+                if(descriptions != null && !descriptions.isEmpty()) {
+                    result.setConceptName(descriptions.getFirst());
+                } else {
+                    result.setConceptName(deviceId);
+                }
+
+            } else {
+               result.setConceptId(UUID.randomUUID());
+
+                result.setConceptName(deviceId);
+                result.setConceptDescription(deviceId);
+                log.warn("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(),result.getConceptId());
+            }
+            result = conceptRepository.save(result);
+        }
+
+        return result;
+    }
+
     private UUID testAndConvert(String string) {
         // Regular expression pattern for UUID
         Pattern uuidPattern = Pattern.compile(
