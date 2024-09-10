@@ -187,7 +187,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
 
     @Override
-    publiic Lst<String> streamQuery(ADRQuery adrQuery) {
+    public List<String> streamQuery(ADRQuery adrQuery) {
         return this.queryService.processQuery(adrQuery);
     }
 
