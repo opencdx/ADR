@@ -563,7 +563,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;${ageUnit)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ageUnit}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -664,7 +664,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;${ageUnit)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ageUnit}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
@@ -765,7 +765,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
        &quot;includeUpperBound&quot; : true,&#xd;
        &quot;includeLowerBound&quot; : true,&#xd;
        &quot;semantic&quot; : {&#xd;
-         &quot;expression&quot; : &quot;${ageUnit)&quot;&#xd;
+         &quot;expression&quot; : &quot;${ageUnit}&quot;&#xd;
        },&#xd;
        &quot;resolution&quot; : 1.0&#xd;
      },&#xd;
