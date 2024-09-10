@@ -247,6 +247,7 @@ public class MapInterfaceImpl implements IKMInterface {
 
     private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {
         UUID concept = UUID.fromString(conceptId);
+
         if (!this.conceptRepository.existsByConceptId(concept)) {
             this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription));
         }

@@ -174,7 +174,9 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     public List<TinkarConceptModel> getQueryableData() {
         //return this.conceptRepository.findAll() sorted by conceptName
         return this.conceptRepository.findAll().stream()
-                .filter(concept -> !this.blockConcepts.contains(concept.getConceptId())).sorted(Comparator.comparing(TinkarConceptModel::getConceptName)).toList();
+                .filter(concept -> !this.blockConcepts.contains(concept.getConceptId()))
+                .filter(concept -> concept.getConceptName() != null && !concept.getConceptName().isEmpty())
+                .sorted(Comparator.comparing(TinkarConceptModel::getConceptName)).toList();
     }
 
     @Override
@@ -185,7 +187,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
 
     @Override
-    public List<String> streamQuery(ADRQuery adrQuery) {
+    publiic Lst<String> streamQuery(ADRQuery adrQuery) {
         return this.queryService.processQuery(adrQuery);
     }
 
