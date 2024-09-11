@@ -51,12 +51,13 @@ public class ConceptServiceImpl implements ConceptService {
                 children.add(conceptModel.getConceptId());
                 yield children;
             }
+            case MEMBER -> this.ikmInterface.memberOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
+
             //TODO: Implement
             case ANCESTORS -> List.of(UUID.randomUUID());
             case ANCESTORS_OR_SELF -> List.of(UUID.randomUUID(),conceptModel.getConceptId());
             case PARENT -> List.of(UUID.randomUUID());
             case PARENT_OR_SELF -> List.of(UUID.randomUUID(),conceptModel.getConceptId());
-            case MEMBER -> List.of(UUID.randomUUID(),conceptModel.getConceptId());
         };
     }
 }

@@ -16,6 +16,14 @@ public interface IKMInterface {
      */
     List<PublicId> descendantsOf(PublicId parentConceptId);
 
+
+    /**
+     * Returns a list of PublicIds that the given member belongs to.
+     *
+     * @param member The PublicId of the member.
+     * @return A list of PublicIds that the member belongs to.
+     */
+    List<PublicId> memberOf(PublicId member);
     /**
      * Returns a list of child PublicIds of the given parent PublicId.
      *
@@ -63,4 +71,11 @@ public interface IKMInterface {
      * @return The PublicId of the given concept.
      */
     PublicId getPublicId(String concept);
+
+    /**
+     * Retrieves the concept for a given PublicId.
+     * @param device The device for which to retrieve the PublicId.
+     * @return The PublicId of the given device.
+     */
+    PublicId getPublicIdForDevice(String device);
 }

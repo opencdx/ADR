@@ -136,13 +136,12 @@ public class PerformanceCircumstanceModel {
      * <p>
      * Note: The above example code is for illustration purposes only and may not represent the actual usage of the variable.
      */
-    @ElementCollection  // For the list of deviceIds
-    @CollectionTable(
+    @ManyToMany
+    @JoinTable(
             name = "performancecircumstance_deviceid",
-            joinColumns = @JoinColumn(name = "performance_circumstance_id")
-    )
-    @Column(name = "deviceid")
-    private List<String> deviceIds;
+            joinColumns = @JoinColumn(name = "performance_circumstance_id"),
+            inverseJoinColumns = @JoinColumn(name = "deviceid"))
+    private List<TinkarConceptModel> deviceIds;
 
     /**
      * The participants variable represents a list of ParticipantModel objects.
@@ -228,6 +227,6 @@ public class PerformanceCircumstanceModel {
         this.participants = circumstance.getParticipantList().stream().map(participant -> anfRepo.getParticipantRepository().save(new ParticipantModel(participant, anfRepo))).toList();
         this.purposes = circumstance.getPurposeList().stream().map(purpose -> anfRepo.getOpenCDXIKMService().getInkarConceptModel(purpose)).toList();
 
-        this.deviceIds = circumstance.getDeviceIdList();
+        this.deviceIds = circumstance.getDeviceIdList().stream().map(purpose -> anfRepo.getOpenCDXIKMService().getInkarConceptModelForDevice(purpose)).toList();
     }
 }

@@ -45,9 +45,10 @@ public class AppConfig {
     @Description("IKM Interface")
     @ConditionalOnProperty(prefix = "data.ikm", name ="enabled", havingValue = "true")
     public IKMInterface ikmInterface(@Value("${data.path.parent}") String pathParent,
-                                     @Value("${data.path.child}") String pathChild){
+                                     @Value("${data.path.child}") String pathChild,
+                                     TinkarConceptRepository conceptRepository){
         log.info("Creating IKM Interface");
-        return new IKMInterfaceImpl(pathParent, pathChild);
+        return new IKMInterfaceImpl(pathParent, pathChild, conceptRepository);
     }
 
     @Bean
