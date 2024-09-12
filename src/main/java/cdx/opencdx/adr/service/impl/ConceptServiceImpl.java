@@ -36,7 +36,7 @@ public class ConceptServiceImpl implements ConceptService {
     @Override
     public List<UUID> getFocusConcepts(TinkarConceptModel conceptModel) {
 
-        log.info("Retrieving focus concepts {} for concept model: {}", conceptModel.getFocus(), conceptModel.getConceptId());
+        log.debug("Retrieving focus concepts {} for concept model: {}", conceptModel.getFocus(), conceptModel.getConceptId());
         return switch (conceptModel.getFocus()) {
             case SELF, DATE -> List.of(conceptModel.getConceptId());
             case DESCENDANTS -> this.ikmInterface.descendantsOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();

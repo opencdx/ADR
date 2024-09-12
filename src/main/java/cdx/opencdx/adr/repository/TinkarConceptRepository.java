@@ -45,4 +45,11 @@ public interface TinkarConceptRepository extends JpaRepository<TinkarConceptMode
      * @return A list of TinkarConceptModel objects corresponding to the conceptIds, or an empty list if none are found.
      */
     List<TinkarConceptModel> findAllByConceptIdIn(List<UUID> conceptIds);
+
+    /**
+     * Retrieves a list of TinkarConceptModel objects that are not in sync.
+     *
+     * @return A list of TinkarConceptModel objects that are not synced with IKM.
+     */
+    List<TinkarConceptModel> findAllBySyncFalse();
 }

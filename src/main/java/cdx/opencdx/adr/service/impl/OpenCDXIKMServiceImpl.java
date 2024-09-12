@@ -8,6 +8,7 @@ import cdx.opencdx.grpc.data.LogicalExpression;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,9 +74,11 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             if(publicId != null) {
                 result.setConceptId(publicId.asUuidArray()[0]);
                 List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));
-                if(descriptions != null && !descriptions.isEmpty()) {
+                if(descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
+                    result.setSync(true);
                     result.setConceptName(descriptions.getFirst());
                 } else {
+                    result.setSync(false);
                     result.setConceptName(logicalExpression.getExpression());
                 }
 
@@ -84,8 +87,9 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
                     result.setConceptId(conceptId);
                 } else {
                     result.setConceptId(UUID.randomUUID());
-                    log.info("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(),result.getConceptId());
+                    log.debug("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(),result.getConceptId());
                 }
+                result.setSync(false);
                 result.setConceptName(logicalExpression.getExpression());
                 result.setConceptDescription(logicalExpression.getExpression());
                 log.warn("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(),result.getConceptId());
@@ -110,15 +114,17 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             if(publicId != null) {
                 result.setConceptId(publicId.asUuidArray()[0]);
                 List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));
-                if(descriptions != null && !descriptions.isEmpty()) {
+                if(descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
                     result.setConceptName(descriptions.getFirst());
+                    result.setSync(true);
                 } else {
+                    result.setSync(false);
                     result.setConceptName(deviceId);
                 }
 
             } else {
                result.setConceptId(UUID.randomUUID());
-
+                result.setSync(false);
                 result.setConceptName(deviceId);
                 result.setConceptDescription(deviceId);
                 log.warn("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(),result.getConceptId());
@@ -146,5 +152,26 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             }
         }
         return null;
+    }
+
+    @Scheduled(cron = "0 */5 * * * *")
+    public void syncConcepts() {
+        List<TinkarConceptModel> requireSync = this.conceptRepository.findAllBySyncFalse();
+
+        requireSync.forEach(concept -> {
+            PublicId publicId = this.ikmInterface.getPublicId(concept.getConceptDescription());
+            if(publicId != null) {
+                concept.setConceptId(publicId.asUuidArray()[0]);
+                List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));
+                if(descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
+                    concept.setConceptName(descriptions.getFirst());
+                    concept.setSync(true);
+                } else {
+                    log.warn("Concept not found: \"{}\" assign to UUID: {}", concept.getConceptName(),concept.getConceptId());
+                    concept.setSync(false);
+                }
+                conceptRepository.save(concept);
+            }
+        });
     }
 }

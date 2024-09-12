@@ -43,15 +43,15 @@ public class IKMInterfaceImpl implements IKMInterface {
         this.conceptRepository = conceptRepository;
         log.info("Creating IKM Interface: pathParent={}, pathChild={}", pathParent, pathChild);
         if (!PrimitiveData.running()) {
-            log.info("Initializing Primitive Data");
+            log.debug("Initializing Primitive Data");
             CachingService.clearAll();
-            log.info("Cleared all caches");
+            log.debug("Cleared all caches");
             ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
-            log.info("Set data store root");
+            log.debug("Set data store root");
             PrimitiveData.selectControllerByName(ARRAY_STORE_TO_OPEN);
-            log.info("Selected controller by name");
+            log.debug("Selected controller by name");
             PrimitiveData.start();
-            log.info("Primitive data started");
+            log.debug("Primitive data started");
         }
 
         addConceptIfMissing("ec55b876-1200-4470-abbc-878a3fa57bfb","Presence of COVID","Presence of COVID");
@@ -234,7 +234,7 @@ public class IKMInterfaceImpl implements IKMInterface {
     private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {
         UUID concept = UUID.fromString(conceptId);
         if (!this.conceptRepository.existsByConceptId(concept)) {
-            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription));
+            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription,true));
         }
     }
 }

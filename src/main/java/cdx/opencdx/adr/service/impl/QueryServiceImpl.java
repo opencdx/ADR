@@ -136,7 +136,7 @@ public class QueryServiceImpl implements QueryService {
     private List<AnfStatementModel> getAnfStatementModels(Predicate predicate, CriteriaQuery<TinkarConceptModel> query) {
         query.where(predicate);
 
-        log.info("Executing query: {}", query);
+        log.debug("Executing query: {}", query);
 
         return entityManager.createQuery(query).getResultList().stream()
                 .map(TinkarConceptModel::getAnfStatements)
@@ -317,7 +317,7 @@ public class QueryServiceImpl implements QueryService {
         } else if(query.getFormula() != null) {
             simpleQueryResults = this.formulaService.evaluateFormula(query.getFormula());
         } else {
-            log.info("Returning Empty Query Results");
+            log.debug("Returning Empty Query Results");
             return Collections.emptyList();
         }
         return this.processOperational(query, simpleQueryResults);
@@ -331,19 +331,19 @@ public class QueryServiceImpl implements QueryService {
 
     private List<AnfStatementModel> processOperational(Query query, List<AnfStatementModel> simpleQueryResults) {
         if (query.getOperation() == null) {
-            log.info("Returning Simple Query Results: {}", simpleQueryResults.size());
+            log.debug("Returning Simple Query Results: {}", simpleQueryResults.size());
             return simpleQueryResults;
         }
-        log.info("Processing Operational Query Results: {} on Operation: {}", simpleQueryResults.size(),query.getOperation());
+        log.debug("Processing Operational Query Results: {} on Operation: {}", simpleQueryResults.size(),query.getOperation());
         return simpleQueryResults.stream().filter(anf -> {
             if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
-                log.info("Processing Performance Circumstance Operation Double: {}", query.getOperationDouble());
+                log.debug("Processing Performance Circumstance Operation Double: {}", query.getOperationDouble());
                 return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), checkDateFocus(query) ? anf.getPerformanceCircumstance().getTiming() : anf.getPerformanceCircumstance().getResult());
             } else if (anf.getRequestCircumstance() != null && anf.getRequestCircumstance().getRequestedResult() != null) {
-                log.info("Processing Request Circumstance Operation Double: {}", query.getOperationDouble());
+                log.debug("Processing Request Circumstance Operation Double: {}", query.getOperationDouble());
                 return this.check(query.getOperation(), query.getOperationDouble(), query.getOperationUnit(), checkDateFocus(query) ? anf.getRequestCircumstance().getTiming() : anf.getRequestCircumstance().getRequestedResult());
             } else if (anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
-                log.info("Processing Narrative Circumstance Operation Text: {}", query.getOperationText());
+                log.debug("Processing Narrative Circumstance Operation Text: {}", query.getOperationText());
                 return this.check(query.getOperation(), query.getOperationText(), query.getOperationUnit(), checkDateFocus(query) ? anf.getNarrativeCircumstance().getTiming() : anf.getNarrativeCircumstance().getText());
             }
             return false;

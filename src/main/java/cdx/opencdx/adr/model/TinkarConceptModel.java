@@ -43,6 +43,14 @@ public class TinkarConceptModel {
     private UUID conceptId;
 
     /**
+     * Boolean indicating if the concept has been synchronized with IKM
+     */
+    @Schema(description = "Boolean indicating if the concept has been synchronized with IKM")
+    @Column(name = "sync")
+    private boolean sync;
+
+
+    /**
      *
      */
     @Schema(description = "The name of the concept")
@@ -112,9 +120,10 @@ public class TinkarConceptModel {
      * @param conceptName        The name of the concept.
      * @param conceptDescription The description of the concept.
      */
-    public TinkarConceptModel(UUID conceptId, String conceptName, String conceptDescription) {
+    public TinkarConceptModel(UUID conceptId, String conceptName, String conceptDescription, Boolean sync) {
         this.conceptId = conceptId;
         this.conceptName = conceptName;
         this.conceptDescription = conceptDescription;
+        this.sync = sync;
     }
 }
