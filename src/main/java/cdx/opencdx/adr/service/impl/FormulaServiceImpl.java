@@ -63,11 +63,11 @@ public class FormulaServiceImpl implements FormulaService {
     }
 
     private AnfStatementModel applyFormula(Formula formula, UUID participantId) {
-        log.info("Applying formula {} for participant {}", formula.getName(), participantId);
+        log.debug("Applying formula {} for participant {}", formula.getName(), participantId);
         Double value = this.evaluateFormula(formula, participantId);
 
         if(value != null) {
-            log.info("Formula {} evaluated to {}", formula.getName(), value);
+            log.debug("Formula {} evaluated to {}", formula.getName(), value);
             CalculatedConcept temp = new CalculatedConcept();
             temp.setConceptName(formula.getName());
             temp.setParticipantId(participantId);
@@ -112,8 +112,8 @@ public class FormulaServiceImpl implements FormulaService {
         Double leftOperandValue = formula.getLeftOperandValue();
         Double rightOperandValue = formula.getRightOperandValue();
 
-        log.info("Evaluating formula {} for participant {}", formula.getName(), participantId);
-        log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
+        log.debug("Evaluating formula {} for participant {}", formula.getName(), participantId);
+        log.debug("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
 
         if(formula.getLeftOperandFormula() != null) {
             leftOperandValue = this.evaluateFormula(formula.getLeftOperandFormula(), participantId);
@@ -121,7 +121,7 @@ public class FormulaServiceImpl implements FormulaService {
             leftOperandValue = this.getMeasureValue(participantId, formula.getLeftOperand(), formula.getLeftOperandUnit().getConceptId());
         }
 
-        log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
+        log.debug("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
 
         if(formula.getRightOperandFormula() != null) {
             rightOperandValue = this.evaluateFormula(formula.getRightOperandFormula(), participantId);
@@ -129,7 +129,7 @@ public class FormulaServiceImpl implements FormulaService {
             rightOperandValue = this.getMeasureValue(participantId, formula.getRightOperand(), formula.getRightOperandUnit().getConceptId());
         }
 
-        log.info("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
+        log.debug("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
 
         if(leftOperandValue == null || rightOperandValue == null) {
             log.warn("Unable to evaluate formula {} for participant {}", formula.getName(), participantId);
@@ -157,22 +157,22 @@ public class FormulaServiceImpl implements FormulaService {
         }
 
         if (selected.get().getPerformanceCircumstance() != null && selected.get().getPerformanceCircumstance().getResult() != null) {
-            log.info("Performance circumstance found");
+            log.debug("Performance circumstance found");
             return this.conversionService.convert(unitId, ConceptFocus.DATE.equals(concept.getFocus()) ? selected.get().getPerformanceCircumstance().getTiming() : selected.get().getPerformanceCircumstance().getResult()).getUpperBound();
         } else if (selected.get().getRequestCircumstance() != null) {
-            log.info("Request circumstance found");
+            log.debug("Request circumstance found");
             return this.conversionService.convert(unitId, ConceptFocus.DATE.equals(concept.getFocus()) ? selected.get().getRequestCircumstance().getTiming() : selected.get().getRequestCircumstance().getRequestedResult()).getUpperBound();
         } else if(selected.get().getNarrativeCircumstance() != null && ConceptFocus.DATE.equals(concept.getFocus())) {
-            log.info("Narrative circumstance found");
+            log.debug("Narrative circumstance found");
             return this.conversionService.convert(unitId, selected.get().getRequestCircumstance().getTiming()).getUpperBound();
         }
-        log.info("No performance or request circumstance found");
+        log.debug("No performance or request circumstance found");
         return null;
     }
 
 
     private Double performCalculation(Double left, NumericalOperation operation, Double right) {
-        log.info("Performing calculation: {} {} {}", left, operation, right);
+        log.debug("Performing calculation: {} {} {}", left, operation, right);
         return switch (operation) {
             case ADD -> left + right;
             case SUBTRACT -> left - right;

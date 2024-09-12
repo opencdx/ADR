@@ -249,7 +249,7 @@ public class MapInterfaceImpl implements IKMInterface {
         UUID concept = UUID.fromString(conceptId);
 
         if (!this.conceptRepository.existsByConceptId(concept)) {
-            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription));
+            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription,true));
         }
     }
 }

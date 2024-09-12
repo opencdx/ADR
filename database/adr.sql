@@ -5,7 +5,8 @@ CREATE TABLE DimTinkarConcept (
                                   id BIGSERIAL PRIMARY KEY,  -- Unique identifier
                                   concept_id UUID,           -- External concept identifier (likely a UUID)
                                   concept_name TEXT,         -- Name of the concept
-                                  concept_description TEXT   -- Description of the concept
+                                  concept_description TEXT,  -- Description of the concept
+                                  sync BOOLEAN                -- Indicates if the concept is synchronized with an external source
 );
 
 -- Represents references (e.g., medical literature, guidelines)
