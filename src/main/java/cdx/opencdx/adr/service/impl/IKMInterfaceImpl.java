@@ -79,11 +79,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
 
 
     public void test() {
-
-        this.memberOf(this.getPublicId(OpenCDXIKMService.BMI_PATTERN));
-        this.memberOf(this.getPublicId(OpenCDXIKMService.COVID_PRESENCE));
         this.memberOf(this.getPublicId(OpenCDXIKMService.COVID_TEST_KITS));
-
     }
 
 
@@ -115,6 +111,22 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         log.info("Looking up Member ID: {}", member.asUuidArray()[0]);
         if (member.asUuidArray() != null && member.asUuidArray().length > 0 && member.asUuidArray()[0].equals(UUID.fromString(OpenCDXIKMService.COVID_TEST_KITS)) ) {
             log.info("Using Pattern Lookup");
+
+            StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
+            Latest<PatternEntityVersion> latestPatternVersion = stampCalc.latest(LIDR_RECORD_PATTERN);
+
+            if (PrimitiveData.get().hasPublicId(member)) {
+                EntityService.get().getEntity(member.asUuidArray()).ifPresent((lidrRecordEntity) -> {
+                    Latest<EntityVersion> latestLidrRecordVersion = stampCalc.latest(lidrRecordEntity);
+
+                    if (latestLidrRecordVersion.get() instanceof SemanticEntityVersion latestLidrRecordSemanticVersion) {
+                        IntIdSet targetNids = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.TARGET, latestLidrRecordSemanticVersion);
+                        targetNids.map(PrimitiveData::publicId).forEach(memberOfList::add);
+                    }
+                });
+            }
+
+
         } else if (PrimitiveData.get().hasPublicId(member)) {
             log.info("Using Member Lookup");
             EntityService.get().getEntity(member.asUuidArray()).ifPresent((entity) -> {
