@@ -102,7 +102,7 @@ public class QueryController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<SavedQuery>updateQuery(@RequestBody SavedQuery save) throws JsonProcessingException {
+    public ResponseEntity<SavedQuery> updateQuery(@RequestBody SavedQuery save) throws JsonProcessingException {
         log.info("Received save query request");
         return ResponseEntity.ok(adrService.updateQuery(save));
     }

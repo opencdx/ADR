@@ -23,7 +23,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * It extends the {@link JpaRepository} interface, providing basic CRUD operations.
  * The {@code RequestCircumstanceModel} class represents a request circumstance that includes various attributes such as timing, priority, requested result, repetition, conditional
  * trigger, and purposes.
- *
  */
 public interface RequestCircumstanceRepository extends JpaRepository<RequestCircumstanceModel, Long> {
 }

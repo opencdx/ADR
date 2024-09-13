@@ -38,7 +38,7 @@ public class FormulaServiceImpl implements FormulaService {
                 .stream().flatMap(concept -> concept.getAnfStatements().stream())
                 .map(anf -> anf.getSubjectOfRecord().getPartId())
                 .distinct()
-                .map(id -> this.applyFormula(formula,id))
+                .map(id -> this.applyFormula(formula, id))
                 .filter(Objects::nonNull)
                 .toList();
     }
@@ -46,16 +46,16 @@ public class FormulaServiceImpl implements FormulaService {
     private List<UUID> getConceptIds(Formula formula) {
         List<UUID> conceptIds = new ArrayList<>();
 
-        if(formula.getLeftOperand() != null) {
+        if (formula.getLeftOperand() != null) {
             conceptIds.addAll(this.conceptService.getFocusConcepts(formula.getLeftOperand()));
         }
-        if(formula.getRightOperand() != null) {
+        if (formula.getRightOperand() != null) {
             conceptIds.addAll(this.conceptService.getFocusConcepts(formula.getRightOperand()));
         }
-        if(formula.getLeftOperandFormula() != null) {
+        if (formula.getLeftOperandFormula() != null) {
             conceptIds.addAll(getConceptIds(formula.getLeftOperandFormula()));
         }
-        if(formula.getRightOperandFormula() != null) {
+        if (formula.getRightOperandFormula() != null) {
             conceptIds.addAll(getConceptIds(formula.getRightOperandFormula()));
         }
 
@@ -66,7 +66,7 @@ public class FormulaServiceImpl implements FormulaService {
         log.debug("Applying formula {} for participant {}", formula.getName(), participantId);
         Double value = this.evaluateFormula(formula, participantId);
 
-        if(value != null) {
+        if (value != null) {
             log.debug("Formula {} evaluated to {}", formula.getName(), value);
             CalculatedConcept temp = new CalculatedConcept();
             temp.setConceptName(formula.getName());
@@ -115,15 +115,15 @@ public class FormulaServiceImpl implements FormulaService {
         log.debug("Evaluating formula {} for participant {}", formula.getName(), participantId);
         log.debug("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
 
-        if(formula.getLeftOperandFormula() != null) {
+        if (formula.getLeftOperandFormula() != null) {
             leftOperandValue = this.evaluateFormula(formula.getLeftOperandFormula(), participantId);
-        } else if(formula.getLeftOperand() != null) {
+        } else if (formula.getLeftOperand() != null) {
             leftOperandValue = this.getMeasureValue(participantId, formula.getLeftOperand(), formula.getLeftOperandUnit().getConceptId());
         }
 
         log.debug("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
 
-        if(formula.getRightOperandFormula() != null) {
+        if (formula.getRightOperandFormula() != null) {
             rightOperandValue = this.evaluateFormula(formula.getRightOperandFormula(), participantId);
         } else if (formula.getRightOperand() != null) {
             rightOperandValue = this.getMeasureValue(participantId, formula.getRightOperand(), formula.getRightOperandUnit().getConceptId());
@@ -131,7 +131,7 @@ public class FormulaServiceImpl implements FormulaService {
 
         log.debug("Left operand value: {} Right operand value: {}", leftOperandValue, rightOperandValue);
 
-        if(leftOperandValue == null || rightOperandValue == null) {
+        if (leftOperandValue == null || rightOperandValue == null) {
             log.warn("Unable to evaluate formula {} for participant {}", formula.getName(), participantId);
             return null;
         }
@@ -144,14 +144,14 @@ public class FormulaServiceImpl implements FormulaService {
 
         List<TinkarConceptModel> concepts = this.tinkarConceptRepository.findAllByConceptIdIn(focusConcepts);
 
-        if(concepts.isEmpty()) {
+        if (concepts.isEmpty()) {
             log.warn("Concept {} not found", concept.getConceptId());
             return null;
         }
 
         Optional<AnfStatementModel> selected = concepts.stream().map(TinkarConceptModel::getAnfStatements).flatMap(List::stream).filter(anf -> anf.getSubjectOfRecord().getPartId().equals(participantId)).min((anf1, anf2) -> anf2.getTime().getUpperBound().compareTo(anf1.getTime().getUpperBound()));
 
-        if(selected.isEmpty()) {
+        if (selected.isEmpty()) {
             log.warn("Participant {} not found in concept {}", participantId, concept.getConceptId());
             return null;
         }
@@ -162,7 +162,7 @@ public class FormulaServiceImpl implements FormulaService {
         } else if (selected.get().getRequestCircumstance() != null) {
             log.debug("Request circumstance found");
             return this.conversionService.convert(unitId, ConceptFocus.DATE.equals(concept.getFocus()) ? selected.get().getRequestCircumstance().getTiming() : selected.get().getRequestCircumstance().getRequestedResult()).getUpperBound();
-        } else if(selected.get().getNarrativeCircumstance() != null && ConceptFocus.DATE.equals(concept.getFocus())) {
+        } else if (selected.get().getNarrativeCircumstance() != null && ConceptFocus.DATE.equals(concept.getFocus())) {
             log.debug("Narrative circumstance found");
             return this.conversionService.convert(unitId, selected.get().getRequestCircumstance().getTiming()).getUpperBound();
         }

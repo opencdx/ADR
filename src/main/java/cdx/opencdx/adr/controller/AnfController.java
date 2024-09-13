@@ -1,7 +1,7 @@
 package cdx.opencdx.adr.controller;
 
 import cdx.opencdx.adr.service.OpenCDXAdrService;
-import cdx.opencdx.grpc.data.*;
+import cdx.opencdx.grpc.data.ANFStatement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

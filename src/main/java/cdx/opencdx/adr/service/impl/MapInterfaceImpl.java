@@ -8,10 +8,8 @@ import dev.ikm.tinkar.common.id.PublicId;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.function.LongConsumer;
 
 @Slf4j
@@ -31,7 +29,7 @@ public class MapInterfaceImpl implements IKMInterface {
     public MapInterfaceImpl(TinkarConceptRepository conceptRepository) {
         this.conceptRepository = conceptRepository;
 
-        log.warn("Generating Map of IKM Concepts");;
+        log.warn("Generating Map of IKM Concepts");
 
         addConceptIfMissing("628a2165-0999-40f5-87d4-a40501f1f5f9", "Man", "339947000 | Man (person)");
         addConceptIfMissing("c4e07b26-88f9-4250-803c-86463391c001", "Woman", "224526002 | Woman (person)");
@@ -68,7 +66,6 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing("97b0fbff-cd01-3018-9f72-03ffc7c9027c", "Detected", "Detected");
         addConceptIfMissing("96671aa4-750a-3fc3-923d-dfb4fc443e86", "Cough", "Cough");
         addConceptIfMissing("0686fe06-286c-34e0-83c6-b8d441e545c4", "Fever", "Fever");
-
 
 
 //BMI
@@ -130,9 +127,9 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing("024f4556-8834-4add-84c6-eccbd17194ea", "Test Kit D", "99999987654321");
 
         // Knowledge
-        addConceptIfMissing(OpenCDXIKMService.COVID_PRESENCE,"Presence of COVID","Presence of COVID");
-        addConceptIfMissing(OpenCDXIKMService.COVID_TEST_KITS,"Covid-19 Test Kits (Lookup)","Covid-19 Test Kits (Lookup)");
-        addConceptIfMissing(OpenCDXIKMService.BMI_PATTERN,"Body Mass Index (Lookup)","Body Mass Index (Lookup)");
+        addConceptIfMissing(OpenCDXIKMService.COVID_PRESENCE, "Presence of COVID", "Presence of COVID");
+        addConceptIfMissing(OpenCDXIKMService.COVID_TEST_KITS, "Covid-19 Test Kits (Lookup)", "Covid-19 Test Kits (Lookup)");
+        addConceptIfMissing(OpenCDXIKMService.BMI_PATTERN, "Body Mass Index (Lookup)", "Body Mass Index (Lookup)");
 
     }
 
@@ -224,7 +221,7 @@ public class MapInterfaceImpl implements IKMInterface {
         return new PublicId() {
             @Override
             public UUID[] asUuidArray() {
-                return new UUID[] { UUID.randomUUID() };
+                return new UUID[]{UUID.randomUUID()};
             }
 
             @Override
@@ -254,7 +251,7 @@ public class MapInterfaceImpl implements IKMInterface {
         UUID concept = UUID.fromString(conceptId);
 
         if (!this.conceptRepository.existsByConceptId(concept)) {
-            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription,true));
+            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription, true));
         }
     }
 }

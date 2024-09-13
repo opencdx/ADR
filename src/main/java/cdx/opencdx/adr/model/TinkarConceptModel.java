@@ -113,6 +113,7 @@ public class TinkarConceptModel {
     @Transient
     @Schema(description = "The focus of the concept")
     private ConceptFocus focus = ConceptFocus.SELF;
+
     /**
      * Represents a Tinkar concept model.
      *

@@ -31,9 +31,9 @@ public enum ComparisonOperation {
      * int b = 3;
      * <p>
      * if (a >= b) {
-     *     System.out.println("a is greater than or equal to b");
+     * System.out.println("a is greater than or equal to b");
      * } else {
-     *     System.out.println("a is less than b");
+     * System.out.println("a is less than b");
      * }
      */
     @Schema(description = "Greater than or equal operation.")
@@ -60,7 +60,6 @@ public enum ComparisonOperation {
      * int b = 10;
      * <p>
      * boolean result = (a != b); // result is true
-     *
      */
     @Schema(description = "Not equal operation.")
     NOT_EQUAL

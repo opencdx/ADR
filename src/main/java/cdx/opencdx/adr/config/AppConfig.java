@@ -9,7 +9,6 @@ import cdx.opencdx.adr.service.impl.MapInterfaceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import dev.ikm.tinkar.common.id.PublicId;
 import io.swagger.v3.core.jackson.ModelResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,17 +35,18 @@ public class AppConfig {
 
     /**
      * IKM Interface
+     *
      * @param pathParent Parent path
-     * @param pathChild Child path
+     * @param pathChild  Child path
      * @return IKM Interface
      */
     @Bean
     @Primary
     @Description("IKM Interface")
-    @ConditionalOnProperty(prefix = "data.ikm", name ="enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "data.ikm", name = "enabled", havingValue = "true")
     public IKMInterface ikmInterface(@Value("${data.path.parent}") String pathParent,
                                      @Value("${data.path.child}") String pathChild,
-                                     TinkarConceptRepository conceptRepository){
+                                     TinkarConceptRepository conceptRepository) {
         log.info("Creating IKM Interface");
         return new IKMInterfaceImpl(pathParent, pathChild, conceptRepository);
     }
@@ -54,10 +54,11 @@ public class AppConfig {
     @Bean
     @Description("Mocked IKM Interface")
     @ConditionalOnMissingBean(IKMInterface.class)
-    public IKMInterface mockedIKMInterface(TinkarConceptRepository conceptRepository){
+    public IKMInterface mockedIKMInterface(TinkarConceptRepository conceptRepository) {
         log.info("Creating Mocked IKM Interface");
         return new MapInterfaceImpl(conceptRepository);
     }
+
     /**
      * Jackson ObjectMapper with all required registered modules.
      *
@@ -78,7 +79,7 @@ public class AppConfig {
     /**
      * Opens the CDX ANF Processors.
      *
-     * @param logicalExpressionProcessor     The logical expression processor.
+     * @param logicalExpressionProcessor The logical expression processor.
      * @return The list of OpenCDXANFProcessor objects.
      */
     @Bean
@@ -90,6 +91,7 @@ public class AppConfig {
 
     /**
      * Model Resolver for Swagger
+     *
      * @param objectMapper Object Mapper to use.
      * @return Model Resolver for Swagger
      */

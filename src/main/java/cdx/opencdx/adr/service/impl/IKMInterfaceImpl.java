@@ -35,6 +35,10 @@ import java.util.function.LongConsumer;
 public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
 
     /**
+     * The name of the controller used to open SpinedArrayStore.
+     */
+    private static final String ARRAY_STORE_TO_OPEN = "Open SpinedArrayStore";
+    /**
      * A private final variable conceptModelMap is declared as a Map, mapping strings to TinkarConceptModel objects.
      */
 
@@ -76,11 +80,6 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
             log.debug("Primitive data stopped");
         }
     }
-
-    /**
-     * The name of the controller used to open SpinedArrayStore.
-     */
-    private static final String ARRAY_STORE_TO_OPEN = "Open SpinedArrayStore";
 
     /**
      * Returns a list of descendant concept IDs of the given parent concept ID.

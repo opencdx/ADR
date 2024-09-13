@@ -3,7 +3,6 @@ package cdx.opencdx.adr.service;
 
 import cdx.opencdx.adr.dto.ADRQuery;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 /**

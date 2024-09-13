@@ -3,7 +3,6 @@ package cdx.opencdx.adr.service.impl;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.service.ConceptService;
 import cdx.opencdx.adr.service.IKMInterface;
-import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,13 +38,15 @@ public class ConceptServiceImpl implements ConceptService {
         log.debug("Retrieving focus concepts {} for concept model: {}", conceptModel.getFocus(), conceptModel.getConceptId());
         return switch (conceptModel.getFocus()) {
             case SELF, DATE -> List.of(conceptModel.getConceptId());
-            case DESCENDANTS -> this.ikmInterface.descendantsOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
+            case DESCENDANTS ->
+                    this.ikmInterface.descendantsOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
             case DESCENDANTS_OR_SELF -> {
                 List<UUID> descendants = new java.util.ArrayList<>(this.ikmInterface.descendantsOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList());
                 descendants.add(conceptModel.getConceptId());
                 yield descendants;
             }
-            case CHILDREN -> this.ikmInterface.childrenOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
+            case CHILDREN ->
+                    this.ikmInterface.childrenOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
             case CHILDREN_OR_SELF -> {
                 List<UUID> children = new java.util.ArrayList<>(this.ikmInterface.childrenOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList());
                 children.add(conceptModel.getConceptId());
@@ -53,13 +54,14 @@ public class ConceptServiceImpl implements ConceptService {
             }
 
             //TODO: Real Implementation
-            case MEMBER -> this.ikmInterface.memberOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
+            case MEMBER ->
+                    this.ikmInterface.memberOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
 
             //TODO: Implement
             case ANCESTORS -> List.of(UUID.randomUUID());
-            case ANCESTORS_OR_SELF -> List.of(UUID.randomUUID(),conceptModel.getConceptId());
+            case ANCESTORS_OR_SELF -> List.of(UUID.randomUUID(), conceptModel.getConceptId());
             case PARENT -> List.of(UUID.randomUUID());
-            case PARENT_OR_SELF -> List.of(UUID.randomUUID(),conceptModel.getConceptId());
+            case PARENT_OR_SELF -> List.of(UUID.randomUUID(), conceptModel.getConceptId());
         };
     }
 }

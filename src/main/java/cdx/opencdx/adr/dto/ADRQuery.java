@@ -31,7 +31,7 @@ import java.util.List;
  * <p>
  * List<Query> queries = adrQuery.getQueries();
  * for (Query q : queries) {
- *     // Perform some operation
+ * // Perform some operation
  * }
  * <p>
  * To access and manipulate the list of queries, use the getter and setter methods provided by the ADRQuery class.
@@ -84,7 +84,7 @@ public class ADRQuery {
      * The UnitOutput enum, defined in the ADRQuery class, represents the different unit output options for a system
      * and includes options such as IMPERIAL, METRIC, and DEFAULT.
      * </p>
-     *
+     * <p>
      * Usage example:
      * <p>
      * ADRQuery adrQuery = new ADRQuery();
@@ -100,7 +100,7 @@ public class ADRQuery {
      * <p>
      * List<Query> queries = adrQuery.getQueries();
      * for (Query q : queries) {
-     *     // Perform some operation
+     * // Perform some operation
      * }
      *
      * <p>

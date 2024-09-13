@@ -35,7 +35,6 @@ import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.PrintWriter;
 import java.util.*;
 
 
@@ -117,13 +116,13 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     /**
      * Initializes an instance of OpenCDXAdrServiceImpl.
      *
-     * @param anfStatementRepository   the ANF statement repository
-     * @param conceptRepository        the Tinkar concept repository
-     * @param queryService             the query service
-     * @param openCDXANFProcessors     a list of OpenCDXANFProcessor instances
-     * @param anfRepo                  the ANF repository
-     * @param mapper                   the object mapper
-     * @param savedQueryRepository     the saved query repository
+     * @param anfStatementRepository the ANF statement repository
+     * @param conceptRepository      the Tinkar concept repository
+     * @param queryService           the query service
+     * @param openCDXANFProcessors   a list of OpenCDXANFProcessor instances
+     * @param anfRepo                the ANF repository
+     * @param mapper                 the object mapper
+     * @param savedQueryRepository   the saved query repository
      */
     public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, TinkarConceptRepository conceptRepository, QueryService queryService, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFHelper anfRepo, ObjectMapper mapper, SavedQueryRepository savedQueryRepository) {
         this.anfStatementRepository = anfStatementRepository;
@@ -193,7 +192,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
     @Override
     public SavedQuery saveQuery(SavedQuery save) throws JsonProcessingException {
-        SavedQueryModel model = new SavedQueryModel(save.getName(),this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(save.getQuery()));
+        SavedQueryModel model = new SavedQueryModel(save.getName(), this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(save.getQuery()));
         model = this.savedQueryRepository.save(model);
 
         return new SavedQuery(model.getId(), model.getName(), save.getQuery());
@@ -202,14 +201,14 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     public SavedQuery updateQuery(SavedQuery save) throws JsonProcessingException {
         Optional<SavedQueryModel> optionalModel = this.savedQueryRepository.findById(save.getId());
 
-        if(optionalModel.isPresent()) {
+        if (optionalModel.isPresent()) {
             log.debug("Updating query with ID: {}", save.getId());
             SavedQueryModel model = optionalModel.get();
-            if(save.getName() != null) {
+            if (save.getName() != null) {
                 log.debug("Updating query name to: {}", save.getName());
                 model.setName(save.getName());
             }
-            if(save.getQuery() != null) {
+            if (save.getQuery() != null) {
                 log.debug("Updating query content");
                 model.setContent(this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(save.getQuery()));
             }

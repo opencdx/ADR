@@ -11,7 +11,7 @@ public interface TextOperationService {
      * Performs a text operation on the given text based on the specified operation.
      *
      * @param operation the operation to perform on the text
-     * @param text the text to perform the operation on
+     * @param text      the text to perform the operation on
      * @return true if the operation is successful, false otherwise
      */
     boolean textOperation(ComparisonOperation operation, String operationValue, String text);

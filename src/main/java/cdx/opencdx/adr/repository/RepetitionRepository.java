@@ -23,7 +23,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * It extends the {@link JpaRepository} interface, providing basic CRUD operations.
  * The {@code RepetitionModel} class represents a repetition with various attributes such as period start, period duration,
  * event frequency, event separation, and event duration.
- *
  */
 public interface RepetitionRepository extends JpaRepository<RepetitionModel, Long> {
 }

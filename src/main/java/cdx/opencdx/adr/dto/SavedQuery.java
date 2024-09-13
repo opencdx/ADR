@@ -80,7 +80,7 @@ public class SavedQuery {
      * <p>
      * List<Query> queries = adrQuery.getQueries();
      * for (Query q : queries) {
-     *     // Perform some operation
+     * // Perform some operation
      * }
      * <p>
      * To access and manipulate the list of queries, use the getter and setter methods provided by the ADRQuery class.

@@ -1,6 +1,9 @@
 package cdx.opencdx.adr.service.impl;
 
-import cdx.opencdx.adr.model.*;
+import cdx.opencdx.adr.model.AnfStatementModel;
+import cdx.opencdx.adr.model.AssociatedStatementModel;
+import cdx.opencdx.adr.model.PractitionerModel;
+import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.OpenCDXIKMService;
 import cdx.opencdx.adr.utils.ANFHelper;

@@ -1,11 +1,8 @@
 package cdx.opencdx.adr.service;
 
-import cdx.opencdx.adr.model.TinkarConceptModel;
 import dev.ikm.tinkar.common.id.PublicId;
-import dev.ikm.tinkar.common.service.PrimitiveData;
-import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
+
 import java.util.List;
-import java.util.UUID;
 
 public interface IKMInterface {
     /**
@@ -24,6 +21,7 @@ public interface IKMInterface {
      * @return A list of PublicIds that the member belongs to.
      */
     List<PublicId> memberOf(PublicId member);
+
     /**
      * Returns a list of child PublicIds of the given parent PublicId.
      *
@@ -74,6 +72,7 @@ public interface IKMInterface {
 
     /**
      * Retrieves the concept for a given PublicId.
+     *
      * @param device The device for which to retrieve the PublicId.
      * @return The PublicId of the given device.
      */

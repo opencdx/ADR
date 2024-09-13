@@ -10,14 +10,6 @@ import java.util.Map;
  */
 public class CsvBuilder {
     /**
-     * This variable represents a list of headers.
-     * Headers are the names of the columns in a CSV (Comma-Separated Values) file.
-     * The order of the headers in this list corresponds to the order of the columns in the CSV file.
-     * Each header is a string.
-     * This list is private, which means it can only be accessed within the containing class.
-     */
-    private List<String> headers;
-    /**
      * Private variable to store the CSV data.
      * It is a list of lists of strings, representing the rows and columns of the CSV.
      */
@@ -26,6 +18,14 @@ public class CsvBuilder {
      * A private variable that maps header names to their corresponding indices in the CsvBuilder.
      */
     private final Map<String, Integer> headerToIndex;
+    /**
+     * This variable represents a list of headers.
+     * Headers are the names of the columns in a CSV (Comma-Separated Values) file.
+     * The order of the headers in this list corresponds to the order of the columns in the CSV file.
+     * Each header is a string.
+     * This list is private, which means it can only be accessed within the containing class.
+     */
+    private List<String> headers;
 
     /**
      * CsvBuilder is a class that allows you to build and manipulate CSV (Comma Separated Values) data.

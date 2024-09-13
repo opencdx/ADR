@@ -20,7 +20,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * MeasureRepository is an interface that extends the JpaRepository interface. It is used for managing measures.
- *
  */
 public interface MeasureRepository extends JpaRepository<MeasureModel, Long> {
 }

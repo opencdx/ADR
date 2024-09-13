@@ -20,7 +20,6 @@ import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -82,7 +81,7 @@ public class QueryServiceImpl implements QueryService {
     public List<String> processQuery(ADRQuery adrQuery) {
 
         List<CalculatedConcept> allByThreadName = this.calculatedConceptRepository.findAllByThreadName(Thread.currentThread().getName());
-        if(!allByThreadName.isEmpty()) {
+        if (!allByThreadName.isEmpty()) {
             this.calculatedConceptRepository.deleteAll(allByThreadName);
         }
 
@@ -91,7 +90,7 @@ public class QueryServiceImpl implements QueryService {
         List<AnfStatementModel> results = processingResults.anfStatements;
 
         List<UUID> list = processingResults.conceptIds;
-       return prepareCsvContent(list, results, adrQuery.getUnitOutput());
+        return prepareCsvContent(list, results, adrQuery.getUnitOutput());
     }
 
     /**
@@ -102,7 +101,7 @@ public class QueryServiceImpl implements QueryService {
      * @param unitOutput The unit output.
      * @return The prepared CSV content as a list of strings.
      */
-    private List<String> prepareCsvContent(List<UUID> uuids, List<AnfStatementModel> results,UnitOutput unitOutput) {
+    private List<String> prepareCsvContent(List<UUID> uuids, List<AnfStatementModel> results, UnitOutput unitOutput) {
         CsvBuilder csvDto = this.csvService.buildCsvDto(uuids, results, unitOutput);
         List<String> csvContent = new ArrayList<>();
         csvContent.add(csvDto.getHeaders());
@@ -289,16 +288,16 @@ public class QueryServiceImpl implements QueryService {
      * Checks the operation based on the given value.
      *
      * @param operation the operation to be checked
-     * @param value the value parameter to be checked, can be a MeasureModel or a String
-     *
+     * @param value     the value parameter to be checked, can be a MeasureModel or a String
      * @return true if the operation is successfully checked, false otherwise
      */
     private boolean check(ComparisonOperation operation, Object operationValue, TinkarConceptModel operationUnit, Object value) {
-        if(value instanceof MeasureModel measure) {
-            return this.measureOperationService.measureOperation(operation, (Double)operationValue, operationUnit,  measure);
-        } else if(value instanceof String text) {
+        if (value instanceof MeasureModel measure) {
+            return this.measureOperationService.measureOperation(operation, (Double) operationValue, operationUnit, measure);
+        } else if (value instanceof String text) {
             return this.textOperationService.textOperation(operation, (String) operationValue, text);
-        } return false;
+        }
+        return false;
     }
 
     /**
@@ -309,12 +308,12 @@ public class QueryServiceImpl implements QueryService {
      */
     private List<AnfStatementModel> runQuery(Query query) {
         List<AnfStatementModel> simpleQueryResults;
-        if(query.getConcept() != null && query.getConcept().getConceptId() != null) {
-           simpleQueryResults = runSimpleQuery(query);
-        } else if(query.getGroup() != null) {
+        if (query.getConcept() != null && query.getConcept().getConceptId() != null) {
+            simpleQueryResults = runSimpleQuery(query);
+        } else if (query.getGroup() != null) {
             ProcessingResults results = this.processQuery(query.getGroup());
             simpleQueryResults = results.anfStatements;
-        } else if(query.getFormula() != null) {
+        } else if (query.getFormula() != null) {
             simpleQueryResults = this.formulaService.evaluateFormula(query.getFormula());
         } else {
             log.debug("Returning Empty Query Results");
@@ -323,18 +322,12 @@ public class QueryServiceImpl implements QueryService {
         return this.processOperational(query, simpleQueryResults);
     }
 
-    /**
-     * Represents the result of processing certain data.
-     */
-    public record ProcessingResults(List<UUID> conceptIds, List<AnfStatementModel> anfStatements) {
-    }
-
     private List<AnfStatementModel> processOperational(Query query, List<AnfStatementModel> simpleQueryResults) {
         if (query.getOperation() == null) {
             log.debug("Returning Simple Query Results: {}", simpleQueryResults.size());
             return simpleQueryResults;
         }
-        log.debug("Processing Operational Query Results: {} on Operation: {}", simpleQueryResults.size(),query.getOperation());
+        log.debug("Processing Operational Query Results: {} on Operation: {}", simpleQueryResults.size(), query.getOperation());
         return simpleQueryResults.stream().filter(anf -> {
             if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
                 log.debug("Processing Performance Circumstance Operation Double: {}", query.getOperationDouble());
@@ -351,11 +344,17 @@ public class QueryServiceImpl implements QueryService {
     }
 
     private boolean checkDateFocus(Query query) {
-        if(query.getConcept() != null && query.getConcept().getFocus() != null) {
+        if (query.getConcept() != null && query.getConcept().getFocus() != null) {
             return ConceptFocus.DATE.equals(query.getConcept().getFocus());
         }
 
         return false;
+    }
+
+    /**
+     * Represents the result of processing certain data.
+     */
+    public record ProcessingResults(List<UUID> conceptIds, List<AnfStatementModel> anfStatements) {
     }
 
 }

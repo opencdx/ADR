@@ -17,7 +17,7 @@ public interface CalculatedConceptRepository extends JpaRepository<CalculatedCon
      * Finds all DimCalculatedConcept objects based on the given participant ID and thread name.
      *
      * @param participantId The ID of the participant.
-     * @param threadName The name of the thread.
+     * @param threadName    The name of the thread.
      * @return A List of DimCalculatedConcept objects that match the participant ID and thread name.
      */
     List<CalculatedConcept> findAllByParticipantIdAndThreadName(UUID participantId, String threadName);

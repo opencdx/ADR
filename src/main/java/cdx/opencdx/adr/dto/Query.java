@@ -138,15 +138,15 @@ public class Query {
      * <p>
      * Usage:
      * - To add a new ANF statement to the list:
-     *   anfStatements.add(anfStatement);
+     * anfStatements.add(anfStatement);
      * <p>
      * - To iterate over the ANF statements:
-     *   for (AnfStatementModel statement : anfStatements) {
-     *       // do something with the statement
-     *   }
+     * for (AnfStatementModel statement : anfStatements) {
+     * // do something with the statement
+     * }
      * <p>
      * - To retrieve the size of the list of ANF statements:
-     *   int size = anfStatements.size();
+     * int size = anfStatements.size();
      * <p>
      * Important Note: This variable is marked as @JsonIgnore and @Transient, so it will not be serialized
      * or persisted automatically. If you need to include it in JSON serialization or database persistence,

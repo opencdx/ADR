@@ -46,22 +46,22 @@ public class ConversionServiceImpl implements ConversionService {
      */
     @Override
     public MeasureModel convert(TinkarConceptModel unit, MeasureModel measure) {
-        if(unit != null && unit.getConceptId() != null) {
+        if (unit != null && unit.getConceptId() != null) {
             return this.convert(unit.getConceptId(), measure);
         }
-        return this.convert((UUID)null, measure);
+        return this.convert((UUID) null, measure);
     }
 
     /**
      * Converts a measure to the specified unit.
      *
-     * @param unit the UUID of the unit to convert to
+     * @param unit    the UUID of the unit to convert to
      * @param measure the MeasureModel to be converted
      * @return the converted MeasureModel object
      */
     @Override
     public MeasureModel convert(UUID unit, MeasureModel measure) {
-        if(unit == null || (measure.getSemantic() != null && unit.equals(measure.getSemantic().getConceptId()))) {
+        if (unit == null || (measure.getSemantic() != null && unit.equals(measure.getSemantic().getConceptId()))) {
             return measure;
         }
         log.debug("Converting measure to unit: {}", unit);
@@ -69,11 +69,11 @@ public class ConversionServiceImpl implements ConversionService {
         convertedMeasure.setIncludeLowerBound(measure.getIncludeLowerBound());
         convertedMeasure.setIncludeUpperBound(measure.getIncludeUpperBound());
 
-        if(measure.getLowerBound() != null) {
+        if (measure.getLowerBound() != null) {
             convertedMeasure.setLowerBound(this.process(unit, measure.getSemantic().getConceptId(), measure.getLowerBound()));
         }
 
-        if(measure.getUpperBound() != null) {
+        if (measure.getUpperBound() != null) {
             convertedMeasure.setUpperBound(this.process(unit, measure.getSemantic().getConceptId(), measure.getUpperBound()));
         }
 
@@ -86,17 +86,17 @@ public class ConversionServiceImpl implements ConversionService {
      * Converts the given measure to the specified unit output format.
      *
      * @param unitOutput The desired unit output format (IMPERIAL or METRIC).
-     * @param measure The measure to convert.
+     * @param measure    The measure to convert.
      * @return The converted measure in the specified unit output format.
      */
     @Override
     public MeasureModel output(UnitOutput unitOutput, MeasureModel measure) {
-        if(measure == null || measure.getSemantic() == null) {
+        if (measure == null || measure.getSemantic() == null) {
             return measure;
         }
-        if(unitOutput.equals(UnitOutput.IMPERIAL)) {
+        if (unitOutput.equals(UnitOutput.IMPERIAL)) {
             return this.convert(this.convertToImperial(measure), measure);
-        } else if(unitOutput.equals(UnitOutput.METRIC)) {
+        } else if (unitOutput.equals(UnitOutput.METRIC)) {
             return this.convert(this.convertToMetric(measure), measure);
         }
         return measure;
@@ -142,8 +142,8 @@ public class ConversionServiceImpl implements ConversionService {
      *                      - "meter" for meters
      *                      - "pound" for pounds
      *                      - "kilogram" for kilograms
-     * @param unit The unit of the value to be processed.
-     * @param value The value to be processed.
+     * @param unit          The unit of the value to be processed.
+     * @param value         The value to be processed.
      * @return The processed value. If the operation unit is not recognized, the original value is returned.
      */
     private Double process(UUID operationUnit, UUID unit, Double value) {
@@ -266,7 +266,7 @@ public class ConversionServiceImpl implements ConversionService {
     /**
      * Converts the given value in the specified unit to kilograms.
      *
-     * @param unit the UUID of the unit to convert from
+     * @param unit  the UUID of the unit to convert from
      * @param value the value to be converted
      * @return the converted value in kilograms, or null if the unit is not supported
      */
@@ -281,7 +281,7 @@ public class ConversionServiceImpl implements ConversionService {
     /**
      * Convert the given value to pounds based on the given unit.
      *
-     * @param unit The unit of measurement represented as a UUID. Currently supported UUID is "20e0e0e0-70a1-4161-b7a4-e7725f5f583e" for kilograms.
+     * @param unit  The unit of measurement represented as a UUID. Currently supported UUID is "20e0e0e0-70a1-4161-b7a4-e7725f5f583e" for kilograms.
      * @param value The value to be converted to pounds.
      * @return The value converted to pounds. Returns null if the unit is not supported.
      */
@@ -296,7 +296,7 @@ public class ConversionServiceImpl implements ConversionService {
     /**
      * Converts the given value from a specified unit to meters.
      *
-     * @param unit The unit to convert from. Currently supports inches (UUID: 01759586-062f-455f-a0c4-23904464b5f4).
+     * @param unit  The unit to convert from. Currently supports inches (UUID: 01759586-062f-455f-a0c4-23904464b5f4).
      * @param value The value to be converted.
      * @return The converted value in meters. If the unit is not supported, null is returned.
      */

@@ -55,28 +55,28 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         TinkarConceptModel result;
         UUID conceptId = this.testAndConvert(logicalExpression.getExpression());
 
-        if(conceptId != null) {
+        if (conceptId != null) {
             result = conceptRepository.findByConceptId(conceptId);
         } else {
             result = conceptRepository.findByConceptDescription(logicalExpression.getExpression());
         }
 
-        if(result == null && logicalExpression.getExpression() != null && !logicalExpression.getExpression().isEmpty()) {
+        if (result == null && logicalExpression.getExpression() != null && !logicalExpression.getExpression().isEmpty()) {
             result = new TinkarConceptModel();
             result.setConceptDescription(logicalExpression.getExpression());
 
             PublicId publicId;
-            if(conceptId != null) {
+            if (conceptId != null) {
                 publicId = PublicIds.of(conceptId);
             } else {
                 log.info("Creating PublicId for: {}", logicalExpression.getExpression());
                 publicId = this.ikmInterface.getPublicId(logicalExpression.getExpression());
                 log.info("Created PublicId: {}", publicId.asUuidArray()[0]);
             }
-            if(publicId != null) {
+            if (publicId != null) {
                 result.setConceptId(publicId.asUuidArray()[0]);
                 List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));
-                if(descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
+                if (descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
                     result.setSync(true);
                     result.setConceptName(descriptions.getFirst());
                 } else {
@@ -85,16 +85,16 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
                 }
 
             } else {
-                if(conceptId != null) {
+                if (conceptId != null) {
                     result.setConceptId(conceptId);
                 } else {
                     result.setConceptId(UUID.randomUUID());
-                    log.debug("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(),result.getConceptId());
+                    log.debug("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(), result.getConceptId());
                 }
                 result.setSync(false);
                 result.setConceptName(logicalExpression.getExpression());
                 result.setConceptDescription(logicalExpression.getExpression());
-                log.warn("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(),result.getConceptId());
+                log.warn("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(), result.getConceptId());
             }
             result = conceptRepository.save(result);
         }
@@ -106,17 +106,17 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
     public TinkarConceptModel getInkarConceptModelForDevice(String deviceId) {
         TinkarConceptModel result = conceptRepository.findByConceptDescription(deviceId);
 
-        if(result == null) {
+        if (result == null) {
 
             result = new TinkarConceptModel();
             result.setConceptDescription(deviceId);
 
             PublicId publicId = this.ikmInterface.getPublicIdForDevice(deviceId);
 
-            if(publicId != null) {
+            if (publicId != null) {
                 result.setConceptId(publicId.asUuidArray()[0]);
                 List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));
-                if(descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
+                if (descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
                     result.setConceptName(descriptions.getFirst());
                     result.setSync(true);
                 } else {
@@ -125,11 +125,11 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
                 }
 
             } else {
-               result.setConceptId(UUID.randomUUID());
+                result.setConceptId(UUID.randomUUID());
                 result.setSync(false);
                 result.setConceptName(deviceId);
                 result.setConceptDescription(deviceId);
-                log.warn("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(),result.getConceptId());
+                log.warn("Concept not found: \"{}\" assign to UUID: {}", result.getConceptName(), result.getConceptId());
             }
             result = conceptRepository.save(result);
         }
@@ -149,7 +149,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             try {
                 return UUID.fromString(uuidString);
             } catch (IllegalArgumentException e) {
-                log.error("Error converting string to UUID: {}" ,string);
+                log.error("Error converting string to UUID: {}", string);
                 return null;
             }
         }
@@ -163,14 +163,14 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
         requireSync.forEach(concept -> {
             PublicId publicId = this.ikmInterface.getPublicId(concept.getConceptDescription());
             log.info("Created PublicId: {}", publicId.asUuidArray()[0]);
-            if(publicId != null) {
+            if (publicId != null) {
                 concept.setConceptId(publicId.asUuidArray()[0]);
                 List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));
-                if(descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
+                if (descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
                     concept.setConceptName(descriptions.getFirst());
                     concept.setSync(true);
                 } else {
-                    log.warn("Concept not found: \"{}\" assign to UUID: {}", concept.getConceptName(),concept.getConceptId());
+                    log.warn("Concept not found: \"{}\" assign to UUID: {}", concept.getConceptName(), concept.getConceptId());
                     concept.setSync(false);
                 }
                 conceptRepository.save(concept);

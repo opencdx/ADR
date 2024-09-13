@@ -55,7 +55,7 @@ public interface OpenCDXAdrService {
      * @param adrQuery The ADRQuery object representing the query to be executed.
      * @return A list of strings representing the query results.
      */
-    List<String> streamQuery(ADRQuery adrQuery );
+    List<String> streamQuery(ADRQuery adrQuery);
 
     /**
      * Saves a list of SavedQuery objects.
@@ -72,6 +72,7 @@ public interface OpenCDXAdrService {
      * @return The updated SavedQuery object.
      */
     SavedQuery updateQuery(SavedQuery save) throws JsonProcessingException;
+
     /**
      * Retrieves a list of saved queries.
      *
