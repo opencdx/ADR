@@ -3,29 +3,34 @@ package cdx.opencdx.adr.service.impl;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.IKMInterface;
+import dev.ikm.tinkar.common.id.IntIdSet;
 import dev.ikm.tinkar.common.id.PublicId;
+import dev.ikm.tinkar.common.id.PublicIds;
 import dev.ikm.tinkar.common.service.*;
 import dev.ikm.tinkar.coordinate.Calculators;
 import dev.ikm.tinkar.coordinate.stamp.calculator.Latest;
 import dev.ikm.tinkar.coordinate.stamp.calculator.StampCalculatorWithCache;
-import dev.ikm.tinkar.entity.PatternEntityVersion;
-import dev.ikm.tinkar.entity.SemanticEntityVersion;
+import dev.ikm.tinkar.coordinate.view.calculator.ViewCalculator;
+import dev.ikm.tinkar.entity.*;
 import dev.ikm.tinkar.provider.search.Searcher;
 import dev.ikm.tinkar.terms.EntityProxy;
 import dev.ikm.tinkar.terms.TinkarTerm;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.LongConsumer;
+
+import static dev.ikm.tinkar.provider.search.Searcher.LIDR_RECORD_PATTERN;
+
 /**
  * Implementation class for IKMInterface.
  * Provides various methods to retrieve information from a data store.
  */
 @Slf4j
-public class IKMInterfaceImpl implements IKMInterface {
+public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
 
     /**
      * A private final variable conceptModelMap is declared as a Map, mapping strings to TinkarConceptModel objects.
@@ -58,34 +63,47 @@ public class IKMInterfaceImpl implements IKMInterface {
         addConceptIfMissing("e2e79d53-7a29-4f64-9322-5065eec84985","Covid-19 Test Kits (Lookup)","Covid-19 Test Kits (Lookup)");
         addConceptIfMissing("0b44d8e9-2aff-4f00-965c-9d7d42226d57","Body Mass Index (Lookup)","Body Mass Index (Lookup)");
 
-        getRangeForValueConstraintSemantic();
+        test();
+    }
+    @Override
+    public void close() {
+        log.info("Closing IKM Interface");
+        if (PrimitiveData.running()) {
+            log.debug("Stopping Primitive Data");
+            PrimitiveData.stop();
+            log.debug("Primitive data stopped");
+        }
     }
 
-    public void getRangeForValueConstraintSemantic() {
-        log.info("Getting range for value constraint semantic");
-        EntityProxy.Pattern valueConstraintPattern = TinkarTerm.VALUE_CONSTRAINT_PATTERN;
+
+
+    public void test() {
+
+        this.memberOf(TinkarTerm.TINKAR_BASE_MODEL_COMPONENT_PATTERN);
+
+        PublicId lidrRecordId = PublicIds.newRandom();
+
         StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
-        List<SemanticEntityVersion> latestSemanticList = new ArrayList<>();
+        Latest<PatternEntityVersion> latestPatternVersion = stampCalc.latest(LIDR_RECORD_PATTERN);
+        List<PublicId> resultConformanceList = new ArrayList<>();
 
-        PrimitiveData.get().forEachSemanticNidOfPattern(valueConstraintPattern.nid(), (valueConstraintSemanticNid) -> {
-            Latest<SemanticEntityVersion> latestValueConstraintSemanticVersion = stampCalc.latest(valueConstraintSemanticNid);
-            latestSemanticList.add(latestValueConstraintSemanticVersion.get());
-            log.info("latestValueConstraintSemanticVersion: {}", latestValueConstraintSemanticVersion.get().publicId());
+        if (PrimitiveData.get().hasPublicId(lidrRecordId)) {
+            EntityService.get().getEntity(lidrRecordId.asUuidArray()).ifPresent((lidrRecordEntity) -> {
+                Latest<EntityVersion> latestLidrRecordVersion = stampCalc.latest(lidrRecordEntity);
+
+                if (latestLidrRecordVersion.get() instanceof SemanticEntityVersion latestLidrRecordSemanticVersion) {
+                    IntIdSet targetNids = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.TARGET, latestLidrRecordSemanticVersion);
+                    targetNids.map(PrimitiveData::publicId).forEach(resultConformanceList::add);
+                }
+            });
+        }
+
+        resultConformanceList.forEach(result -> {
+            List<String> strings = this.descriptionsOf(Collections.singletonList(result));
+            log.info("LIDR ID: {}, Description: {}", result, strings.getFirst());
         });
-
-        Latest<PatternEntityVersion> latestPatternVersion = stampCalc.latest(valueConstraintPattern);
-
-        latestSemanticList.forEach(valueConstraintSemantic -> {
-            EntityProxy.Concept minOperator = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.MINIMUM_VALUE_OPERATOR, valueConstraintSemantic);
-            float refRangeMin = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.REFERENCE_RANGE_MINIMUM, valueConstraintSemantic);
-
-            EntityProxy.Concept maxOperator = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.MAXIMUM_VALUE_OPERATOR, valueConstraintSemantic);
-            float refRangeMax = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.REFERENCE_RANGE_MAXIMUM, valueConstraintSemantic);
-
-            log.info("PublicID: {}, minOperator: {}, refRangeMin: {}, maxOperator: {}, refRangeMax: {}", valueConstraintSemantic.publicId(), minOperator, refRangeMin, maxOperator, refRangeMax);
-        });
-        log.info("Got range for value constraint semantic");
     }
+
 
     /**
      * The name of the controller used to open SpinedArrayStore.
@@ -113,13 +131,41 @@ public class IKMInterfaceImpl implements IKMInterface {
     public List<PublicId> memberOf(PublicId member) {
         ArrayList<PublicId> memberOfList = new ArrayList<>();
 
-        EntityProxy.Pattern valueConstraintPattern = TinkarTerm.VALUE_CONSTRAINT_PATTERN;
-        StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
+        // BMI
+        if(member.asUuidArray() != null && member.asUuidArray().length > 0 && member.asUuidArray()[0].equals(UUID.fromString("0b44d8e9-2aff-4f00-965c-9d7d42226d57")) ) {
 
-        PrimitiveData.get().forEachSemanticNidOfPattern(valueConstraintPattern.nid(), (valueConstraintSemanticNid) -> {
-            Latest<SemanticEntityVersion> latestValueConstraintSemanticVersion = stampCalc.latest(valueConstraintSemanticNid);
-            memberOfList.add(latestValueConstraintSemanticVersion.get().publicId());
-        });
+            EntityProxy.Pattern valueConstraintPattern = TinkarTerm.VALUE_CONSTRAINT_PATTERN;
+            StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
+
+            PrimitiveData.get().forEachSemanticNidOfPattern(valueConstraintPattern.nid(), (valueConstraintSemanticNid) -> {
+                Latest<SemanticEntityVersion> latestValueConstraintSemanticVersion = stampCalc.latest(valueConstraintSemanticNid);
+                memberOfList.add(latestValueConstraintSemanticVersion.get().publicId());
+            });
+
+        }
+//        // Presense of Covid
+//        else if(member.asUuidArray() != null && member.asUuidArray().length > 0 && member.asUuidArray()[0].equals(UUID.fromString("ec55b876-1200-4470-abbc-878a3fa57bfb")) ) {
+//
+//        }
+//        // Covid 19 Test Kits
+//        else if(member.asUuidArray() != null && member.asUuidArray().length > 0 && member.asUuidArray()[0].equals(UUID.fromString("e2e79d53-7a29-4f64-9322-5065eec84985")) ) {
+//
+//        }
+        else if (PrimitiveData.get().hasPublicId(member)) {
+            EntityService.get().getEntity(member.asUuidArray()).ifPresent((entity) -> {
+                if (entity instanceof PatternEntity<?> patternEntity) {
+                    EntityService.get().forEachSemanticOfPattern(patternEntity.nid(), (semanticEntityOfPattern) ->
+                            memberOfList.add(semanticEntityOfPattern.referencedComponent().publicId()));
+                }
+            });
+        }
+
+        if(log.isInfoEnabled()) {
+            memberOfList.forEach(memberOf -> {
+                List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
+                log.info("Member ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
+            });
+        }
 
         return memberOfList;
     }
@@ -213,22 +259,29 @@ public class IKMInterfaceImpl implements IKMInterface {
      */
     @Override
     public PublicId getPublicIdForDevice(String device) {
-        return new PublicId() {
-            @Override
-            public UUID[] asUuidArray() {
-                return new UUID[]{UUID.randomUUID()};
-            }
 
-            @Override
-            public int uuidCount() {
-                return 1;
-            }
+        ViewCalculator viewCalc = Calculators.View.Default();
+        Latest<PatternEntityVersion> latestIdPattern = viewCalc.latestPatternEntityVersion(TinkarTerm.IDENTIFIER_PATTERN);
+        AtomicReference<PublicId> result = new AtomicReference<>();
 
-            @Override
-            public void forEach(LongConsumer longConsumer) {
+        try {
+            EntityService.get().forEachSemanticOfPattern(TinkarTerm.IDENTIFIER_PATTERN.nid(), (semanticEntity) -> {
+                viewCalc.latest(semanticEntity).ifPresent(latestSemanticVersion -> {
+                    String idValue = latestIdPattern.get().getFieldWithMeaning(TinkarTerm.IDENTIFIER_VALUE, latestSemanticVersion);
+                    if (idValue.equals(device)) {
+                        result.set(latestSemanticVersion.referencedComponent().publicId());
+                    }
+                });
+            });
+        } catch (Exception e) {
+            log.error("Encountered exception {}", e.getMessage());
+        }
 
-            }
-        };
+        if(result.get() != null) {
+            return result.get();
+        }
+
+        return null;
     }
 
     private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {

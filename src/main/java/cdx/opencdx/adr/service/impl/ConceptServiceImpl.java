@@ -51,6 +51,8 @@ public class ConceptServiceImpl implements ConceptService {
                 children.add(conceptModel.getConceptId());
                 yield children;
             }
+
+            //TODO: Real Implementation
             case MEMBER -> this.ikmInterface.memberOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
 
             //TODO: Implement

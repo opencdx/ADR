@@ -5,6 +5,7 @@ import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.IKMInterface;
 import cdx.opencdx.adr.service.OpenCDXIKMService;
 import dev.ikm.tinkar.common.id.PublicId;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.LongConsumer;
 
+@Slf4j
 public class MapInterfaceImpl implements IKMInterface {
 
     /**
@@ -28,6 +30,8 @@ public class MapInterfaceImpl implements IKMInterface {
      */
     public MapInterfaceImpl(TinkarConceptRepository conceptRepository) {
         this.conceptRepository = conceptRepository;
+
+        log.warn("Generating Map of IKM Concepts");;
 
         addConceptIfMissing("628a2165-0999-40f5-87d4-a40501f1f5f9", "Man", "339947000 | Man (person)");
         addConceptIfMissing("c4e07b26-88f9-4250-803c-86463391c001", "Woman", "224526002 | Woman (person)");
