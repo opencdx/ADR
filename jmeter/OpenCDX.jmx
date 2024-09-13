@@ -321,8 +321,8 @@ vars.put(&quot;ANF_OBESE_BMI&quot;,&quot;162864005 | Body mass index 30+ - obesi
 
 vars.put(&quot;ANF_CALENDAR&quot;, &quot;b5ba88ba-22d5-37fe-a9a1-b82c377e0212&quot;);
 vars.put(&quot;ANF_PERFORMANCE&quot;, &quot;395cc864-7c51-4072-b3e7-f9195b40053a&quot;);
-vars.put(&quot;ANF_COVID_AG&quot;, &quot;5d95570a-0098-4607-b418-e21820c56562&quot;);
-vars.put(&quot;ANF_COVID_RNA&quot;, &quot;ae4a6ffb-4011-4645-8e14-23890af7c674&quot;);
+vars.put(&quot;ANF_COVID_AG&quot;, &quot;e569c149-fa65-334f-9a1a-01859bbda352&quot;);
+vars.put(&quot;ANF_COVID_RNA&quot;, &quot;b001483e-d99a-3edd-8c0f-4857c74176d3&quot;);
 vars.put(&quot;ANF_COMPLETE&quot;, &quot;9570bad9-ade1-3c77-bbb3-30f0924ee1a6&quot;);
 vars.put(&quot;ANF_EVIDENCE&quot;, &quot;6308b821-ebb6-3742-8e4a-12c33f37ecde&quot;);
 vars.put(&quot;ANF_DETECTED&quot;, &quot;97b0fbff-cd01-3018-9f72-03ffc7c9027c&quot;);
@@ -6667,7 +6667,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -7379,7 +7379,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -7480,7 +7480,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -8193,7 +8193,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -8294,7 +8294,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -9007,7 +9007,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -9108,7 +9108,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -9821,7 +9821,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -9922,7 +9922,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -10635,7 +10635,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -10736,7 +10736,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -11550,7 +11550,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -11651,7 +11651,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -12364,7 +12364,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -12465,7 +12465,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -13178,7 +13178,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -13279,7 +13279,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -14093,7 +14093,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -14194,7 +14194,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -14907,7 +14907,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -15620,7 +15620,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -16434,7 +16434,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -17147,7 +17147,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -17860,7 +17860,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -18573,7 +18573,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -19387,7 +19387,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -20201,7 +20201,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -21015,7 +21015,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -21728,7 +21728,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;5d95570a-0098-4607-b418-e21820c56562\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay\&quot;, \&quot;e569c149-fa65-334f-9a1a-01859bbda352\&quot;)\n&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -21829,7 +21829,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -22542,7 +22542,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -23255,7 +23255,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -23968,7 +23968,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -24681,7 +24681,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -25394,7 +25394,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;ae4a6ffb-4011-4645-8e14-23890af7c674\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection\&quot;, \&quot;b001483e-d99a-3edd-8c0f-4857c74176d3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
