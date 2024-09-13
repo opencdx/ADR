@@ -76,8 +76,6 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         }
     }
 
-
-
     public void test() {
         this.memberOf(this.getPublicId(OpenCDXIKMService.COVID_TEST_KITS));
     }

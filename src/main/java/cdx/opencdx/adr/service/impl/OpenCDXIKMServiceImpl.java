@@ -61,7 +61,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             result = conceptRepository.findByConceptDescription(logicalExpression.getExpression());
         }
 
-        if(result == null) {
+        if(result == null && logicalExpression.getExpression() != null && !logicalExpression.getExpression().isEmpty()) {
             result = new TinkarConceptModel();
             result.setConceptDescription(logicalExpression.getExpression());
 
@@ -69,6 +69,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
             if(conceptId != null) {
                 publicId = PublicIds.of(conceptId);
             } else {
+                log.info("Creating PublicId for: {}", logicalExpression.getExpression());
                 publicId = this.ikmInterface.getPublicId(logicalExpression.getExpression());
                 log.info("Created PublicId: {}", publicId.asUuidArray()[0]);
             }
