@@ -70,6 +70,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
                 publicId = PublicIds.of(conceptId);
             } else {
                 publicId = this.ikmInterface.getPublicId(logicalExpression.getExpression());
+                log.info("Created PublicId: {}", publicId.asUuidArray()[0]);
             }
             if(publicId != null) {
                 result.setConceptId(publicId.asUuidArray()[0]);
@@ -160,6 +161,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
 
         requireSync.forEach(concept -> {
             PublicId publicId = this.ikmInterface.getPublicId(concept.getConceptDescription());
+            log.info("Created PublicId: {}", publicId.asUuidArray()[0]);
             if(publicId != null) {
                 concept.setConceptId(publicId.asUuidArray()[0]);
                 List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));

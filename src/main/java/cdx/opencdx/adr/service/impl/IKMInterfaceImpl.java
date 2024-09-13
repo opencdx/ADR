@@ -3,6 +3,7 @@ package cdx.opencdx.adr.service.impl;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.IKMInterface;
+import cdx.opencdx.adr.service.OpenCDXIKMService;
 import dev.ikm.tinkar.common.id.IntIdSet;
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
@@ -59,9 +60,9 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
             log.debug("Primitive data started");
         }
 
-        addConceptIfMissing("ec55b876-1200-4470-abbc-878a3fa57bfb","Presence of COVID","Presence of COVID");
-        addConceptIfMissing("e2e79d53-7a29-4f64-9322-5065eec84985","Covid-19 Test Kits (Lookup)","Covid-19 Test Kits (Lookup)");
-        addConceptIfMissing("0b44d8e9-2aff-4f00-965c-9d7d42226d57","Body Mass Index (Lookup)","Body Mass Index (Lookup)");
+        addConceptIfMissing(OpenCDXIKMService.COVID_PRESENCE,"Presence of COVID","Presence of COVID");
+        addConceptIfMissing(OpenCDXIKMService.COVID_TEST_KITS,"Covid-19 Test Kits (Lookup)","Covid-19 Test Kits (Lookup)");
+        addConceptIfMissing(OpenCDXIKMService.BMI_PATTERN,"Body Mass Index (Lookup)","Body Mass Index (Lookup)");
 
         test();
     }
@@ -79,29 +80,10 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
 
     public void test() {
 
-        this.memberOf(TinkarTerm.TINKAR_BASE_MODEL_COMPONENT_PATTERN);
+        this.memberOf(this.getPublicId(OpenCDXIKMService.BMI_PATTERN));
+        this.memberOf(this.getPublicId(OpenCDXIKMService.COVID_PRESENCE));
+        this.memberOf(this.getPublicId(OpenCDXIKMService.COVID_TEST_KITS));
 
-        PublicId lidrRecordId = PublicIds.newRandom();
-
-        StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
-        Latest<PatternEntityVersion> latestPatternVersion = stampCalc.latest(LIDR_RECORD_PATTERN);
-        List<PublicId> resultConformanceList = new ArrayList<>();
-
-        if (PrimitiveData.get().hasPublicId(lidrRecordId)) {
-            EntityService.get().getEntity(lidrRecordId.asUuidArray()).ifPresent((lidrRecordEntity) -> {
-                Latest<EntityVersion> latestLidrRecordVersion = stampCalc.latest(lidrRecordEntity);
-
-                if (latestLidrRecordVersion.get() instanceof SemanticEntityVersion latestLidrRecordSemanticVersion) {
-                    IntIdSet targetNids = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.TARGET, latestLidrRecordSemanticVersion);
-                    targetNids.map(PrimitiveData::publicId).forEach(resultConformanceList::add);
-                }
-            });
-        }
-
-        resultConformanceList.forEach(result -> {
-            List<String> strings = this.descriptionsOf(Collections.singletonList(result));
-            log.info("LIDR ID: {}, Description: {}", result, strings.getFirst());
-        });
     }
 
 
@@ -130,28 +112,11 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
     @Override
     public List<PublicId> memberOf(PublicId member) {
         ArrayList<PublicId> memberOfList = new ArrayList<>();
-
-        // BMI
-        if(member.asUuidArray() != null && member.asUuidArray().length > 0 && member.asUuidArray()[0].equals(UUID.fromString("0b44d8e9-2aff-4f00-965c-9d7d42226d57")) ) {
-
-            EntityProxy.Pattern valueConstraintPattern = TinkarTerm.VALUE_CONSTRAINT_PATTERN;
-            StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
-
-            PrimitiveData.get().forEachSemanticNidOfPattern(valueConstraintPattern.nid(), (valueConstraintSemanticNid) -> {
-                Latest<SemanticEntityVersion> latestValueConstraintSemanticVersion = stampCalc.latest(valueConstraintSemanticNid);
-                memberOfList.add(latestValueConstraintSemanticVersion.get().publicId());
-            });
-
-        }
-//        // Presense of Covid
-//        else if(member.asUuidArray() != null && member.asUuidArray().length > 0 && member.asUuidArray()[0].equals(UUID.fromString("ec55b876-1200-4470-abbc-878a3fa57bfb")) ) {
-//
-//        }
-//        // Covid 19 Test Kits
-//        else if(member.asUuidArray() != null && member.asUuidArray().length > 0 && member.asUuidArray()[0].equals(UUID.fromString("e2e79d53-7a29-4f64-9322-5065eec84985")) ) {
-//
-//        }
-        else if (PrimitiveData.get().hasPublicId(member)) {
+        log.info("Looking up Member ID: {}", member.asUuidArray()[0]);
+        if (member.asUuidArray() != null && member.asUuidArray().length > 0 && member.asUuidArray()[0].equals(UUID.fromString(OpenCDXIKMService.COVID_TEST_KITS)) ) {
+            log.info("Using Pattern Lookup");
+        } else if (PrimitiveData.get().hasPublicId(member)) {
+            log.info("Using Member Lookup");
             EntityService.get().getEntity(member.asUuidArray()).ifPresent((entity) -> {
                 if (entity instanceof PatternEntity<?> patternEntity) {
                     EntityService.get().forEachSemanticOfPattern(patternEntity.nid(), (semanticEntityOfPattern) ->
@@ -161,6 +126,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         }
 
         if(log.isInfoEnabled()) {
+            log.info("Members for Member ID: {}, Description: {}", member.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(member)).get(0));
             memberOfList.forEach(memberOf -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
                 log.info("Member ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
@@ -236,7 +202,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         return new PublicId() {
             @Override
             public UUID[] asUuidArray() {
-                return new UUID[]{UUID.randomUUID()};
+                return new UUID[]{UUID.fromString(concept)};
             }
 
             @Override

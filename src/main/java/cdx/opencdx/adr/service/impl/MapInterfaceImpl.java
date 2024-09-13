@@ -130,9 +130,10 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing("024f4556-8834-4add-84c6-eccbd17194ea", "Test Kit D", "99999987654321");
 
         // Knowledge
-        addConceptIfMissing("ec55b876-1200-4470-abbc-878a3fa57bfb","Presence of COVID","Presence of COVID");
-        addConceptIfMissing("e2e79d53-7a29-4f64-9322-5065eec84985","Covid-19 Test Kits (Lookup)","Covid-19 Test Kits (Lookup)");
-        addConceptIfMissing("0b44d8e9-2aff-4f00-965c-9d7d42226d57","Body Mass Index (Lookup)","Body Mass Index (Lookup)");
+        addConceptIfMissing(OpenCDXIKMService.COVID_PRESENCE,"Presence of COVID","Presence of COVID");
+        addConceptIfMissing(OpenCDXIKMService.COVID_TEST_KITS,"Covid-19 Test Kits (Lookup)","Covid-19 Test Kits (Lookup)");
+        addConceptIfMissing(OpenCDXIKMService.BMI_PATTERN,"Body Mass Index (Lookup)","Body Mass Index (Lookup)");
+
     }
 
     /**

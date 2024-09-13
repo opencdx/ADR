@@ -20,6 +20,10 @@ public interface OpenCDXIKMService {
     public  final String UNIT_HOUR = "d9036e1e-3397-4f00-a40a-021616644970";
     public  final String UNIT_DATE = "e37140a1-8180-4a30-91f4-70350c5e1736";
     public  final String UNIT_CALENDAR_TIME = "b5ba88ba-22d5-37fe-a9a1-b82c377e0212";
+
+    public final String COVID_PRESENCE = "fe300419-06e6-53eb-9e4e-d54fe770114b";
+    public final String COVID_TEST_KITS = "e0ac20ad-ce6f-3ee4-8c71-51b070aa5737";
+    public final String BMI_PATTERN = "922697f7-36ba-4afc-9dd5-f29d54b0fdec";
     /**
      * Retrieves the TinkarConceptModel associated with the given LogicalExpressionModel.
      *
