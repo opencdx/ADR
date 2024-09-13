@@ -4,27 +4,28 @@ import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.IKMInterface;
 import cdx.opencdx.adr.service.OpenCDXIKMService;
-import dev.ikm.tinkar.common.id.IntIdSet;
 import dev.ikm.tinkar.common.id.PublicId;
-import dev.ikm.tinkar.common.id.PublicIds;
-import dev.ikm.tinkar.common.service.*;
+import dev.ikm.tinkar.common.service.CachingService;
+import dev.ikm.tinkar.common.service.PrimitiveData;
+import dev.ikm.tinkar.common.service.ServiceKeys;
+import dev.ikm.tinkar.common.service.ServiceProperties;
 import dev.ikm.tinkar.coordinate.Calculators;
 import dev.ikm.tinkar.coordinate.stamp.calculator.Latest;
-import dev.ikm.tinkar.coordinate.stamp.calculator.StampCalculatorWithCache;
 import dev.ikm.tinkar.coordinate.view.calculator.ViewCalculator;
-import dev.ikm.tinkar.entity.*;
+import dev.ikm.tinkar.entity.EntityService;
+import dev.ikm.tinkar.entity.PatternEntity;
+import dev.ikm.tinkar.entity.PatternEntityVersion;
 import dev.ikm.tinkar.provider.search.Searcher;
-import dev.ikm.tinkar.terms.EntityProxy;
 import dev.ikm.tinkar.terms.TinkarTerm;
-import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.LongConsumer;
-
-import static dev.ikm.tinkar.provider.search.Searcher.LIDR_RECORD_PATTERN;
 
 /**
  * Implementation class for IKMInterface.
@@ -38,12 +39,13 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
      */
 
     private final TinkarConceptRepository conceptRepository;
+
     /**
      * Constructs an instance of IKMInterfaceImpl with the specified pathParent and pathChild.
      *
-     * @param pathParent the parent path
-     * @param pathChild the child path
-     *                  @param conceptRepository the concept repository
+     * @param pathParent        the parent path
+     * @param pathChild         the child path
+     * @param conceptRepository the concept repository
      */
     public IKMInterfaceImpl(String pathParent, String pathChild, TinkarConceptRepository conceptRepository) {
         this.conceptRepository = conceptRepository;
@@ -60,12 +62,11 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
             log.debug("Primitive data started");
         }
 
-        addConceptIfMissing(OpenCDXIKMService.COVID_PRESENCE,"Presence of COVID","Presence of COVID");
-        addConceptIfMissing(OpenCDXIKMService.COVID_TEST_KITS,"Covid-19 Test Kits (Lookup)","Covid-19 Test Kits (Lookup)");
-        addConceptIfMissing(OpenCDXIKMService.BMI_PATTERN,"Body Mass Index (Lookup)","Body Mass Index (Lookup)");
-
-        test();
+        addConceptIfMissing(OpenCDXIKMService.COVID_PRESENCE, "Presence of COVID", "Presence of COVID");
+        addConceptIfMissing(OpenCDXIKMService.COVID_TEST_KITS, "Covid-19 Test Kits (Lookup)", "Covid-19 Test Kits (Lookup)");
+        addConceptIfMissing(OpenCDXIKMService.BMI_PATTERN, "Body Mass Index (Lookup)", "Body Mass Index (Lookup)");
     }
+
     @Override
     public void close() {
         log.info("Closing IKM Interface");
@@ -75,11 +76,6 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
             log.debug("Primitive data stopped");
         }
     }
-
-    public void test() {
-        this.memberOf(this.getPublicId(OpenCDXIKMService.COVID_TEST_KITS));
-    }
-
 
     /**
      * The name of the controller used to open SpinedArrayStore.
@@ -94,7 +90,17 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
      */
     @Override
     public List<PublicId> descendantsOf(PublicId parentConceptId) {
-        return Searcher.descendantsOf(parentConceptId);
+        List<PublicId> descendents = Searcher.descendantsOf(parentConceptId);
+
+        if (log.isInfoEnabled()) {
+            log.info("Descendents of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).get(0));
+            descendents.forEach(memberOf -> {
+                List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
+                log.info("Descendent ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
+            });
+        }
+
+        return descendents;
     }
 
     /**
@@ -106,27 +112,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
     @Override
     public List<PublicId> memberOf(PublicId member) {
         ArrayList<PublicId> memberOfList = new ArrayList<>();
-        log.info("Looking up Member ID: {}", member.asUuidArray()[0]);
-        if (member.asUuidArray() != null && member.asUuidArray().length > 0 && member.asUuidArray()[0].equals(UUID.fromString(OpenCDXIKMService.COVID_TEST_KITS)) ) {
-            log.info("Using Pattern Lookup");
-
-            StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
-            Latest<PatternEntityVersion> latestPatternVersion = stampCalc.latest(LIDR_RECORD_PATTERN);
-
-            if (PrimitiveData.get().hasPublicId(member)) {
-                EntityService.get().getEntity(member.asUuidArray()).ifPresent((lidrRecordEntity) -> {
-                    Latest<EntityVersion> latestLidrRecordVersion = stampCalc.latest(lidrRecordEntity);
-
-                    if (latestLidrRecordVersion.get() instanceof SemanticEntityVersion latestLidrRecordSemanticVersion) {
-                        IntIdSet targetNids = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.TARGET, latestLidrRecordSemanticVersion);
-                        targetNids.map(PrimitiveData::publicId).forEach(memberOfList::add);
-                    }
-                });
-            }
-
-
-        } else if (PrimitiveData.get().hasPublicId(member)) {
-            log.info("Using Member Lookup");
+        if (PrimitiveData.get().hasPublicId(member)) {
             EntityService.get().getEntity(member.asUuidArray()).ifPresent((entity) -> {
                 if (entity instanceof PatternEntity<?> patternEntity) {
                     EntityService.get().forEachSemanticOfPattern(patternEntity.nid(), (semanticEntityOfPattern) ->
@@ -135,7 +121,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
             });
         }
 
-        if(log.isInfoEnabled()) {
+        if (log.isInfoEnabled()) {
             log.info("Members for Member ID: {}, Description: {}", member.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(member)).get(0));
             memberOfList.forEach(memberOf -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
@@ -154,7 +140,18 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
      */
     @Override
     public List<PublicId> childrenOf(PublicId parentConceptId) {
-        return Searcher.childrenOf(parentConceptId);
+
+        List<PublicId> descendents = Searcher.childrenOf(parentConceptId);
+
+        if (log.isInfoEnabled()) {
+            log.info("Children of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).get(0));
+            descendents.forEach(memberOf -> {
+                List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
+                log.info("Child ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
+            });
+        }
+
+        return descendents;
     }
 
     /**
@@ -208,7 +205,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
      * @return The PublicId of the given concept.
      */
     @Override
-    public  PublicId getPublicId(String concept) {
+    public PublicId getPublicId(String concept) {
         return new PublicId() {
             @Override
             public UUID[] asUuidArray() {
@@ -253,7 +250,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
             log.error("Encountered exception {}", e.getMessage());
         }
 
-        if(result.get() != null) {
+        if (result.get() != null) {
             return result.get();
         }
 
@@ -263,7 +260,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
     private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {
         UUID concept = UUID.fromString(conceptId);
         if (!this.conceptRepository.existsByConceptId(concept)) {
-            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription,true));
+            this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription, true));
         }
     }
 }
