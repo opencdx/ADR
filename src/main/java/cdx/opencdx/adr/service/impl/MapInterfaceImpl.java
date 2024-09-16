@@ -44,7 +44,6 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing("12e11755-845a-4e0c-9f39-24f7386a11ae", "Evaluation procedure", "386053000 | Evaluation procedure (procedure)");
         addConceptIfMissing("9d11d012-7e48-4738-960f-420d78262a58", "Evaluation finding", "441742003 | Evaluation finding (finding)");
 
-        addConceptIfMissing("dc12873c-8989-42f8-ac29-c2eecc3e3b69", "Acute eruption of skin", "72301000510005 | Acute eruption of skin (disorder)");
         addConceptIfMissing("3a01b6d1-9613-42d6-a6b8-828882e69c2a", "Age", "397669002 | Age (qualifier value)");
         addConceptIfMissing("dd44b7a7-015a-336a-a5e0-2330f3ec44dd", "Current chronological age", "Current chronological age");
         addConceptIfMissing("9061a0d4-254a-42b2-b786-82e5e9f79661", "Age at diagnosis", "423493009 | Age at diagnosis (observable entity)");
@@ -52,18 +51,15 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing("c185810a-f541-36fa-bfe2-81d58e626326", "Self reported body height", "Self reported body height");
         addConceptIfMissing("1339a965-5c4d-40a7-b04f-60a17b43455b", "Body weight", "27113001 | Body weight (observable entity)");
         addConceptIfMissing("11e160b0-f40e-3911-912e-e6973d787ea0", "Self reported body weight (observable entity)", "Self reported body weight (observable entity)");
-        addConceptIfMissing("f99f79f5-1075-4331-b0a8-52d7c647715c", "Chronic lung disease", "413839001 | Chronic lung disease (disorder)");
-        addConceptIfMissing("547b6170-4c31-416e-81c7-12625542c72e", "Chronic lung disease due to surfactant disorder", "707534000 | Chronic lung disease due to surfactant disorder (disorder)");
         addConceptIfMissing("40584511-f4fa-33f5-9120-e74f69f1db36", "Date of birth", "184099003 | Date of birth (observable entity)");
         addConceptIfMissing("c6f9e586-4173-43d4-9008-e50c1b7a7a2f", "Date of onset", "298059007 | Date of onset (observable entity)");
-        addConceptIfMissing("90f740b3-f9a2-4532-8388-b31714a6a6f6", "Detected", "260373001 | Detected (qualifier value)");
         addConceptIfMissing("b78510a4-f56a-4e61-b7a4-c8438c673d1b", "History of chronic lung disease", "414415007 | History of chronic lung disease (situation)");
         addConceptIfMissing("b3a45188-79f6-457c-b2b6-957780e84736", "Invalid result", "455371000124106 | Invalid result (qualifier value)");
         addConceptIfMissing("395cc864-7c51-4072-b3e7-f9195b40053a", "Performance", "Performance");
         addConceptIfMissing("9570bad9-ade1-3c77-bbb3-30f0924ee1a6", "Complete", "Complete");
 
         addConceptIfMissing("6308b821-ebb6-3742-8e4a-12c33f37ecde", "Evidence", "Evidence");
-        addConceptIfMissing("97b0fbff-cd01-3018-9f72-03ffc7c9027c", "Detected", "Detected");
+        addConceptIfMissing("97b0fbff-cd01-3018-9f72-03ffc7c9027c", "Detected", "260373001 | Detected (qualifier value)");
         addConceptIfMissing("96671aa4-750a-3fc3-923d-dfb4fc443e86", "Cough", "Cough");
         addConceptIfMissing("0686fe06-286c-34e0-83c6-b8d441e545c4", "Fever", "Fever");
 
@@ -88,12 +84,11 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing("fc6c2e7b-7898-36c2-906d-6de2e441eafb", "Acute exudative skin eruption (disorder)", "723014001 | Acute exudative skin eruption (disorder)");
         addConceptIfMissing("ae5364f8-f918-3b80-895d-33e30eba8207", "Acute maculopapular eruption of skin (disorder)", "723012002 | Acute maculopapular eruption of skin (disorder)");
         addConceptIfMissing("dbc3d2f3-5ec3-36be-be9d-180addb0d7a6", "Acute purpuric eruption of skin (disorder)", "723011009 | Acute purpuric eruption of skin (disorder)");
-        addConceptIfMissing("b19a7962-d9b8-3a09-9735-bff09fd2591f", "Acute eruption of skin", "Acute eruption of skin");
-
+        addConceptIfMissing("b19a7962-d9b8-3a09-9735-bff09fd2591f", "Acute eruption of skin", "72301000510005 | Acute eruption of skin (disorder)");
 // Chronic Lung Disease
 
-        addConceptIfMissing("3e07078-f1e2-3f6a-9b7a-9397bcd91cfe", "Chronic lung disease", "Chronic lung disease");
-        addConceptIfMissing("d7c4af8c-9967-3897-a579-c94aaa44ce14", "Chronic lung disease due to surfactant disorder", "Chronic lung disease due to surfactant disorder");
+        addConceptIfMissing("23e07078-f1e2-3f6a-9b7a-9397bcd91cfe", "Chronic lung disease", "413839001 | Chronic lung disease (disorder)");
+        addConceptIfMissing("d7c4af8c-9967-3897-a579-c94aaa44ce14", "Chronic lung disease due to surfactant disorder", "707534000 | Chronic lung disease due to surfactant disorder (disorder)");
         addConceptIfMissing("f7c234c5-69d5-3764-ae83-ad2517e8e120", "Chronic pneumonia", "Chronic pneumonia");
         addConceptIfMissing("f2dec93c-add4-3060-96fa-62e3094d878c", "Chronic pulmonary congestion", "Chronic pulmonary congestion");
         addConceptIfMissing("d29fa47b-8170-3918-a416-68da7fb79969", "Chronic pulmonary edema", "Chronic pulmonary edema");
