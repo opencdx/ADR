@@ -28,6 +28,11 @@ public interface OpenCDXIKMService {
     String COVID_TEST_KITS = "e0ac20ad-ce6f-3ee4-8c71-51b070aa5737";
     String BMI_PATTERN = "922697f7-36ba-4afc-9dd5-f29d54b0fdec";
 
+    String UNIT_BOOLEAN = "8175b7b9-9ab8-3ddc-a665-0061a8d96a6d";
+    String UNIT_POSITIVE = "b63ad834-4fde-3d33-8b6b-1da0afc7da7d";
+    String UNIT_NEGATIVE = "86cf994c-70f9-36d0-9703-463b77086a74";
+    String UNIT_PRESUMPTIVE_POSITIVE = "d17289f3-1b97-3191-b873-9768cf8673f3";
+    String UNIT_NOT_DETECTED = "cff1d554-6d56-33f3-bf5d-9d5a6e231128";
     /**
      * Retrieves the TinkarConceptModel associated with the given LogicalExpressionModel.
      *

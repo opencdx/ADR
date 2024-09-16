@@ -11,6 +11,8 @@ import cdx.opencdx.adr.utils.CsvBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -45,7 +47,8 @@ public class CsvServiceImpl implements CsvService {
     private final ANFHelper anfRepo;
 
     private final UUID DATETIME_UUID = UUID.fromString(OpenCDXIKMService.UNIT_CALENDAR_TIME);
-
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.00");
+    SimpleDateFormat formatter = new SimpleDateFormat("EE MMMM dd yyyy");
     /**
      * Represents a conversion service.
      */
@@ -90,7 +93,7 @@ public class CsvServiceImpl implements CsvService {
             csvDto.setCell(currentRow, "Participant ID", uuid.toString());
 
             Optional<Date> recentDate = findRecentStatementResult(results, uuid);
-            recentDate.ifPresent(date -> csvDto.setCell(currentRow, "Reported", date.toString()));
+            recentDate.ifPresent(date -> csvDto.setCell(currentRow, "Reported", formatter.format(date)));
 
             ArrayList<AnfStatementModel> anfs = this.anfRepo.getParticipantRepository().findAllByPartId(uuid)
                     .stream()
@@ -128,7 +131,7 @@ public class CsvServiceImpl implements CsvService {
     private void processPerformanceCircumstance(CsvBuilder csvDto, int row, String conceptName, PerformanceCircumstanceModel performanceCircumstance, UnitOutput unitOutput) {
         if (performanceCircumstance.getTiming() != null) {
             MeasureModel dateTimeMeasure = this.conversionService.convert(this.DATETIME_UUID, performanceCircumstance.getTiming());
-            csvDto.setCell(row, conceptName + " Reported", new Date(dateTimeMeasure.getLowerBound().longValue()).toString());
+            csvDto.setCell(row, conceptName + " Reported", formatter.format(new Date(dateTimeMeasure.getLowerBound().longValue())));
         }
         csvDto.setCell(row, conceptName, formatMeasure(performanceCircumstance.getResult(), unitOutput));
     }
@@ -145,7 +148,7 @@ public class CsvServiceImpl implements CsvService {
     private void processRequestCircumstance(CsvBuilder csvDto, int row, String conceptName, RequestCircumstanceModel requestCircumstance, UnitOutput unitOutput) {
         if (requestCircumstance.getTiming() != null) {
             MeasureModel dateTimeMeasure = this.conversionService.convert(this.DATETIME_UUID, requestCircumstance.getTiming());
-            csvDto.setCell(row, conceptName + " Reported", new Date(dateTimeMeasure.getLowerBound().longValue()).toString());
+            csvDto.setCell(row, conceptName + " Reported", formatter.format(new Date(dateTimeMeasure.getLowerBound().longValue())));
         }
         csvDto.setCell(row, conceptName, formatMeasure(requestCircumstance.getRequestedResult(), unitOutput));
     }
@@ -161,7 +164,7 @@ public class CsvServiceImpl implements CsvService {
     private void processNarrativeCircumstance(CsvBuilder csvDto, int row, String conceptName, NarrativeCircumstanceModel narrativeCircumstance) {
         if (narrativeCircumstance.getTiming() != null) {
             MeasureModel dateTimeMeasure = this.conversionService.convert(this.DATETIME_UUID, narrativeCircumstance.getTiming());
-            csvDto.setCell(row, conceptName + " Reported", new Date(dateTimeMeasure.getLowerBound().longValue()).toString());
+            csvDto.setCell(row, conceptName + " Reported", formatter.format(new Date(dateTimeMeasure.getLowerBound().longValue())));
         }
         csvDto.setCell(row, conceptName, narrativeCircumstance.getText());
     }
@@ -198,17 +201,51 @@ public class CsvServiceImpl implements CsvService {
             return "\"\"";
         }
         StringBuilder sb = new StringBuilder();
-        if (boundsAreEqualAndIncluded(convertedMeasure)) {
-            sb.append(convertedMeasure.getLowerBound());
-            appendUnitIfPresent(convertedMeasure, sb);
-        } else {
-            appendLowerBoundIfIncluded(convertedMeasure, sb);
-            appendSeparatorIfBoundsIncluded(convertedMeasure, sb);
-            appendUpperBoundIfIncluded(convertedMeasure, sb);
-            appendUnitIfPresent(convertedMeasure, sb);
+        String semantic = null;
+        if (convertedMeasure.getSemantic() != null) {
+            semantic = convertedMeasure.getSemantic().getConceptId().toString();
+        }
+
+        switch(semantic) {
+            case OpenCDXIKMService.UNIT_BOOLEAN -> {
+                if (boundsAreEqualAndIncluded(convertedMeasure)) {
+                    return convertedMeasure.getLowerBound() == 1 ? "True" : "False";
+                } else {
+                    appendLowerBoundIfIncluded(convertedMeasure, sb);
+                    appendSeparatorIfBoundsIncluded(convertedMeasure, sb);
+                    appendUpperBoundIfIncluded(convertedMeasure, sb);
+                    appendUnitIfPresent(convertedMeasure, sb);
+                }
+            }
+            case OpenCDXIKMService.UNIT_POSITIVE -> {
+                return "Positive";
+            }
+            case OpenCDXIKMService.UNIT_PRESUMPTIVE_POSITIVE -> {
+                return "Presumptive Positive";
+            }
+            case OpenCDXIKMService.UNIT_NEGATIVE -> {
+                return "Negative";
+            }
+            case OpenCDXIKMService.UNIT_NOT_DETECTED -> {
+                return "Not Detected";
+            }
+
+            default -> {
+                if (boundsAreEqualAndIncluded(convertedMeasure)) {
+                    sb.append(decimalFormat.format(convertedMeasure.getLowerBound()));
+                    appendUnitIfPresent(convertedMeasure, sb);
+                } else {
+                    appendLowerBoundIfIncluded(convertedMeasure, sb);
+                    appendSeparatorIfBoundsIncluded(convertedMeasure, sb);
+                    appendUpperBoundIfIncluded(convertedMeasure, sb);
+                    appendUnitIfPresent(convertedMeasure, sb);
+                }
+            }
         }
         return sb.toString();
     }
+
+
 
     /**
      * Checks if the given MeasureModel object has equal and inclusive bounds.
@@ -247,7 +284,7 @@ public class CsvServiceImpl implements CsvService {
             if (measure.getLowerBound() == Double.NEGATIVE_INFINITY) {
                 sb.append(NEGATIVE_INFINITY);
             } else {
-                sb.append(measure.getLowerBound());
+                sb.append(this.decimalFormat.format(measure.getLowerBound()));
             }
         }
     }
@@ -275,7 +312,7 @@ public class CsvServiceImpl implements CsvService {
             if (measure.getUpperBound() == Double.POSITIVE_INFINITY) {
                 sb.append(POSITIVE_INFINITY);
             } else {
-                sb.append(measure.getUpperBound());
+                sb.append(this.decimalFormat.format(measure.getUpperBound()));
             }
         }
     }

@@ -34,10 +34,10 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing("628a2165-0999-40f5-87d4-a40501f1f5f9", "Man", "339947000 | Man (person)");
         addConceptIfMissing("c4e07b26-88f9-4250-803c-86463391c001", "Woman", "224526002 | Woman (person)");
         addConceptIfMissing("359f77d5-6397-4b55-a2b6-c0695f165371", "Pregnant woman", "255409004 | Pregnant woman (person)");
-        addConceptIfMissing("86cf994c-70f9-36d0-9703-463b77086a74", "Negative", "260385009 | Negative (qualifier value)");
-        addConceptIfMissing("cff1d554-6d56-33f3-bf5d-9d5a6e231128", "Not Detected", "260415000 | Not Detected (qualifier value)");
-        addConceptIfMissing("b63ad834-4fde-3d33-8b6b-1da0afc7da7d", "Positive", "10828004 | Positive (qualifier value)");
-        addConceptIfMissing("d17289f3-1b97-3191-b873-9768cf8673f3", "Presumptive Positive", "720735008 | Presumptive Positive (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_NEGATIVE, "Negative", "260385009 | Negative (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_NOT_DETECTED, "Not Detected", "260415000 | Not Detected (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_POSITIVE, "Positive", "10828004 | Positive (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_PRESUMPTIVE_POSITIVE, "Presumptive Positive", "720735008 | Presumptive Positive (qualifier value)");
 
         addConceptIfMissing("86490a44-8539-31e2-8e0f-3a6253a72fca", "Patient", "116154003 | Patient (person)");
         addConceptIfMissing("4c3137e7-9215-415e-b840-5a580c275080", "Family medicine specialist", "62247001 | Family medicine specialist (occupation)");
