@@ -168,7 +168,64 @@ public class ConversionServiceImpl implements ConversionService {
                     convertToHours(unit, value);
             case OpenCDXIKMService.UNIT_MINUTE -> // minutes
                     convertToMinutes(unit, value);
+            case OpenCDXIKMService.UNIT_CALENDAR_TIME -> // calendar time
+                    convertToCalendarTime(unit, value);
+            case OpenCDXIKMService.UNIT_DATE_TIME -> // date time
+                    convertToDateTime(unit, value);
+            case OpenCDXIKMService.UNIT_DATE -> // date
+                    convertToDate(unit, value);
+            case OpenCDXIKMService.UNIT_MILLISECONDS -> // milliseconds
+                    convertToMilliseconds(unit, value);
+
             default -> value;
+        };
+    }
+
+    private Double convertToCalendarTime(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_DATE ->
+                    value;
+            case OpenCDXIKMService.UNIT_DATE_TIME ->
+                    value * 1000;
+            default -> null;
+        };
+    }
+
+    private Double convertToDateTime(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_DATE_TIME ->
+                    value / 1000;
+            case OpenCDXIKMService.UNIT_CALENDAR_TIME ->
+                    value / 1000;
+            default -> null;
+        };
+    }
+
+    private Double convertToDate(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_DATE_TIME ->
+                    value * 1000;
+            case OpenCDXIKMService.UNIT_CALENDAR_TIME ->
+                    value;
+            default -> null;
+        };
+    }
+
+    private Double convertToMilliseconds(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_DAY -> // days
+                    value * 86400000; // 24 hours/day * 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second
+            case OpenCDXIKMService.UNIT_MONTH -> // Not a standard unit, assuming 30 days
+                    value * 2592000000.0; // 30 days/month * 24 hours/day * 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second
+            case OpenCDXIKMService.UNIT_YEAR -> // years
+                    value * 31536000000.0; // 365 days/year * 24 hours/day * 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second
+            case OpenCDXIKMService.UNIT_SECONDS -> // seconds
+                    value * 1000; // 1000 milliseconds/second
+            case OpenCDXIKMService.UNIT_HOUR -> // hours
+                    value * 3600000; // 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second
+            case OpenCDXIKMService.UNIT_MINUTE -> // minutes
+                    value * 60000; // 60 seconds/minute * 1000 milliseconds/second
+            default -> null;
         };
     }
 
@@ -184,6 +241,8 @@ public class ConversionServiceImpl implements ConversionService {
                     value / 60; // 60 seconds/minute
             case OpenCDXIKMService.UNIT_HOUR -> // hours
                     value * 60; // 60 minutes/hour
+            case OpenCDXIKMService.UNIT_MILLISECONDS -> // milliseconds
+                    value / 60000; // 60 seconds/minute * 1000 milliseconds/second
             default -> null;
         };
     }
@@ -201,6 +260,8 @@ public class ConversionServiceImpl implements ConversionService {
                     value / 3600; // 60 minutes/hour * 60 seconds/minute
             case OpenCDXIKMService.UNIT_MINUTE -> // minutes
                     value / 60; // 60 seconds/minute
+            case OpenCDXIKMService.UNIT_MILLISECONDS -> // milliseconds
+                    value / 3600000; // 60 seconds/minute * 60 minutes/hour * 1000 milliseconds/second
             default -> null;
         };
     }
@@ -217,6 +278,8 @@ public class ConversionServiceImpl implements ConversionService {
                     value * 3600; // 60 minutes/hour * 60 seconds/minute
             case OpenCDXIKMService.UNIT_MINUTE -> // minutes
                     value * 60; // 60 seconds/minute
+            case OpenCDXIKMService.UNIT_MILLISECONDS -> // milliseconds
+                    value / 1000; // 1000 milliseconds/second
             default -> null;
         };
     }
@@ -231,6 +294,10 @@ public class ConversionServiceImpl implements ConversionService {
                     value / 31536000; // 365 days/year * 24 hours/day * 60 minutes/hour * 60 seconds/minute
             case OpenCDXIKMService.UNIT_HOUR -> // hours
                     value / 8760; // 24 hours/day * 365 days/year
+            case OpenCDXIKMService.UNIT_MINUTE -> // minutes
+                    value / 525600; // 60 minutes/hour * 24 hours/day * 365 days/year
+            case OpenCDXIKMService.UNIT_MILLISECONDS -> // milliseconds
+                    value / 31536000000.0; // 365 days/year * 24 hours/day * 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second
             default -> null;
         };
     }
@@ -245,6 +312,10 @@ public class ConversionServiceImpl implements ConversionService {
                     value / 2592000; // 30 days/month * 24 hours/day * 60 minutes/hour * 60 seconds/minute
             case OpenCDXIKMService.UNIT_HOUR -> // hours
                     value / 730; // 24 hours/day * 30 days/month
+            case OpenCDXIKMService.UNIT_MINUTE -> // minutes
+                    value / 43800; // 30 days/month * 24 hours/day * 60 minutes/hour
+            case OpenCDXIKMService.UNIT_MILLISECONDS -> // milliseconds
+                    value / 2592000000.0; // 30 days/month * 24 hours/day * 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second
             default -> null;
         };
     }
@@ -259,6 +330,10 @@ public class ConversionServiceImpl implements ConversionService {
                     value / 86400; // 24 hours/day * 60 minutes/hour * 60 seconds/minute
             case OpenCDXIKMService.UNIT_HOUR -> // hours
                     value / 24; // 24 hours/day
+            case OpenCDXIKMService.UNIT_MINUTE -> // minutes
+                    value / 1440; // 24 hours/day * 60 minutes/hour
+            case OpenCDXIKMService.UNIT_MILLISECONDS -> // milliseconds
+                    value / 86400000.0; // 24 hours/day * 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second
             default -> null;
         };
     }

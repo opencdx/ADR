@@ -5,6 +5,7 @@ import cdx.opencdx.adr.model.*;
 import cdx.opencdx.adr.repository.CalculatedConceptRepository;
 import cdx.opencdx.adr.service.ConversionService;
 import cdx.opencdx.adr.service.CsvService;
+import cdx.opencdx.adr.service.OpenCDXIKMService;
 import cdx.opencdx.adr.utils.ANFHelper;
 import cdx.opencdx.adr.utils.CsvBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,7 @@ public class CsvServiceImpl implements CsvService {
      */
     private final ANFHelper anfRepo;
 
+    private final UUID DATETIME_UUID = UUID.fromString(OpenCDXIKMService.UNIT_CALENDAR_TIME);
 
     /**
      * Represents a conversion service.
@@ -125,7 +127,8 @@ public class CsvServiceImpl implements CsvService {
      */
     private void processPerformanceCircumstance(CsvBuilder csvDto, int row, String conceptName, PerformanceCircumstanceModel performanceCircumstance, UnitOutput unitOutput) {
         if (performanceCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", new Date(performanceCircumstance.getTiming().getLowerBound().longValue() * 1000).toString());
+            MeasureModel dateTimeMeasure = this.conversionService.convert(this.DATETIME_UUID, performanceCircumstance.getTiming());
+            csvDto.setCell(row, conceptName + " Reported", new Date(dateTimeMeasure.getLowerBound().longValue()).toString());
         }
         csvDto.setCell(row, conceptName, formatMeasure(performanceCircumstance.getResult(), unitOutput));
     }
@@ -141,7 +144,8 @@ public class CsvServiceImpl implements CsvService {
      */
     private void processRequestCircumstance(CsvBuilder csvDto, int row, String conceptName, RequestCircumstanceModel requestCircumstance, UnitOutput unitOutput) {
         if (requestCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", new Date(requestCircumstance.getTiming().getLowerBound().longValue() * 1000).toString());
+            MeasureModel dateTimeMeasure = this.conversionService.convert(this.DATETIME_UUID, requestCircumstance.getTiming());
+            csvDto.setCell(row, conceptName + " Reported", new Date(dateTimeMeasure.getLowerBound().longValue()).toString());
         }
         csvDto.setCell(row, conceptName, formatMeasure(requestCircumstance.getRequestedResult(), unitOutput));
     }
@@ -156,7 +160,8 @@ public class CsvServiceImpl implements CsvService {
      */
     private void processNarrativeCircumstance(CsvBuilder csvDto, int row, String conceptName, NarrativeCircumstanceModel narrativeCircumstance) {
         if (narrativeCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", new Date(narrativeCircumstance.getTiming().getLowerBound().longValue() * 1000).toString());
+            MeasureModel dateTimeMeasure = this.conversionService.convert(this.DATETIME_UUID, narrativeCircumstance.getTiming());
+            csvDto.setCell(row, conceptName + " Reported", new Date(dateTimeMeasure.getLowerBound().longValue()).toString());
         }
         csvDto.setCell(row, conceptName, narrativeCircumstance.getText());
     }
