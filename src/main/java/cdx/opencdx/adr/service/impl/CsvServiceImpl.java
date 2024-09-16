@@ -177,7 +177,8 @@ public class CsvServiceImpl implements CsvService {
         return results.stream()
                 .filter(item -> item.getSubjectOfRecord().getPartId().equals(uuid))
                 .sorted(Comparator.comparing(item -> item.getTime().getLowerBound()))
-                .map(item -> new Date(item.getTime().getLowerBound().longValue() * 1000))
+                .map(item -> this.conversionService.convert(this.DATETIME_UUID,item.getTime()))
+                .map(item -> new Date(item.getLowerBound().longValue()))
                 .findFirst();
     }
 
