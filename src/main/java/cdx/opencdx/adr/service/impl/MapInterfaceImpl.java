@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.IKMInterface;
@@ -242,6 +243,17 @@ public class MapInterfaceImpl implements IKMInterface {
     @Override
     public PublicId getPublicIdForDevice(String device) {
         return this.getPublicId(device);
+    }
+
+    /**
+     * Synchronizes the constraint ranges for a given MeasureModel instance.
+     *
+     * @param measureModel the MeasureModel instance to synchronize constraint ranges for
+     * @return the updated MeasureModel instance with synchronized constraint ranges
+     */
+    @Override
+    public MeasureModel syncConstraintRanges(UUID result, MeasureModel measureModel) {
+        return measureModel;
     }
 
     private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {

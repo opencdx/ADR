@@ -33,6 +33,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -81,7 +83,8 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      *
      * @see OpenCDXANFProcessor
      */
-    private final List<OpenCDXANFProcessor> openCDXANFProcessors;
+    private final List<OpenCDXANFProcessor> postOpenCDXANFProcessors;
+    private final List<OpenCDXANFProcessor> preOpenCDXANFProcessors;
     /**
      * This private final variable represents an instance of ANFRepo.
      * ANFRepo is a repository class that provides functionality for
@@ -124,16 +127,25 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      * @param mapper                 the object mapper
      * @param savedQueryRepository   the saved query repository
      */
-    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, TinkarConceptRepository conceptRepository, QueryService queryService, List<OpenCDXANFProcessor> openCDXANFProcessors, ANFHelper anfRepo, ObjectMapper mapper, SavedQueryRepository savedQueryRepository) {
+    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository,
+                                 TinkarConceptRepository conceptRepository,
+                                 QueryService queryService,
+                                 @Qualifier("preOpenCDXANFProcessors") List<OpenCDXANFProcessor> preOpenCDXANFProcessors,
+                                 @Qualifier("postOpenCDXANFProcessors") List<OpenCDXANFProcessor> postOpenCDXANFProcessors,
+                                 ANFHelper anfRepo,
+                                 ObjectMapper mapper,
+                                 SavedQueryRepository savedQueryRepository) {
         this.anfStatementRepository = anfStatementRepository;
         this.conceptRepository = conceptRepository;
         this.queryService = queryService;
-        this.openCDXANFProcessors = openCDXANFProcessors;
+        this.postOpenCDXANFProcessors = postOpenCDXANFProcessors;
+        this.preOpenCDXANFProcessors = preOpenCDXANFProcessors;
         this.anfRepo = anfRepo;
         this.mapper = mapper;
         this.savedQueryRepository = savedQueryRepository;
 
-        this.openCDXANFProcessors.forEach(processor -> log.info("Processor: {}", processor.getClass().getName()));
+        this.preOpenCDXANFProcessors.forEach(processor -> log.info("Pre Processor: {}", processor.getClass().getName()));
+        this.postOpenCDXANFProcessors.forEach(processor -> log.info("Post Processor: {}", processor.getClass().getName()));
 
         this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_DAY)); // day
         this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_INCH)); // inch
@@ -160,10 +172,13 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      */
     @Override
     public synchronized Long storeAnfStatement(ANFStatement anfStatement) {
-        AnfStatementModel model = this.anfStatementRepository.save(new AnfStatementModel(anfStatement, anfRepo));
+
+        AnfStatementModel preModel = new AnfStatementModel(anfStatement, anfRepo);
+        this.preOpenCDXANFProcessors.forEach(processor -> processor.processAnfStatement(preModel));
+        AnfStatementModel postModel = this.anfStatementRepository.save(preModel);
         this.anfStatementRepository.flush();
-        this.openCDXANFProcessors.forEach(processor -> processor.processAnfStatement(model));
-        return model.getId();
+        this.postOpenCDXANFProcessors.forEach(processor -> processor.processAnfStatement(postModel));
+        return postModel.getId();
     }
 
     /**

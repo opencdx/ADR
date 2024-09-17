@@ -6,11 +6,13 @@ import cdx.opencdx.adr.service.OpenCDXANFProcessor;
 import cdx.opencdx.adr.service.impl.IKMInterfaceImpl;
 import cdx.opencdx.adr.service.impl.LogicalExpressionProcessor;
 import cdx.opencdx.adr.service.impl.MapInterfaceImpl;
+import cdx.opencdx.adr.service.impl.RangeCheckProcessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import io.swagger.v3.core.jackson.ModelResolver;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -83,10 +85,25 @@ public class AppConfig {
      * @return The list of OpenCDXANFProcessor objects.
      */
     @Bean
+    @Qualifier("preOpenCDXANFProcessors")
     @Description("OpenCDXANFProcessors")
-    public List<OpenCDXANFProcessor> openCDXANFProcessors(
+    public List<OpenCDXANFProcessor> preOpenCDXANFProcessors(RangeCheckProcessor rangeCheckProcessor,
             LogicalExpressionProcessor logicalExpressionProcessor) {
-        return List.of(logicalExpressionProcessor);
+        return List.of(  rangeCheckProcessor);
+    }
+
+    /**
+     * Opens the CDX ANF Processors.
+     *
+     * @param logicalExpressionProcessor The logical expression processor.
+     * @return The list of OpenCDXANFProcessor objects.
+     */
+    @Bean
+    @Qualifier
+    @Description("OpenCDXANFProcessors")
+    public List<OpenCDXANFProcessor> postOpenCDXANFProcessors(RangeCheckProcessor rangeCheckProcessor,
+                                                          LogicalExpressionProcessor logicalExpressionProcessor) {
+        return List.of( logicalExpressionProcessor);
     }
 
     /**

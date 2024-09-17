@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.model.MeasureModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.IKMInterface;
@@ -11,11 +12,14 @@ import dev.ikm.tinkar.common.service.ServiceKeys;
 import dev.ikm.tinkar.common.service.ServiceProperties;
 import dev.ikm.tinkar.coordinate.Calculators;
 import dev.ikm.tinkar.coordinate.stamp.calculator.Latest;
+import dev.ikm.tinkar.coordinate.stamp.calculator.StampCalculatorWithCache;
 import dev.ikm.tinkar.coordinate.view.calculator.ViewCalculator;
 import dev.ikm.tinkar.entity.EntityService;
 import dev.ikm.tinkar.entity.PatternEntity;
 import dev.ikm.tinkar.entity.PatternEntityVersion;
+import dev.ikm.tinkar.entity.SemanticEntityVersion;
 import dev.ikm.tinkar.provider.search.Searcher;
+import dev.ikm.tinkar.terms.EntityProxy;
 import dev.ikm.tinkar.terms.TinkarTerm;
 import lombok.extern.slf4j.Slf4j;
 
@@ -261,5 +265,41 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         if (!this.conceptRepository.existsByConceptId(concept)) {
             this.conceptRepository.save(new TinkarConceptModel(concept, conceptName, conceptDescription, true));
         }
+    }
+
+    public MeasureModel syncConstraintRanges(UUID topic, MeasureModel measureModel) {
+        EntityProxy.Pattern valueConstraintPattern = TinkarTerm.VALUE_CONSTRAINT_PATTERN;
+        StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
+        List<SemanticEntityVersion> latestSemanticList = new ArrayList<>();
+
+        PrimitiveData.get().forEachSemanticNidOfPattern(valueConstraintPattern.nid(), (valueConstraintSemanticNid) -> {
+            Latest<SemanticEntityVersion> latestValueConstraintSemanticVersion = stampCalc.latest(valueConstraintSemanticNid);
+            latestSemanticList.add(latestValueConstraintSemanticVersion.get());
+        });
+
+        Latest<PatternEntityVersion> latestPatternVersion = stampCalc.latest(valueConstraintPattern);
+
+        latestSemanticList.forEach(valueConstraintSemantic -> {
+
+            UUID[] array = valueConstraintSemantic.referencedComponent().publicId().asUuidArray();
+
+            // Search the entire Array for measureModel.getSemantic().getConceptId()
+            for(UUID id : array) {
+                if (id.equals(topic)) {
+                    EntityProxy.Concept minOperator = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.MINIMUM_VALUE_OPERATOR, valueConstraintSemantic);
+                    float refRangeMin = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.REFERENCE_RANGE_MINIMUM, valueConstraintSemantic);
+
+                    EntityProxy.Concept maxOperator = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.MAXIMUM_VALUE_OPERATOR, valueConstraintSemantic);
+                    float refRangeMax = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.REFERENCE_RANGE_MAXIMUM, valueConstraintSemantic);
+
+                    log.info("Concept: {}  Min:{}  Max:{}", id, refRangeMin, refRangeMax);
+                    measureModel.setLowerBound((double) refRangeMin);
+                    measureModel.setUpperBound((double) refRangeMax);
+                }
+            }
+
+        });
+
+        return measureModel;
     }
 }

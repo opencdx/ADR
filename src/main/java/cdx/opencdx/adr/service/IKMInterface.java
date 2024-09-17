@@ -1,8 +1,10 @@
 package cdx.opencdx.adr.service;
 
+import cdx.opencdx.adr.model.MeasureModel;
 import dev.ikm.tinkar.common.id.PublicId;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface IKMInterface {
     /**
@@ -77,4 +79,13 @@ public interface IKMInterface {
      * @return The PublicId of the given device.
      */
     PublicId getPublicIdForDevice(String device);
+
+
+    /**
+     * Synchronizes the constraint ranges for a given MeasureModel instance.
+     * @param topic the topic to synchronize constraint ranges for
+     * @param measureModel the MeasureModel instance to synchronize constraint ranges for
+     * @return the updated MeasureModel instance with synchronized constraint ranges
+     */
+    MeasureModel syncConstraintRanges(UUID topic,  MeasureModel measureModel);
 }
