@@ -229,6 +229,12 @@ public class CsvServiceImpl implements CsvService {
             case OpenCDXIKMService.UNIT_NOT_DETECTED -> {
                 return "Not Detected";
             }
+            case OpenCDXIKMService.UNIT_YES -> {
+                return "Yes";
+            }
+            case OpenCDXIKMService.UNIT_NO -> {
+                return "No";
+            }
 
             default -> {
                 if (boundsAreEqualAndIncluded(convertedMeasure)) {

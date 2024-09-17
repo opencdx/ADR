@@ -114,6 +114,8 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing(OpenCDXIKMService.UNIT_HOUR, "kilograms", "2258702006 | hour (qualifier value)"); // There seems to be a typo here. It should likely be "hour" instead of "kilograms"
         addConceptIfMissing(OpenCDXIKMService.UNIT_DATE, "date", "410672004 | Date property (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_CALENDAR_TIME, "calendar time", "Unit of calendar time");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_YES, "Yes", "373066001 | Yes (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_NO, "No", "373067005 | No (qualifier value)");
 
         // Test Kits
         addConceptIfMissing("f7c234c5-69d5-3764-ae83-ad2517e8e120", "Test Kit A", "00000123456789");

@@ -33,6 +33,9 @@ public interface OpenCDXIKMService {
     String UNIT_NEGATIVE = "86cf994c-70f9-36d0-9703-463b77086a74";
     String UNIT_PRESUMPTIVE_POSITIVE = "d17289f3-1b97-3191-b873-9768cf8673f3";
     String UNIT_NOT_DETECTED = "cff1d554-6d56-33f3-bf5d-9d5a6e231128";
+
+    String UNIT_YES = "c928767e-f519-3b34-bff2-a2ed3cd5c6c3";
+    String UNIT_NO = "d58a8003-b801-3da2-83c1-e09497c9bb53";
     /**
      * Retrieves the TinkarConceptModel associated with the given LogicalExpressionModel.
      *
