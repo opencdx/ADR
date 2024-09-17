@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -115,6 +116,7 @@ public class OpenCDXIKMServiceImpl implements OpenCDXIKMService {
 
             if (publicId != null) {
                 result.setConceptId(publicId.asUuidArray()[0]);
+                result.setAnfStatements(new ArrayList<>());
                 List<String> descriptions = this.ikmInterface.descriptionsOf(List.of(publicId));
                 if (descriptions != null && !descriptions.isEmpty() && !descriptions.getFirst().isEmpty()) {
                     result.setConceptName(descriptions.getFirst());

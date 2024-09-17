@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * The ConceptServiceImpl class is an implementation of the ConceptService interface.
@@ -36,7 +37,7 @@ public class ConceptServiceImpl implements ConceptService {
     public List<UUID> getFocusConcepts(TinkarConceptModel conceptModel) {
 
         log.debug("Retrieving focus concepts {} for concept model: {}", conceptModel.getFocus(), conceptModel.getConceptId());
-        return switch (conceptModel.getFocus()) {
+        List<UUID> uuids = switch (conceptModel.getFocus()) {
             case SELF, DATE -> List.of(conceptModel.getConceptId());
             case DESCENDANTS ->
                     this.ikmInterface.descendantsOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
@@ -63,5 +64,12 @@ public class ConceptServiceImpl implements ConceptService {
             case PARENT -> List.of(UUID.randomUUID());
             case PARENT_OR_SELF -> List.of(UUID.randomUUID(), conceptModel.getConceptId());
         };
+
+        if(log.isInfoEnabled()) {
+            log.info("Retrieved focus concepts {} for concept model: {}", uuids.stream()
+                    .map(UUID::toString)
+                    .collect(Collectors.joining(", ")), conceptModel.getConceptId());
+        }
+        return uuids;
     }
 }

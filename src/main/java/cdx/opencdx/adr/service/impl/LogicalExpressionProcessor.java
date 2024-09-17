@@ -71,6 +71,7 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
                 this.updateTinkarConceptModel(anfStatement.getPerformanceCircumstance().getHealthRisk(), anfStatement);
             }
             this.updateTinkarConceptModel(anfStatement.getPerformanceCircumstance().getPurposes(), anfStatement);
+            this.updateTinkarConceptModel(anfStatement.getPerformanceCircumstance().getDeviceIds(), anfStatement);
         } else if (anfStatement.getRequestCircumstance() != null) {
             this.updateTinkarConceptModel(anfStatement.getRequestCircumstance().getConditionalTrigger().stream().map(AssociatedStatementModel::getSemantic).filter(Objects::nonNull).toList(), anfStatement);
             this.updateTinkarConceptModel(anfStatement.getRequestCircumstance().getPriority(), anfStatement);

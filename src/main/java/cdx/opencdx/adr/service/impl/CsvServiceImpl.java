@@ -88,6 +88,8 @@ public class CsvServiceImpl implements CsvService {
         CsvBuilder csvDto = new CsvBuilder();
         AtomicInteger row = new AtomicInteger();
 
+        log.info("Processing {} participants", list.size());
+
         list.forEach(uuid -> {
             int currentRow = row.getAndIncrement();
             csvDto.setCell(currentRow, "Participant ID", uuid.toString());

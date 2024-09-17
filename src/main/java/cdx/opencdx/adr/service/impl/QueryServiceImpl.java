@@ -279,9 +279,13 @@ public class QueryServiceImpl implements QueryService {
 
         criteriaQuery.where(root.get("conceptId").in(this.conceptService.getFocusConcepts(query.getConcept())));
 
-        return entityManager.createQuery(criteriaQuery).getResultList().stream()
+        List<AnfStatementModel> anf =  entityManager.createQuery(criteriaQuery).getResultList().stream()
                 .map(TinkarConceptModel::getAnfStatements)
                 .collect(ArrayList::new, List::addAll, List::addAll);
+
+        log.info("Simple Query Results: {}", anf.size());
+
+        return anf;
     }
 
     /**
