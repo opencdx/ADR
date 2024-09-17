@@ -122,7 +122,8 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      * @param anfStatementRepository the ANF statement repository
      * @param conceptRepository      the Tinkar concept repository
      * @param queryService           the query service
-     * @param openCDXANFProcessors   a list of OpenCDXANFProcessor instances
+     * @param preOpenCDXANFProcessors the pre-OpenCDX ANF processors
+     * @param postOpenCDXANFProcessors the post-OpenCDX ANF processors
      * @param anfRepo                the ANF repository
      * @param mapper                 the object mapper
      * @param savedQueryRepository   the saved query repository
