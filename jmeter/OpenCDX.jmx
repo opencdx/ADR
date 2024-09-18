@@ -26485,6 +26485,106 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.1" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;id&quot;: 3,&#xd;
+    &quot;name&quot;: &quot;Scenario 3.1&quot;,&#xd;
+    &quot;query&quot;: {&#xd;
+        &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
+        &quot;queries&quot;: [&#xd;
+            {&#xd;
+                &quot;concept&quot;: {&#xd;
+                    &quot;id&quot;: 10,&#xd;
+                    &quot;conceptId&quot;: &quot;81e4a22f-b77a-3fa3-bb25-474f129c3635&quot;,&#xd;
+                    &quot;sync&quot;: true,&#xd;
+                    &quot;conceptName&quot;: &quot;Always Right COVID-19 Antigen Home Test&quot;,&#xd;
+                    &quot;conceptDescription&quot;: &quot;00000123456789&quot;,&#xd;
+                    &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                },&#xd;
+                &quot;operation&quot;: null,&#xd;
+                &quot;operationDouble&quot;: null,&#xd;
+                &quot;operationUnit&quot;: null,&#xd;
+                &quot;operationText&quot;: null,&#xd;
+                &quot;formula&quot;: null,&#xd;
+                &quot;joinOperation&quot;: null,&#xd;
+                &quot;group&quot;: null&#xd;
+            }&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/query/save</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.2" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;id&quot;: 4,&#xd;
+    &quot;name&quot;: &quot;Scenario 3.2&quot;,&#xd;
+    &quot;query&quot;: {&#xd;
+        &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
+        &quot;queries&quot;: [&#xd;
+            {&#xd;
+                &quot;concept&quot;: {&#xd;
+                    &quot;id&quot;: 40,&#xd;
+                    &quot;conceptId&quot;: &quot;576c39fc-692b-3708-bbd7-658c189027db&quot;,&#xd;
+                    &quot;sync&quot;: true,&#xd;
+                    &quot;conceptName&quot;: &quot;Never Wrong COVID-19 Antigen Home Test&quot;,&#xd;
+                    &quot;conceptDescription&quot;: &quot;99999123456789&quot;,&#xd;
+                    &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                },&#xd;
+                &quot;operation&quot;: null,&#xd;
+                &quot;operationDouble&quot;: null,&#xd;
+                &quot;operationUnit&quot;: null,&#xd;
+                &quot;operationText&quot;: null,&#xd;
+                &quot;formula&quot;: null,&#xd;
+                &quot;joinOperation&quot;: null,&#xd;
+                &quot;group&quot;: null&#xd;
+            }&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/query/save</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
         </hashTree>
       </hashTree>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
