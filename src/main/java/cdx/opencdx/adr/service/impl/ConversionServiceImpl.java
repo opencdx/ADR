@@ -61,25 +61,36 @@ public class ConversionServiceImpl implements ConversionService {
      */
     @Override
     public MeasureModel convert(UUID unit, MeasureModel measure) {
-        log.info("Converting measure: {}", measure);
+        log.debug("Converting measure: {}", measure);
         if (unit == null || (measure.getSemantic() != null && unit.equals(measure.getSemantic().getConceptId()))) {
             return measure;
         }
-        log.info("Converting measure to unit: {}", unit);
+        log.debug("Converting measure to unit: {}", unit);
         MeasureModel convertedMeasure = new MeasureModel();
         convertedMeasure.setIncludeLowerBound(measure.getIncludeLowerBound());
         convertedMeasure.setIncludeUpperBound(measure.getIncludeUpperBound());
 
+        log.debug("Lower Bound Include: {}", convertedMeasure.getIncludeLowerBound());
+        log.debug("Upper Bound Include: {}", convertedMeasure.getIncludeUpperBound());
+
         if (measure.getLowerBound() != null) {
+            log.debug("Lower Bound: Unit: {} Current: {} Value: {}", unit, measure.getSemantic().getConceptId(), measure.getLowerBound());
             convertedMeasure.setLowerBound(this.process(unit, measure.getSemantic().getConceptId(), measure.getLowerBound()));
+        } else {
+            convertedMeasure.setLowerBound(null);
+            log.debug("Lower bound is null");
         }
 
         if (measure.getUpperBound() != null) {
+            log.debug("Upper Bound: Unit: {} Current: {} Value: {}", unit, measure.getSemantic().getConceptId(), measure.getUpperBound());
             convertedMeasure.setUpperBound(this.process(unit, measure.getSemantic().getConceptId(), measure.getUpperBound()));
+        } else {
+            convertedMeasure.setUpperBound(null);
+            log.debug("Upper bound is null");
         }
 
         convertedMeasure.setSemantic(this.conceptRepository.findByConceptId(unit));
-        log.info("Converted measure: {}", convertedMeasure);
+        log.debug("Converted measure: {}", convertedMeasure);
         return convertedMeasure;
     }
 

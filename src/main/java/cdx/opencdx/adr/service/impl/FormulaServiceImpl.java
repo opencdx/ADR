@@ -83,11 +83,13 @@ public class FormulaServiceImpl implements FormulaService {
             TinkarConceptModel semantic = new TinkarConceptModel();
             PerformanceCircumstanceModel performanceCircumstance = new PerformanceCircumstanceModel();
 
-            semantic.setConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_SECONDS));
+            semantic.setConceptId(UUID.fromString(OpenCDXIKMServiceImpl.UNIT_CALENDAR_TIME));
             timing.setSemantic(semantic);
             timing.setResolution(1.0);
             timing.setLowerBound((double) Instant.now().getEpochSecond());
             timing.setUpperBound(timing.getLowerBound());
+            timing.setIncludeLowerBound(true);
+            timing.setIncludeUpperBound(true);
 
             result.setUpperBound(value);
             result.setLowerBound(value);
