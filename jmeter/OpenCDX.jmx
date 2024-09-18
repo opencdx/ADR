@@ -26234,7 +26234,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                                 &quot;operationUnit&quot;: null,&#xd;
                                 &quot;operationText&quot;: null,&#xd;
                                 &quot;formula&quot;: {&#xd;
-                                    &quot;name&quot;: &quot;((Self [Self reported body weight (observable entity)] (pounds (qualifier value))/(Self [Self reported body height (observable entity)] (Inch (qualifier value))^2))×703)&gt;= 3&quot;,&#xd;
+                                    &quot;name&quot;: &quot;((Self [Self reported body weight (observable entity)] (pounds (qualifier value))/(Self [Self reported body height (observable entity)] (Inch (qualifier value))^2))×703)&quot;,&#xd;
                                     &quot;leftOperand&quot;: null,&#xd;
                                     &quot;rightOperand&quot;: null,&#xd;
                                     &quot;leftOperandValue&quot;: 703.0,&#xd;
@@ -26315,7 +26315,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                                 &quot;operationUnit&quot;: null,&#xd;
                                 &quot;operationText&quot;: null,&#xd;
                                 &quot;formula&quot;: {&#xd;
-                                    &quot;name&quot;: &quot;((Self [Self reported body weight (observable entity)] (pounds (qualifier value))/(Self [Self reported body height (observable entity)] (Inch (qualifier value))^2))×703)&lt;= 3&quot;,&#xd;
+                                    &quot;name&quot;: &quot;((Self [Self reported body weight (observable entity)] (pounds (qualifier value))/(Self [Self reported body height (observable entity)] (Inch (qualifier value))^2))×703)&quot;,&#xd;
                                     &quot;leftOperand&quot;: null,&#xd;
                                     &quot;rightOperand&quot;: null,&#xd;
                                     &quot;leftOperandValue&quot;: 703.0,&#xd;
