@@ -96,10 +96,10 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         List<PublicId> descendents = Searcher.descendantsOf(parentConceptId);
 
         if (log.isInfoEnabled()) {
-            log.info("Descendents of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).get(0));
+            log.debug("Descendents of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).get(0));
             descendents.forEach(memberOf -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
-                log.info("Descendent ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
+                log.debug("Descendent ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
             });
         }
 
@@ -124,11 +124,11 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
             });
         }
 
-        if (log.isInfoEnabled()) {
-            log.info("Members for Member ID: {}, Description: {}", member.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(member)).get(0));
+        if (log.isDebugEnabled()) {
+            log.debug("Members for Member ID: {}, Description: {}", member.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(member)).get(0));
             memberOfList.forEach(memberOf -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
-                log.info("Member ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
+                log.debug("Member ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
             });
         }
 
@@ -147,10 +147,10 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         List<PublicId> descendents = Searcher.childrenOf(parentConceptId);
 
         if (log.isInfoEnabled()) {
-            log.info("Children of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).get(0));
+            log.debug("Children of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).get(0));
             descendents.forEach(memberOf -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
-                log.info("Child ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
+                log.debug("Child ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
             });
         }
 
@@ -292,7 +292,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
                     EntityProxy.Concept maxOperator = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.MAXIMUM_VALUE_OPERATOR, valueConstraintSemantic);
                     float refRangeMax = latestPatternVersion.get().getFieldWithMeaning(TinkarTerm.REFERENCE_RANGE_MAXIMUM, valueConstraintSemantic);
 
-                    log.info("Concept: {}  Min:{}  Max:{}", id, refRangeMin, refRangeMax);
+                    log.debug("Concept: {}  Min:{}  Max:{}", id, refRangeMin, refRangeMax);
                     measureModel.setLowerBound((double) refRangeMin);
                     measureModel.setUpperBound((double) refRangeMax);
                 }

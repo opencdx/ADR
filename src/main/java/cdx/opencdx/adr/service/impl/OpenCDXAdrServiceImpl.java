@@ -246,7 +246,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
             savedQueries.add(new SavedQuery(model.getId(), model.getName(), this.mapper.readValue(model.getContent(), ADRQuery.class)));
         }
 
-        return savedQueries;
+        return savedQueries.stream().sorted(Comparator.comparing(SavedQuery::getName)).toList();
     }
 
     @Override
