@@ -179,6 +179,7 @@ public class CsvServiceImpl implements CsvService {
      * @return an optional Date representing the most recent statement result time, or an empty Optional if no matching result is found
      */
     private Optional<Date> findRecentStatementResult(List<AnfStatementModel> results, UUID uuid) {
+        log.info("Finding recent statement result for participant {}", uuid);
         return results.stream()
                 .filter(item -> item.getSubjectOfRecord().getPartId().equals(uuid))
                 .sorted(Comparator.comparing(item -> item.getTime().getLowerBound()))

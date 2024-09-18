@@ -145,4 +145,17 @@ public class MeasureModel {
         this.semantic = anfRepo.getOpenCDXIKMService().getInkarConceptModel(measure.getSemantic());
         this.resolution = measure.getResolution();
     }
+
+    @Override
+    public String toString() {
+        return "MeasureModel{" +
+                "id=" + id +
+                ", upperBound=" + upperBound +
+                ", lowerBound=" + lowerBound +
+                ", includeUpperBound=" + includeUpperBound +
+                ", includeLowerBound=" + includeLowerBound +
+                ", semantic=" + semantic +
+                ", resolution=" + resolution +
+                '}';
+    }
 }
