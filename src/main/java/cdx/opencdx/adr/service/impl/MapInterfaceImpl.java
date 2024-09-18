@@ -100,6 +100,8 @@ public class MapInterfaceImpl implements IKMInterface {
 
         addConceptIfMissing("5d95570a-0098-4607-b418-e21820c56562", "SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay", "SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay");
         addConceptIfMissing("ae4a6ffb-4011-4645-8e14-23890af7c674", "SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection", "SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection");
+        addConceptIfMissing("b001483e-d99a-3edd-8c0f-4857c74176d3", "SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection", "SARS-CoV-2 (COVID-19) RNA [Presence] in Respiratory system specimen by NAA with probe detection");
+        addConceptIfMissing("e569c149-fa65-334f-9a1a-01859bbda352", "SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay", "SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory system specimen by Rapid immunoassay");
 
 //Units
 

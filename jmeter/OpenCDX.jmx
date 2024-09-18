@@ -328,7 +328,7 @@ vars.put(&quot;ANF_EVIDENCE&quot;, &quot;6308b821-ebb6-3742-8e4a-12c33f37ecde&qu
 vars.put(&quot;ANF_DETECTED&quot;, &quot;97b0fbff-cd01-3018-9f72-03ffc7c9027c&quot;);
 vars.put(&quot;ANF_CHRONO_AGE&quot;, &quot;dd44b7a7-015a-336a-a5e0-2330f3ec44dd&quot;);
 
-vars.put(&quot;ANF_CLD&quot;, &quot;3e07078-f1e2-3f6a-9b7a-9397bcd91cfe&quot;);
+vars.put(&quot;ANF_CLD&quot;, &quot;23e07078-f1e2-3f6a-9b7a-9397bcd91cfe&quot;);
 vars.put(&quot;ANF_CLD_SURFACTANT&quot;, &quot;d7c4af8c-9967-3897-a579-c94aaa44ce14&quot;);
 vars.put(&quot;ANF_CLD_PNEUMONIA&quot;, &quot;f7c234c5-69d5-3764-ae83-ad2517e8e120&quot;);
 vars.put(&quot;ANF_CLD_PULMONARY&quot;, &quot;f2dec93c-add4-3060-96fa-62e3094d878c&quot;);
