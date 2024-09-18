@@ -26168,7 +26168,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                   &quot;sync&quot;: true,&#xd;
                   &quot;conceptName&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
                   &quot;conceptDescription&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
-                  &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                  &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
                 },&#xd;
                 &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
                 &quot;operationDouble&quot;: null,&#xd;
@@ -26195,7 +26195,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                   &quot;sync&quot;: true,&#xd;
                   &quot;conceptName&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
                   &quot;conceptDescription&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
-                  &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                  &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
                 },&#xd;
                 &quot;operation&quot;: &quot;LESS_THAN_OR_EQUAL&quot;,&#xd;
                 &quot;operationDouble&quot;: null,&#xd;
