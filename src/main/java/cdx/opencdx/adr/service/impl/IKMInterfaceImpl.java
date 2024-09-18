@@ -129,11 +129,11 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
             });
         }
 
-        if (log.isInfoEnabled()) {
-            log.info("Members for Member ID: {}, Description: {}", member.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(member)).get(0));
+        if (log.isDebugEnabled()) {
+            log.debug("Members for Member ID: {}, Description: {}", member.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(member)).get(0));
             memberOfList.forEach(memberOf -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
-                log.info("Member ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
+                log.debug("Member ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
             });
         }
 
