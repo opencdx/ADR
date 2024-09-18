@@ -115,20 +115,25 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
     @Override
     public List<PublicId> memberOf(PublicId member) {
         ArrayList<PublicId> memberOfList = new ArrayList<>();
+
+        StampCalculatorWithCache stampCalc = Calculators.Stamp.DevelopmentLatest();
         if (PrimitiveData.get().hasPublicId(member)) {
             EntityService.get().getEntity(member.asUuidArray()).ifPresent((entity) -> {
                 if (entity instanceof PatternEntity<?> patternEntity) {
-                    EntityService.get().forEachSemanticOfPattern(patternEntity.nid(), (semanticEntityOfPattern) ->
-                            memberOfList.add(semanticEntityOfPattern.referencedComponent().publicId()));
+                    EntityService.get().forEachSemanticOfPattern(patternEntity.nid(), (semanticEntityOfPattern) -> {
+                        if (stampCalc.latest(semanticEntityOfPattern).get().active()) {
+                            memberOfList.add(semanticEntityOfPattern.referencedComponent().publicId());
+                        }
+                    });
                 }
             });
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("Members for Member ID: {}, Description: {}", member.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(member)).get(0));
+        if (log.isInfoEnabled()) {
+            log.info("Members for Member ID: {}, Description: {}", member.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(member)).get(0));
             memberOfList.forEach(memberOf -> {
                 List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
-                log.debug("Member ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
+                log.info("Member ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
             });
         }
 
