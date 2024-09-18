@@ -26171,7 +26171,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                   &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
                 },&#xd;
                 &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
-                &quot;operationDouble&quot;: null,&#xd;
+                &quot;operationDouble&quot;: 30.00,&#xd;
                 &quot;operationUnit&quot;: null,&#xd;
                 &quot;operationText&quot;: null,&#xd;
                 &quot;formula&quot;: null,&#xd;
@@ -26198,7 +26198,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                   &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
                 },&#xd;
                 &quot;operation&quot;: &quot;LESS_THAN_OR_EQUAL&quot;,&#xd;
-                &quot;operationDouble&quot;: null,&#xd;
+                &quot;operationDouble&quot;: 39.99,&#xd;
                 &quot;operationUnit&quot;: null,&#xd;
                 &quot;operationText&quot;: null,&#xd;
                 &quot;formula&quot;: null,&#xd;
