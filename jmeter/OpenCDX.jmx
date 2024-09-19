@@ -6622,7 +6622,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient1" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient1" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -7334,7 +7334,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient2" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient2" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -8148,7 +8148,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient3" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient3" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -8962,7 +8962,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient4" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient4" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -9776,7 +9776,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient5" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient5" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -10590,7 +10590,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient6" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient6" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -11505,7 +11505,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient7" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient7" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -12319,7 +12319,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient8" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient8" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -13133,7 +13133,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient9" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient9" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -14048,7 +14048,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient10" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient10" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -14862,7 +14862,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient11" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient11" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -15575,7 +15575,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient12" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient12" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -16389,7 +16389,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient13" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient13" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -17102,7 +17102,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient14" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient14" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -17815,7 +17815,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient15" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient15" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -18528,7 +18528,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient16" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient16" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -19342,7 +19342,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient17" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient17" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -20156,7 +20156,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient18" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient18" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -20970,7 +20970,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient19" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient19" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -21683,7 +21683,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient20" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient20" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -22497,7 +22497,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient21" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient21" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -23210,7 +23210,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient22" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient22" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -23923,7 +23923,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient23" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient23" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -24636,7 +24636,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient24" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient24" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -25349,7 +25349,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient25" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient25" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -26110,9 +26110,13 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             &quot;group&quot;: null&#xd;
           },&#xd;
           {&#xd;
+            &quot;concept&quot;: null,&#xd;
+            &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
+            &quot;operationDouble&quot;: 20,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
             &quot;formula&quot;: {&#xd;
               &quot;name&quot;: &quot;(Date [Date of birth (observable entity)] (year)-Self [Date of birth (observable entity)] (year))&quot;,&#xd;
-              &quot;leftOperandValue&quot;: null,&#xd;
               &quot;leftOperand&quot;: {&#xd;
                 &quot;id&quot;: 37,&#xd;
                 &quot;conceptId&quot;: &quot;40584511-f4fa-33f5-9120-e74f69f1db36&quot;,&#xd;
@@ -26121,22 +26125,24 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 &quot;conceptDescription&quot;: &quot;Concept(\&quot;Date of birth\&quot;, \&quot;40584511-f4fa-33f5-9120-e74f69f1db36\&quot;)&quot;,&#xd;
                 &quot;focus&quot;: &quot;DATE&quot;&#xd;
               },&#xd;
-              &quot;leftOperandUnit&quot;: {&#xd;
-                &quot;id&quot;: 6,&#xd;
-                &quot;conceptId&quot;: &quot;03057bd4-1b5c-3b97-be04-eb0aa70b9ebf&quot;,&#xd;
-                &quot;sync&quot;: true,&#xd;
-                &quot;conceptName&quot;: &quot;year&quot;,&#xd;
-                &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
-                &quot;focus&quot;: &quot;SELF&quot;&#xd;
-              },&#xd;
-              &quot;operation&quot;: &quot;SUBTRACT&quot;,&#xd;
-              &quot;rightOperandValue&quot;: null,&#xd;
               &quot;rightOperand&quot;: {&#xd;
                 &quot;id&quot;: 37,&#xd;
                 &quot;conceptId&quot;: &quot;40584511-f4fa-33f5-9120-e74f69f1db36&quot;,&#xd;
                 &quot;sync&quot;: true,&#xd;
                 &quot;conceptName&quot;: &quot;Date of birth (observable entity)&quot;,&#xd;
                 &quot;conceptDescription&quot;: &quot;Concept(\&quot;Date of birth\&quot;, \&quot;40584511-f4fa-33f5-9120-e74f69f1db36\&quot;)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+              },&#xd;
+              &quot;leftOperandValue&quot;: null,&#xd;
+              &quot;rightOperandValue&quot;: null,&#xd;
+              &quot;leftOperandFormula&quot;: null,&#xd;
+              &quot;rightOperandFormula&quot;: null,&#xd;
+              &quot;leftOperandUnit&quot;: {&#xd;
+                &quot;id&quot;: 6,&#xd;
+                &quot;conceptId&quot;: &quot;03057bd4-1b5c-3b97-be04-eb0aa70b9ebf&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;year&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
                 &quot;focus&quot;: &quot;SELF&quot;&#xd;
               },&#xd;
               &quot;rightOperandUnit&quot;: {&#xd;
@@ -26146,8 +26152,11 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 &quot;conceptName&quot;: &quot;year&quot;,&#xd;
                 &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
                 &quot;focus&quot;: &quot;SELF&quot;&#xd;
-              }&#xd;
-            }&#xd;
+              },&#xd;
+              &quot;operation&quot;: &quot;SUBTRACT&quot;&#xd;
+            },&#xd;
+            &quot;joinOperation&quot;: null,&#xd;
+            &quot;group&quot;: null&#xd;
           }&#xd;
         ]&#xd;
       },&#xd;
@@ -26226,14 +26235,13 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 2" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 2" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-  &quot;name&quot;: &quot;Scenario 2&quot;,&#xd;
   &quot;query&quot;: {&#xd;
     &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
     &quot;queries&quot;: [&#xd;
@@ -26487,6 +26495,13 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
         &quot;group&quot;: null&#xd;
       },&#xd;
       {&#xd;
+        &quot;concept&quot;: null,&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: 20,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: null,&#xd;
         &quot;group&quot;: [&#xd;
           {&#xd;
             &quot;concept&quot;: {&#xd;
@@ -26498,15 +26513,31 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
               &quot;focus&quot;: &quot;SELF&quot;&#xd;
             },&#xd;
             &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
-            &quot;operationDouble&quot;: 20&#xd;
+            &quot;operationDouble&quot;: 20,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
+            &quot;formula&quot;: null,&#xd;
+            &quot;joinOperation&quot;: null,&#xd;
+            &quot;group&quot;: null&#xd;
           },&#xd;
           {&#xd;
-            &quot;joinOperation&quot;: &quot;OR&quot;&#xd;
+            &quot;concept&quot;: null,&#xd;
+            &quot;operation&quot;: null,&#xd;
+            &quot;operationDouble&quot;: null,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
+            &quot;formula&quot;: null,&#xd;
+            &quot;joinOperation&quot;: &quot;OR&quot;,&#xd;
+            &quot;group&quot;: null&#xd;
           },&#xd;
           {&#xd;
+            &quot;concept&quot;: null,&#xd;
+            &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
+            &quot;operationDouble&quot;: 20,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
             &quot;formula&quot;: {&#xd;
               &quot;name&quot;: &quot;(Date [Date of birth (observable entity)] (year)-Self [Date of birth (observable entity)] (year))&quot;,&#xd;
-              &quot;leftOperandValue&quot;: null,&#xd;
               &quot;leftOperand&quot;: {&#xd;
                 &quot;id&quot;: 37,&#xd;
                 &quot;conceptId&quot;: &quot;40584511-f4fa-33f5-9120-e74f69f1db36&quot;,&#xd;
@@ -26515,22 +26546,24 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 &quot;conceptDescription&quot;: &quot;Concept(\&quot;Date of birth\&quot;, \&quot;40584511-f4fa-33f5-9120-e74f69f1db36\&quot;)&quot;,&#xd;
                 &quot;focus&quot;: &quot;DATE&quot;&#xd;
               },&#xd;
-              &quot;leftOperandUnit&quot;: {&#xd;
-                &quot;id&quot;: 6,&#xd;
-                &quot;conceptId&quot;: &quot;03057bd4-1b5c-3b97-be04-eb0aa70b9ebf&quot;,&#xd;
-                &quot;sync&quot;: true,&#xd;
-                &quot;conceptName&quot;: &quot;year&quot;,&#xd;
-                &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
-                &quot;focus&quot;: &quot;SELF&quot;&#xd;
-              },&#xd;
-              &quot;operation&quot;: &quot;SUBTRACT&quot;,&#xd;
-              &quot;rightOperandValue&quot;: null,&#xd;
               &quot;rightOperand&quot;: {&#xd;
                 &quot;id&quot;: 37,&#xd;
                 &quot;conceptId&quot;: &quot;40584511-f4fa-33f5-9120-e74f69f1db36&quot;,&#xd;
                 &quot;sync&quot;: true,&#xd;
                 &quot;conceptName&quot;: &quot;Date of birth (observable entity)&quot;,&#xd;
                 &quot;conceptDescription&quot;: &quot;Concept(\&quot;Date of birth\&quot;, \&quot;40584511-f4fa-33f5-9120-e74f69f1db36\&quot;)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+              },&#xd;
+              &quot;leftOperandValue&quot;: null,&#xd;
+              &quot;rightOperandValue&quot;: null,&#xd;
+              &quot;leftOperandFormula&quot;: null,&#xd;
+              &quot;rightOperandFormula&quot;: null,&#xd;
+              &quot;leftOperandUnit&quot;: {&#xd;
+                &quot;id&quot;: 6,&#xd;
+                &quot;conceptId&quot;: &quot;03057bd4-1b5c-3b97-be04-eb0aa70b9ebf&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;year&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
                 &quot;focus&quot;: &quot;SELF&quot;&#xd;
               },&#xd;
               &quot;rightOperandUnit&quot;: {&#xd;
@@ -26540,11 +26573,13 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 &quot;conceptName&quot;: &quot;year&quot;,&#xd;
                 &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
                 &quot;focus&quot;: &quot;SELF&quot;&#xd;
-              }&#xd;
-            }&#xd;
+              },&#xd;
+              &quot;operation&quot;: &quot;SUBTRACT&quot;&#xd;
+            },&#xd;
+            &quot;joinOperation&quot;: null,&#xd;
+            &quot;group&quot;: null&#xd;
           }&#xd;
-        ],&#xd;
-        &quot;operationDouble&quot;: 20&#xd;
+        ]&#xd;
       },&#xd;
       {&#xd;
         &quot;concept&quot;: null,&#xd;
@@ -26621,7 +26656,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.1" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.1" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -26670,7 +26705,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.2" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.2" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
