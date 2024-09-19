@@ -238,6 +238,10 @@ public class CsvServiceImpl implements CsvService {
             case OpenCDXIKMService.UNIT_NO -> {
                 return "No";
             }
+            case OpenCDXIKMService.UNIT_CALENDAR_TIME, OpenCDXIKMService.UNIT_DATE_TIME, OpenCDXIKMService.UNIT_DATE -> {
+                MeasureModel model = this.conversionService.convert(this.DATETIME_UUID, convertedMeasure);
+                return formatter.format(new Date(model.getLowerBound().longValue()));
+            }
 
             default -> {
                 if (boundsAreEqualAndIncluded(convertedMeasure)) {
