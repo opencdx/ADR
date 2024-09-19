@@ -243,7 +243,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Populate ADR" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Populate ADR" enabled="true">
         <stringProp name="ThreadGroup.num_threads">${__P(noThreads,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,0)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -8900,7 +8900,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;Underweight\&quot;, \&quot;7ac8a369-6a8a-3e79-a5ee-282e90de498a\&quot;)\nConcept(\&quot;Normal weight\&quot;, \&quot;a6648c48-3276-3c1f-874d-6929e869f14c\&quot;)\nConcept(\&quot;Obese\&quot;, \&quot;ba89934e-befa-32dd-9f77-43b72f94b2a3\&quot;)\nConcept(\&quot;Body mass index 30+ - obesity\&quot;, \&quot;edb0e4da-fb18-3c4e-b467-3c52f19fbdbc\&quot;)\nConcept(\&quot;Obese class I\&quot;, \&quot;50a29e33-e9eb-3fb5-aefa-dc5a5751b7e3\&quot;)\nConcept(\&quot;Obese class II\&quot;, \&quot;2ed0e11c-d46d-3bde-bca7-355739ab75e5\&quot;)\nConcept(\&quot;Body mass index 40+ - severely obese\&quot;, \&quot;7510b39a-563b-39b3-bf87-52ee10699172\&quot;)\nConcept(\&quot;Obese class III\&quot;, \&quot;04eb78ff-675a-3c3c-95ea-849fb2938d40\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;Obese class I\&quot;, \&quot;50a29e33-e9eb-3fb5-aefa-dc5a5751b7e3\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -9714,7 +9714,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;Underweight\&quot;, \&quot;7ac8a369-6a8a-3e79-a5ee-282e90de498a\&quot;)\nConcept(\&quot;Normal weight\&quot;, \&quot;a6648c48-3276-3c1f-874d-6929e869f14c\&quot;)\nConcept(\&quot;Obese\&quot;, \&quot;ba89934e-befa-32dd-9f77-43b72f94b2a3\&quot;)\nConcept(\&quot;Body mass index 30+ - obesity\&quot;, \&quot;edb0e4da-fb18-3c4e-b467-3c52f19fbdbc\&quot;)\nConcept(\&quot;Obese class I\&quot;, \&quot;50a29e33-e9eb-3fb5-aefa-dc5a5751b7e3\&quot;)\nConcept(\&quot;Obese class II\&quot;, \&quot;2ed0e11c-d46d-3bde-bca7-355739ab75e5\&quot;)\nConcept(\&quot;Body mass index 40+ - severely obese\&quot;, \&quot;7510b39a-563b-39b3-bf87-52ee10699172\&quot;)\nConcept(\&quot;Obese class III\&quot;, \&quot;04eb78ff-675a-3c3c-95ea-849fb2938d40\&quot;)&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;Body mass index 40+ - severely obese\&quot;, \&quot;7510b39a-563b-39b3-bf87-52ee10699172\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -26242,6 +26242,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
+  &quot;name&quot;: &quot;Scenario 2&quot;,&#xd;
   &quot;query&quot;: {&#xd;
     &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
     &quot;queries&quot;: [&#xd;
@@ -26477,6 +26478,71 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                   &quot;rightOperandUnit&quot;: null,&#xd;
                   &quot;operation&quot;: &quot;MULTIPLY&quot;&#xd;
                 },&#xd;
+                &quot;joinOperation&quot;: null,&#xd;
+                &quot;group&quot;: null&#xd;
+              }&#xd;
+            ]&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;concept&quot;: null,&#xd;
+            &quot;operation&quot;: null,&#xd;
+            &quot;operationDouble&quot;: null,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
+            &quot;formula&quot;: null,&#xd;
+            &quot;joinOperation&quot;: &quot;OR&quot;,&#xd;
+            &quot;group&quot;: null&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;concept&quot;: null,&#xd;
+            &quot;operation&quot;: null,&#xd;
+            &quot;operationDouble&quot;: null,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
+            &quot;formula&quot;: null,&#xd;
+            &quot;joinOperation&quot;: null,&#xd;
+            &quot;group&quot;: [&#xd;
+              {&#xd;
+                &quot;concept&quot;: {&#xd;
+                  &quot;id&quot;: 36,&#xd;
+                  &quot;conceptId&quot;: &quot;293d1da5-7b8c-39f6-baaf-2d0f63aff260&quot;,&#xd;
+                  &quot;sync&quot;: true,&#xd;
+                  &quot;conceptName&quot;: &quot;Body mass index (observable entity)&quot;,&#xd;
+                  &quot;conceptDescription&quot;: &quot;Concept(\&quot;Body mass index\&quot;, \&quot;293d1da5-7b8c-39f6-baaf-2d0f63aff260\&quot;)&quot;,&#xd;
+                  &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                },&#xd;
+                &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
+                &quot;operationDouble&quot;: 30,&#xd;
+                &quot;operationUnit&quot;: null,&#xd;
+                &quot;operationText&quot;: null,&#xd;
+                &quot;formula&quot;: null,&#xd;
+                &quot;joinOperation&quot;: null,&#xd;
+                &quot;group&quot;: null&#xd;
+              },&#xd;
+              {&#xd;
+                &quot;concept&quot;: null,&#xd;
+                &quot;operation&quot;: null,&#xd;
+                &quot;operationDouble&quot;: null,&#xd;
+                &quot;operationUnit&quot;: null,&#xd;
+                &quot;operationText&quot;: null,&#xd;
+                &quot;formula&quot;: null,&#xd;
+                &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
+                &quot;group&quot;: null&#xd;
+              },&#xd;
+              {&#xd;
+                &quot;concept&quot;: {&#xd;
+                  &quot;id&quot;: 36,&#xd;
+                  &quot;conceptId&quot;: &quot;293d1da5-7b8c-39f6-baaf-2d0f63aff260&quot;,&#xd;
+                  &quot;sync&quot;: true,&#xd;
+                  &quot;conceptName&quot;: &quot;Body mass index (observable entity)&quot;,&#xd;
+                  &quot;conceptDescription&quot;: &quot;Concept(\&quot;Body mass index\&quot;, \&quot;293d1da5-7b8c-39f6-baaf-2d0f63aff260\&quot;)&quot;,&#xd;
+                  &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                },&#xd;
+                &quot;operation&quot;: &quot;LESS_THAN_OR_EQUAL&quot;,&#xd;
+                &quot;operationDouble&quot;: 39.99,&#xd;
+                &quot;operationUnit&quot;: null,&#xd;
+                &quot;operationText&quot;: null,&#xd;
+                &quot;formula&quot;: null,&#xd;
                 &quot;joinOperation&quot;: null,&#xd;
                 &quot;group&quot;: null&#xd;
               }&#xd;
