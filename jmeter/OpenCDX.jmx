@@ -243,7 +243,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Populate ADR" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Populate ADR" enabled="false">
         <stringProp name="ThreadGroup.num_threads">${__P(noThreads,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,0)}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -6622,7 +6622,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient1" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient1" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -7334,7 +7334,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient2" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient2" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -8148,7 +8148,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient3" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient3" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -8962,7 +8962,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient4" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient4" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -9776,7 +9776,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient5" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient5" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -10590,7 +10590,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient6" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient6" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -11505,7 +11505,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient7" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient7" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -12319,7 +12319,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient8" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient8" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -12526,17 +12526,17 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
               <intProp name="HTTPSampler.ipSourceType">0</intProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Patient date of birth" enabled="false">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Patient date of birth" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">&#xd;
+                    <stringProp name="Argument.value">{&#xd;
     &quot;id&quot;: &quot;725bde98-eaed-478d-aa82-9987c58af656&quot;,&#xd;
     &quot;time&quot;: {&#xd;
-      &quot;upperBound&quot;: 1722729599000,&#xd;
-      &quot;lowerBound&quot;: 1722643201000,&#xd;
+      &quot;upperBound&quot;: 1722643719400,&#xd;
+      &quot;lowerBound&quot;: 1722643460200,&#xd;
       &quot;includeUpperBound&quot;: true,&#xd;
       &quot;includeLowerBound&quot;: true,&#xd;
       &quot;semantic&quot;: {&#xd;
@@ -12573,8 +12573,8 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;performanceCircumstance&quot;: {&#xd;
       &quot;timing&quot;: {&#xd;
-        &quot;upperBound&quot;: 1722729599000,&#xd;
-        &quot;lowerBound&quot;: 1722643201000,&#xd;
+        &quot;upperBound&quot;: 1722470399000,&#xd;
+        &quot;lowerBound&quot;: 1722470399000,&#xd;
         &quot;includeUpperBound&quot;: true,&#xd;
         &quot;includeLowerBound&quot;: true,&#xd;
         &quot;semantic&quot;: {&#xd;
@@ -12586,8 +12586,8 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
         &quot;expression&quot;: &quot;Concept(\&quot;Complete\&quot;, \&quot;9570bad9-ade1-3c77-bbb3-30f0924ee1a6\&quot;)&quot;&#xd;
       },&#xd;
       &quot;result&quot;: {&#xd;
-        &quot;upperBound&quot;: &quot;839894399000&quot;,&#xd;
-        &quot;lowerBound&quot;: &quot;839808001000&quot;,&#xd;
+        &quot;upperBound&quot;: &quot;839808001000&quot;,&#xd;
+        &quot;lowerBound&quot;: &quot;839894399000&quot;,&#xd;
         &quot;includeUpperBound&quot;: true,&#xd;
         &quot;includeLowerBound&quot;: true,&#xd;
         &quot;semantic&quot;: {&#xd;
@@ -12768,7 +12768,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;associatedStatement&quot;: [],&#xd;
     &quot;topic&quot;: {&#xd;
-      &quot;expression&quot;: &quot;Concept(\&quot;Acute maculopapular eruption of skin\&quot;, \&quot;ae5364f8-f918-3b80-895d-33e30eba8207\&quot;)\n&quot;&#xd;
+      &quot;expression&quot;: &quot;Concept(\&quot;Acute maculopapular eruption of skin\&quot;, \&quot;ae5364f8-f918-3b80-895d-33e30eba8207\&quot;)&quot;&#xd;
     },&#xd;
     &quot;type&quot;: {&#xd;
       &quot;expression&quot;: &quot;Concept(\&quot;Performance\&quot;, \&quot;395cc864-7c51-4072-b3e7-f9195b40053a\&quot;)&quot;&#xd;
@@ -13133,7 +13133,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient9" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient9" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -14048,7 +14048,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient10" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient10" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -14862,7 +14862,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient11" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient11" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -15575,7 +15575,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient12" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient12" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -16389,7 +16389,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient13" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient13" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -17102,7 +17102,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient14" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient14" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -17815,7 +17815,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient15" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient15" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -18528,7 +18528,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient16" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient16" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -19342,7 +19342,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient17" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient17" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -19366,9 +19366,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       &quot;resolution&quot;: 1.0&#xd;
     },&#xd;
     &quot;subjectOfRecord&quot;: {&#xd;
-      &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+      &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
       &quot;practitionerValue&quot;: {&#xd;
-        &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+        &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
       },&#xd;
       &quot;code&quot;: {&#xd;
         &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19376,9 +19376,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;authors&quot;: [&#xd;
       {&#xd;
-        &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+        &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
         &quot;practitionerValue&quot;: {&#xd;
-          &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+          &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
         }&#xd;
       }&#xd;
     ],&#xd;
@@ -19418,9 +19418,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       },&#xd;
       &quot;participant&quot;: [&#xd;
         {&#xd;
-          &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+          &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
           &quot;practitionerValue&quot;: {&#xd;
-            &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+            &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
           },&#xd;
           &quot;code&quot;: {&#xd;
             &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19467,9 +19467,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       &quot;resolution&quot;: 1.0&#xd;
     },&#xd;
     &quot;subjectOfRecord&quot;: {&#xd;
-      &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+      &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
       &quot;practitionerValue&quot;: {&#xd;
-        &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+        &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
       },&#xd;
       &quot;code&quot;: {&#xd;
         &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19477,9 +19477,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;authors&quot;: [&#xd;
       {&#xd;
-        &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+        &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
         &quot;practitionerValue&quot;: {&#xd;
-          &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+          &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
         }&#xd;
       }&#xd;
     ],&#xd;
@@ -19519,9 +19519,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       },&#xd;
       &quot;participant&quot;: [&#xd;
         {&#xd;
-          &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+          &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
           &quot;practitionerValue&quot;: {&#xd;
-            &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+            &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
           },&#xd;
           &quot;code&quot;: {&#xd;
             &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19568,9 +19568,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       &quot;resolution&quot;: 1.0&#xd;
     },&#xd;
     &quot;subjectOfRecord&quot;: {&#xd;
-      &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+      &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
       &quot;practitionerValue&quot;: {&#xd;
-        &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+        &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
       },&#xd;
       &quot;code&quot;: {&#xd;
         &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19578,9 +19578,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;authors&quot;: [&#xd;
       {&#xd;
-        &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+        &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
         &quot;practitionerValue&quot;: {&#xd;
-          &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+          &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
         }&#xd;
       }&#xd;
     ],&#xd;
@@ -19620,9 +19620,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       },&#xd;
       &quot;participant&quot;: [&#xd;
         {&#xd;
-          &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+          &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
           &quot;practitionerValue&quot;: {&#xd;
-            &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+            &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
           },&#xd;
           &quot;code&quot;: {&#xd;
             &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19669,9 +19669,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       &quot;resolution&quot;: 1.0&#xd;
     },&#xd;
     &quot;subjectOfRecord&quot;: {&#xd;
-      &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+      &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
       &quot;practitionerValue&quot;: {&#xd;
-        &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+        &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
       },&#xd;
       &quot;code&quot;: {&#xd;
         &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19679,9 +19679,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;authors&quot;: [&#xd;
       {&#xd;
-        &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+        &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
         &quot;practitionerValue&quot;: {&#xd;
-          &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+          &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
         }&#xd;
       }&#xd;
     ],&#xd;
@@ -19721,9 +19721,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       },&#xd;
       &quot;participant&quot;: [&#xd;
         {&#xd;
-          &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+          &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
           &quot;practitionerValue&quot;: {&#xd;
-            &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+            &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
           },&#xd;
           &quot;code&quot;: {&#xd;
             &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19770,9 +19770,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       &quot;resolution&quot;: 1.0&#xd;
     },&#xd;
     &quot;subjectOfRecord&quot;: {&#xd;
-      &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+      &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
       &quot;practitionerValue&quot;: {&#xd;
-        &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+        &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
       },&#xd;
       &quot;code&quot;: {&#xd;
         &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19780,9 +19780,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;authors&quot;: [&#xd;
       {&#xd;
-        &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+        &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
         &quot;practitionerValue&quot;: {&#xd;
-          &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+          &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
         }&#xd;
       }&#xd;
     ],&#xd;
@@ -19822,9 +19822,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       },&#xd;
       &quot;participant&quot;: [&#xd;
         {&#xd;
-          &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+          &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
           &quot;practitionerValue&quot;: {&#xd;
-            &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+            &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
           },&#xd;
           &quot;code&quot;: {&#xd;
             &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19871,9 +19871,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       &quot;resolution&quot;: 1.0&#xd;
     },&#xd;
     &quot;subjectOfRecord&quot;: {&#xd;
-      &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+      &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
       &quot;practitionerValue&quot;: {&#xd;
-        &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+        &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
       },&#xd;
       &quot;code&quot;: {&#xd;
         &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19881,9 +19881,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;authors&quot;: [&#xd;
       {&#xd;
-        &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+        &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
         &quot;practitionerValue&quot;: {&#xd;
-          &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+          &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
         }&#xd;
       }&#xd;
     ],&#xd;
@@ -19923,9 +19923,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       },&#xd;
       &quot;participant&quot;: [&#xd;
         {&#xd;
-          &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+          &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
           &quot;practitionerValue&quot;: {&#xd;
-            &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+            &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
           },&#xd;
           &quot;code&quot;: {&#xd;
             &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19972,9 +19972,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       &quot;resolution&quot;: 1.0&#xd;
     },&#xd;
     &quot;subjectOfRecord&quot;: {&#xd;
-      &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+      &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
       &quot;practitionerValue&quot;: {&#xd;
-        &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+        &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
       },&#xd;
       &quot;code&quot;: {&#xd;
         &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -19982,9 +19982,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;authors&quot;: [&#xd;
       {&#xd;
-        &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+        &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
         &quot;practitionerValue&quot;: {&#xd;
-          &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+          &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
         }&#xd;
       }&#xd;
     ],&#xd;
@@ -20024,9 +20024,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       },&#xd;
       &quot;participant&quot;: [&#xd;
         {&#xd;
-          &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+          &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
           &quot;practitionerValue&quot;: {&#xd;
-            &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+            &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
           },&#xd;
           &quot;code&quot;: {&#xd;
             &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -20073,9 +20073,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       &quot;resolution&quot;: 1.0&#xd;
     },&#xd;
     &quot;subjectOfRecord&quot;: {&#xd;
-      &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+      &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
       &quot;practitionerValue&quot;: {&#xd;
-        &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+        &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
       },&#xd;
       &quot;code&quot;: {&#xd;
         &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -20083,9 +20083,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
     },&#xd;
     &quot;authors&quot;: [&#xd;
       {&#xd;
-        &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+        &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
         &quot;practitionerValue&quot;: {&#xd;
-          &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+          &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
         }&#xd;
       }&#xd;
     ],&#xd;
@@ -20125,9 +20125,9 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
       },&#xd;
       &quot;participant&quot;: [&#xd;
         {&#xd;
-          &quot;id&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;,&#xd;
+          &quot;id&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;,&#xd;
           &quot;practitionerValue&quot;: {&#xd;
-            &quot;identifier&quot;: &quot;25243d27-172d-479f-9e06-8f4910e2bab1&quot;&#xd;
+            &quot;identifier&quot;: &quot;e1578a8e-0669-47f2-924c-fc0aa8ccf084&quot;&#xd;
           },&#xd;
           &quot;code&quot;: {&#xd;
             &quot;expression&quot;: &quot;Concept(\&quot;Patient\&quot;, \&quot;86490a44-8539-31e2-8e0f-3a6253a72fca\&quot;)&quot;&#xd;
@@ -20156,7 +20156,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient18" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient18" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -20970,7 +20970,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient19" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient19" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -21683,7 +21683,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient20" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient20" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -22497,7 +22497,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient21" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient21" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -23210,7 +23210,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient22" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient22" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -23923,7 +23923,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient23" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient23" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -24636,7 +24636,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient24" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient24" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -25349,7 +25349,7 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient25" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Patient25" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -26071,21 +26071,95 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                   <stringProp name="Argument.value">{&#xd;
   &quot;name&quot;: &quot;Scenario 1&quot;,&#xd;
   &quot;query&quot;: {&#xd;
+    &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
     &quot;queries&quot;: [&#xd;
       {&#xd;
-        &quot;concept&quot;: {&#xd;
-          &quot;id&quot;: 11,&#xd;
-          &quot;conceptId&quot;: &quot;dd44b7a7-015a-336a-a5e0-2330f3ec44dd&quot;,&#xd;
-          &quot;sync&quot;: true,&#xd;
-          &quot;conceptName&quot;: &quot;Current chronological age (observable entity)&quot;,&#xd;
-          &quot;conceptDescription&quot;: &quot;Concept(\&quot;Current chronological age\&quot;, \&quot;dd44b7a7-015a-336a-a5e0-2330f3ec44dd\&quot;)&quot;,&#xd;
-          &quot;focus&quot;: &quot;SELF&quot;&#xd;
-        },&#xd;
-        &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
-        &quot;operationDouble&quot;: 20&#xd;
+        &quot;concept&quot;: null,&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: 20,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: null,&#xd;
+        &quot;group&quot;: [&#xd;
+          {&#xd;
+            &quot;concept&quot;: {&#xd;
+              &quot;id&quot;: 11,&#xd;
+              &quot;conceptId&quot;: &quot;dd44b7a7-015a-336a-a5e0-2330f3ec44dd&quot;,&#xd;
+              &quot;sync&quot;: true,&#xd;
+              &quot;conceptName&quot;: &quot;Current chronological age (observable entity)&quot;,&#xd;
+              &quot;conceptDescription&quot;: &quot;Concept(\&quot;Current chronological age\&quot;, \&quot;dd44b7a7-015a-336a-a5e0-2330f3ec44dd\&quot;)&quot;,&#xd;
+              &quot;focus&quot;: &quot;SELF&quot;&#xd;
+            },&#xd;
+            &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
+            &quot;operationDouble&quot;: 20,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
+            &quot;formula&quot;: null,&#xd;
+            &quot;joinOperation&quot;: null,&#xd;
+            &quot;group&quot;: null&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;concept&quot;: null,&#xd;
+            &quot;operation&quot;: null,&#xd;
+            &quot;operationDouble&quot;: null,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
+            &quot;formula&quot;: null,&#xd;
+            &quot;joinOperation&quot;: &quot;OR&quot;,&#xd;
+            &quot;group&quot;: null&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;formula&quot;: {&#xd;
+              &quot;name&quot;: &quot;(Date [Date of birth (observable entity)] (year)-Self [Date of birth (observable entity)] (year))&quot;,&#xd;
+              &quot;leftOperandValue&quot;: null,&#xd;
+              &quot;leftOperand&quot;: {&#xd;
+                &quot;id&quot;: 37,&#xd;
+                &quot;conceptId&quot;: &quot;40584511-f4fa-33f5-9120-e74f69f1db36&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;Date of birth (observable entity)&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;Concept(\&quot;Date of birth\&quot;, \&quot;40584511-f4fa-33f5-9120-e74f69f1db36\&quot;)&quot;,&#xd;
+                &quot;focus&quot;: &quot;DATE&quot;&#xd;
+              },&#xd;
+              &quot;leftOperandUnit&quot;: {&#xd;
+                &quot;id&quot;: 6,&#xd;
+                &quot;conceptId&quot;: &quot;03057bd4-1b5c-3b97-be04-eb0aa70b9ebf&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;year&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+              },&#xd;
+              &quot;operation&quot;: &quot;SUBTRACT&quot;,&#xd;
+              &quot;rightOperandValue&quot;: null,&#xd;
+              &quot;rightOperand&quot;: {&#xd;
+                &quot;id&quot;: 37,&#xd;
+                &quot;conceptId&quot;: &quot;40584511-f4fa-33f5-9120-e74f69f1db36&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;Date of birth (observable entity)&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;Concept(\&quot;Date of birth\&quot;, \&quot;40584511-f4fa-33f5-9120-e74f69f1db36\&quot;)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+              },&#xd;
+              &quot;rightOperandUnit&quot;: {&#xd;
+                &quot;id&quot;: 6,&#xd;
+                &quot;conceptId&quot;: &quot;03057bd4-1b5c-3b97-be04-eb0aa70b9ebf&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;year&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+              }&#xd;
+            }&#xd;
+          }&#xd;
+        ]&#xd;
       },&#xd;
       {&#xd;
-        &quot;joinOperation&quot;: &quot;AND&quot;&#xd;
+        &quot;concept&quot;: null,&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: null,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
+        &quot;group&quot;: null&#xd;
       },&#xd;
       {&#xd;
         &quot;concept&quot;: {&#xd;
@@ -26095,10 +26169,24 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
           &quot;conceptName&quot;: &quot;Covid-19 Test Kits (Lookup)&quot;,&#xd;
           &quot;conceptDescription&quot;: &quot;Covid-19 Test Kits (Lookup)&quot;,&#xd;
           &quot;focus&quot;: &quot;CHILDREN&quot;&#xd;
-        }&#xd;
+        },&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: null,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: null,&#xd;
+        &quot;group&quot;: null&#xd;
       },&#xd;
       {&#xd;
-        &quot;joinOperation&quot;: &quot;AND&quot;&#xd;
+        &quot;concept&quot;: null,&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: null,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
+        &quot;group&quot;: null&#xd;
       },&#xd;
       {&#xd;
         &quot;concept&quot;: {&#xd;
@@ -26108,10 +26196,16 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
           &quot;conceptName&quot;: &quot;Presence of COVID&quot;,&#xd;
           &quot;conceptDescription&quot;: &quot;Presence of COVID&quot;,&#xd;
           &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
-        }&#xd;
+        },&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: null,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: null,&#xd;
+        &quot;group&quot;: null&#xd;
       }&#xd;
-    ],&#xd;
-    &quot;unitOutput&quot;: &quot;IMPERIAL&quot;&#xd;
+    ]&#xd;
   }&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -26132,285 +26226,53 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 2" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 2" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-    &quot;id&quot;: 2,&#xd;
-    &quot;name&quot;: &quot;Scenario 2&quot;,&#xd;
-    &quot;query&quot;: {&#xd;
-        &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
-        &quot;queries&quot;: [&#xd;
-            {&#xd;
-                &quot;concept&quot;: null,&#xd;
-                &quot;operation&quot;: null,&#xd;
-                &quot;operationDouble&quot;: 30.0,&#xd;
-                &quot;operationUnit&quot;: null,&#xd;
-                &quot;operationText&quot;: null,&#xd;
-                &quot;formula&quot;: null,&#xd;
-                &quot;joinOperation&quot;: null,&#xd;
-                &quot;group&quot;: [&#xd;
-                    {&#xd;
-                        &quot;concept&quot;: null,&#xd;
-                        &quot;operation&quot;: null,&#xd;
-                        &quot;operationDouble&quot;: null,&#xd;
-                        &quot;operationUnit&quot;: null,&#xd;
-                        &quot;operationText&quot;: null,&#xd;
-                        &quot;formula&quot;: null,&#xd;
-                        &quot;joinOperation&quot;: null,&#xd;
-                        &quot;group&quot;: [&#xd;
-                            {&#xd;
-                                &quot;concept&quot;: {&#xd;
-                                    &quot;id&quot;: 3,&#xd;
-                                    &quot;conceptId&quot;: &quot;922697f7-36ba-4afc-9dd5-f29d54b0fdec&quot;,&#xd;
-                                    &quot;sync&quot;: true,&#xd;
-                                    &quot;conceptName&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
-                                    &quot;conceptDescription&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
-                                    &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
-                                },&#xd;
-                                &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
-                                &quot;operationDouble&quot;: 30.0,&#xd;
-                                &quot;operationUnit&quot;: null,&#xd;
-                                &quot;operationText&quot;: null,&#xd;
-                                &quot;formula&quot;: null,&#xd;
-                                &quot;joinOperation&quot;: null,&#xd;
-                                &quot;group&quot;: null&#xd;
-                            },&#xd;
-                            {&#xd;
-                                &quot;concept&quot;: null,&#xd;
-                                &quot;operation&quot;: null,&#xd;
-                                &quot;operationDouble&quot;: null,&#xd;
-                                &quot;operationUnit&quot;: null,&#xd;
-                                &quot;operationText&quot;: null,&#xd;
-                                &quot;formula&quot;: null,&#xd;
-                                &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
-                                &quot;group&quot;: null&#xd;
-                            },&#xd;
-                            {&#xd;
-                                &quot;concept&quot;: {&#xd;
-                                    &quot;id&quot;: 3,&#xd;
-                                    &quot;conceptId&quot;: &quot;922697f7-36ba-4afc-9dd5-f29d54b0fdec&quot;,&#xd;
-                                    &quot;sync&quot;: true,&#xd;
-                                    &quot;conceptName&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
-                                    &quot;conceptDescription&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
-                                    &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
-                                },&#xd;
-                                &quot;operation&quot;: &quot;LESS_THAN_OR_EQUAL&quot;,&#xd;
-                                &quot;operationDouble&quot;: 39.99,&#xd;
-                                &quot;operationUnit&quot;: null,&#xd;
-                                &quot;operationText&quot;: null,&#xd;
-                                &quot;formula&quot;: null,&#xd;
-                                &quot;joinOperation&quot;: null,&#xd;
-                                &quot;group&quot;: null&#xd;
-                            }&#xd;
-                        ]&#xd;
-                    },&#xd;
-                    {&#xd;
-                        &quot;concept&quot;: null,&#xd;
-                        &quot;operation&quot;: null,&#xd;
-                        &quot;operationDouble&quot;: null,&#xd;
-                        &quot;operationUnit&quot;: null,&#xd;
-                        &quot;operationText&quot;: null,&#xd;
-                        &quot;formula&quot;: null,&#xd;
-                        &quot;joinOperation&quot;: &quot;OR&quot;,&#xd;
-                        &quot;group&quot;: null&#xd;
-                    },&#xd;
-                    {&#xd;
-                        &quot;concept&quot;: null,&#xd;
-                        &quot;operation&quot;: null,&#xd;
-                        &quot;operationDouble&quot;: null,&#xd;
-                        &quot;operationUnit&quot;: null,&#xd;
-                        &quot;operationText&quot;: null,&#xd;
-                        &quot;formula&quot;: null,&#xd;
-                        &quot;joinOperation&quot;: null,&#xd;
-                        &quot;group&quot;: [&#xd;
-                            {&#xd;
-                                &quot;concept&quot;: null,&#xd;
-                                &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
-                                &quot;operationDouble&quot;: 30.0,&#xd;
-                                &quot;operationUnit&quot;: null,&#xd;
-                                &quot;operationText&quot;: null,&#xd;
-                                &quot;formula&quot;: {&#xd;
-                                    &quot;name&quot;: &quot;((Self [Self reported body weight (observable entity)] (pounds (qualifier value))/(Self [Self reported body height (observable entity)] (Inch (qualifier value))^2))×703)&quot;,&#xd;
-                                    &quot;leftOperand&quot;: null,&#xd;
-                                    &quot;rightOperand&quot;: null,&#xd;
-                                    &quot;leftOperandValue&quot;: 703.0,&#xd;
-                                    &quot;rightOperandValue&quot;: 703.0,&#xd;
-                                    &quot;leftOperandFormula&quot;: {&#xd;
-                                        &quot;name&quot;: null,&#xd;
-                                        &quot;leftOperand&quot;: {&#xd;
-                                            &quot;id&quot;: 36,&#xd;
-                                            &quot;conceptId&quot;: &quot;11e160b0-f40e-3911-912e-e6973d787ea0&quot;,&#xd;
-                                            &quot;sync&quot;: true,&#xd;
-                                            &quot;conceptName&quot;: &quot;Self reported body weight (observable entity)&quot;,&#xd;
-                                            &quot;conceptDescription&quot;: &quot;Concept(\&quot;Self reported body weight (observable entity)\&quot;, \&quot;11e160b0-f40e-3911-912e-e6973d787ea0\&quot;)&quot;,&#xd;
-                                            &quot;focus&quot;: &quot;SELF&quot;&#xd;
-                                        },&#xd;
-                                        &quot;rightOperand&quot;: null,&#xd;
-                                        &quot;leftOperandValue&quot;: null,&#xd;
-                                        &quot;rightOperandValue&quot;: null,&#xd;
-                                        &quot;leftOperandFormula&quot;: null,&#xd;
-                                        &quot;rightOperandFormula&quot;: {&#xd;
-                                            &quot;name&quot;: null,&#xd;
-                                            &quot;leftOperand&quot;: {&#xd;
-                                                &quot;id&quot;: 34,&#xd;
-                                                &quot;conceptId&quot;: &quot;c185810a-f541-36fa-bfe2-81d58e626326&quot;,&#xd;
-                                                &quot;sync&quot;: true,&#xd;
-                                                &quot;conceptName&quot;: &quot;Self reported body height (observable entity)&quot;,&#xd;
-                                                &quot;conceptDescription&quot;: &quot;Concept(\&quot;Self reported body height\&quot;, \&quot;c185810a-f541-36fa-bfe2-81d58e626326\&quot;)&quot;,&#xd;
-                                                &quot;focus&quot;: &quot;SELF&quot;&#xd;
-                                            },&#xd;
-                                            &quot;rightOperand&quot;: null,&#xd;
-                                            &quot;leftOperandValue&quot;: 2.0,&#xd;
-                                            &quot;rightOperandValue&quot;: 2.0,&#xd;
-                                            &quot;leftOperandFormula&quot;: null,&#xd;
-                                            &quot;rightOperandFormula&quot;: null,&#xd;
-                                            &quot;leftOperandUnit&quot;: {&#xd;
-                                                &quot;id&quot;: 35,&#xd;
-                                                &quot;conceptId&quot;: &quot;81bafefa-819a-31e9-882a-b0020ad95be6&quot;,&#xd;
-                                                &quot;sync&quot;: true,&#xd;
-                                                &quot;conceptName&quot;: &quot;Inch (qualifier value)&quot;,&#xd;
-                                                &quot;conceptDescription&quot;: &quot;Concept(\&quot;in - inch\&quot;, \&quot;81bafefa-819a-31e9-882a-b0020ad95be6\&quot;)&quot;,&#xd;
-                                                &quot;focus&quot;: &quot;SELF&quot;&#xd;
-                                            },&#xd;
-                                            &quot;rightOperandUnit&quot;: null,&#xd;
-                                            &quot;operation&quot;: &quot;POWER&quot;&#xd;
-                                        },&#xd;
-                                        &quot;leftOperandUnit&quot;: {&#xd;
-                                            &quot;id&quot;: 37,&#xd;
-                                            &quot;conceptId&quot;: &quot;c5cd4522-8276-35a2-97c6-0c40e980986f&quot;,&#xd;
-                                            &quot;sync&quot;: true,&#xd;
-                                            &quot;conceptName&quot;: &quot;pounds (qualifier value)&quot;,&#xd;
-                                            &quot;conceptDescription&quot;: &quot;Concept(\&quot;pounds\&quot;, \&quot;c5cd4522-8276-35a2-97c6-0c40e980986f\&quot;)&quot;,&#xd;
-                                            &quot;focus&quot;: &quot;SELF&quot;&#xd;
-                                        },&#xd;
-                                        &quot;rightOperandUnit&quot;: null,&#xd;
-                                        &quot;operation&quot;: &quot;DIVIDE&quot;&#xd;
-                                    },&#xd;
-                                    &quot;rightOperandFormula&quot;: null,&#xd;
-                                    &quot;leftOperandUnit&quot;: null,&#xd;
-                                    &quot;rightOperandUnit&quot;: null,&#xd;
-                                    &quot;operation&quot;: &quot;MULTIPLY&quot;&#xd;
-                                },&#xd;
-                                &quot;joinOperation&quot;: null,&#xd;
-                                &quot;group&quot;: null&#xd;
-                            },&#xd;
-                            {&#xd;
-                                &quot;concept&quot;: null,&#xd;
-                                &quot;operation&quot;: null,&#xd;
-                                &quot;operationDouble&quot;: null,&#xd;
-                                &quot;operationUnit&quot;: null,&#xd;
-                                &quot;operationText&quot;: null,&#xd;
-                                &quot;formula&quot;: null,&#xd;
-                                &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
-                                &quot;group&quot;: null&#xd;
-                            },&#xd;
-                            {&#xd;
-                                &quot;concept&quot;: null,&#xd;
-                                &quot;operation&quot;: &quot;LESS_THAN_OR_EQUAL&quot;,&#xd;
-                                &quot;operationDouble&quot;: 39.99,&#xd;
-                                &quot;operationUnit&quot;: null,&#xd;
-                                &quot;operationText&quot;: null,&#xd;
-                                &quot;formula&quot;: {&#xd;
-                                    &quot;name&quot;: &quot;((Self [Self reported body weight (observable entity)] (pounds (qualifier value))/(Self [Self reported body height (observable entity)] (Inch (qualifier value))^2))×703)&quot;,&#xd;
-                                    &quot;leftOperand&quot;: null,&#xd;
-                                    &quot;rightOperand&quot;: null,&#xd;
-                                    &quot;leftOperandValue&quot;: 703.0,&#xd;
-                                    &quot;rightOperandValue&quot;: 703.0,&#xd;
-                                    &quot;leftOperandFormula&quot;: {&#xd;
-                                        &quot;name&quot;: null,&#xd;
-                                        &quot;leftOperand&quot;: {&#xd;
-                                            &quot;id&quot;: 36,&#xd;
-                                            &quot;conceptId&quot;: &quot;11e160b0-f40e-3911-912e-e6973d787ea0&quot;,&#xd;
-                                            &quot;sync&quot;: true,&#xd;
-                                            &quot;conceptName&quot;: &quot;Self reported body weight (observable entity)&quot;,&#xd;
-                                            &quot;conceptDescription&quot;: &quot;Concept(\&quot;Self reported body weight (observable entity)\&quot;, \&quot;11e160b0-f40e-3911-912e-e6973d787ea0\&quot;)&quot;,&#xd;
-                                            &quot;focus&quot;: &quot;SELF&quot;&#xd;
-                                        },&#xd;
-                                        &quot;rightOperand&quot;: null,&#xd;
-                                        &quot;leftOperandValue&quot;: null,&#xd;
-                                        &quot;rightOperandValue&quot;: null,&#xd;
-                                        &quot;leftOperandFormula&quot;: null,&#xd;
-                                        &quot;rightOperandFormula&quot;: {&#xd;
-                                            &quot;name&quot;: null,&#xd;
-                                            &quot;leftOperand&quot;: {&#xd;
-                                                &quot;id&quot;: 34,&#xd;
-                                                &quot;conceptId&quot;: &quot;c185810a-f541-36fa-bfe2-81d58e626326&quot;,&#xd;
-                                                &quot;sync&quot;: true,&#xd;
-                                                &quot;conceptName&quot;: &quot;Self reported body height (observable entity)&quot;,&#xd;
-                                                &quot;conceptDescription&quot;: &quot;Concept(\&quot;Self reported body height\&quot;, \&quot;c185810a-f541-36fa-bfe2-81d58e626326\&quot;)&quot;,&#xd;
-                                                &quot;focus&quot;: &quot;SELF&quot;&#xd;
-                                            },&#xd;
-                                            &quot;rightOperand&quot;: null,&#xd;
-                                            &quot;leftOperandValue&quot;: 2.0,&#xd;
-                                            &quot;rightOperandValue&quot;: 2.0,&#xd;
-                                            &quot;leftOperandFormula&quot;: null,&#xd;
-                                            &quot;rightOperandFormula&quot;: null,&#xd;
-                                            &quot;leftOperandUnit&quot;: {&#xd;
-                                                &quot;id&quot;: 35,&#xd;
-                                                &quot;conceptId&quot;: &quot;81bafefa-819a-31e9-882a-b0020ad95be6&quot;,&#xd;
-                                                &quot;sync&quot;: true,&#xd;
-                                                &quot;conceptName&quot;: &quot;Inch (qualifier value)&quot;,&#xd;
-                                                &quot;conceptDescription&quot;: &quot;Concept(\&quot;in - inch\&quot;, \&quot;81bafefa-819a-31e9-882a-b0020ad95be6\&quot;)&quot;,&#xd;
-                                                &quot;focus&quot;: &quot;SELF&quot;&#xd;
-                                            },&#xd;
-                                            &quot;rightOperandUnit&quot;: null,&#xd;
-                                            &quot;operation&quot;: &quot;POWER&quot;&#xd;
-                                        },&#xd;
-                                        &quot;leftOperandUnit&quot;: {&#xd;
-                                            &quot;id&quot;: 37,&#xd;
-                                            &quot;conceptId&quot;: &quot;c5cd4522-8276-35a2-97c6-0c40e980986f&quot;,&#xd;
-                                            &quot;sync&quot;: true,&#xd;
-                                            &quot;conceptName&quot;: &quot;pounds (qualifier value)&quot;,&#xd;
-                                            &quot;conceptDescription&quot;: &quot;Concept(\&quot;pounds\&quot;, \&quot;c5cd4522-8276-35a2-97c6-0c40e980986f\&quot;)&quot;,&#xd;
-                                            &quot;focus&quot;: &quot;SELF&quot;&#xd;
-                                        },&#xd;
-                                        &quot;rightOperandUnit&quot;: null,&#xd;
-                                        &quot;operation&quot;: &quot;DIVIDE&quot;&#xd;
-                                    },&#xd;
-                                    &quot;rightOperandFormula&quot;: null,&#xd;
-                                    &quot;leftOperandUnit&quot;: null,&#xd;
-                                    &quot;rightOperandUnit&quot;: null,&#xd;
-                                    &quot;operation&quot;: &quot;MULTIPLY&quot;&#xd;
-                                },&#xd;
-                                &quot;joinOperation&quot;: null,&#xd;
-                                &quot;group&quot;: null&#xd;
-                            }&#xd;
-                        ]&#xd;
-                    }&#xd;
-                ]&#xd;
-            },&#xd;
-            {&#xd;
-                &quot;concept&quot;: null,&#xd;
-                &quot;operation&quot;: null,&#xd;
-                &quot;operationDouble&quot;: null,&#xd;
-                &quot;operationUnit&quot;: null,&#xd;
-                &quot;operationText&quot;: null,&#xd;
-                &quot;formula&quot;: null,&#xd;
-                &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
-                &quot;group&quot;: null&#xd;
-            },&#xd;
-            {&#xd;
+  &quot;name&quot;: &quot;Scenario 2&quot;,&#xd;
+  &quot;query&quot;: {&#xd;
+    &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
+    &quot;queries&quot;: [&#xd;
+      {&#xd;
+        &quot;concept&quot;: null,&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: 30,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: null,&#xd;
+        &quot;group&quot;: [&#xd;
+          {&#xd;
+            &quot;concept&quot;: null,&#xd;
+            &quot;operation&quot;: null,&#xd;
+            &quot;operationDouble&quot;: null,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
+            &quot;formula&quot;: null,&#xd;
+            &quot;joinOperation&quot;: null,&#xd;
+            &quot;group&quot;: [&#xd;
+              {&#xd;
                 &quot;concept&quot;: {&#xd;
-                    &quot;id&quot;: 11,&#xd;
-                    &quot;conceptId&quot;: &quot;dd44b7a7-015a-336a-a5e0-2330f3ec44dd&quot;,&#xd;
-                    &quot;sync&quot;: true,&#xd;
-                    &quot;conceptName&quot;: &quot;Current chronological age (observable entity)&quot;,&#xd;
-                    &quot;conceptDescription&quot;: &quot;Concept(\&quot;Current chronological age\&quot;, \&quot;dd44b7a7-015a-336a-a5e0-2330f3ec44dd\&quot;)&quot;,&#xd;
-                    &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                  &quot;id&quot;: 3,&#xd;
+                  &quot;conceptId&quot;: &quot;922697f7-36ba-4afc-9dd5-f29d54b0fdec&quot;,&#xd;
+                  &quot;sync&quot;: true,&#xd;
+                  &quot;conceptName&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
+                  &quot;conceptDescription&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
+                  &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
                 },&#xd;
                 &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
-                &quot;operationDouble&quot;: 20.0,&#xd;
+                &quot;operationDouble&quot;: 30,&#xd;
                 &quot;operationUnit&quot;: null,&#xd;
                 &quot;operationText&quot;: null,&#xd;
                 &quot;formula&quot;: null,&#xd;
                 &quot;joinOperation&quot;: null,&#xd;
                 &quot;group&quot;: null&#xd;
-            },&#xd;
-            {&#xd;
+              },&#xd;
+              {&#xd;
                 &quot;concept&quot;: null,&#xd;
                 &quot;operation&quot;: null,&#xd;
                 &quot;operationDouble&quot;: null,&#xd;
@@ -26419,25 +26281,117 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 &quot;formula&quot;: null,&#xd;
                 &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
                 &quot;group&quot;: null&#xd;
-            },&#xd;
-            {&#xd;
+              },&#xd;
+              {&#xd;
                 &quot;concept&quot;: {&#xd;
-                    &quot;id&quot;: 2,&#xd;
-                    &quot;conceptId&quot;: &quot;e0ac20ad-ce6f-3ee4-8c71-51b070aa5737&quot;,&#xd;
-                    &quot;sync&quot;: true,&#xd;
-                    &quot;conceptName&quot;: &quot;Covid-19 Test Kits (Lookup)&quot;,&#xd;
-                    &quot;conceptDescription&quot;: &quot;Covid-19 Test Kits (Lookup)&quot;,&#xd;
-                    &quot;focus&quot;: &quot;CHILDREN&quot;&#xd;
+                  &quot;id&quot;: 3,&#xd;
+                  &quot;conceptId&quot;: &quot;922697f7-36ba-4afc-9dd5-f29d54b0fdec&quot;,&#xd;
+                  &quot;sync&quot;: true,&#xd;
+                  &quot;conceptName&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
+                  &quot;conceptDescription&quot;: &quot;Body Mass Index (Lookup)&quot;,&#xd;
+                  &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
                 },&#xd;
-                &quot;operation&quot;: null,&#xd;
-                &quot;operationDouble&quot;: null,&#xd;
+                &quot;operation&quot;: &quot;LESS_THAN_OR_EQUAL&quot;,&#xd;
+                &quot;operationDouble&quot;: 39.99,&#xd;
                 &quot;operationUnit&quot;: null,&#xd;
                 &quot;operationText&quot;: null,&#xd;
                 &quot;formula&quot;: null,&#xd;
                 &quot;joinOperation&quot;: null,&#xd;
                 &quot;group&quot;: null&#xd;
-            },&#xd;
-            {&#xd;
+              }&#xd;
+            ]&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;concept&quot;: null,&#xd;
+            &quot;operation&quot;: null,&#xd;
+            &quot;operationDouble&quot;: null,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
+            &quot;formula&quot;: null,&#xd;
+            &quot;joinOperation&quot;: &quot;OR&quot;,&#xd;
+            &quot;group&quot;: null&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;concept&quot;: null,&#xd;
+            &quot;operation&quot;: null,&#xd;
+            &quot;operationDouble&quot;: null,&#xd;
+            &quot;operationUnit&quot;: null,&#xd;
+            &quot;operationText&quot;: null,&#xd;
+            &quot;formula&quot;: null,&#xd;
+            &quot;joinOperation&quot;: null,&#xd;
+            &quot;group&quot;: [&#xd;
+              {&#xd;
+                &quot;concept&quot;: null,&#xd;
+                &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
+                &quot;operationDouble&quot;: 30,&#xd;
+                &quot;operationUnit&quot;: null,&#xd;
+                &quot;operationText&quot;: null,&#xd;
+                &quot;formula&quot;: {&#xd;
+                  &quot;name&quot;: &quot;((Self [Self reported body weight (observable entity)] (pounds (qualifier value))/(Self [Self reported body height (observable entity)] (Inch (qualifier value))^2))×703)&quot;,&#xd;
+                  &quot;leftOperand&quot;: null,&#xd;
+                  &quot;rightOperand&quot;: null,&#xd;
+                  &quot;leftOperandValue&quot;: 703,&#xd;
+                  &quot;rightOperandValue&quot;: 703,&#xd;
+                  &quot;leftOperandFormula&quot;: {&#xd;
+                    &quot;name&quot;: null,&#xd;
+                    &quot;leftOperand&quot;: {&#xd;
+                      &quot;id&quot;: 36,&#xd;
+                      &quot;conceptId&quot;: &quot;11e160b0-f40e-3911-912e-e6973d787ea0&quot;,&#xd;
+                      &quot;sync&quot;: true,&#xd;
+                      &quot;conceptName&quot;: &quot;Self reported body weight (observable entity)&quot;,&#xd;
+                      &quot;conceptDescription&quot;: &quot;Concept(\&quot;Self reported body weight (observable entity)\&quot;, \&quot;11e160b0-f40e-3911-912e-e6973d787ea0\&quot;)&quot;,&#xd;
+                      &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                    },&#xd;
+                    &quot;rightOperand&quot;: null,&#xd;
+                    &quot;leftOperandValue&quot;: null,&#xd;
+                    &quot;rightOperandValue&quot;: null,&#xd;
+                    &quot;leftOperandFormula&quot;: null,&#xd;
+                    &quot;rightOperandFormula&quot;: {&#xd;
+                      &quot;name&quot;: null,&#xd;
+                      &quot;leftOperand&quot;: {&#xd;
+                        &quot;id&quot;: 34,&#xd;
+                        &quot;conceptId&quot;: &quot;c185810a-f541-36fa-bfe2-81d58e626326&quot;,&#xd;
+                        &quot;sync&quot;: true,&#xd;
+                        &quot;conceptName&quot;: &quot;Self reported body height (observable entity)&quot;,&#xd;
+                        &quot;conceptDescription&quot;: &quot;Concept(\&quot;Self reported body height\&quot;, \&quot;c185810a-f541-36fa-bfe2-81d58e626326\&quot;)&quot;,&#xd;
+                        &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                      },&#xd;
+                      &quot;rightOperand&quot;: null,&#xd;
+                      &quot;leftOperandValue&quot;: 2,&#xd;
+                      &quot;rightOperandValue&quot;: 2,&#xd;
+                      &quot;leftOperandFormula&quot;: null,&#xd;
+                      &quot;rightOperandFormula&quot;: null,&#xd;
+                      &quot;leftOperandUnit&quot;: {&#xd;
+                        &quot;id&quot;: 35,&#xd;
+                        &quot;conceptId&quot;: &quot;81bafefa-819a-31e9-882a-b0020ad95be6&quot;,&#xd;
+                        &quot;sync&quot;: true,&#xd;
+                        &quot;conceptName&quot;: &quot;Inch (qualifier value)&quot;,&#xd;
+                        &quot;conceptDescription&quot;: &quot;Concept(\&quot;in - inch\&quot;, \&quot;81bafefa-819a-31e9-882a-b0020ad95be6\&quot;)&quot;,&#xd;
+                        &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                      },&#xd;
+                      &quot;rightOperandUnit&quot;: null,&#xd;
+                      &quot;operation&quot;: &quot;POWER&quot;&#xd;
+                    },&#xd;
+                    &quot;leftOperandUnit&quot;: {&#xd;
+                      &quot;id&quot;: 37,&#xd;
+                      &quot;conceptId&quot;: &quot;c5cd4522-8276-35a2-97c6-0c40e980986f&quot;,&#xd;
+                      &quot;sync&quot;: true,&#xd;
+                      &quot;conceptName&quot;: &quot;pounds (qualifier value)&quot;,&#xd;
+                      &quot;conceptDescription&quot;: &quot;Concept(\&quot;pounds\&quot;, \&quot;c5cd4522-8276-35a2-97c6-0c40e980986f\&quot;)&quot;,&#xd;
+                      &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                    },&#xd;
+                    &quot;rightOperandUnit&quot;: null,&#xd;
+                    &quot;operation&quot;: &quot;DIVIDE&quot;&#xd;
+                  },&#xd;
+                  &quot;rightOperandFormula&quot;: null,&#xd;
+                  &quot;leftOperandUnit&quot;: null,&#xd;
+                  &quot;rightOperandUnit&quot;: null,&#xd;
+                  &quot;operation&quot;: &quot;MULTIPLY&quot;&#xd;
+                },&#xd;
+                &quot;joinOperation&quot;: null,&#xd;
+                &quot;group&quot;: null&#xd;
+              },&#xd;
+              {&#xd;
                 &quot;concept&quot;: null,&#xd;
                 &quot;operation&quot;: null,&#xd;
                 &quot;operationDouble&quot;: null,&#xd;
@@ -26446,26 +26400,208 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
                 &quot;formula&quot;: null,&#xd;
                 &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
                 &quot;group&quot;: null&#xd;
-            },&#xd;
-            {&#xd;
-                &quot;concept&quot;: {&#xd;
-                    &quot;id&quot;: 1,&#xd;
-                    &quot;conceptId&quot;: &quot;fe300419-06e6-53eb-9e4e-d54fe770114b&quot;,&#xd;
-                    &quot;sync&quot;: true,&#xd;
-                    &quot;conceptName&quot;: &quot;Presence of COVID&quot;,&#xd;
-                    &quot;conceptDescription&quot;: &quot;Presence of COVID&quot;,&#xd;
-                    &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
-                },&#xd;
-                &quot;operation&quot;: null,&#xd;
-                &quot;operationDouble&quot;: null,&#xd;
+              },&#xd;
+              {&#xd;
+                &quot;concept&quot;: null,&#xd;
+                &quot;operation&quot;: &quot;LESS_THAN_OR_EQUAL&quot;,&#xd;
+                &quot;operationDouble&quot;: 39.99,&#xd;
                 &quot;operationUnit&quot;: null,&#xd;
                 &quot;operationText&quot;: null,&#xd;
-                &quot;formula&quot;: null,&#xd;
+                &quot;formula&quot;: {&#xd;
+                  &quot;name&quot;: &quot;((Self [Self reported body weight (observable entity)] (pounds (qualifier value))/(Self [Self reported body height (observable entity)] (Inch (qualifier value))^2))×703)&quot;,&#xd;
+                  &quot;leftOperand&quot;: null,&#xd;
+                  &quot;rightOperand&quot;: null,&#xd;
+                  &quot;leftOperandValue&quot;: 703,&#xd;
+                  &quot;rightOperandValue&quot;: 703,&#xd;
+                  &quot;leftOperandFormula&quot;: {&#xd;
+                    &quot;name&quot;: null,&#xd;
+                    &quot;leftOperand&quot;: {&#xd;
+                      &quot;id&quot;: 36,&#xd;
+                      &quot;conceptId&quot;: &quot;11e160b0-f40e-3911-912e-e6973d787ea0&quot;,&#xd;
+                      &quot;sync&quot;: true,&#xd;
+                      &quot;conceptName&quot;: &quot;Self reported body weight (observable entity)&quot;,&#xd;
+                      &quot;conceptDescription&quot;: &quot;Concept(\&quot;Self reported body weight (observable entity)\&quot;, \&quot;11e160b0-f40e-3911-912e-e6973d787ea0\&quot;)&quot;,&#xd;
+                      &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                    },&#xd;
+                    &quot;rightOperand&quot;: null,&#xd;
+                    &quot;leftOperandValue&quot;: null,&#xd;
+                    &quot;rightOperandValue&quot;: null,&#xd;
+                    &quot;leftOperandFormula&quot;: null,&#xd;
+                    &quot;rightOperandFormula&quot;: {&#xd;
+                      &quot;name&quot;: null,&#xd;
+                      &quot;leftOperand&quot;: {&#xd;
+                        &quot;id&quot;: 34,&#xd;
+                        &quot;conceptId&quot;: &quot;c185810a-f541-36fa-bfe2-81d58e626326&quot;,&#xd;
+                        &quot;sync&quot;: true,&#xd;
+                        &quot;conceptName&quot;: &quot;Self reported body height (observable entity)&quot;,&#xd;
+                        &quot;conceptDescription&quot;: &quot;Concept(\&quot;Self reported body height\&quot;, \&quot;c185810a-f541-36fa-bfe2-81d58e626326\&quot;)&quot;,&#xd;
+                        &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                      },&#xd;
+                      &quot;rightOperand&quot;: null,&#xd;
+                      &quot;leftOperandValue&quot;: 2,&#xd;
+                      &quot;rightOperandValue&quot;: 2,&#xd;
+                      &quot;leftOperandFormula&quot;: null,&#xd;
+                      &quot;rightOperandFormula&quot;: null,&#xd;
+                      &quot;leftOperandUnit&quot;: {&#xd;
+                        &quot;id&quot;: 35,&#xd;
+                        &quot;conceptId&quot;: &quot;81bafefa-819a-31e9-882a-b0020ad95be6&quot;,&#xd;
+                        &quot;sync&quot;: true,&#xd;
+                        &quot;conceptName&quot;: &quot;Inch (qualifier value)&quot;,&#xd;
+                        &quot;conceptDescription&quot;: &quot;Concept(\&quot;in - inch\&quot;, \&quot;81bafefa-819a-31e9-882a-b0020ad95be6\&quot;)&quot;,&#xd;
+                        &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                      },&#xd;
+                      &quot;rightOperandUnit&quot;: null,&#xd;
+                      &quot;operation&quot;: &quot;POWER&quot;&#xd;
+                    },&#xd;
+                    &quot;leftOperandUnit&quot;: {&#xd;
+                      &quot;id&quot;: 37,&#xd;
+                      &quot;conceptId&quot;: &quot;c5cd4522-8276-35a2-97c6-0c40e980986f&quot;,&#xd;
+                      &quot;sync&quot;: true,&#xd;
+                      &quot;conceptName&quot;: &quot;pounds (qualifier value)&quot;,&#xd;
+                      &quot;conceptDescription&quot;: &quot;Concept(\&quot;pounds\&quot;, \&quot;c5cd4522-8276-35a2-97c6-0c40e980986f\&quot;)&quot;,&#xd;
+                      &quot;focus&quot;: &quot;SELF&quot;&#xd;
+                    },&#xd;
+                    &quot;rightOperandUnit&quot;: null,&#xd;
+                    &quot;operation&quot;: &quot;DIVIDE&quot;&#xd;
+                  },&#xd;
+                  &quot;rightOperandFormula&quot;: null,&#xd;
+                  &quot;leftOperandUnit&quot;: null,&#xd;
+                  &quot;rightOperandUnit&quot;: null,&#xd;
+                  &quot;operation&quot;: &quot;MULTIPLY&quot;&#xd;
+                },&#xd;
                 &quot;joinOperation&quot;: null,&#xd;
                 &quot;group&quot;: null&#xd;
-            }&#xd;
+              }&#xd;
+            ]&#xd;
+          }&#xd;
         ]&#xd;
-    }&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;concept&quot;: null,&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: null,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
+        &quot;group&quot;: null&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;group&quot;: [&#xd;
+          {&#xd;
+            &quot;concept&quot;: {&#xd;
+              &quot;id&quot;: 11,&#xd;
+              &quot;conceptId&quot;: &quot;dd44b7a7-015a-336a-a5e0-2330f3ec44dd&quot;,&#xd;
+              &quot;sync&quot;: true,&#xd;
+              &quot;conceptName&quot;: &quot;Current chronological age (observable entity)&quot;,&#xd;
+              &quot;conceptDescription&quot;: &quot;Concept(\&quot;Current chronological age\&quot;, \&quot;dd44b7a7-015a-336a-a5e0-2330f3ec44dd\&quot;)&quot;,&#xd;
+              &quot;focus&quot;: &quot;SELF&quot;&#xd;
+            },&#xd;
+            &quot;operation&quot;: &quot;GREATER_THAN_OR_EQUAL&quot;,&#xd;
+            &quot;operationDouble&quot;: 20&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;joinOperation&quot;: &quot;OR&quot;&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;formula&quot;: {&#xd;
+              &quot;name&quot;: &quot;(Date [Date of birth (observable entity)] (year)-Self [Date of birth (observable entity)] (year))&quot;,&#xd;
+              &quot;leftOperandValue&quot;: null,&#xd;
+              &quot;leftOperand&quot;: {&#xd;
+                &quot;id&quot;: 37,&#xd;
+                &quot;conceptId&quot;: &quot;40584511-f4fa-33f5-9120-e74f69f1db36&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;Date of birth (observable entity)&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;Concept(\&quot;Date of birth\&quot;, \&quot;40584511-f4fa-33f5-9120-e74f69f1db36\&quot;)&quot;,&#xd;
+                &quot;focus&quot;: &quot;DATE&quot;&#xd;
+              },&#xd;
+              &quot;leftOperandUnit&quot;: {&#xd;
+                &quot;id&quot;: 6,&#xd;
+                &quot;conceptId&quot;: &quot;03057bd4-1b5c-3b97-be04-eb0aa70b9ebf&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;year&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+              },&#xd;
+              &quot;operation&quot;: &quot;SUBTRACT&quot;,&#xd;
+              &quot;rightOperandValue&quot;: null,&#xd;
+              &quot;rightOperand&quot;: {&#xd;
+                &quot;id&quot;: 37,&#xd;
+                &quot;conceptId&quot;: &quot;40584511-f4fa-33f5-9120-e74f69f1db36&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;Date of birth (observable entity)&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;Concept(\&quot;Date of birth\&quot;, \&quot;40584511-f4fa-33f5-9120-e74f69f1db36\&quot;)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+              },&#xd;
+              &quot;rightOperandUnit&quot;: {&#xd;
+                &quot;id&quot;: 6,&#xd;
+                &quot;conceptId&quot;: &quot;03057bd4-1b5c-3b97-be04-eb0aa70b9ebf&quot;,&#xd;
+                &quot;sync&quot;: true,&#xd;
+                &quot;conceptName&quot;: &quot;year&quot;,&#xd;
+                &quot;conceptDescription&quot;: &quot;258707000 | year (qualifier value)&quot;,&#xd;
+                &quot;focus&quot;: &quot;SELF&quot;&#xd;
+              }&#xd;
+            }&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;operationDouble&quot;: 20&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;concept&quot;: null,&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: null,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
+        &quot;group&quot;: null&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;concept&quot;: {&#xd;
+          &quot;id&quot;: 2,&#xd;
+          &quot;conceptId&quot;: &quot;e0ac20ad-ce6f-3ee4-8c71-51b070aa5737&quot;,&#xd;
+          &quot;sync&quot;: true,&#xd;
+          &quot;conceptName&quot;: &quot;Covid-19 Test Kits (Lookup)&quot;,&#xd;
+          &quot;conceptDescription&quot;: &quot;Covid-19 Test Kits (Lookup)&quot;,&#xd;
+          &quot;focus&quot;: &quot;CHILDREN&quot;&#xd;
+        },&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: null,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: null,&#xd;
+        &quot;group&quot;: null&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;concept&quot;: null,&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: null,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: &quot;AND&quot;,&#xd;
+        &quot;group&quot;: null&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;concept&quot;: {&#xd;
+          &quot;id&quot;: 1,&#xd;
+          &quot;conceptId&quot;: &quot;fe300419-06e6-53eb-9e4e-d54fe770114b&quot;,&#xd;
+          &quot;sync&quot;: true,&#xd;
+          &quot;conceptName&quot;: &quot;Presence of COVID&quot;,&#xd;
+          &quot;conceptDescription&quot;: &quot;Presence of COVID&quot;,&#xd;
+          &quot;focus&quot;: &quot;MEMBER&quot;&#xd;
+        },&#xd;
+        &quot;operation&quot;: null,&#xd;
+        &quot;operationDouble&quot;: null,&#xd;
+        &quot;operationUnit&quot;: null,&#xd;
+        &quot;operationText&quot;: null,&#xd;
+        &quot;formula&quot;: null,&#xd;
+        &quot;joinOperation&quot;: null,&#xd;
+        &quot;group&quot;: null&#xd;
+      }&#xd;
+    ]&#xd;
+  }&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -26485,14 +26621,13 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.1" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.1" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-    &quot;id&quot;: 3,&#xd;
     &quot;name&quot;: &quot;Scenario 3.1&quot;,&#xd;
     &quot;query&quot;: {&#xd;
         &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
@@ -26535,14 +26670,13 @@ vars.put(&quot;anf_id&quot;,anfId);</stringProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.2" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Save Scenario 3.2" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-    &quot;id&quot;: 4,&#xd;
     &quot;name&quot;: &quot;Scenario 3.2&quot;,&#xd;
     &quot;query&quot;: {&#xd;
         &quot;unitOutput&quot;: &quot;IMPERIAL&quot;,&#xd;
