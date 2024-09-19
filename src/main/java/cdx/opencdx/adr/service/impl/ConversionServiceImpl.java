@@ -9,6 +9,7 @@ import cdx.opencdx.adr.service.OpenCDXIKMService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -310,6 +311,17 @@ public class ConversionServiceImpl implements ConversionService {
                     value / 525600; // 60 minutes/hour * 24 hours/day * 365 days/year
             case OpenCDXIKMService.UNIT_MILLISECONDS -> // milliseconds
                     value / 31536000000.0; // 365 days/year * 24 hours/day * 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second
+            case OpenCDXIKMService.UNIT_CALENDAR_TIME, OpenCDXIKMService.UNIT_DATE -> {
+                log.info("Converting to years: {}", value);
+                Date date = new Date( value.longValue());
+                log.info("Date: {}", date);
+                log.info("Year: {}",Integer.valueOf(date.getYear()).doubleValue());
+                yield  Integer.valueOf(date.getYear()).doubleValue();
+            }
+            case OpenCDXIKMService.UNIT_DATE_TIME -> {
+                Date date = new Date( value.longValue() * 1000);
+                yield  Integer.valueOf(date.getYear()).doubleValue();
+            }
             default -> null;
         };
     }
