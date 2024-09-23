@@ -96,6 +96,15 @@ public interface IKMInterface {
 
 
     /**
+     * Searches for PublicIds based on the provided search string and limit.
+     *
+     * @param search The search string used to find matching PublicIds.
+     * @param limit The maximum number of PublicIds to return.
+     * @return A list of PublicIds that match the search criteria, limited by the specified number.
+     */
+    List<PublicId> search(String search, int limit);
+
+    /**
      * Synchronizes the constraint ranges for a given MeasureModel instance.
      * @param topic the topic to synchronize constraint ranges for
      * @param measureModel the MeasureModel instance to synchronize constraint ranges for

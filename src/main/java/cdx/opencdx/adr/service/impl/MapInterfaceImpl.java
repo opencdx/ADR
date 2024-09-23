@@ -189,6 +189,18 @@ public class MapInterfaceImpl implements IKMInterface {
     }
 
     /**
+     * Searches for PublicIds based on the provided search string and limit.
+     *
+     * @param search The search string used to find matching PublicIds.
+     * @param limit  The maximum number of PublicIds to return.
+     * @return A list of PublicIds that match the search criteria, limited by the specified number.
+     */
+    @Override
+    public List<PublicId> search(String search, int limit) {
+        return new ArrayList<>();
+    }
+
+    /**
      * Retrieves a list of Lidr record semantics from a test kit with the given testKitConceptId.
      *
      * @param testKitConceptId the concept Id of the test kit

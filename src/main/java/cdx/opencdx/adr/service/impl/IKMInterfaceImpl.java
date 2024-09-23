@@ -13,6 +13,7 @@ import dev.ikm.tinkar.common.service.ServiceProperties;
 import dev.ikm.tinkar.coordinate.Calculators;
 import dev.ikm.tinkar.coordinate.navigation.calculator.NavigationCalculator;
 import dev.ikm.tinkar.coordinate.stamp.calculator.Latest;
+import dev.ikm.tinkar.coordinate.stamp.calculator.LatestVersionSearchResult;
 import dev.ikm.tinkar.coordinate.stamp.calculator.StampCalculatorWithCache;
 import dev.ikm.tinkar.coordinate.view.calculator.ViewCalculator;
 import dev.ikm.tinkar.entity.EntityService;
@@ -23,6 +24,8 @@ import dev.ikm.tinkar.provider.search.Searcher;
 import dev.ikm.tinkar.terms.EntityProxy;
 import dev.ikm.tinkar.terms.TinkarTerm;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.C;
+import org.eclipse.collections.api.list.ImmutableList;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -339,7 +342,17 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         return null;
     }
 
-    private void search() {
+    @Override
+    public List<PublicId> search(String search, int limit) {
+        try {
+            return Calculators.View.Default().search(search, limit).stream()
+                    .filter(item -> item.latestVersion().isPresent())
+                    .map(LatestVersionSearchResult::latestVersion)
+                    .map(latestVersion -> latestVersion.get().referencedComponent().publicId())
+                    .toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
     private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {
