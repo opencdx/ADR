@@ -54,15 +54,22 @@ public class ConceptServiceImpl implements ConceptService {
                 yield children;
             }
 
-            //TODO: Real Implementation
             case MEMBER ->
                     this.ikmInterface.memberOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
 
             //TODO: Implement
-            case ANCESTORS -> List.of(UUID.randomUUID());
-            case ANCESTORS_OR_SELF -> List.of(UUID.randomUUID(), conceptModel.getConceptId());
-            case PARENT -> List.of(UUID.randomUUID());
-            case PARENT_OR_SELF -> List.of(UUID.randomUUID(), conceptModel.getConceptId());
+            case ANCESTORS -> this.ikmInterface.ancestorOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
+            case ANCESTORS_OR_SELF -> {
+                List<UUID> ancestors = new java.util.ArrayList<>(this.ikmInterface.ancestorOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList());
+                ancestors.add(conceptModel.getConceptId());
+                yield ancestors;
+            }
+            case PARENT -> this.ikmInterface.parentsOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList();
+            case PARENT_OR_SELF -> {
+                List<UUID> parents = new java.util.ArrayList<>(this.ikmInterface.parentsOf(PublicIds.of(conceptModel.getConceptId())).stream().map(publicId -> publicId.asUuidArray()[0]).toList());
+                parents.add(conceptModel.getConceptId());
+                yield parents;
+            }
         };
 
         if(log.isInfoEnabled()) {

@@ -30,7 +30,7 @@ springdoc:
 
 data:
   ikm:
-    enabled: false
+    enabled: true
   path:
     parent: /data
     child: solor-us-tinkar.sa

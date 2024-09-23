@@ -167,6 +167,28 @@ public class MapInterfaceImpl implements IKMInterface {
     }
 
     /**
+     * Returns a list of parent PublicIds of the given conceptId.
+     *
+     * @param conceptId the conceptId
+     * @return a list of parent PublicIds
+     */
+    @Override
+    public List<PublicId> parentsOf(PublicId conceptId) {
+        return new ArrayList<>();
+    }
+
+    /**
+     * Returns a list of ancestor PublicIds of the given conceptId.
+     *
+     * @param conceptId the conceptId
+     * @return a list of ancestor PublicIds
+     */
+    @Override
+    public List<PublicId> ancestorOf(PublicId conceptId) {
+        return new ArrayList<>();
+    }
+
+    /**
      * Retrieves a list of Lidr record semantics from a test kit with the given testKitConceptId.
      *
      * @param testKitConceptId the concept Id of the test kit

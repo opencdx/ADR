@@ -15,6 +15,13 @@ public interface IKMInterface {
      */
     List<PublicId> descendantsOf(PublicId parentConceptId);
 
+    /**
+     * Returns a list of parent PublicIds of the given conceptId.
+     *
+     * @param conceptId the conceptId
+     * @return a list of parent PublicIds
+     */
+    List<PublicId> parentsOf(PublicId conceptId);
 
     /**
      * Returns a list of PublicIds that the given member belongs to.
@@ -24,6 +31,13 @@ public interface IKMInterface {
      */
     List<PublicId> memberOf(PublicId member);
 
+    /**
+     * Returns a list of ancestor PublicIds of the given conceptId.
+     *
+     * @param conceptId the conceptId
+     * @return a list of ancestor PublicIds
+     */
+    List<PublicId> ancestorOf(PublicId conceptId);
     /**
      * Returns a list of child PublicIds of the given parent PublicId.
      *

@@ -11,6 +11,7 @@ import dev.ikm.tinkar.common.service.PrimitiveData;
 import dev.ikm.tinkar.common.service.ServiceKeys;
 import dev.ikm.tinkar.common.service.ServiceProperties;
 import dev.ikm.tinkar.coordinate.Calculators;
+import dev.ikm.tinkar.coordinate.navigation.calculator.NavigationCalculator;
 import dev.ikm.tinkar.coordinate.stamp.calculator.Latest;
 import dev.ikm.tinkar.coordinate.stamp.calculator.StampCalculatorWithCache;
 import dev.ikm.tinkar.coordinate.view.calculator.ViewCalculator;
@@ -107,18 +108,99 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
      */
     @Override
     public List<PublicId> descendantsOf(PublicId parentConceptId) {
-        List<PublicId> descendents = Searcher.descendantsOf(parentConceptId);
+        List<PublicId> descendents = new ArrayList<>();
+
+        EntityProxy.Concept concept = EntityProxy.Concept.make(parentConceptId);
+        NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
+
+        navigationCalculator.descendentsOf(concept).forEach(descendent -> {
+            descendents.add(PrimitiveData.publicId(descendent));
+        });
 
         if (log.isInfoEnabled()) {
             log.debug("Descendents of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).get(0));
-            descendents.forEach(memberOf -> {
-                List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
-                log.debug("Descendent ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
+            descendents.forEach(descendent -> {
+                List<String> strings = this.descriptionsOf(Collections.singletonList(descendent));
+                log.debug("Descendent ID: {}, Description: {}", descendent.asUuidArray()[0], strings.getFirst());
             });
         }
 
         return descendents;
     }
+
+    @Override
+    public List<PublicId> parentsOf(PublicId conceptId) {
+        List<PublicId> parents = new ArrayList<>();
+
+        EntityProxy.Concept concept = EntityProxy.Concept.make(conceptId);
+        NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
+
+        navigationCalculator.parentsOf(concept).forEach(parent -> {
+            parents.add(PrimitiveData.publicId(parent));
+        });
+
+        if (log.isDebugEnabled()) {
+            log.debug("Parents of ID: {}, Description: {}", conceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(conceptId)).get(0));
+            parents.forEach(parent -> {
+                List<String> strings = this.descriptionsOf(Collections.singletonList(parent));
+                log.debug("Parent ID: {}, Description: {}", parent.asUuidArray()[0], strings.get(0));
+            });
+        }
+
+        return parents;
+    }
+
+    @Override
+    public List<PublicId> ancestorOf(PublicId conceptId) {
+        List<PublicId> ancestors = new ArrayList<>();
+
+        EntityProxy.Concept concept = EntityProxy.Concept.make(conceptId);
+        NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
+
+        navigationCalculator.ancestorsOf(concept).forEach(parent -> {
+            ancestors.add(PrimitiveData.publicId(parent));
+        });
+
+        if (log.isDebugEnabled()) {
+            log.debug("Parents of ID: {}, Description: {}", conceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(conceptId)).get(0));
+            ancestors.forEach(ancestor -> {
+                List<String> strings = this.descriptionsOf(Collections.singletonList(ancestor));
+                log.debug("Parent ID: {}, Description: {}", ancestor.asUuidArray()[0], strings.get(0));
+            });
+        }
+
+        return ancestors;
+    }
+
+    /**
+     * Returns a list of child PublicIds of the given parent PublicId.
+     *
+     * @param parentConceptId the parent PublicId
+     * @return a list of child PublicIds
+     */
+    @Override
+    public List<PublicId> childrenOf(PublicId parentConceptId) {
+//        List<PublicId> children =Searcher.childrenOf(parentConceptId);
+// TODO: Once IKM supports this way to look up children, remove the above line and uncomment the below code
+        List<PublicId> children = new ArrayList<>();
+        EntityProxy.Concept concept = EntityProxy.Concept.make(parentConceptId);
+        NavigationCalculator navigationCalculator = Calculators.View.Default().navigationCalculator();
+
+        navigationCalculator.childrenOf(concept).forEach(parent -> {
+            children.add(PrimitiveData.publicId(parent));
+        });
+
+        if (log.isInfoEnabled()) {
+            log.debug("Children of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).get(0));
+            children.forEach(child -> {
+                List<String> strings = this.descriptionsOf(Collections.singletonList(child));
+                log.debug("Child ID: {}, Description: {}", child.asUuidArray()[0], strings.getFirst());
+            });
+        }
+
+        return children;
+    }
+
 
     /**
      * Determines the list of PublicId objects to which the given member belongs.
@@ -152,28 +234,6 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         }
 
         return memberOfList;
-    }
-
-    /**
-     * Returns a list of child PublicIds of the given parent PublicId.
-     *
-     * @param parentConceptId the parent PublicId
-     * @return a list of child PublicIds
-     */
-    @Override
-    public List<PublicId> childrenOf(PublicId parentConceptId) {
-
-        List<PublicId> descendents = Searcher.childrenOf(parentConceptId);
-
-        if (log.isInfoEnabled()) {
-            log.debug("Children of ID: {}, Description: {}", parentConceptId.asUuidArray()[0], this.descriptionsOf(Collections.singletonList(parentConceptId)).get(0));
-            descendents.forEach(memberOf -> {
-                List<String> strings = this.descriptionsOf(Collections.singletonList(memberOf));
-                log.debug("Child ID: {}, Description: {}", memberOf.asUuidArray()[0], strings.getFirst());
-            });
-        }
-
-        return descendents;
     }
 
     /**
@@ -279,6 +339,9 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         return null;
     }
 
+    private void search() {
+
+    }
     private void addConceptIfMissing(String conceptId, String conceptName, String conceptDescription) {
         UUID concept = UUID.fromString(conceptId);
         if (!this.conceptRepository.existsByConceptId(concept)) {
