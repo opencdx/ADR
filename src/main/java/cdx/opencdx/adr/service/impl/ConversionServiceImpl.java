@@ -129,6 +129,10 @@ public class ConversionServiceImpl implements ConversionService {
                     UUID.fromString(OpenCDXIKMServiceImpl.UNIT_POUNDS);
             case OpenCDXIKMServiceImpl.UNIT_CELSIUS ->
                     UUID.fromString(OpenCDXIKMServiceImpl.UNIT_FAHRENHEIT);
+            case OpenCDXIKMService.UNIT_MILILITER -> // milliliters
+                    UUID.fromString(OpenCDXIKMService.UNIT_FLUID_OUNCE);
+            case OpenCDXIKMService.UNIT_LITER -> // liters
+                    UUID.fromString(OpenCDXIKMService.UNIT_PINT);
             default -> measure.getSemantic().getConceptId();
         };
     }
@@ -147,6 +151,12 @@ public class ConversionServiceImpl implements ConversionService {
                     UUID.fromString(OpenCDXIKMServiceImpl.UNIT_KILOGRAMS);
             case OpenCDXIKMServiceImpl.UNIT_FAHRENHEIT ->
                     UUID.fromString(OpenCDXIKMServiceImpl.UNIT_CELSIUS);
+            case OpenCDXIKMService.UNIT_FLUID_OUNCE -> // fluid ounces
+                    UUID.fromString(OpenCDXIKMService.UNIT_MILILITER);
+            case OpenCDXIKMService.UNIT_PINT -> // pints
+                    UUID.fromString(OpenCDXIKMService.UNIT_LITER);
+            case OpenCDXIKMService.UNIT_GALLON ->
+                    UUID.fromString(OpenCDXIKMService.UNIT_LITER);
             default -> measure.getSemantic().getConceptId();
         };
     }
@@ -197,7 +207,87 @@ public class ConversionServiceImpl implements ConversionService {
                     convertToCelsius(unit, value);
             case OpenCDXIKMService.UNIT_FAHRENHEIT -> // Fahrenheit
                     convertToFahrenheit(unit, value);
+            case OpenCDXIKMService.UNIT_MILILITER -> // milliliters
+                    convertToMilliliters(unit, value);
+            case OpenCDXIKMService.UNIT_LITER -> // liters
+                    convertToLiters(unit, value);
+            case OpenCDXIKMService.UNIT_FLUID_OUNCE -> // fluid ounces
+                    convertToFluidOunces(unit, value);
+            case OpenCDXIKMService.UNIT_PINT -> // pints
+                    convertToPints(unit, value);
+            case OpenCDXIKMService.UNIT_GALLON -> // gallons
+                    convertToGallons(unit, value);
             default -> value;
+        };
+    }
+
+    private Double convertToGallons(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_LITER -> // liters
+                    value / 3.78541;
+            case OpenCDXIKMService.UNIT_MILILITER -> // milliliters
+                    value / 3785.41;
+            case OpenCDXIKMService.UNIT_FLUID_OUNCE -> // fluid ounces
+                    value / 128;
+            case OpenCDXIKMService.UNIT_PINT -> // pints
+                    value / 8;
+            default -> null;
+        };
+    }
+
+    private Double convertToPints(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_LITER -> // liters
+                    value * 2.11338;
+            case OpenCDXIKMService.UNIT_MILILITER -> // milliliters
+                    value * 0.00211338;
+            case OpenCDXIKMService.UNIT_FLUID_OUNCE -> // fluid ounces
+                    value / 16;
+            case OpenCDXIKMService.UNIT_GALLON -> // gallons
+                    value * 8;
+            default -> null;
+        };
+    }
+
+    private Double convertToFluidOunces(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_LITER -> // liters
+                    value * 33.814;
+            case OpenCDXIKMService.UNIT_MILILITER -> // milliliters
+                    value * 0.033814;
+            case OpenCDXIKMService.UNIT_PINT -> // pints
+                    value * 16;
+            case OpenCDXIKMService.UNIT_GALLON -> // gallons
+                    value * 128;
+            default -> null;
+        };
+    }
+
+    private Double convertToLiters(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_MILILITER -> // milliliters
+                    value / 1000;
+            case OpenCDXIKMService.UNIT_FLUID_OUNCE -> // fluid ounces
+                    value / 33.814;
+            case OpenCDXIKMService.UNIT_PINT -> // pints
+                    value / 2.11338;
+            case OpenCDXIKMService.UNIT_GALLON -> // gallons
+                    value / 0.264172;
+            default -> null;
+        };
+    }
+
+    private Double convertToMilliliters(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_LITER -> // liters
+                    value * 1000;
+            case OpenCDXIKMService.UNIT_FLUID_OUNCE -> // fluid ounces
+                    value * 29.5735;
+            case OpenCDXIKMService.UNIT_PINT -> // pints
+                    value * 473.176;
+            case OpenCDXIKMService.UNIT_GALLON -> // gallons
+                    value * 3785.41;
+            default -> null;
         };
     }
 
