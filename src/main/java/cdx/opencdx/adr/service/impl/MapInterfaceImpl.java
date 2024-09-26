@@ -108,7 +108,7 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing(OpenCDXIKMService.UNIT_DAY, "day", "258703001 | day (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_MONTH, "month", "258706009 | month (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_YEAR, "year", "258707000 | year (qualifier value)");
-        addConceptIfMissing(OpenCDXIKMService.UNIT_SECONDS, "Seconds", "257997001 | Seconds (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_SECONDS, "seconds", "257997001 | Seconds (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_METER, "meter", "258669008 | meter (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_INCH, "inch", "258677007 | inch (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_POUNDS, "pounds", "258693003 | pounds (qualifier value)");
@@ -117,8 +117,11 @@ public class MapInterfaceImpl implements IKMInterface {
         addConceptIfMissing(OpenCDXIKMService.UNIT_HOUR, "kilograms", "2258702006 | hour (qualifier value)"); // There seems to be a typo here. It should likely be "hour" instead of "kilograms"
         addConceptIfMissing(OpenCDXIKMService.UNIT_DATE, "date", "410672004 | Date property (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_CALENDAR_TIME, "calendar time", "Unit of calendar time");
-        addConceptIfMissing(OpenCDXIKMService.UNIT_YES, "Yes", "373066001 | Yes (qualifier value)");
-        addConceptIfMissing(OpenCDXIKMService.UNIT_NO, "No", "373067005 | No (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_YES, "yes", "373066001 | Yes (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_NO, "no", "373067005 | No (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_CELSIUS, "celsius", "258710007 | Degrees Celsius (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_FAHRENHEIT, "fahrenheit", "258712004 | Degrees Fahrenheit (qualifier value)");
+
 
         // Test Kits
         addConceptIfMissing("f7c234c5-69d5-3764-ae83-ad2517e8e120", "Test Kit A", "00000123456789");

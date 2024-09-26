@@ -91,6 +91,9 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         addConceptIfMissing(OpenCDXIKMService.UNIT_DATE, "date", "410672004 | Date property (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_CALENDAR_TIME, "calendar time", "Unit of calendar time");
 
+        addConceptIfMissing(OpenCDXIKMService.UNIT_CELSIUS, "Celsius", "258710007 | Degrees Celsius (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_FAHRENHEIT, "Fahrenheit", "258712004 | Degrees Fahrenheit (qualifier value)");
+
     }
 
     @Override
