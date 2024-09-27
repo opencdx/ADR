@@ -123,10 +123,12 @@ public class ConversionServiceImpl implements ConversionService {
      */
     private UUID convertToImperial(MeasureModel measure) {
         return switch (measure.getSemantic().getConceptId().toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH, OpenCDXIKMServiceImpl.UNIT_METER ->
+            case OpenCDXIKMServiceImpl.UNIT_METER ->
                     UUID.fromString(OpenCDXIKMServiceImpl.UNIT_INCH);
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS ->
+            case OpenCDXIKMServiceImpl.UNIT_KILOGRAMS ->
                     UUID.fromString(OpenCDXIKMServiceImpl.UNIT_POUNDS);
+            case OpenCDXIKMServiceImpl.UNIT_CELSIUS ->
+                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_FAHRENHEIT);
             default -> measure.getSemantic().getConceptId();
         };
     }
@@ -139,10 +141,12 @@ public class ConversionServiceImpl implements ConversionService {
      */
     private UUID convertToMetric(MeasureModel measure) {
         return switch (measure.getSemantic().getConceptId().toString()) {
-            case OpenCDXIKMServiceImpl.UNIT_INCH, OpenCDXIKMServiceImpl.UNIT_METER ->
+            case OpenCDXIKMServiceImpl.UNIT_INCH ->
                     UUID.fromString(OpenCDXIKMServiceImpl.UNIT_METER);
-            case OpenCDXIKMServiceImpl.UNIT_POUNDS, OpenCDXIKMServiceImpl.UNIT_KILOGRAMS ->
+            case OpenCDXIKMServiceImpl.UNIT_POUNDS ->
                     UUID.fromString(OpenCDXIKMServiceImpl.UNIT_KILOGRAMS);
+            case OpenCDXIKMServiceImpl.UNIT_FAHRENHEIT ->
+                    UUID.fromString(OpenCDXIKMServiceImpl.UNIT_CELSIUS);
             default -> measure.getSemantic().getConceptId();
         };
     }
@@ -189,8 +193,27 @@ public class ConversionServiceImpl implements ConversionService {
                     convertToDate(unit, value);
             case OpenCDXIKMService.UNIT_MILLISECONDS -> // milliseconds
                     convertToMilliseconds(unit, value);
-
+            case OpenCDXIKMService.UNIT_CELSIUS -> // Celsius
+                    convertToCelsius(unit, value);
+            case OpenCDXIKMService.UNIT_FAHRENHEIT -> // Fahrenheit
+                    convertToFahrenheit(unit, value);
             default -> value;
+        };
+    }
+
+    private Double convertToFahrenheit(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_CELSIUS -> // Celsius
+                    value * 9 / 5 + 32;
+            default -> null;
+        };
+    }
+
+    private Double convertToCelsius(UUID unit, Double value) {
+        return switch (unit.toString()) {
+            case OpenCDXIKMService.UNIT_FAHRENHEIT -> // Fahrenheit
+                    (value - 32) * 5 / 9;
+            default -> null;
         };
     }
 

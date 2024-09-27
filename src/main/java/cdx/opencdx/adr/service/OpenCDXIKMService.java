@@ -20,6 +20,9 @@ public interface OpenCDXIKMService {
     String UNIT_HOUR = "aca700b1-1500-3c2f-bcc6-87f3121e7913";
     String UNIT_DATE = "b03a930b-1bb3-3c8d-9a3a-cdb010522126";
 
+    String UNIT_CELSIUS = "ab65a92d-b6d8-3ab1-9324-45b72ef3c09a";
+    String UNIT_FAHRENHEIT = "ced62ffd-e8cc-3ffb-9722-99e9b402e508";
+
     String UNIT_CALENDAR_TIME = "b5ba88ba-22d5-37fe-a9a1-b82c377e0212";
     String UNIT_DATE_TIME = "f81f5dc6-aaa3-372a-aa2d-5934fe79dfb0";
     String UNIT_MILLISECONDS = "86b3f8c4-9a2f-35ca-9183-bb8c0090930e";
