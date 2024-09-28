@@ -94,6 +94,12 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         addConceptIfMissing(OpenCDXIKMService.UNIT_CELSIUS, "Celsius", "258710007 | Degrees Celsius (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_FAHRENHEIT, "Fahrenheit", "258712004 | Degrees Fahrenheit (qualifier value)");
 
+        addConceptIfMissing(OpenCDXIKMService.UNIT_MILILITER, "milliliter", "258773002 | Milliliter (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_LITER, "liter", "258770004 | Liter (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_FLUID_OUNCE, "fluid ounce", "282118007 | fluid ounce (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_PINT, "pint", "282119004 | pint (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_GALLON, "gallon", "282120005 | gallon (qualifier value)");
+
     }
 
     @Override

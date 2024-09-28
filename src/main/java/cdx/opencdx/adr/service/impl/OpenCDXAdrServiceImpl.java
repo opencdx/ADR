@@ -164,6 +164,11 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
         this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_MILLISECONDS)); // Unit of Calendar Time
         this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_CELSIUS)); // Unit of Calendar Time
         this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_FAHRENHEIT)); // Unit of Calendar Time
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_MILILITER)); // Unit of Calendar Time
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_LITER)); // Unit of Calendar Time
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_PINT)); // Unit of Calendar Time
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_FLUID_OUNCE)); // Unit of Calendar Time
+        this.blockConcepts.add(UUID.fromString(OpenCDXIKMService.UNIT_GALLON)); // Unit of Calendar Time
 
     }
 

@@ -23,6 +23,12 @@ public interface OpenCDXIKMService {
     String UNIT_CELSIUS = "ab65a92d-b6d8-3ab1-9324-45b72ef3c09a";
     String UNIT_FAHRENHEIT = "ced62ffd-e8cc-3ffb-9722-99e9b402e508";
 
+    String UNIT_MILILITER = "43a354f0-94a6-3e47-94ac-47ca3dd48142";
+    String UNIT_LITER = "fab03cd1-51c2-3831-85a9-8e9966ecb765";
+    String UNIT_FLUID_OUNCE = "263d811a-3262-30c8-805e-1729b7baea80";
+    String UNIT_PINT = "35830f24-079f-3090-928a-64c5564bc828";
+    String UNIT_GALLON = "a5205229-81ab-3c0c-b4d2-41cd5a69761d";
+
     String UNIT_CALENDAR_TIME = "b5ba88ba-22d5-37fe-a9a1-b82c377e0212";
     String UNIT_DATE_TIME = "f81f5dc6-aaa3-372a-aa2d-5934fe79dfb0";
     String UNIT_MILLISECONDS = "86b3f8c4-9a2f-35ca-9183-bb8c0090930e";
