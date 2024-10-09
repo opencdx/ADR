@@ -4,8 +4,10 @@ package cdx.opencdx.adr.controller;
 import cdx.opencdx.adr.dto.ADRQuery;
 import cdx.opencdx.adr.dto.SavedQuery;
 import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.service.IKMInterface;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import dev.ikm.tinkar.common.id.PublicId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The QueryController class is responsible for handling queries.
@@ -36,11 +40,14 @@ public class QueryController {
      */
     private final OpenCDXAdrService adrService;
 
+    private final IKMInterface ikmInterface;
+
     /**
      * The QueryController class is responsible for handling queries.
      */
-    public QueryController(OpenCDXAdrService adrService) {
+    public QueryController(OpenCDXAdrService adrService, IKMInterface ikmInterface) {
         this.adrService = adrService;
+        this.ikmInterface = ikmInterface;
     }
 
     /**
@@ -119,5 +126,20 @@ public class QueryController {
         log.info("Received delete query request");
         adrService.deleteSavedQuery(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Map<PublicId, String>> search(@RequestParam String search) {
+        return ResponseEntity.ok(ikmInterface.search(search, 30).stream()
+                .collect(Collectors.toMap(
+                        publicId -> publicId,
+                        publicId -> ikmInterface.descriptionsOf(List.of(publicId)).getFirst(),
+                        (existing, replacement) -> existing)) // handle any duplicate keys if needed
+                .entrySet().stream() // working with Map.Entry<K, V>
+                .filter(entry -> !entry.getValue().isEmpty()) // filter out empty descriptions
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey(),  // extract the key (publicId)
+                        entry -> entry.getValue() // extract the value (description)
+                )));
     }
 }
