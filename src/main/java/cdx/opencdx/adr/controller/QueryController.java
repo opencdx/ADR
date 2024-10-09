@@ -129,7 +129,7 @@ public class QueryController {
 
     @GetMapping("/search")
     public ResponseEntity<List<TinkarConceptModel>> search(@RequestParam String search) {
-        return ResponseEntity.ok(ikmInterface.search(search, 30).stream().map(publicId -> {
+        return ResponseEntity.ok(ikmInterface.search(search, 30).stream().distinct().map(publicId -> {
             TinkarConceptModel model = new TinkarConceptModel();
             model.setConceptName(PrimitiveData.textOptional(EntityService.get().nidForPublicId(publicId)).orElse(null));
             model.setConceptDescription(ikmInterface.descriptionsOf(List.of(publicId)).getFirst());
