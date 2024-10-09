@@ -7,7 +7,8 @@ import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.service.IKMInterface;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import dev.ikm.tinkar.common.id.PublicId;
+import dev.ikm.tinkar.common.service.PrimitiveData;
+import dev.ikm.tinkar.entity.EntityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * The QueryController class is responsible for handling queries.
@@ -129,17 +128,14 @@ public class QueryController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Map<PublicId, String>> search(@RequestParam String search) {
-        return ResponseEntity.ok(ikmInterface.search(search, 30).stream()
-                .collect(Collectors.toMap(
-                        publicId -> publicId,
-                        publicId -> ikmInterface.descriptionsOf(List.of(publicId)).getFirst(),
-                        (existing, replacement) -> existing)) // handle any duplicate keys if needed
-                .entrySet().stream() // working with Map.Entry<K, V>
-                .filter(entry -> !entry.getValue().isEmpty()) // filter out empty descriptions
-                .collect(Collectors.toMap(
-                        entry -> entry.getKey(),  // extract the key (publicId)
-                        entry -> entry.getValue() // extract the value (description)
-                )));
+    public ResponseEntity<List<TinkarConceptModel>> search(@RequestParam String search) {
+        return ResponseEntity.ok(ikmInterface.search(search, 30).stream().map(publicId -> {
+            TinkarConceptModel model = new TinkarConceptModel();
+            model.setConceptName(PrimitiveData.textOptional(EntityService.get().nidForPublicId(publicId)).orElse(null));
+            model.setConceptDescription(ikmInterface.descriptionsOf(List.of(publicId)).getFirst());
+            model.setConceptId(publicId.asUuidArray()[0]);
+
+            return model;
+        }).toList());
     }
 }
