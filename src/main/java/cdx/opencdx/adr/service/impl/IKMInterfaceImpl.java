@@ -81,7 +81,7 @@ public class IKMInterfaceImpl implements IKMInterface, AutoCloseable {
         addConceptIfMissing(OpenCDXIKMService.UNIT_DAY, "day", "258703001 | day (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_MONTH, "month", "258706009 | month (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_YEAR, "year", "258707000 | year (qualifier value)");
-        addConceptIfMissing(OpenCDXIKMService.UNIT_SECONDS, "Seconds", "257997001 | Seconds (qualifier value)");
+        addConceptIfMissing(OpenCDXIKMService.UNIT_SECONDS, "seconds", "257997001 | Seconds (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_METER, "meter", "258669008 | meter (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_INCH, "inch", "258677007 | inch (qualifier value)");
         addConceptIfMissing(OpenCDXIKMService.UNIT_POUNDS, "pounds", "258693003 | pounds (qualifier value)");

@@ -4,8 +4,11 @@ package cdx.opencdx.adr.controller;
 import cdx.opencdx.adr.dto.ADRQuery;
 import cdx.opencdx.adr.dto.SavedQuery;
 import cdx.opencdx.adr.model.TinkarConceptModel;
+import cdx.opencdx.adr.service.IKMInterface;
 import cdx.opencdx.adr.service.OpenCDXAdrService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import dev.ikm.tinkar.common.service.PrimitiveData;
+import dev.ikm.tinkar.entity.EntityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,11 +39,14 @@ public class QueryController {
      */
     private final OpenCDXAdrService adrService;
 
+    private final IKMInterface ikmInterface;
+
     /**
      * The QueryController class is responsible for handling queries.
      */
-    public QueryController(OpenCDXAdrService adrService) {
+    public QueryController(OpenCDXAdrService adrService, IKMInterface ikmInterface) {
         this.adrService = adrService;
+        this.ikmInterface = ikmInterface;
     }
 
     /**
@@ -119,5 +125,17 @@ public class QueryController {
         log.info("Received delete query request");
         adrService.deleteSavedQuery(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<TinkarConceptModel>> search(@RequestParam String search, @RequestParam(required = false) Integer limit) {
+        return ResponseEntity.ok(ikmInterface.search(search, limit != null ? limit : 30).stream().distinct().map(publicId -> {
+            TinkarConceptModel model = new TinkarConceptModel();
+            model.setConceptName(PrimitiveData.textOptional(EntityService.get().nidForPublicId(publicId)).orElse(null));
+            model.setConceptDescription(ikmInterface.descriptionsOf(List.of(publicId)).getFirst());
+            model.setConceptId(publicId.asUuidArray()[0]);
+
+            return model;
+        }).toList());
     }
 }
