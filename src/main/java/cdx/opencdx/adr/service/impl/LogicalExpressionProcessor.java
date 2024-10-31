@@ -62,6 +62,9 @@ public class LogicalExpressionProcessor implements OpenCDXANFProcessor {
         this.updateTinkarConceptModel(anfStatement.getAssociatedStatements().stream().map(AssociatedStatementModel::getSemantic).filter(Objects::nonNull).toList(), anfStatement);
         this.updateTinkarConceptModel(anfStatement.getSubjectOfInformation(), anfStatement);
         this.updateTinkarConceptModel(anfStatement.getTopic(), anfStatement);
+        if(anfStatement.getMethod() != null) {
+            this.updateTinkarConceptModel(anfStatement.getMethod(), anfStatement);
+        }
         this.updateTinkarConceptModel(anfStatement.getType(), anfStatement);
         this.updateTinkarConceptModel(anfStatement.getSubjectOfRecord().getCode(), anfStatement);
         this.updateTinkarConceptModel(anfStatement.getAuthors().stream().map(PractitionerModel::getCode).filter(Objects::nonNull).toList(), anfStatement);

@@ -105,6 +105,7 @@ CREATE TABLE DimANFStatement (
                                  subject_of_record_id BIGINT REFERENCES DimParticipant(id), -- Participant the statement is about
                                  subject_of_information_id BIGINT REFERENCES DimTinkarConcept(id), -- Concept representing the subject of the information
                                  topic_id BIGINT REFERENCES DimTinkarConcept(id),          -- Main topic of the statement
+                                 method_id BIGINT REFERENCES DimTinkarConcept(id),
                                  type_id BIGINT REFERENCES DimTinkarConcept(id),          -- Type of statement (e.g., observation, procedure)
                                  performance_circumstance_id BIGINT REFERENCES FactPerformanceCircumstance(id), -- Circumstances of performance (if applicable)
                                  request_circumstance_id BIGINT REFERENCES FactRequestCircumstance(id),    -- Circumstances of request (if applicable)
