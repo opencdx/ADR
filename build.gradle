@@ -42,13 +42,13 @@ dependencies {
 
     
     //TINKAR
-    implementation 'dev.ikm.tinkar:tinkar-core:1.69.0'
-    implementation "dev.ikm.tinkar:entity:1.69.0"
-    implementation "dev.ikm.tinkar:entity-provider:1.69.0"
-    implementation "dev.ikm.tinkar:common:1.69.0"
-    implementation "dev.ikm.tinkar:coordinate:1.69.0"
-    implementation "dev.ikm.tinkar:data-spinedarray-provider:1.69.0"
-    implementation "dev.ikm.tinkar:executor-provider:1.69.0"
+    implementation 'dev.ikm.tinkar:tinkar-core:1.76.0'
+    implementation "dev.ikm.tinkar:entity:1.76.0"
+    implementation "dev.ikm.tinkar:entity-provider:1.76.0"
+    implementation "dev.ikm.tinkar:common:1.76.0"
+    implementation "dev.ikm.tinkar:coordinate:1.76.0"
+    implementation "dev.ikm.tinkar:data-spinedarray-provider:1.76.0"
+    implementation "dev.ikm.tinkar:executor-provider:1.76.0"
 
 }
 
