@@ -16,10 +16,22 @@
 package cdx.opencdx.adr.repository;
 
 import cdx.opencdx.adr.model.MeasureModel;
+import cdx.opencdx.adr.model.TinkarConceptModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * MeasureRepository is an interface that extends the JpaRepository interface. It is used for managing measures.
  */
 public interface MeasureRepository extends JpaRepository<MeasureModel, Long> {
+
+    /**
+     * Finds all distinct semantics for Tinkar concepts.
+     *
+     * @return a List of TinkarConceptModel objects representing all distinct semantics.
+     */
+    @Query("SELECT DISTINCT m.semantic FROM MeasureModel m")
+    List<TinkarConceptModel> findAllDistinctSemantics();
 }
