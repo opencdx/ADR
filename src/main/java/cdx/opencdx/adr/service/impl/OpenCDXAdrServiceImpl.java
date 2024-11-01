@@ -21,6 +21,7 @@ import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.model.SavedQueryModel;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.repository.ANFStatementRepository;
+import cdx.opencdx.adr.repository.MeasureRepository;
 import cdx.opencdx.adr.repository.SavedQueryRepository;
 import cdx.opencdx.adr.repository.TinkarConceptRepository;
 import cdx.opencdx.adr.service.OpenCDXANFProcessor;
@@ -67,6 +68,8 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      * injection or object creation during class initialization.
      */
     private final ANFStatementRepository anfStatementRepository;
+
+    private final MeasureRepository measureRepository;
     /**
      * Represents a Tinkar concept repository.
      */
@@ -127,8 +130,9 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
      * @param anfRepo                the ANF repository
      * @param mapper                 the object mapper
      * @param savedQueryRepository   the saved query repository
+     * @param measureRepository     the measure repository
      */
-    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository,
+    public OpenCDXAdrServiceImpl(ANFStatementRepository anfStatementRepository, MeasureRepository measureRepository,
                                  TinkarConceptRepository conceptRepository,
                                  QueryService queryService,
                                  @Qualifier("preOpenCDXANFProcessors") List<OpenCDXANFProcessor> preOpenCDXANFProcessors,
@@ -137,6 +141,7 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
                                  ObjectMapper mapper,
                                  SavedQueryRepository savedQueryRepository) {
         this.anfStatementRepository = anfStatementRepository;
+        this.measureRepository = measureRepository;
         this.conceptRepository = conceptRepository;
         this.queryService = queryService;
         this.postOpenCDXANFProcessors = postOpenCDXANFProcessors;
@@ -205,8 +210,12 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
 
     @Override
     public List<TinkarConceptModel> getUnits() {
-        return this.conceptRepository.findAll().stream()
-                .filter(concept -> this.blockConcepts.contains(concept.getConceptId())).sorted(Comparator.comparing(TinkarConceptModel::getConceptName)).toList();
+        List<TinkarConceptModel> semantics = this.measureRepository.findAllDistinctSemantics();
+
+        semantics.addAll( this.conceptRepository.findAll().stream()
+                .filter(concept -> this.blockConcepts.contains(concept.getConceptId())).sorted(Comparator.comparing(TinkarConceptModel::getConceptName)).toList());
+
+        return semantics.stream().distinct().toList();
     }
 
 
