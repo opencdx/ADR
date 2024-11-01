@@ -138,6 +138,10 @@ public class AnfStatementModel {
     @JoinColumn(name = "topic_id")
     private TinkarConceptModel topic;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "method_id")
+    private TinkarConceptModel method;
     /**
      * The type variable represents the type of a logical expression stored in the database.
      * It is annotated with the @ManyToOne and @JoinColumn annotations to define the relationship between the entities AnfStatementModel and LogicalExpressionModel.
@@ -266,6 +270,9 @@ public class AnfStatementModel {
         this.subjectOfRecord = anfRepo.getParticipantRepository().save(new ParticipantModel(anfStatement.getSubjectOfRecord(), anfRepo));
         this.subjectOfInformation = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getSubjectOfInformation());
         this.topic = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getTopic());
+        if(anfStatement.hasMethod()) {
+            this.method = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getMethod());
+        }
         this.type = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getType());
 
         if (anfStatement.hasPerformanceCircumstance()) {
