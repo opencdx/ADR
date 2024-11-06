@@ -134,10 +134,16 @@ public class CsvServiceImpl implements CsvService {
      * @param unitOutput              The UnitOutput object containing the unit output details
      */
     private void processPerformanceCircumstance(CsvBuilder csvDto, int row, String conceptName, PerformanceCircumstanceModel performanceCircumstance, UnitOutput unitOutput) {
+        String normalRange = "";
+
+        if(performanceCircumstance.getNormalRange() != null && (performanceCircumstance.getNormalRange().getIncludeUpperBound() != null || performanceCircumstance.getNormalRange().getIncludeLowerBound() != null)) {
+            normalRange = formatMeasure(performanceCircumstance.getNormalRange(), unitOutput);
+        }
+
         if (performanceCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName, Cell.builder().value(formatMeasure(performanceCircumstance.getResult(), unitOutput)).reported(this.formatMeasure(performanceCircumstance.getTiming(),unitOutput)).build());
+            csvDto.setCell(row, conceptName, Cell.builder().value(formatMeasure(performanceCircumstance.getResult(), unitOutput)).normalRange(normalRange).reported(this.formatMeasure(performanceCircumstance.getTiming(),unitOutput)).build());
         } else {
-            csvDto.setCell(row, conceptName, Cell.builder().value(formatMeasure(performanceCircumstance.getResult(), unitOutput)).build());
+            csvDto.setCell(row, conceptName, Cell.builder().value(formatMeasure(performanceCircumstance.getResult(), unitOutput)).normalRange(normalRange).build());
         }
     }
 
