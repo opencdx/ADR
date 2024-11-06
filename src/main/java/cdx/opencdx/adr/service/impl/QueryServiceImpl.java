@@ -117,7 +117,7 @@ public class QueryServiceImpl implements QueryService {
     private List<String> prepareCsvContent(List<UUID> uuids, List<AnfStatementModel> results, UnitOutput unitOutput) {
         CsvBuilder csvDto = this.csvService.buildCsvDto(uuids, results, unitOutput);
         List<String> csvContent = new ArrayList<>();
-        csvContent.add(csvDto.getHeaders());
+        csvContent.add(csvDto.getHeaderString());
         for (int i = 0; i < csvDto.getRowCount(); i++) {
             csvContent.add(csvDto.getRow(i));
         }
@@ -135,7 +135,7 @@ public class QueryServiceImpl implements QueryService {
             }
             rows.add(Row.builder().cells(cells).build());
         }
-        return Report.builder().rows(rows).build();
+        return Report.builder().headers(csvDto.getHeaders()).rows(rows).build();
     }
 
     /**

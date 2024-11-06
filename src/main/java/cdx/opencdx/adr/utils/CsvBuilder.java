@@ -158,13 +158,23 @@ public class CsvBuilder {
      *
      * @return the headers of the CSV file as a string
      */
-    public String getHeaders() {
+    public String getHeaderString() {
         StringBuilder headerRow = new StringBuilder();
         for (String header : this.headers) {
             headerRow.append(header).append(",");
         }
         return headerRow.toString();
     }
+
+    /**
+     * Retrieves the list of headers for the CSV data.
+     *
+     * @return a list of headers as strings.
+     */
+    public List<String> getHeaders() {
+        return headers;
+    }
+
 
     /**
      * Sets the headers of the CSV file.
