@@ -2,6 +2,7 @@ package cdx.opencdx.adr.controller;
 
 
 import cdx.opencdx.adr.dto.ADRQuery;
+import cdx.opencdx.adr.dto.Report;
 import cdx.opencdx.adr.dto.SavedQuery;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.adr.service.IKMInterface;
@@ -71,6 +72,12 @@ public class QueryController {
     public ResponseEntity<List<String>> postQuery(@RequestBody ADRQuery adrQuery) {
         log.info("Received query request");
         return ResponseEntity.ok(adrService.streamQuery(adrQuery));
+    }
+
+    @PostMapping("/json")
+    public ResponseEntity<Report> queryJSON(@RequestBody ADRQuery adrQuery) {
+        log.info("Received query request");
+        return ResponseEntity.ok(adrService.getJsonQuery(adrQuery));
     }
 
     @PostMapping("/csv")

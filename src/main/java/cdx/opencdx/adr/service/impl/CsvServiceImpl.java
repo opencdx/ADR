@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.dto.Cell;
 import cdx.opencdx.adr.dto.UnitOutput;
 import cdx.opencdx.adr.model.*;
 import cdx.opencdx.adr.repository.CalculatedConceptRepository;
@@ -92,10 +93,12 @@ public class CsvServiceImpl implements CsvService {
 
         list.forEach(uuid -> {
             int currentRow = row.getAndIncrement();
-            csvDto.setCell(currentRow, "Participant ID", uuid.toString());
 
             Optional<Date> recentDate = findRecentStatementResult(results, uuid);
-            recentDate.ifPresent(date -> csvDto.setCell(currentRow, "Reported", formatter.format(date)));
+            Cell.CellBuilder builder = Cell.builder().value(uuid.toString());
+            recentDate.ifPresent(date -> builder.reported(formatter.format(date)));
+
+            csvDto.setCell(currentRow, "Participant ID", builder.build());
 
             ArrayList<AnfStatementModel> anfs = this.anfRepo.getParticipantRepository().findAllByPartId(uuid)
                     .stream()
@@ -116,7 +119,7 @@ public class CsvServiceImpl implements CsvService {
             });
 
             this.calculatedConceptRepository.findAllByParticipantIdAndThreadName(uuid, Thread.currentThread().getName())
-                    .forEach(calculatedConcept -> csvDto.setCell(currentRow, calculatedConcept.getConceptName() + " Calculation", calculatedConcept.getValue().toString()));
+                    .forEach(calculatedConcept -> csvDto.setCell(currentRow, calculatedConcept.getConceptName() + " Calculation", Cell.builder().value(calculatedConcept.getValue().toString()).build()));
         });
         return csvDto;
     }
@@ -132,9 +135,10 @@ public class CsvServiceImpl implements CsvService {
      */
     private void processPerformanceCircumstance(CsvBuilder csvDto, int row, String conceptName, PerformanceCircumstanceModel performanceCircumstance, UnitOutput unitOutput) {
         if (performanceCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", this.formatMeasure(performanceCircumstance.getTiming(),unitOutput));
+            csvDto.setCell(row, conceptName, Cell.builder().value(formatMeasure(performanceCircumstance.getResult(), unitOutput)).reported(this.formatMeasure(performanceCircumstance.getTiming(),unitOutput)).build());
+        } else {
+            csvDto.setCell(row, conceptName, Cell.builder().value(formatMeasure(performanceCircumstance.getResult(), unitOutput)).build());
         }
-        csvDto.setCell(row, conceptName, formatMeasure(performanceCircumstance.getResult(), unitOutput));
     }
 
     /**
@@ -148,9 +152,10 @@ public class CsvServiceImpl implements CsvService {
      */
     private void processRequestCircumstance(CsvBuilder csvDto, int row, String conceptName, RequestCircumstanceModel requestCircumstance, UnitOutput unitOutput) {
         if (requestCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", this.formatMeasure(requestCircumstance.getTiming(),unitOutput));
+            csvDto.setCell(row, conceptName, Cell.builder().value(formatMeasure(requestCircumstance.getRequestedResult(), unitOutput)).reported(this.formatMeasure(requestCircumstance.getTiming(),unitOutput)).build());
+        } else {
+            csvDto.setCell(row, conceptName, Cell.builder().value(formatMeasure(requestCircumstance.getRequestedResult(), unitOutput)).build());
         }
-        csvDto.setCell(row, conceptName, formatMeasure(requestCircumstance.getRequestedResult(), unitOutput));
     }
 
     /**
@@ -163,9 +168,10 @@ public class CsvServiceImpl implements CsvService {
      */
     private void processNarrativeCircumstance(CsvBuilder csvDto, int row, String conceptName, NarrativeCircumstanceModel narrativeCircumstance, UnitOutput unitOutput) {
         if (narrativeCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", this.formatMeasure(narrativeCircumstance.getTiming(),unitOutput));
+            csvDto.setCell(row, conceptName, Cell.builder().value(narrativeCircumstance.getText()).reported(this.formatMeasure(narrativeCircumstance.getTiming(),unitOutput)).build());
+        } else {
+            csvDto.setCell(row, conceptName, Cell.builder().value(narrativeCircumstance.getText()).build());
         }
-        csvDto.setCell(row, conceptName, narrativeCircumstance.getText());
     }
 
     /**

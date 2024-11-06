@@ -16,6 +16,7 @@
 package cdx.opencdx.adr.service.impl;
 
 import cdx.opencdx.adr.dto.ADRQuery;
+import cdx.opencdx.adr.dto.Report;
 import cdx.opencdx.adr.dto.SavedQuery;
 import cdx.opencdx.adr.model.AnfStatementModel;
 import cdx.opencdx.adr.model.SavedQueryModel;
@@ -222,6 +223,11 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
     @Override
     public List<String> streamQuery(ADRQuery adrQuery) {
         return this.queryService.processQuery(adrQuery);
+    }
+
+    @Override
+    public Report getJsonQuery(ADRQuery adrQuery) {
+        return this.queryService.processJsonQuery(adrQuery);
     }
 
     @Override

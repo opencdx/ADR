@@ -2,6 +2,7 @@ package cdx.opencdx.adr.service;
 
 
 import cdx.opencdx.adr.dto.ADRQuery;
+import cdx.opencdx.adr.dto.Report;
 
 import java.util.List;
 
@@ -17,4 +18,11 @@ public interface QueryService {
      * @return
      */
     List<String> processQuery(ADRQuery adrQuery);
+    /**
+     * Processes the given ADRQuery object and writes the result to the provided PrintWriter.
+     *
+     * @param adrQuery the ADRQuery object representing the query to be processed
+     * @return
+     */
+    Report processJsonQuery(ADRQuery adrQuery);
 }

@@ -1,9 +1,12 @@
 package cdx.opencdx.adr.utils;
 
+import cdx.opencdx.adr.dto.Cell;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * CsvBuilder is a class that allows you to build and manipulate CSV (Comma Separated Values) data.
@@ -13,7 +16,7 @@ public class CsvBuilder {
      * Private variable to store the CSV data.
      * It is a list of lists of strings, representing the rows and columns of the CSV.
      */
-    private final List<List<String>> data;
+    private final List<List<Cell>> data;
     /**
      * A private variable that maps header names to their corresponding indices in the CsvBuilder.
      */
@@ -66,12 +69,17 @@ public class CsvBuilder {
         if (!headers.contains(headerName)) {
             headers.add(headerName);
             headerToIndex.put(headerName, headers.size() - 1);
-            for (List<String> row : data) {
-                row.add("");
+            for (List<Cell> row : data) {
+                row.add(Cell.builder().build());
             }
         } else {
             throw new IllegalArgumentException("Duplicate header name: " + headerName);
         }
+    }
+
+
+    public int getHeaderCount() {
+        return headers.size();
     }
 
     /**
@@ -82,7 +90,7 @@ public class CsvBuilder {
      * @param value      the value to be set in the cell
      * @throws IllegalArgumentException if the rowIndex is negative or the columnName is a duplicate
      */
-    public void setCell(int rowIndex, String columnName, String value) {
+    public void setCell(int rowIndex, String columnName, Cell value) {
         if (rowIndex < 0) {
             throw new IllegalArgumentException("Row index cannot be negative.");
         }
@@ -97,9 +105,9 @@ public class CsvBuilder {
             data.add(new ArrayList<>(headers.size()));
         }
 
-        List<String> row = data.get(rowIndex);
+        List<Cell> row = data.get(rowIndex);
         while (row.size() < headers.size()) {
-            row.add("");
+            row.add(Cell.builder().build());
         }
 
         row.set(columnIndex, value);
@@ -112,7 +120,7 @@ public class CsvBuilder {
      * @param columnIndex the index of the column
      * @return the value at the specified cell or null if the row index or column index is out of bounds
      */
-    public String getCell(int rowIndex, int columnIndex) {
+    public Cell getCell(int rowIndex, int columnIndex) {
         if (rowIndex < data.size() && columnIndex < headers.size()) {
             return data.get(rowIndex).get(columnIndex);
         } else {
@@ -136,7 +144,7 @@ public class CsvBuilder {
      * @param headerName the name of the header to retrieve
      * @return the value of the cell with the specified row and header name, or null if the header name does not exist
      */
-    public String getCell(int rowIndex, String headerName) {
+    public Cell getCell(int rowIndex, String headerName) {
         int columnIndex = headers.indexOf(headerName);
         if (columnIndex != -1) {
             return getCell(rowIndex, columnIndex);
@@ -195,8 +203,8 @@ public class CsvBuilder {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(String.join(",", headers)).append("\n");
-        for (List<String> row : data) {
-            sb.append(String.join(",", row)).append("\n");
+        for (List<Cell> row : data) {
+            sb.append(row.stream().map(Cell::getValue).collect(Collectors.joining(","))).append("\n");
         }
         return sb.toString();
     }

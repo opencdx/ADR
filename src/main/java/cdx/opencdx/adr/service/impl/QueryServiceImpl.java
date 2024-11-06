@@ -74,7 +74,6 @@ public class QueryServiceImpl implements QueryService {
      * Processes the given ADRQuery and writes the results to the provided PrintWriter.
      *
      * @param adrQuery The ADRQuery to process.
-     * @param writer   The PrintWriter to write the results to.
      * @return
      */
     @Override
@@ -93,6 +92,20 @@ public class QueryServiceImpl implements QueryService {
         return prepareCsvContent(list, results, adrQuery.getUnitOutput());
     }
 
+    public Report processJsonQuery(ADRQuery adrQuery) {
+        List<CalculatedConcept> allByThreadName = this.calculatedConceptRepository.findAllByThreadName(Thread.currentThread().getName());
+        if (!allByThreadName.isEmpty()) {
+            this.calculatedConceptRepository.deleteAll(allByThreadName);
+        }
+
+        ProcessingResults processingResults = processQuery(adrQuery.getQueries());
+
+        List<AnfStatementModel> results = processingResults.anfStatements;
+
+        List<UUID> list = processingResults.conceptIds;
+        return prepareJsonContent(list, results, adrQuery.getUnitOutput());
+    }
+
     /**
      * Prepares the content for a CSV file based on the given UUIDs, results, and unit output.
      *
@@ -109,6 +122,20 @@ public class QueryServiceImpl implements QueryService {
             csvContent.add(csvDto.getRow(i));
         }
         return csvContent;
+    }
+
+    private Report prepareJsonContent(List<UUID> uuids, List<AnfStatementModel> results, UnitOutput unitOutput) {
+        CsvBuilder csvDto = this.csvService.buildCsvDto(uuids, results, unitOutput);
+        List<Row> rows = new ArrayList<>();
+        for (int i = 0; i < csvDto.getRowCount(); i++) {
+            List<Cell> cells = new ArrayList<>();
+            for (int j = 0; j < csvDto.getHeaderCount(); j++) {
+                Cell cell = csvDto.getCell(i, j);
+                cells.add(cell);
+            }
+            rows.add(Row.builder().cells(cells).build());
+        }
+        return Report.builder().rows(rows).build();
     }
 
     /**
