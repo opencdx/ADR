@@ -16,6 +16,7 @@
 package cdx.opencdx.adr.service;
 
 import cdx.opencdx.adr.dto.ADRQuery;
+import cdx.opencdx.adr.dto.Report;
 import cdx.opencdx.adr.dto.SavedQuery;
 import cdx.opencdx.adr.model.TinkarConceptModel;
 import cdx.opencdx.grpc.data.ANFStatement;
@@ -87,4 +88,12 @@ public interface OpenCDXAdrService {
      * @param id The ID of the saved query to delete.
      */
     void deleteSavedQuery(Long id);
+
+    /**
+     * Executes a JSON query based on the provided ADRQuery object and returns a Report object.
+     *
+     * @param adrQuery The ADRQuery object representing the parameters and conditions for the query.
+     * @return A Report object containing the results of the JSON query.
+     */
+    Report getJsonQuery(ADRQuery adrQuery);
 }

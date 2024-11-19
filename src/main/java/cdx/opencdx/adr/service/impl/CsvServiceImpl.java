@@ -1,5 +1,6 @@
 package cdx.opencdx.adr.service.impl;
 
+import cdx.opencdx.adr.dto.Cell;
 import cdx.opencdx.adr.dto.UnitOutput;
 import cdx.opencdx.adr.model.*;
 import cdx.opencdx.adr.repository.CalculatedConceptRepository;
@@ -92,10 +93,12 @@ public class CsvServiceImpl implements CsvService {
 
         list.forEach(uuid -> {
             int currentRow = row.getAndIncrement();
-            csvDto.setCell(currentRow, "Participant ID", uuid.toString());
 
             Optional<Date> recentDate = findRecentStatementResult(results, uuid);
-            recentDate.ifPresent(date -> csvDto.setCell(currentRow, "Reported", formatter.format(date)));
+            Cell.CellBuilder builder = Cell.builder().value(uuid.toString());
+            recentDate.ifPresent(date -> builder.reported(formatter.format(date)));
+
+            csvDto.setCell(currentRow, "Participant ID", builder.build());
 
             ArrayList<AnfStatementModel> anfs = this.anfRepo.getParticipantRepository().findAllByPartId(uuid)
                     .stream()
@@ -106,19 +109,39 @@ public class CsvServiceImpl implements CsvService {
                 if (anf.getTopic() != null) {
                     var conceptName = anf.getTopic().getConceptName();
                     if (anf.getPerformanceCircumstance() != null && anf.getPerformanceCircumstance().getResult() != null) {
-                        processPerformanceCircumstance(csvDto, currentRow, conceptName, anf.getPerformanceCircumstance(), unitOutput);
+                        processPerformanceCircumstance(csvDto, currentRow, conceptName,anf, anf.getPerformanceCircumstance(), unitOutput);
                     } else if (anf.getRequestCircumstance() != null) {
-                        processRequestCircumstance(csvDto, currentRow, conceptName, anf.getRequestCircumstance(), unitOutput);
+                        processRequestCircumstance(csvDto, currentRow, conceptName,anf, anf.getRequestCircumstance(), unitOutput);
                     } else if (anf.getNarrativeCircumstance() != null && anf.getNarrativeCircumstance().getText() != null) {
-                        processNarrativeCircumstance(csvDto, currentRow, conceptName, anf.getNarrativeCircumstance(), unitOutput);
+                        processNarrativeCircumstance(csvDto, currentRow, conceptName,anf, anf.getNarrativeCircumstance(), unitOutput);
                     }
                 }
             });
 
             this.calculatedConceptRepository.findAllByParticipantIdAndThreadName(uuid, Thread.currentThread().getName())
-                    .forEach(calculatedConcept -> csvDto.setCell(currentRow, calculatedConcept.getConceptName() + " Calculation", calculatedConcept.getValue().toString()));
+                    .forEach(calculatedConcept -> csvDto.setCell(currentRow, calculatedConcept.getConceptName() + " Calculation", Cell.builder().value(calculatedConcept.getValue().toString()).build()));
         });
         return csvDto;
+    }
+
+    private List<String> getNotes(AnfStatementModel anf) {
+        List<String> notes = new ArrayList<>();
+        anf.getAssociatedStatements().forEach(associatedStatement -> {
+            String association = "";
+            if(associatedStatement.getSemantic() != null) {
+                association = associatedStatement.getSemantic().getConceptName() + ": ";
+            }
+            Optional<AnfStatementModel> statement = this.anfRepo.getAnfStatementRepository().findById(associatedStatement.getStateId().getId());
+
+            if(statement.isPresent()){
+                AnfStatementModel associatedAnf = statement.get();
+                if(associatedAnf.getNarrativeCircumstance() != null && associatedAnf.getNarrativeCircumstance().getText() != null) {
+                    notes.add(association + associatedAnf.getTopic().getConceptName());
+                }
+            }
+
+        });
+        return notes;
     }
 
     /**
@@ -130,11 +153,18 @@ public class CsvServiceImpl implements CsvService {
      * @param performanceCircumstance The PerformanceCircumstanceModel object containing the performance circumstance details
      * @param unitOutput              The UnitOutput object containing the unit output details
      */
-    private void processPerformanceCircumstance(CsvBuilder csvDto, int row, String conceptName, PerformanceCircumstanceModel performanceCircumstance, UnitOutput unitOutput) {
-        if (performanceCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", this.formatMeasure(performanceCircumstance.getTiming(),unitOutput));
+    private void processPerformanceCircumstance(CsvBuilder csvDto, int row, String conceptName, AnfStatementModel anf, PerformanceCircumstanceModel performanceCircumstance, UnitOutput unitOutput) {
+        String normalRange = "";
+
+        if(performanceCircumstance.getNormalRange() != null && (performanceCircumstance.getNormalRange().getIncludeUpperBound() != null || performanceCircumstance.getNormalRange().getIncludeLowerBound() != null)) {
+            normalRange = formatMeasure(performanceCircumstance.getNormalRange(), unitOutput);
         }
-        csvDto.setCell(row, conceptName, formatMeasure(performanceCircumstance.getResult(), unitOutput));
+
+        if (performanceCircumstance.getTiming() != null) {
+            csvDto.setCell(row, conceptName, Cell.builder().notes(this.getNotes(anf)).value(formatMeasure(performanceCircumstance.getResult(), unitOutput)).normalRange(normalRange).reported(this.formatMeasure(performanceCircumstance.getTiming(),unitOutput)).build());
+        } else {
+            csvDto.setCell(row, conceptName, Cell.builder().notes(this.getNotes(anf)).value(formatMeasure(performanceCircumstance.getResult(), unitOutput)).normalRange(normalRange).build());
+        }
     }
 
     /**
@@ -146,11 +176,12 @@ public class CsvServiceImpl implements CsvService {
      * @param requestCircumstance The request circumstance model.
      * @param unitOutput          The unit output object that provides formatting information for the requested result.
      */
-    private void processRequestCircumstance(CsvBuilder csvDto, int row, String conceptName, RequestCircumstanceModel requestCircumstance, UnitOutput unitOutput) {
+    private void processRequestCircumstance(CsvBuilder csvDto, int row, String conceptName, AnfStatementModel anf, RequestCircumstanceModel requestCircumstance, UnitOutput unitOutput) {
         if (requestCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", this.formatMeasure(requestCircumstance.getTiming(),unitOutput));
+            csvDto.setCell(row, conceptName, Cell.builder().notes(this.getNotes(anf)).value(formatMeasure(requestCircumstance.getRequestedResult(), unitOutput)).reported(this.formatMeasure(requestCircumstance.getTiming(),unitOutput)).build());
+        } else {
+            csvDto.setCell(row, conceptName, Cell.builder().notes(this.getNotes(anf)).value(formatMeasure(requestCircumstance.getRequestedResult(), unitOutput)).build());
         }
-        csvDto.setCell(row, conceptName, formatMeasure(requestCircumstance.getRequestedResult(), unitOutput));
     }
 
     /**
@@ -161,11 +192,12 @@ public class CsvServiceImpl implements CsvService {
      * @param conceptName           The name of the concept associated with the narrative circumstance.
      * @param narrativeCircumstance The NarrativeCircumstanceModel object containing the narrative circumstance data.
      */
-    private void processNarrativeCircumstance(CsvBuilder csvDto, int row, String conceptName, NarrativeCircumstanceModel narrativeCircumstance, UnitOutput unitOutput) {
+    private void processNarrativeCircumstance(CsvBuilder csvDto, int row, String conceptName, AnfStatementModel anf, NarrativeCircumstanceModel narrativeCircumstance, UnitOutput unitOutput) {
         if (narrativeCircumstance.getTiming() != null) {
-            csvDto.setCell(row, conceptName + " Reported", this.formatMeasure(narrativeCircumstance.getTiming(),unitOutput));
+            csvDto.setCell(row, conceptName, Cell.builder().notes(this.getNotes(anf)).value(narrativeCircumstance.getText()).reported(this.formatMeasure(narrativeCircumstance.getTiming(),unitOutput)).build());
+        } else {
+            csvDto.setCell(row, conceptName, Cell.builder().notes(this.getNotes(anf)).value(narrativeCircumstance.getText()).build());
         }
-        csvDto.setCell(row, conceptName, narrativeCircumstance.getText());
     }
 
     /**
