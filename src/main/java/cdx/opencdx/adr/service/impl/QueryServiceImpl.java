@@ -119,7 +119,12 @@ public class QueryServiceImpl implements QueryService {
         List<String> csvContent = new ArrayList<>();
         csvContent.add(csvDto.getHeaderString());
         for (int i = 0; i < csvDto.getRowCount(); i++) {
-            csvContent.add(csvDto.getRow(i));
+            StringBuilder builder = new StringBuilder();
+            for (int j = 0; j < csvDto.getHeaderCount(); j++) {
+                Cell cell = csvDto.getCell(i, j);
+                builder.append(cell.getValue()).append(",");
+            }
+            csvContent.add(builder.toString());
         }
         return csvContent;
     }
