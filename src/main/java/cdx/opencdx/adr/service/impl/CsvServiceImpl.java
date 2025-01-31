@@ -238,50 +238,63 @@ public class CsvServiceImpl implements CsvService {
             semantic = convertedMeasure.getSemantic().getConceptId().toString();
         }
 
-        switch(semantic) {
-            case OpenCDXIKMService.UNIT_BOOLEAN -> {
-                if (boundsAreEqualAndIncluded(convertedMeasure)) {
-                    return convertedMeasure.getLowerBound() == 1 ? "True" : "False";
-                } else {
-                    appendLowerBoundIfIncluded(convertedMeasure, sb);
-                    appendSeparatorIfBoundsIncluded(convertedMeasure, sb);
-                    appendUpperBoundIfIncluded(convertedMeasure, sb);
-                    appendUnitIfPresent(convertedMeasure, sb);
+        if (semantic != null) {
+            switch (semantic) {
+                case OpenCDXIKMService.UNIT_BOOLEAN -> {
+                    if (boundsAreEqualAndIncluded(convertedMeasure)) {
+                        return convertedMeasure.getLowerBound() == 1 ? "True" : "False";
+                    } else {
+                        appendLowerBoundIfIncluded(convertedMeasure, sb);
+                        appendSeparatorIfBoundsIncluded(convertedMeasure, sb);
+                        appendUpperBoundIfIncluded(convertedMeasure, sb);
+                        appendUnitIfPresent(convertedMeasure, sb);
+                    }
                 }
-            }
-            case OpenCDXIKMService.UNIT_POSITIVE -> {
-                return "Positive";
-            }
-            case OpenCDXIKMService.UNIT_PRESUMPTIVE_POSITIVE -> {
-                return "Presumptive Positive";
-            }
-            case OpenCDXIKMService.UNIT_NEGATIVE -> {
-                return "Negative";
-            }
-            case OpenCDXIKMService.UNIT_NOT_DETECTED -> {
-                return "Not Detected";
-            }
-            case OpenCDXIKMService.UNIT_YES -> {
-                return "Yes";
-            }
-            case OpenCDXIKMService.UNIT_NO -> {
-                return "No";
-            }
-            case OpenCDXIKMService.UNIT_CALENDAR_TIME, OpenCDXIKMService.UNIT_DATE_TIME, OpenCDXIKMService.UNIT_DATE -> {
-                MeasureModel model = this.conversionService.convert(this.DATETIME_UUID, convertedMeasure);
-                return formatter.format(new Date(model.getLowerBound().longValue()));
-            }
+                case OpenCDXIKMService.UNIT_POSITIVE -> {
+                    return "Positive";
+                }
+                case OpenCDXIKMService.UNIT_PRESUMPTIVE_POSITIVE -> {
+                    return "Presumptive Positive";
+                }
+                case OpenCDXIKMService.UNIT_NEGATIVE -> {
+                    return "Negative";
+                }
+                case OpenCDXIKMService.UNIT_NOT_DETECTED -> {
+                    return "Not Detected";
+                }
+                case OpenCDXIKMService.UNIT_YES -> {
+                    return "Yes";
+                }
+                case OpenCDXIKMService.UNIT_NO -> {
+                    return "No";
+                }
+                case OpenCDXIKMService.UNIT_CALENDAR_TIME, OpenCDXIKMService.UNIT_DATE_TIME,
+                     OpenCDXIKMService.UNIT_DATE -> {
+                    MeasureModel model = this.conversionService.convert(this.DATETIME_UUID, convertedMeasure);
+                    return formatter.format(new Date(model.getLowerBound().longValue()));
+                }
 
-            default -> {
-                if (boundsAreEqualAndIncluded(convertedMeasure)) {
-                    sb.append(decimalFormat.format(convertedMeasure.getLowerBound()));
-                    appendUnitIfPresent(convertedMeasure, sb);
-                } else {
-                    appendLowerBoundIfIncluded(convertedMeasure, sb);
-                    appendSeparatorIfBoundsIncluded(convertedMeasure, sb);
-                    appendUpperBoundIfIncluded(convertedMeasure, sb);
-                    appendUnitIfPresent(convertedMeasure, sb);
+                default -> {
+                    if (boundsAreEqualAndIncluded(convertedMeasure)) {
+                        sb.append(convertedMeasure.getLowerBound());
+                        appendUnitIfPresent(convertedMeasure, sb);
+                    } else {
+                        appendLowerBoundIfIncluded(convertedMeasure, sb);
+                        appendSeparatorIfBoundsIncluded(convertedMeasure, sb);
+                        appendUpperBoundIfIncluded(convertedMeasure, sb);
+                        appendUnitIfPresent(convertedMeasure, sb);
+                    }
                 }
+            }
+        } else {
+            if (boundsAreEqualAndIncluded(convertedMeasure)) {
+                sb.append(convertedMeasure.getLowerBound());
+                appendUnitIfPresent(convertedMeasure, sb);
+            } else {
+                appendLowerBoundIfIncluded(convertedMeasure, sb);
+                appendSeparatorIfBoundsIncluded(convertedMeasure, sb);
+                appendUpperBoundIfIncluded(convertedMeasure, sb);
+                appendUnitIfPresent(convertedMeasure, sb);
             }
         }
         return sb.toString();
