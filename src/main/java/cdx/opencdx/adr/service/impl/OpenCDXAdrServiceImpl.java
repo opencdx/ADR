@@ -35,7 +35,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -193,6 +192,18 @@ public class OpenCDXAdrServiceImpl implements OpenCDXAdrService {
         this.anfStatementRepository.flush();
         this.postOpenCDXANFProcessors.forEach(processor -> processor.processAnfStatement(postModel));
         return postModel.getId();
+    }
+
+    /**
+     * Stores an array of ANF statements in the system.
+     *
+     * @param anfStatements The ANF statement to store.
+     * @return The array of IDs of the stored ANF statements as a {@code Long}.
+     */
+    public Long[] storeAnfStatements(ANFStatement[] anfStatements) {
+        return Arrays.stream(anfStatements)
+                .map(this::storeAnfStatement)
+                .toArray(Long[]::new);
     }
 
     /**
