@@ -326,7 +326,7 @@ public class CsvServiceImpl implements CsvService {
             if (measure.getLowerBound() == Double.NEGATIVE_INFINITY) {
                 sb.append(NEGATIVE_INFINITY);
             } else {
-                sb.append(this.decimalFormat.format(measure.getLowerBound()));
+                sb.append(measure.getLowerBound());
             }
         }
     }
@@ -354,7 +354,7 @@ public class CsvServiceImpl implements CsvService {
             if (measure.getUpperBound() == Double.POSITIVE_INFINITY) {
                 sb.append(POSITIVE_INFINITY);
             } else {
-                sb.append(this.decimalFormat.format(measure.getUpperBound()));
+                sb.append(measure.getUpperBound());
             }
         }
     }
