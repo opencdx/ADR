@@ -1,4 +1,15 @@
-# Submit ANF
+## Install instructions
+
+Please follow the OpenCDx install instructions prior to running this project as all prerequisites are the same.
+
+https://github.com/opencdx/opencdx
+
+## Deployment Procedures
+
+Running `./start_docker.sh` will start the docker containers for the project.
+If Jmeter is installed, running `./adr-connect.sh` will populate sample data.
+
+## Sample Submit ANF
 
 ```
 curl --location 'localhost:8080/anf' \
