@@ -37,14 +37,6 @@ public interface OpenCDXAdrService {
     Long storeAnfStatement(ANFStatement anfStatement);
 
     /**
-     * Stores an array of ANF statements in the system.
-     *
-     * @param anfStatements The ANF statement to store.
-     * @return The array of IDs of the stored ANF statements as a {@code Long}.
-     */
-    Long[] storeAnfStatements(ANFStatement[] anfStatements);
-
-    /**
      * Retrieves the queryable data.
      *
      * @return a list of TinkarConceptModel objects.

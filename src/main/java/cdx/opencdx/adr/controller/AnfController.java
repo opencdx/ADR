@@ -24,7 +24,7 @@ public class AnfController {
      * The variable objectMapper is used to map JSON strings to Java objects and vice versa.
      * It is an instance of the ObjectMapper class, which is provided by the Jackson library.
      * This variable is marked as private and final, indicating that it cannot be accessed or modified
-     * outside the class and its value cannot be changed once assigned.
+     * outside of the class and its value cannot be changed once assigned.
      */
     private final ObjectMapper objectMapper;
     /**
@@ -66,9 +66,9 @@ public class AnfController {
      * @throws JsonProcessingException If JSON processing fails.
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long[]> postANFStatement(@RequestBody String data) throws JsonProcessingException {
-        ANFStatement[] anfStatements = objectMapper.readValue(data, ANFStatement[].class);
-        return ResponseEntity.ok(this.openCDXAdrService.storeAnfStatements(anfStatements));
+    public ResponseEntity<Long> postANFStatement(@RequestBody String data) throws JsonProcessingException {
+        ANFStatement anfStatement = objectMapper.readValue(data, ANFStatement.class);
+        return ResponseEntity.ok(this.openCDXAdrService.storeAnfStatement(anfStatement));
     }
 
 
