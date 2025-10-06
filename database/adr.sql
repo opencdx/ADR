@@ -1,6 +1,6 @@
 -- Table for Measure
 CREATE TABLE DimMeasure (
-                         id SERIAL PRIMARY KEY,
+                         id BIGSERIAL PRIMARY KEY,
                          upper_bound VARCHAR,
                          lower_bound VARCHAR,
                          include_upper_bound BOOLEAN,
@@ -11,66 +11,37 @@ CREATE TABLE DimMeasure (
 
 -- Table for Participant
 CREATE TABLE DimParticipant (
-                             id SERIAL PRIMARY KEY,
+                             id BIGSERIAL PRIMARY KEY,
                              practitioner_value VARCHAR,
                              code VARCHAR
 );
 
 -- Table for Practitioner
 CREATE TABLE DimPractitioner (
-                              id SERIAL PRIMARY KEY,
+                              id BIGSERIAL PRIMARY KEY,
                               practitioner_value VARCHAR,
                               code VARCHAR
 );
 
 -- Table for AssociatedStatement
 CREATE TABLE DimAssociatedStatement (
-                                     id SERIAL PRIMARY KEY,
+                                     id BIGSERIAL PRIMARY KEY,
                                      semantic VARCHAR
 );
 
--- Table for Reference
-CREATE TABLE DimReference (
-                           id SERIAL PRIMARY KEY,
-                           type VARCHAR
-);
-
--- Table for CircumstancePriority Enum
-CREATE TYPE CircumstancePriority AS ENUM ('ROUTINE', 'STAT');
-
--- Table for DurationType Enum
-CREATE TYPE DurationType AS ENUM (
-    'DURATION_TYPE_NOT_SPECIFIED',
-    'DURATION_TYPE_MILLISECONDS',
-    'DURATION_TYPE_SECONDS',
-    'DURATION_TYPE_MINUTES',
-    'DURATION_TYPE_HOURS',
-    'DURATION_TYPE_DAYS',
-    'DURATION_TYPE_WEEKS',
-    'DURATION_TYPE_MONTHS',
-    'DURATION_TYPE_YEARS'
-);
-
--- Table for Status Enum
-CREATE TYPE Status AS ENUM ('STATUS_UNSPECIFIED', 'STATUS_ACTIVE', 'STATUS_DELETED');
-
 -- Table for Repetition
 CREATE TABLE DimRepetition (
-                            id SERIAL PRIMARY KEY,
-                            period_start TIMESTAMP,
-                            period_duration INTEGER,
-                            period_duration_type DurationType,
-                            event_frequency INTEGER,
-                            event_frequency_type DurationType,
-                            event_separation INTEGER,
-                            event_separation_type DurationType,
-                            event_duration INTEGER,
-                            event_duration_type DurationType
+                            id BIGSERIAL PRIMARY KEY,
+                            period_start INTEGER REFERENCES DimMeasure(id),
+                            period_duration INTEGER REFERENCES DimMeasure(id),
+                            event_frequency INTEGER REFERENCES DimMeasure(id),
+                            event_separation INTEGER REFERENCES DimMeasure(id),
+                            event_duration INTEGER REFERENCES DimMeasure(id)
 );
 
 -- Table for PerformanceCircumstance
 CREATE TABLE FactPerformanceCircumstance (
-                                         id SERIAL PRIMARY KEY,
+                                         id BIGSERIAL PRIMARY KEY,
                                          timing INTEGER REFERENCES DimMeasure(id),
                                          purpose TEXT[],
                                          status VARCHAR,
@@ -88,10 +59,10 @@ CREATE TABLE UnionPerformanceCircumstanceParticipant (
 
 -- Table for RequestCircumstance
 CREATE TABLE FactRequestCircumstance (
-                                     id SERIAL PRIMARY KEY,
+                                     id BIGSERIAL PRIMARY KEY,
                                      timing INTEGER REFERENCES DimMeasure(id),
                                      purpose TEXT[],
-                                     priority CircumstancePriority,
+                                     priority TEXT[],
                                      requested_result INTEGER REFERENCES DimMeasure(id),
                                      repetition INTEGER REFERENCES DimRepetition(id)
 );
@@ -112,7 +83,7 @@ CREATE TABLE UnionRequestCircumstanceParticipant (
 
 -- Table for NarrativeCircumstance
 CREATE TABLE FactNarrativeCircumstance (
-                                       id SERIAL PRIMARY KEY,
+                                       id BIGSERIAL PRIMARY KEY,
                                        timing INTEGER REFERENCES DimMeasure(id),
                                        purpose TEXT[],
                                        text VARCHAR
@@ -120,17 +91,12 @@ CREATE TABLE FactNarrativeCircumstance (
 
 -- Table for ANFStatement
 CREATE TABLE DimANFStatement (
-                              id SERIAL PRIMARY KEY,
+                              id BIGSERIAL PRIMARY KEY,
                               time INTEGER REFERENCES DimMeasure(id),
                               subject_of_record INTEGER REFERENCES DimParticipant(id),
                               subject_of_information VARCHAR,
                               topic VARCHAR,
-                              type VARCHAR,
-                              created TIMESTAMP,
-                              modified TIMESTAMP,
-                              creator VARCHAR,
-                              modifier VARCHAR,
-                              status VARCHAR
+                              type VARCHAR
 );
 
 -- Junction table for ANFStatement Authors
@@ -188,9 +154,6 @@ CREATE INDEX idx_dimpractitioner_code ON DimPractitioner (code);
 -- DimAssociatedStatement
 CREATE INDEX idx_dimassociatedstatement_semantic ON DimAssociatedStatement (semantic);
 
--- DimReference
-CREATE INDEX idx_dimreference_type ON DimReference (type);
-
 -- DimRepetition
 CREATE INDEX idx_dimrepetition_period_start ON DimRepetition (period_start);
 
@@ -209,9 +172,7 @@ CREATE INDEX idx_factnarrativecircumstance_timing ON FactNarrativeCircumstance (
 -- DimANFStatement
 CREATE INDEX idx_dimanfstatement_time ON DimANFStatement (time);
 CREATE INDEX idx_dimanfstatement_subject_of_record ON DimANFStatement (subject_of_record);
-CREATE INDEX idx_dimanfstatement_created ON DimANFStatement (created);
-CREATE INDEX idx_dimanfstatement_modified ON DimANFStatement (modified);
-CREATE INDEX idx_dimanfstatement_status ON DimANFStatement (status);
+
 
 -- Create a GIN index on the topic field
 CREATE INDEX idx_dimanfstatement_topic_fts ON DimANFStatement USING GIN (to_tsvector('english', topic));
