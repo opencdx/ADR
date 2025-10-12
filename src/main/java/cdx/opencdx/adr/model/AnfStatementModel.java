@@ -270,9 +270,10 @@ public class AnfStatementModel {
         this.subjectOfRecord = anfRepo.getParticipantRepository().save(new ParticipantModel(anfStatement.getSubjectOfRecord(), anfRepo));
         this.subjectOfInformation = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getSubjectOfInformation());
         this.topic = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getTopic());
-        if(anfStatement.hasMethod()) {
-            this.method = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getMethod());
-        }
+        // Method field removed from ANFStatement proto - commented out for v1.0.1
+        // if(anfStatement.hasMethod()) {
+        //     this.method = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getMethod());
+        // }
         this.type = anfRepo.getOpenCDXIKMService().getInkarConceptModel(anfStatement.getType());
 
         if (anfStatement.hasPerformanceCircumstance()) {

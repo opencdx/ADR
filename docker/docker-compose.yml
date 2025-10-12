@@ -1,3 +1,4 @@
+name: adr
 version: '3'
 networks:
   opencdx-network:
